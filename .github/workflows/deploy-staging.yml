@@ -42,4 +42,5 @@ jobs:
     with:
       AWS_ROLE_ARN: arn:aws:iam::204115048155:role/OrganizationAccountAccessRole
       ENV_NAME: staging
+      ENV_URL: https://test.trip.pictures
     secrets: inherit

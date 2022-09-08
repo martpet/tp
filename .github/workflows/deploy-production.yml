@@ -11,4 +11,5 @@ jobs:
     with:
       AWS_ROLE_ARN: arn:aws:iam::766373560006:role/OrganizationAccountAccessRole
       ENV_NAME: production
+      ENV_URL: https://trip.pictures
     secrets: inherit

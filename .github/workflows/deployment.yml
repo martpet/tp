@@ -9,6 +9,9 @@ on:
       ENV_NAME:
         required: true
         type: string
+      ENV_URL:
+        required: true
+        type: string
 
 jobs:
   cdk-deploy:
@@ -16,6 +19,7 @@ jobs:
     runs-on: ubuntu-20.04
     environment: 
       name: ${{ inputs.ENV_NAME }}
+      url: ${{ inputs.ENV_URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
