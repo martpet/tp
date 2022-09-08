@@ -1,0 +1,19 @@
+// Vitest Snapshot v1
+
+exports[`createUserFromEvent > resolves with a correct value 1`] = `
+{
+  "Attributes": {
+    "dummyPutCommandAttrKey": "dummyPutCommandAttrValue",
+  },
+}
+`;
+
+exports[`createUserFromEvent > sends "PutCommand" to DynamoDB with correct args 1`] = `
+{
+  "Item": {
+    "dummyUserPropFromCognitoEventKey": "dummyUserPropFromCognitoEventValue",
+    "id": "dummyId",
+  },
+  "TableName": "TripPics-Users",
+}
+`;

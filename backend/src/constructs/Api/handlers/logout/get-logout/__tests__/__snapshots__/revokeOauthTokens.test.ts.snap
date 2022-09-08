@@ -1,0 +1,28 @@
+// Vitest Snapshot v1
+
+exports[`revokeOauthTokens > calls "fetch" with correct args 1`] = `
+[
+  [
+    "https://dummyAuthDomain/oauth2/revoke",
+    {
+      "body": URLSearchParams {
+        Symbol(query): [
+          "token",
+          "dummyRefreshToken",
+          "client_id",
+          "dummyClientId",
+        ],
+        Symbol(context): null,
+      },
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;
+
+exports[`revokeOauthTokens > resolves with a correct value 1`] = `undefined`;
+
+exports[`revokeOauthTokens > when "fetch" response is not "ok" > rejects with a correct value 1`] = `[Error: dummyFetchResponseText]`;

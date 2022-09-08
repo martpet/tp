@@ -1,0 +1,3 @@
+// Vitest Snapshot v1
+
+exports[`getEnvName > throws if "envName" context is missing 1`] = `"envName in CDK context is required"`;

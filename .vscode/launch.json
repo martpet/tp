@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "name": "Vitest Backend",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/vitest",
+        "--config=backend/vitest.config.ts",
+        "--coverage=false",
+        "${file}"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+    }
+  ]
+}

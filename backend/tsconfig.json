@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "module": "CommonJS"
+  },
+  "extends": "../tsconfig.json",
+  "include": [
+    "src",
+    "vitest.config.ts"
+  ],
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ],
+    "transpileOnly": true
+  }
+}

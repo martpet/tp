@@ -1,0 +1,18 @@
+{
+  "css.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": true,
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "stylelint.validate": [
+    "css",
+    "scss",
+    ".module.scss"
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "vitest.enable": true,
+  "vitest.commandLine": "npm run test:backend -- --coverage=false",
+}

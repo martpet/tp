@@ -1,0 +1,33 @@
+// Vitest Snapshot v1
+
+exports[`crossRegionSNSTopic.handler > resolves with a correct value 1`] = `
+{
+  "Data": {
+    "TopicArn": "dummyTopicArn",
+  },
+  "PhysicalResourceId": "dummyTopicArn",
+}
+`;
+
+exports[`crossRegionSNSTopic.handler > sends "CreateTopicCommand" to SNS with correct args 1`] = `"dummyCreateTopicInput"`;
+
+exports[`crossRegionSNSTopic.handler > when "RequestType" is "Delete" > resolves with a correct value 1`] = `"dummyDeleteTopicCommandOutput"`;
+
+exports[`crossRegionSNSTopic.handler > when "RequestType" is "Delete" > sends "DeleteTopicCommand" to SNS with correct args 1`] = `
+{
+  "TopicArn": "dummyPhysicalResourceId",
+}
+`;
+
+exports[`crossRegionSNSTopic.handler > when "subscribeInputs" is provided > sends "SubscribeCommand" to SNS for each "subscribeInputs" item 1`] = `
+[
+  {
+    "TopicArn": "dummyTopicArn",
+    "subscribeKey1": "subscribeValue1",
+  },
+  {
+    "TopicArn": "dummyTopicArn",
+    "subscribeKey2": "subscribeValue2",
+  },
+]
+`;

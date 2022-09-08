@@ -1,0 +1,49 @@
+// Vitest Snapshot v1
+
+exports[`fetchTokens > calls "camelcaseKeys" with correct args 1`] = `
+[
+  [
+    {
+      "id_token": ".eyJkdW1teV9pZHRva2VuX2tleSI6ImR5bW15X2lkdG9rZW5fdmFsIn0=.",
+    },
+  ],
+]
+`;
+
+exports[`fetchTokens > calls "fetch" with correct args 1`] = `
+[
+  [
+    "https://dummyAuthDomain/oauth2/token",
+    {
+      "body": URLSearchParams {
+        Symbol(query): [
+          "grant_type",
+          "authorization_code",
+          "client_id",
+          "dummyClientId",
+          "code",
+          "dummyCode",
+          "code_verifier",
+          "dummyCodeVerifier",
+          "redirect_uri",
+          "dummyLoginCallbackUrl",
+        ],
+        Symbol(context): null,
+      },
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;
+
+exports[`fetchTokens > resolves with a correct value 1`] = `
+{
+  "dummyCamelCaseKey": "dummyCamelCaseValue",
+  "idTokenPayload": {
+    "dummy_idtoken_key": "dymmy_idtoken_val",
+  },
+}
+`;

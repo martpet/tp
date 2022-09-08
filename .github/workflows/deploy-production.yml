@@ -1,0 +1,14 @@
+name: Production
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deployment:
+    name: Deployment
+    uses: ./.github/workflows/deployment.yml
+    with:
+      AWS_ROLE_ARN: arn:aws:iam::766373560006:role/OrganizationAccountAccessRole
+      ENV_NAME: production
+    secrets: inherit

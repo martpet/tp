@@ -1,0 +1,89 @@
+// Vitest Snapshot v1
+
+exports[`updateUserFromEvent > calls "filterChangedProps" with correct args 1`] = `
+[
+  [
+    {
+      "dummyUserPropFromCognitoEventKey": "dummyUserPropFromCognitoEventValue",
+      "id": "dummyId",
+    },
+    {
+      "dummyGetCommandOutputKey": "dummyGetCommandOutputValue",
+      "id": "dummyId",
+    },
+  ],
+]
+`;
+
+exports[`updateUserFromEvent > calls "getUserPropsFromCognitoEvent" with correct args 1`] = `
+[
+  [
+    {
+      "callerContext": {
+        "awsSdkVersion": "dummyPostAuthAwsSdkVersion",
+        "clientId": "dummyPostAuthClientId",
+      },
+      "region": "dummyPostAuthRegion",
+      "request": {
+        "newDeviceUsed": false,
+        "userAttributes": {
+          "cognito:user_status": "EXTERNAL_PROVIDER",
+          "email": "dummyPostAuthEmail",
+          "email_verified": "false",
+          "family_name": "dummyPostAuthFamilyName",
+          "given_name": "dummyPostAuthGivenName",
+          "identities": "[{\\"userId\\":\\"182347123047012\\",\\"providerName\\":\\"Google\\",\\"providerType\\":\\"Google\\",\\"issuer\\":null,\\"primary\\":true,\\"dateCreated\\":1658487089823}]",
+          "picture": "dummyPostAuthPictureUrl",
+          "sub": "dummyPostAuthSub",
+        },
+      },
+      "response": {},
+      "triggerSource": "PostAuthentication_Authentication",
+      "userName": "dummyPostAuthUserName",
+      "userPoolId": "dummyPostAuthUserPoolId",
+      "version": "dummyPostAuthVersion",
+    },
+  ],
+]
+`;
+
+exports[`updateUserFromEvent > sends "GetCommand" to DynamoDB with correct args 1`] = `
+{
+  "Key": {
+    "id": "dummyId",
+  },
+  "TableName": "TripPics-Users",
+}
+`;
+
+exports[`updateUserFromEvent > when output from "GetCommand" does not include "Item" > rejects with a correct value 1`] = `[Error: User does not exist]`;
+
+exports[`updateUserFromEvent > when user props in event are changed > resolves with a correct value 1`] = `
+{
+  "Attributes": {
+    "dummyUpdateCommandAttrKey": "dummyUpdateCommandAttrValue",
+  },
+}
+`;
+
+exports[`updateUserFromEvent > when user props in event are changed > sends "UpdateCommand" to DynamoDB with correct args 1`] = `
+{
+  "ExpressionAttributeNames": {
+    "#dummyChangedProp": "dummyChangedProp",
+  },
+  "ExpressionAttributeValues": {
+    ":dummyChangedProp": {
+      "dummyChangedProp": {
+        "S": "dummyChangedPropValue",
+      },
+    },
+  },
+  "Key": {
+    "id": undefined,
+  },
+  "TableName": "TripPics-Users",
+  "UpdateExpression": "set #dummyChangedProp = :dummyChangedProp",
+}
+`;
+
+exports[`updateUserFromEvent > when user props in event are not changed > resolves with a correct value 1`] = `undefined`;

@@ -1,0 +1,23 @@
+{
+  "app": "DOTENV_FLOW_PATH=../ npx ts-node -r dotenv-flow/config src/app.ts",
+  "context": {
+    "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
+    "@aws-cdk/aws-apigateway:usagePlanKeyOrderI`nsensitiveId": true,
+    "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": true,
+    "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": true,
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
+    "@aws-cdk/aws-lambda:recognizeVersionProps": true,
+    "@aws-cdk/aws-rds:lowercaseDbIdentifier": true,
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/core:stackRelativeExports": true,
+    "@aws-cdk/core:target-partitions": [
+      "aws"
+    ]
+  },
+  "watch": {
+    "include": [
+      "src/*"
+    ]
+  }
+}

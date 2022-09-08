@@ -1,0 +1,13 @@
+// Vitest Snapshot v1
+
+exports[`getUserPropsFromCognitoEvent > returns a correct value 1`] = `
+{
+  "dateCreated": 1658604803064,
+  "email": "dummyPostConfirmEmail",
+  "familyName": "dummyPostConfirmFamilyName",
+  "givenName": "dummuPostConfirmGivenName",
+  "id": "dummyPostConfirmSub",
+  "picture": "dummyPostConfirmPictureUrl",
+  "providerName": "Google",
+}
+`;

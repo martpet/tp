@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recess-order",
+    "stylelint-config-css-modules"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "selector-class-pattern": "",
+    "keyframes-name-pattern": ""
+  }
+}

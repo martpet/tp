@@ -1,0 +1,34 @@
+// Vitest Snapshot v1
+
+exports[`crossAccountSSM.handler > calls "getRoleCredentials" with correct args 1`] = `
+[
+  [
+    "dummyRoleArn",
+    "cross-account-ssm",
+  ],
+]
+`;
+
+exports[`crossAccountSSM.handler > resolves with a correct value 1`] = `
+{
+  "Data": {
+    "values": [
+      "dummyParameterValue1",
+      "dummyParameterValue2",
+    ],
+  },
+}
+`;
+
+exports[`crossAccountSSM.handler > sends "GetParametersCommand" to SSM with correct args 1`] = `
+{
+  "Names": [
+    "dummyParameterName1",
+    "dummyParameterName2",
+  ],
+}
+`;
+
+exports[`crossAccountSSM.handler > when "Parameters" is missing from "GetParametersCommand" output > rejects with a correct value 1`] = `[Error: No output parameters]`;
+
+exports[`crossAccountSSM.handler > when "getParametersInput.Names" is missing > rejects with a correct value 1`] = `[Error: Missing input parameters names]`;

@@ -1,0 +1,48 @@
+// Vitest Snapshot v1
+
+exports[`generateOauthRandoms > calls "createHash" with a correct value 1`] = `
+[
+  [
+    "sha256",
+  ],
+]
+`;
+
+exports[`generateOauthRandoms > calls "digest" on the return value of "update" with a correct value 1`] = `
+[
+  [
+    "base64url",
+  ],
+]
+`;
+
+exports[`generateOauthRandoms > calls "getRandomBase64UrlSafe" 3 times with correct values 1`] = `
+[
+  [
+    128,
+  ],
+  [
+    128,
+  ],
+  [
+    128,
+  ],
+]
+`;
+
+exports[`generateOauthRandoms > calls "update" on the return value of "createHash" with a correct value 1`] = `
+[
+  [
+    "dummyCodeVerifier",
+  ],
+]
+`;
+
+exports[`generateOauthRandoms > resolves with a correct value 1`] = `
+{
+  "codeChallenge": "dummyCryptoCreateHashUpdateDigest",
+  "codeVerifier": "dummyCodeVerifier",
+  "idTokenNonce": "dummyIdTokenNonce",
+  "stateNonce": "dummyStateNonce",
+}
+`;

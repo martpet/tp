@@ -1,0 +1,3 @@
+// Vitest Snapshot v1
+
+exports[`daysToMilliseconds > returns a correct value 1`] = `432000000`;

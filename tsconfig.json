@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "paths": {
+      "constructs": [
+        "../../node_modules/constructs"
+      ],
+      "~/*": [
+        "./*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "types": [
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    ".eslintrc.cjs",
+    ".prettierrc.cjs",
+    "vitest.config.ts",
+    "setupTests.ts",
+    "shared/",
+    "__mocks__/"
+  ]
+}

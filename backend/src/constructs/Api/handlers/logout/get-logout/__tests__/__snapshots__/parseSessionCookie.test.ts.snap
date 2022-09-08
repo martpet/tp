@@ -1,0 +1,15 @@
+// Vitest Snapshot v1
+
+exports[`parseSessionCookie > calls "cookie.parse" with correct args 1`] = `
+[
+  [
+    "dummyCookie1;dummyCookie2",
+  ],
+]
+`;
+
+exports[`parseSessionCookie > returns a correct value 1`] = `"dummySessionId"`;
+
+exports[`parseSessionCookie > when "cookie.parse" throws > returns a correct value 1`] = `undefined`;
+
+exports[`parseSessionCookie > when "session" cookie is missing > returns a correct value 1`] = `undefined`;

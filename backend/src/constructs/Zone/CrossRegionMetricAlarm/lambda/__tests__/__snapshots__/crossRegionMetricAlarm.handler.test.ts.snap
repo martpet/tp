@@ -1,0 +1,23 @@
+// Vitest Snapshot v1
+
+exports[`crossRegionMetricAlarm.handler > resolves with a correct value 1`] = `
+{
+  "PhysicalResourceId": "dummyAlarmName",
+}
+`;
+
+exports[`crossRegionMetricAlarm.handler > sends "PutMetricAlarmCommand" to CloudWatch with correct args 1`] = `
+{
+  "AlarmName": "dummyAlarmName",
+}
+`;
+
+exports[`crossRegionMetricAlarm.handler > when "RequestType" is "Delete" > resolves with correct output 1`] = `"dummyDeleteAlarmsCommandOutput"`;
+
+exports[`crossRegionMetricAlarm.handler > when "RequestType" is "Delete" > sends "DeleteAlarmsCommand" to CloudWatch with correct args 1`] = `
+{
+  "AlarmNames": [
+    "dummyAlarmName",
+  ],
+}
+`;

@@ -1,0 +1,38 @@
+// Vitest Snapshot v1
+
+exports[`errorResponse > returns a correct value 1`] = `
+{
+  "body": "{\\"error\\":{\\"statusCode\\":500,\\"message\\":\\"Internal Server Error\\",\\"trace_id\\":\\"dummyTraceId\\"}}",
+  "statusCode": 500,
+}
+`;
+
+exports[`errorResponse > when "description" is provided > returns a correct value 1`] = `
+{
+  "body": "{\\"error\\":{\\"statusCode\\":500,\\"message\\":\\"Internal Server Error\\",\\"trace_id\\":\\"dummyTraceId\\",\\"description\\":\\"dummDescription\\"}}",
+  "statusCode": 500,
+}
+`;
+
+exports[`errorResponse > when "error" is provided > calls "console.error" with correct args 1`] = `
+[
+  [
+    "[dummyTraceId]",
+    [Error: dummyErrorMessage],
+  ],
+]
+`;
+
+exports[`errorResponse > when "error" is provided and "expose" is true > returns a correct value 1`] = `
+{
+  "body": "{\\"error\\":{\\"statusCode\\":500,\\"message\\":\\"Internal Server Error\\",\\"trace_id\\":\\"dummyTraceId\\",\\"error\\":\\"Error: dummyErrorMessage\\"}}",
+  "statusCode": 500,
+}
+`;
+
+exports[`errorResponse > when "statusCode" is provided > returns a correct value 1`] = `
+{
+  "body": "{\\"error\\":{\\"statusCode\\":418,\\"message\\":\\"I'm a teapot\\",\\"trace_id\\":\\"dummyTraceId\\"}}",
+  "statusCode": 418,
+}
+`;
