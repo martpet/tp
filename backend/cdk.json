@@ -1,5 +1,5 @@
 {
-  "app": "DOTENV_FLOW_PATH=../ npx ts-node -r dotenv-flow/config src/app.ts",
+  "app": "npx ts-node src/app.ts --dotenv-flow-path=../",
   "context": {
     "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderI`nsensitiveId": true,

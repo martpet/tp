@@ -10,8 +10,10 @@
   ],
   "ts-node": {
     "require": [
-      "tsconfig-paths/register"
-    ],
-    "transpileOnly": true
+      "tsconfig-paths/register",
+      "dotenv-flow/config"
+    ],  
+    "transpileOnly": true,
+    "dotenv-flow-path": "../"
   }
 }
