@@ -1,8 +1,4 @@
 .DS_Store
 node_modules
-dist
-cdk.out
-.cdk.staging
 .env.local
 .env.*.local
-frontend/public/cdk-output.json
