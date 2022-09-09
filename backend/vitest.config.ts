@@ -13,6 +13,7 @@ export default mergeConfig(
       alias: [{ find: '~', replacement: resolve('backend/src') }],
       coverage: {
         include: [
+          '**stacks**',
           '**/handlers/**',
           '**/lambda/**',
           '**/utils/**',
