@@ -1,6 +1,8 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { StatusCodes } from 'http-status-codes';
 
+import { loginPopupSuccessMessage } from '~/consts';
+
 import { OauthTokens, ProcessEnv, QueryStringParameters } from '../../../apiTypes';
 import { errorResponse } from '../../../apiUtils';
 import { createSession } from './createSession';
@@ -64,9 +66,7 @@ export const handler: APIGatewayProxyHandlerV2 = async ({
   return {
     statusCode: StatusCodes.OK,
     cookies: [sessionCookie],
-    headers: {
-      'Content-Type': 'text/html',
-    },
-    body: `<script>alert('Great success!')</script>`,
+    headers: { 'Content-Type': 'text/html' },
+    body: `<script>opener.postMessage("${loginPopupSuccessMessage}", "*")</script>`,
   };
 };

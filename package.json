@@ -28,6 +28,7 @@
     "@aws-sdk/client-sts": "^3.163.0",
     "@aws-sdk/lib-dynamodb": "^3.163.0",
     "@aws-sdk/util-dynamodb": "^3.163.0",
+    "@reduxjs/toolkit": "^1.8.5",
     "@vitest/coverage-istanbul": "^0.23.1",
     "app-root-path": "^3.1.0",
     "aws-cdk-lib": "^2.40.0",
@@ -42,7 +43,9 @@
     "node-fetch": "^3.2.10",
     "pkce-challenge": "^3.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-redux": "^8.0.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.162.0",
