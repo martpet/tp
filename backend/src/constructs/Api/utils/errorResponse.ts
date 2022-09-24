@@ -13,14 +13,12 @@ type BaseOptions = {
 };
 
 type WithExposedError = SetRequired<BaseOptions, 'error'> & {
-  exposeErrorMessage: true;
+  exposeError: true;
 };
 
 type WithoutExposedError = BaseOptions & {
-  exposeErrorMessage?: never | false;
+  exposeError?: never | false;
 };
-
-const exposeErrorEnvs: EnvName[] = ['personal', 'staging'];
 
 export const errorResponse = (
   traceId: string,
@@ -28,9 +26,12 @@ export const errorResponse = (
     statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
     description,
     error,
-    exposeErrorMessage = exposeErrorEnvs.includes(global.cdkContextEnv),
+    exposeError,
   }: ErrorResponseOptions = {}
 ): APIGatewayProxyResult => {
+  const { cdkEnv } = globalLambda;
+  const exposeErrorEnvs: EnvName[] = ['personal', 'staging'];
+
   const bodyErrorObject: Record<string, unknown> = {
     statusCode,
     message: getReasonPhrase(statusCode),
@@ -44,7 +45,7 @@ export const errorResponse = (
   if (error instanceof Error) {
     console.error(`[${traceId}]`, error);
 
-    if (exposeErrorMessage) {
+    if (exposeError ?? exposeErrorEnvs.includes(cdkEnv)) {
       bodyErrorObject.error = String(error);
     }
   }

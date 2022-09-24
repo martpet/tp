@@ -3,25 +3,32 @@ import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-node
 import { Construct } from 'constructs';
 import deepmerge from 'deepmerge';
 
-import { EnvName } from '~/types';
-import { getEnvName } from '~/utils';
+import { DefaultGlobalLambdaProps, GlobalLambdaProps } from '~/constructs/types';
+import { getEnvName, objectValuesToJson } from '~/utils';
 
-declare global {
-  var cdkContextEnv: EnvName;
-}
+type CreateNodejsFunctionProps = NodejsFunctionProps & {
+  globalLambdaProps?: GlobalLambdaProps;
+};
 
 export const createNodejsFunction = (
   scope: Construct,
   id: string,
-  props: NodejsFunctionProps
+  { globalLambdaProps, ...props }: CreateNodejsFunctionProps
 ) => {
+  const defaultGlobalLambdaProps: DefaultGlobalLambdaProps = {
+    globalLambda: {
+      cdkEnv: getEnvName(scope),
+    },
+  };
+
   const defaultProps: NodejsFunctionProps = {
     runtime: Runtime.NODEJS_16_X,
     bundling: {
       minify: true,
-      esbuildArgs: {
-        '--define:cdkContextEnv': getEnvName(scope),
-      },
+      define: objectValuesToJson({
+        ...defaultGlobalLambdaProps,
+        ...globalLambdaProps,
+      }),
     },
   };
 

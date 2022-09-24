@@ -29,7 +29,7 @@ export const createAuthEdgeFunction = ({
   const fn = createEdgeFunction(scope, 'AuthEdgeFunction', {
     functionName: `${appName}-AuthEdge`,
     entry: `${__dirname}/lambda/authEdgeHandler.ts`,
-    buildOptionsDefine: {
+    globalLambdaProps: {
       globalAuthEdgeFunctionProps: {
         authDomain: auth.authDomain,
         publicEndpoints,

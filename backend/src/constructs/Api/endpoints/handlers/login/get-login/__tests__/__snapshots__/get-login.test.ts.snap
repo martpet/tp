@@ -57,7 +57,7 @@ exports[`"get-login" handler > when "loginCallbackUrl" env var is missing > call
 
 exports[`"get-login" handler > when "loginCallbackUrl" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`"get-login" handler > when provider query string parameter is missing > calls "errorResponse" with correct args 1`] = `
+exports[`"get-login" handler > when "provider" query string parameter is missing > calls "errorResponse" with correct args 1`] = `
 [
   [
     "6gUyCQQT7Z",
@@ -68,4 +68,4 @@ exports[`"get-login" handler > when provider query string parameter is missing >
 ]
 `;
 
-exports[`"get-login" handler > when provider query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+exports[`"get-login" handler > when "provider" query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;

@@ -2,27 +2,25 @@ import { TypeScriptCode } from '@mrgrain/cdk-esbuild';
 import { experimental } from 'aws-cdk-lib/aws-cloudfront';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
-import { JsonValue, Schema } from 'type-fest';
 
+import { DefaultGlobalLambdaProps, GlobalLambdaProps } from '~/constructs/types';
 import { getEnvName, objectValuesToJson } from '~/utils';
 
 type CreateEdgeFunctionProps = Partial<experimental.EdgeFunctionProps> & {
   entry: string;
-  buildOptionsDefine?: BuildOptionsDefine;
+  globalLambdaProps?: GlobalLambdaProps;
 };
-
-type BuildOptionsDefine = Partial<{
-  [K in keyof typeof globalThis]: Schema<typeof globalThis[K], JsonValue>;
-}>;
 
 export const createEdgeFunction = (
   scope: Construct,
   id: string,
-  { buildOptionsDefine, entry, ...props }: CreateEdgeFunctionProps
+  { globalLambdaProps, entry, ...props }: CreateEdgeFunctionProps
 ) => {
   const fileName = entry.split('/').at(-1)?.split('.ts')[0];
-  const defaultBuildOptionsDefine: BuildOptionsDefine = {
-    cdkContextEnv: getEnvName(scope),
+  const defaultGlobalLambdaProps: DefaultGlobalLambdaProps = {
+    globalLambda: {
+      cdkEnv: getEnvName(scope),
+    },
   };
 
   return new experimental.EdgeFunction(scope, id, {
@@ -33,8 +31,8 @@ export const createEdgeFunction = (
       buildOptions: {
         minify: true,
         define: objectValuesToJson({
-          ...defaultBuildOptionsDefine,
-          ...buildOptionsDefine,
+          ...defaultGlobalLambdaProps,
+          ...globalLambdaProps,
         }),
       },
     }),

@@ -33,7 +33,7 @@ describe('"get-login" handler', () => {
     return expect(handler(...args)).resolves.toMatchSnapshot();
   });
 
-  describe.each(['provider'])('when %s query string parameter is missing', (key) => {
+  describe.each(['provider'])('when "%s" query string parameter is missing', (key) => {
     const argsClone = structuredClone(args);
     const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
     delete queryStringParameters[key];

@@ -1,11 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 
 import { errorResponse } from '~/constructs/Api/utils';
+import { EnvName } from '~/types';
 
 const args: Parameters<typeof errorResponse> = ['dummyTraceId'];
 
 beforeEach(() => {
-  global.cdkContextEnv = 'production';
+  globalLambda.cdkEnv = 'production';
 });
 
 describe('errorResponse', () => {
@@ -40,23 +41,26 @@ describe('errorResponse', () => {
       expect(vi.mocked(console.error).mock.calls).toMatchSnapshot();
     });
 
-    describe('when "exposeErrorMessage" is true', () => {
+    describe('when "exposeError" is true', () => {
       const argsWithExposedError = structuredClone(argsWithError);
-      argsWithExposedError[1].exposeErrorMessage = true;
+      argsWithExposedError[1].exposeError = true;
 
       it('returns a correct value', () => {
         expect(errorResponse(...argsWithExposedError)).toMatchSnapshot();
       });
     });
 
-    describe('when "global.cdkContextEnv" is not "production"', () => {
-      beforeEach(() => {
-        global.cdkContextEnv = 'staging';
-      });
+    describe.each(['personal', 'staging'])(
+      'when "globalLambda.cdkEnv" is "%s"',
+      (key) => {
+        beforeEach(() => {
+          globalLambda.cdkEnv = key as EnvName;
+        });
 
-      it('returns a correct value', () => {
-        expect(errorResponse(...argsWithError)).toMatchSnapshot();
-      });
-    });
+        it('returns a correct value', () => {
+          expect(errorResponse(...argsWithError)).toMatchSnapshot();
+        });
+      }
+    );
   });
 });

@@ -20,7 +20,7 @@ vi.mocked(fetch).mockResolvedValue({
 
 global.globalAuthEdgeFunctionProps = {
   authDomain: 'dummyAuthDomain',
-} as typeof globalThis.globalAuthEdgeFunctionProps;
+} as typeof globalAuthEdgeFunctionProps;
 
 describe('fetchNewIdToken', () => {
   it('calls "fetch" with correct args', async () => {
