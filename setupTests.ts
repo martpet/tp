@@ -4,4 +4,4 @@ console.info = vi.fn();
 console.error = vi.fn();
 
 // @ts-ignore
-global.globalLambda = { cdkEnv: 'production' };
+global.globalLambdaProps = { envName: 'production' };

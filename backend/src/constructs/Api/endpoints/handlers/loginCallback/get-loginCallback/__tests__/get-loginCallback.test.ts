@@ -28,7 +28,7 @@ const args = [
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
 
 beforeEach(() => {
-  globalLambda.cdkEnv = 'production';
+  globalLambdaProps.envName = 'production';
   process.env.authDomain = 'dummyAuthDomain';
   process.env.clientId = 'dummyClientId';
   process.env.loginCallbackUrl = 'dummyLoginCallbackUrl';
@@ -65,7 +65,7 @@ describe('"get-loginCallback" handler', () => {
     }
   );
 
-  describe.each(['clientId', 'authDomain', 'loginCallbackUrl', 'envName'])(
+  describe.each(['clientId', 'authDomain', 'loginCallbackUrl'])(
     'when "%s" env var is missing',
     (key) => {
       beforeEach(() => {
@@ -117,9 +117,9 @@ describe('"get-loginCallback" handler', () => {
     itResolvesWithErrorResponse(handler, args);
   });
 
-  describe('when "globalLambda.cdkEnv" is "personal"', () => {
+  describe('when "globalLambdaProps.envName" is "personal"', () => {
     beforeEach(() => {
-      globalLambda.cdkEnv = 'personal';
+      globalLambdaProps.envName = 'personal';
     });
     it('resolves with a correct value', () => {
       return expect(handler(...args)).resolves.toMatchSnapshot();

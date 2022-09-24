@@ -2,13 +2,12 @@ import { OnlyApiPaths } from '~/types';
 
 export type EndpointsEnvironemntsKeys = OnlyApiPaths<{
   '/login': 'authDomain' | 'clientId' | 'loginCallbackUrl';
-  '/loginCallback': 'authDomain' | 'clientId' | 'loginCallbackUrl' | 'envName';
+  '/loginCallback': 'authDomain' | 'clientId' | 'loginCallbackUrl';
   '/logout':
     | 'authDomain'
     | 'clientId'
     | 'logoutCallbackUrl'
-    | 'logoutCallbackLocalhostUrl'
-    | 'envName';
+    | 'logoutCallbackLocalhostUrl';
 }>;
 
 export type EndpointsEnvironments<T extends keyof EndpointsEnvironemntsKeys> = Record<

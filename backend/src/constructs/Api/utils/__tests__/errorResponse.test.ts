@@ -5,10 +5,6 @@ import { EnvName } from '~/types';
 
 const args: Parameters<typeof errorResponse> = ['dummyTraceId'];
 
-beforeEach(() => {
-  globalLambda.cdkEnv = 'production';
-});
-
 describe('errorResponse', () => {
   it('returns a correct value', () => {
     expect(errorResponse(...args)).toMatchSnapshot();
@@ -51,10 +47,13 @@ describe('errorResponse', () => {
     });
 
     describe.each(['personal', 'staging'])(
-      'when "globalLambda.cdkEnv" is "%s"',
+      'when "globalLambdaProps.envName" is "%s"',
       (key) => {
         beforeEach(() => {
-          globalLambda.cdkEnv = key as EnvName;
+          globalLambdaProps.envName = key as EnvName;
+        });
+        afterEach(() => {
+          globalLambdaProps.envName = 'production';
         });
 
         it('returns a correct value', () => {

@@ -18,8 +18,8 @@ export const createEdgeFunction = (
 ) => {
   const fileName = entry.split('/').at(-1)?.split('.ts')[0];
   const defaultGlobalLambdaProps: DefaultGlobalLambdaProps = {
-    globalLambda: {
-      cdkEnv: getEnvName(scope),
+    globalLambdaProps: {
+      envName: getEnvName(scope),
     },
   };
 

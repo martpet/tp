@@ -43,7 +43,6 @@ export class Api extends Construct {
       origin,
       auth,
       tables,
-      envName,
     });
 
     new ARecord(this, 'Alias', {

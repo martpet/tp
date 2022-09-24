@@ -24,8 +24,7 @@ beforeEach(() => {
   process.env.authDomain = 'dummyAuthDomain';
   process.env.clientId = 'dummyClientId';
   process.env.logoutCallbackUrl = 'dummyLogoutCallbackUrl';
-  process.env.logoutCallbackLocalhostUrl = 'dummyLogoutCallbackLocalhostUrl';
-  process.env.envName = 'dummyEnvName';
+  process.env.logoutCallbackLocalhostUrl = 'dummyLocalhostLogoutCallbackUrl';
 });
 
 describe('"get-logout" handler', () => {
@@ -72,9 +71,15 @@ describe('"get-logout" handler', () => {
     });
   });
 
-  describe('when "envName" is "personal"', () => {
-    beforeEach(() => {
-      process.env.envName = 'personal';
+  describe('when "globalLambdaProps.envName" is "personal"', () => {
+    const initialEnvName = globalLambdaProps.envName;
+
+    beforeAll(() => {
+      globalLambdaProps.envName = 'personal';
+    });
+
+    afterAll(() => {
+      globalLambdaProps.envName = initialEnvName;
     });
 
     describe('when "referer" header is missing', () => {
@@ -99,7 +104,6 @@ describe('"get-logout" handler', () => {
     'clientId',
     'logoutCallbackUrl',
     'logoutCallbackLocalhostUrl',
-    'envName',
   ])('when "%s" env var is missing', (key) => {
     beforeEach(() => {
       delete process.env[key];

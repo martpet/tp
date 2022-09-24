@@ -45,17 +45,7 @@ exports[`"get-logout" handler > when "clientId" env var is missing > calls "erro
 
 exports[`"get-logout" handler > when "clientId" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`"get-logout" handler > when "envName" env var is missing > calls "errorResponse" with correct args 1`] = `
-[
-  [
-    "WKSoIIT1Ds",
-  ],
-]
-`;
-
-exports[`"get-logout" handler > when "envName" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
-
-exports[`"get-logout" handler > when "envName" is "personal" > when "referer" header is missing > calls "errorResponse" with correct args 1`] = `
+exports[`"get-logout" handler > when "globalLambdaProps.envName" is "personal" > when "referer" header is missing > calls "errorResponse" with correct args 1`] = `
 [
   [
     "GkjK-mpVvL",
@@ -63,15 +53,15 @@ exports[`"get-logout" handler > when "envName" is "personal" > when "referer" he
 ]
 `;
 
-exports[`"get-logout" handler > when "envName" is "personal" > when "referer" header is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+exports[`"get-logout" handler > when "globalLambdaProps.envName" is "personal" > when "referer" header is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`"get-logout" handler > when "envName" is "personal" > when "referer" is from localhost > resolves with a correct value 1`] = `
+exports[`"get-logout" handler > when "globalLambdaProps.envName" is "personal" > when "referer" is from localhost > resolves with a correct value 1`] = `
 {
   "cookies": [
     "sessionId=; Expires=Sat, 01 Jan 2022 00:00:00 GMT",
   ],
   "headers": {
-    "location": "https://dummyauthdomain/logout?client_id=dummyClientId&logout_uri=dummyLogoutCallbackLocalhostUrl",
+    "location": "https://dummyauthdomain/logout?client_id=dummyClientId&logout_uri=dummyLocalhostLogoutCallbackUrl",
   },
   "statusCode": 302,
 }

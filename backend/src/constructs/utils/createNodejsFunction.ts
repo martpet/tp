@@ -16,8 +16,8 @@ export const createNodejsFunction = (
   { globalLambdaProps, ...props }: CreateNodejsFunctionProps
 ) => {
   const defaultGlobalLambdaProps: DefaultGlobalLambdaProps = {
-    globalLambda: {
-      cdkEnv: getEnvName(scope),
+    globalLambdaProps: {
+      envName: getEnvName(scope),
     },
   };
 

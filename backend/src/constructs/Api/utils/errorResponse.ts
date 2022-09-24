@@ -29,29 +29,29 @@ export const errorResponse = (
     exposeError,
   }: ErrorResponseOptions = {}
 ): APIGatewayProxyResult => {
-  const { cdkEnv } = globalLambda;
+  const { envName } = globalLambdaProps;
   const exposeErrorEnvs: EnvName[] = ['personal', 'staging'];
 
-  const bodyErrorObject: Record<string, unknown> = {
+  const errorObj: Record<string, unknown> = {
     statusCode,
     message: getReasonPhrase(statusCode),
     traceId,
   };
 
   if (description) {
-    bodyErrorObject.description = description;
+    errorObj.description = description;
   }
 
   if (error instanceof Error) {
     console.error(`[${traceId}]`, error);
 
-    if (exposeError ?? exposeErrorEnvs.includes(cdkEnv)) {
-      bodyErrorObject.error = String(error);
+    if (exposeError ?? exposeErrorEnvs.includes(envName)) {
+      errorObj.error = String(error);
     }
   }
 
   return {
     statusCode,
-    body: JSON.stringify({ error: bodyErrorObject }),
+    body: JSON.stringify({ error: errorObj }),
   };
 };

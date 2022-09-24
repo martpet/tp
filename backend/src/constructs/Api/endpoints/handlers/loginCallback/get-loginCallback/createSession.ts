@@ -7,18 +7,18 @@ import { nanoid } from 'nanoid';
 import { OauthTokens } from '~/constructs/Api/types';
 import { cookieName } from '~/constructs/Api/utils';
 import { refreshTokenValidityInDays, sessionsTableOptions } from '~/consts';
-import { EnvName, SessionsTableItem } from '~/types';
+import { SessionsTableItem } from '~/types';
 
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 type CreateSessionProps = {
   tokens: OauthTokens;
-  envName: string;
 };
 
-export const createSession = async ({ tokens, envName }: CreateSessionProps) => {
+export const createSession = async ({ tokens }: CreateSessionProps) => {
   const { idTokenPayload, refreshToken, idToken } = tokens;
+  const { envName } = globalLambdaProps;
 
   const sessionId = nanoid();
   const created = Date.now();
@@ -43,7 +43,7 @@ export const createSession = async ({ tokens, envName }: CreateSessionProps) => 
   const sessionCookie = cookie.serialize(cookieName('sessionId'), sessionId, {
     secure: true,
     httpOnly: true,
-    sameSite: (envName as EnvName) === 'personal' ? 'none' : true,
+    sameSite: envName !== 'personal' || 'none',
     expires: new Date(refreshTokenExpires),
   });
 

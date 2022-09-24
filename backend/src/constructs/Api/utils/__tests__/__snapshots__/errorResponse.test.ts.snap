@@ -30,14 +30,14 @@ exports[`errorResponse > when "error" is provided > when "exposeError" is true >
 }
 `;
 
-exports[`errorResponse > when "error" is provided > when "globalLambda.cdkEnv" is "personal" > returns a correct value 1`] = `
+exports[`errorResponse > when "error" is provided > when "globalLambdaProps.envName" is "personal" > returns a correct value 1`] = `
 {
   "body": "{\\"error\\":{\\"statusCode\\":500,\\"message\\":\\"Internal Server Error\\",\\"traceId\\":\\"dummyTraceId\\",\\"error\\":\\"Error: dummyErrorMessage\\"}}",
   "statusCode": 500,
 }
 `;
 
-exports[`errorResponse > when "error" is provided > when "globalLambda.cdkEnv" is "staging" > returns a correct value 1`] = `
+exports[`errorResponse > when "error" is provided > when "globalLambdaProps.envName" is "staging" > returns a correct value 1`] = `
 {
   "body": "{\\"error\\":{\\"statusCode\\":500,\\"message\\":\\"Internal Server Error\\",\\"traceId\\":\\"dummyTraceId\\",\\"error\\":\\"Error: dummyErrorMessage\\"}}",
   "statusCode": 500,

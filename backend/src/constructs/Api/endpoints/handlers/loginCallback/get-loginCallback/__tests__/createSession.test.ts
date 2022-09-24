@@ -19,7 +19,6 @@ const args = [
       idToken: 'dummyIdToken',
       idTokenPayload: { sub: 'dummySub ' },
     } as OauthTokens,
-    envName: 'production',
   },
 ] as Parameters<typeof createSession>;
 
@@ -42,12 +41,19 @@ describe('createSession', () => {
     return expect(createSession(...args)).resolves.toMatchSnapshot();
   });
 
-  describe('when "envName" is "personal"', () => {
-    const argsClone = structuredClone(args);
-    argsClone[0].envName = 'personal';
+  describe('when "globalLambdaProps.cdkNev" is "personal"', () => {
+    const initialEnvName = globalLambdaProps.envName;
+
+    beforeAll(() => {
+      globalLambdaProps.envName = 'personal';
+    });
+
+    afterAll(() => {
+      globalLambdaProps.envName = initialEnvName;
+    });
 
     it('calls "cookie.serialize" with correct args', async () => {
-      await createSession(...argsClone);
+      await createSession(...args);
       expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
     });
   });

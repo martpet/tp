@@ -10,13 +10,13 @@ import { fetchTokens } from './fetchTokens';
 import { parseOauthCookie } from './parseOauthCookie';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  const { cdkEnv } = globalLambda;
+  const { envName } = globalLambdaProps;
 
   const { state, code } = Object(
     event.queryStringParameters
   ) as QueryStringParameters<'/loginCallback'>;
 
-  const { clientId, authDomain, loginCallbackUrl, envName } =
+  const { clientId, authDomain, loginCallbackUrl } =
     process.env as ProcessEnv<'/loginCallback'>;
 
   const { stateNonce, idTokenNonce, codeVerifier } = parseOauthCookie(event);
@@ -25,7 +25,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return errorResponse('1cByWITGGHw', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
-  if (!clientId || !authDomain || !loginCallbackUrl || !envName) {
+  if (!clientId || !authDomain || !loginCallbackUrl) {
     return errorResponse('XuJRO7_43O');
   }
 
@@ -57,13 +57,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   }
 
   try {
-    sessionCookie = await createSession({ tokens, envName });
+    sessionCookie = await createSession({ tokens });
   } catch (error) {
     return errorResponse('h7UMnEUDvF', { error });
   }
 
   const postMessageTargetOrigin =
-    cdkEnv === 'personal' ? '*' : `https://${appEnvs[cdkEnv].appDomain}`;
+    envName === 'personal' ? '*' : `https://${appEnvs[envName].appDomain}`;
 
   return {
     statusCode: StatusCodes.OK,

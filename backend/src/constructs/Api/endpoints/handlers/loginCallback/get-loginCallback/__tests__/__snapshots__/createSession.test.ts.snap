@@ -31,7 +31,7 @@ exports[`createSession > sends "PutCommand" to DynamoDB with correct args 1`] = 
 }
 `;
 
-exports[`createSession > when "envName" is "personal" > calls "cookie.serialize" with correct args 1`] = `
+exports[`createSession > when "globalLambdaProps.cdkNev" is "personal" > calls "cookie.serialize" with correct args 1`] = `
 [
   [
     "sessionId",

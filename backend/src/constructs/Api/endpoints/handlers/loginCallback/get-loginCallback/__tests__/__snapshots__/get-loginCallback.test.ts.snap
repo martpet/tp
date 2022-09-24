@@ -4,7 +4,6 @@ exports[`"get-loginCallback" handler > calls "createSession" with corrects args 
 [
   [
     {
-      "envName": "dummyEnvName",
       "tokens": {
         "accessToken": "dummyAccessToken",
         "expiresIn": 123,
@@ -108,16 +107,6 @@ exports[`"get-loginCallback" handler > when "createSession" rejects > calls "err
 
 exports[`"get-loginCallback" handler > when "createSession" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`"get-loginCallback" handler > when "envName" env var is missing > calls "errorResponse" with correct args 1`] = `
-[
-  [
-    "XuJRO7_43O",
-  ],
-]
-`;
-
-exports[`"get-loginCallback" handler > when "envName" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
-
 exports[`"get-loginCallback" handler > when "fetchTokens" rejects > calls "errorResponse" with correct args 1`] = `
 [
   [
@@ -131,7 +120,7 @@ exports[`"get-loginCallback" handler > when "fetchTokens" rejects > calls "error
 
 exports[`"get-loginCallback" handler > when "fetchTokens" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`"get-loginCallback" handler > when "globalLambda.cdkEnv" is "personal" > resolves with a correct value 1`] = `
+exports[`"get-loginCallback" handler > when "globalLambdaProps.envName" is "personal" > resolves with a correct value 1`] = `
 {
   "body": "<script>opener.postMessage(\\"login-success\\", \\"*\\")</script>",
   "cookies": [

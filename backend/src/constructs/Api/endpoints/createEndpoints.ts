@@ -6,7 +6,6 @@ import { Construct } from 'constructs';
 
 import { Auth, Tables } from '~/constructs';
 import { EndpointMethodOptions } from '~/constructs/Api/types';
-import { EnvName } from '~/types';
 
 import { addApiRoute } from './addApiRoute';
 import { addDistroBehavior } from './addDistroBehavior';
@@ -21,7 +20,6 @@ type CreateEndpointProps = {
   origin: HttpOrigin;
   auth: Auth;
   tables: Tables;
-  envName: EnvName;
 };
 
 export const createEndpoints = ({
@@ -31,9 +29,8 @@ export const createEndpoints = ({
   origin,
   auth,
   tables,
-  envName,
 }: CreateEndpointProps) => {
-  const options = endpointsOptions({ auth, tables, envName });
+  const options = endpointsOptions({ auth, tables });
   const publicEndpoints = getPublicEndpoints(options);
   const userPoolAuthorizer = new HttpUserPoolAuthorizer('Authorizer', auth.userPool, {
     userPoolClients: [auth.userPoolClient],
