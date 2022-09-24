@@ -1,3 +1,4 @@
+import { getPersonalDevDomain } from '~/../../shared/utils/getPersonalDevDomain';
 import {
   appleClientIdDev,
   appleClientIdProd,
@@ -19,7 +20,6 @@ import {
   stagingHostedZoneId,
 } from '~/consts';
 import { AppEnv, EnvName } from '~/types';
-import { getPersonalDevDomain } from '~/utils';
 
 export const appEnvs: Record<EnvName, AppEnv> = {
   production: {
@@ -54,5 +54,9 @@ export const appEnvs: Record<EnvName, AppEnv> = {
     appleClientId: appleClientIdDev,
     appleKeyId: appleKeyIdDev,
     oauthSecretsRoleArn: devAccountServiceRoleArn,
+    env: {
+      account: process.env.PERSONAL_DEV_ACCOUNT_ID,
+      region: process.env.PERSONAL_DEV_ACCOUNT_REGION,
+    },
   },
 };

@@ -1,0 +1,13 @@
+// Vitest Snapshot v1
+
+exports[`createDynamoUpdateExpression > returns a correct value 1`] = `
+{
+  "ExpressionAttributeNames": {
+    "#param1": "param1",
+  },
+  "ExpressionAttributeValues": {
+    ":param1": "param1Value",
+  },
+  "UpdateExpression": "set #param1 = :param1",
+}
+`;

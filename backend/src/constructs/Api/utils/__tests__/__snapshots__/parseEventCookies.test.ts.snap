@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`parseEventCookies > calls "cookie.parse" with correct args 1`] = `
+[
+  [
+    "dummyCookie1;dummyCookie2",
+  ],
+]
+`;
+
+exports[`parseEventCookies > returns a correct value 1`] = `
+{
+  "sessionId": "dummySessionId",
+}
+`;
+
+exports[`parseEventCookies > when "cookies" event prop is missing > returns a correct value 1`] = `{}`;

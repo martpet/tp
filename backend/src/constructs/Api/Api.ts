@@ -10,8 +10,7 @@ import { Auth, Tables, Zone } from '~/constructs';
 import { apiSubdomain, appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
 
-import { createEndpoints } from './createEndpoints';
-import { endpointsOptions } from './endpointsOptions';
+import { createEndpoints } from './endpoints/createEndpoints';
 
 type ApiProps = {
   zone: Zone;
@@ -26,31 +25,31 @@ export class Api extends Construct {
     const envName = getEnvName(this);
     const { appDomain } = appEnvs[envName];
     const apiDomain = `${apiSubdomain}.${appDomain}`;
-
     const api = new HttpApi(this, 'HttpApi');
-
     const origin = new HttpOrigin(Fn.select(1, Fn.split('://', api.apiEndpoint)));
 
     const distribution = new Distribution(this, 'Distro', {
       defaultBehavior: { origin },
       domainNames: [apiDomain],
       certificate: zone.certificate,
-      enableLogging: envName === 'production',
+      enableLogging: true,
       logIncludesCookies: true,
+    });
+
+    createEndpoints({
+      scope: this,
+      distribution,
+      api,
+      origin,
+      auth,
+      tables,
+      envName,
     });
 
     new ARecord(this, 'Alias', {
       zone: zone.hostedZone,
       recordName: apiSubdomain,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
-    });
-
-    createEndpoints({
-      options: endpointsOptions({ auth, tables, envName }),
-      scope: this,
-      distribution,
-      api,
-      origin,
     });
   }
 }

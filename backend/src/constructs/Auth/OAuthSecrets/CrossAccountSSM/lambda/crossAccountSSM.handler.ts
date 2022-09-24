@@ -1,9 +1,11 @@
 import {
   GetParametersCommand,
   GetParametersCommandInput,
+  Parameter,
   SSMClient,
 } from '@aws-sdk/client-ssm';
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
+import { SetRequired } from 'type-fest';
 
 import { getRoleCredentials } from '~/utils';
 
@@ -29,14 +31,20 @@ export const handler = async (event: CloudFormationCustomResourceEvent) => {
     new GetParametersCommand(getParametersInput)
   );
 
-  if (!outputParameters) {
-    throw Error('No output parameters');
+  const validateParameters = (
+    parameters?: Parameter[]
+  ): parameters is Array<SetRequired<Parameter, 'Name' | 'Value'>> => {
+    return parameters !== undefined && parameters.every((p) => p.Name && p.Value);
+  };
+
+  if (!validateParameters(outputParameters)) {
+    throw Error('Invalid SSM parameters');
   }
 
   outputParameters.sort(
     (paramA, paramB) =>
-      inputParametersNames.indexOf(paramA.Name!) -
-      inputParametersNames.indexOf(paramB.Name!)
+      inputParametersNames.indexOf(paramA.Name) -
+      inputParametersNames.indexOf(paramB.Name)
   );
 
   return {

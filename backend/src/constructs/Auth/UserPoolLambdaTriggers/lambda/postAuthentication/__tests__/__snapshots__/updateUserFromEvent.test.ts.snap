@@ -58,6 +58,16 @@ exports[`updateUserFromEvent > sends "GetCommand" to DynamoDB with correct args 
 
 exports[`updateUserFromEvent > when output from "GetCommand" does not include "Item" > rejects with a correct value 1`] = `[Error: User does not exist]`;
 
+exports[`updateUserFromEvent > when user props in event are changed > calls "createDynamoUpdateExpression" with correct args 1`] = `
+[
+  [
+    {
+      "dummyChangedProp": "dummyChangedPropValue",
+    },
+  ],
+]
+`;
+
 exports[`updateUserFromEvent > when user props in event are changed > resolves with a correct value 1`] = `
 {
   "Attributes": {
@@ -68,21 +78,13 @@ exports[`updateUserFromEvent > when user props in event are changed > resolves w
 
 exports[`updateUserFromEvent > when user props in event are changed > sends "UpdateCommand" to DynamoDB with correct args 1`] = `
 {
-  "ExpressionAttributeNames": {
-    "#dummyChangedProp": "dummyChangedProp",
-  },
-  "ExpressionAttributeValues": {
-    ":dummyChangedProp": {
-      "dummyChangedProp": {
-        "S": "dummyChangedPropValue",
-      },
-    },
-  },
+  "ExpressionAttributeNames": "dummyExpressionAttributeNames",
+  "ExpressionAttributeValues": "dummyExpressionAttributeValues",
   "Key": {
     "id": undefined,
   },
   "TableName": "TripPics-Users",
-  "UpdateExpression": "set #dummyChangedProp = :dummyChangedProp",
+  "UpdateExpression": "dummyUpdateExpression",
 }
 `;
 

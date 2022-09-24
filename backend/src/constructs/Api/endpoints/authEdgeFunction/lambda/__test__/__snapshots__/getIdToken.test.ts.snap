@@ -1,0 +1,30 @@
+// Vitest Snapshot v1
+
+exports[`getTokens > resolves with a correct value 1`] = `"dummyIdToken"`;
+
+exports[`getTokens > sends "GetCommand" to DynamoDB with correct args 1`] = `
+{
+  "Key": {
+    "id": "dummySessionId",
+  },
+  "TableName": "TripPics-Sessions",
+}
+`;
+
+exports[`getTokens > when "Item" prop is missing from "GetCommand" output > rejects with a correct value 1`] = `[Error: Could not find session with id "dummySessionId"]`;
+
+exports[`getTokens > when "idToken" has expired > calls "fetchNewIdToken" with correct args 1`] = `
+[
+  [
+    {
+      "clientId": "dummyAud",
+      "refreshToken": "dummyRefreshToken",
+      "sessionId": "dummySessionId",
+    },
+  ],
+]
+`;
+
+exports[`getTokens > when "idToken" has expired > resolves with a correct value 1`] = `"newDummyIdToken"`;
+
+exports[`getTokens > when "refreshToken" has expired > rejects with a correct value 1`] = `[Error: ID token and refresh token have expired]`;

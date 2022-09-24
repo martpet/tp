@@ -1,0 +1,218 @@
+// Vitest Snapshot v1
+
+exports[`authEdgeHandler > calls "checkIsPublicEndpoint" with correct args 1`] = `
+[
+  [
+    {
+      "Records": [
+        {
+          "cf": {
+            "config": {
+              "distributionDomainName": "d111111abcdef8.cloudfront.net",
+              "distributionId": "EDFDVBD6EXAMPLE",
+              "eventType": "viewer-request",
+              "requestId": "4TyzHTaYWb1GX1qTfsHhEqV6HUDd_BzoBZnwfnvQc_1oF26ClkoUSEQ==",
+            },
+            "request": {
+              "clientIp": "203.0.113.178",
+              "headers": {
+                "accept": [
+                  {
+                    "key": "accept",
+                    "value": "*/*",
+                  },
+                ],
+                "cookie": [
+                  {
+                    "key": "cookie",
+                    "value": "dummyCookieValue",
+                  },
+                ],
+                "host": [
+                  {
+                    "key": "Host",
+                    "value": "d111111abcdef8.cloudfront.net",
+                  },
+                ],
+                "user-agent": [
+                  {
+                    "key": "User-Agent",
+                    "value": "curl/7.66.0",
+                  },
+                ],
+              },
+              "method": "GET",
+              "querystring": "",
+              "uri": "/",
+            },
+          },
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`authEdgeHandler > calls "getIdToken" with correct args 1`] = `
+[
+  [
+    "dummySessionId",
+  ],
+]
+`;
+
+exports[`authEdgeHandler > calls "parseLambdaEdgeEventCookies" with correct args 1`] = `
+[
+  [
+    {
+      "Records": [
+        {
+          "cf": {
+            "config": {
+              "distributionDomainName": "d111111abcdef8.cloudfront.net",
+              "distributionId": "EDFDVBD6EXAMPLE",
+              "eventType": "viewer-request",
+              "requestId": "4TyzHTaYWb1GX1qTfsHhEqV6HUDd_BzoBZnwfnvQc_1oF26ClkoUSEQ==",
+            },
+            "request": {
+              "clientIp": "203.0.113.178",
+              "headers": {
+                "accept": [
+                  {
+                    "key": "accept",
+                    "value": "*/*",
+                  },
+                ],
+                "cookie": [
+                  {
+                    "key": "cookie",
+                    "value": "dummyCookieValue",
+                  },
+                ],
+                "host": [
+                  {
+                    "key": "Host",
+                    "value": "d111111abcdef8.cloudfront.net",
+                  },
+                ],
+                "user-agent": [
+                  {
+                    "key": "User-Agent",
+                    "value": "curl/7.66.0",
+                  },
+                ],
+              },
+              "method": "GET",
+              "querystring": "",
+              "uri": "/",
+            },
+          },
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`authEdgeHandler > resolves with a correct value 1`] = `
+{
+  "clientIp": "203.0.113.178",
+  "headers": {
+    "accept": [
+      {
+        "key": "accept",
+        "value": "*/*",
+      },
+    ],
+    "authorization": [
+      {
+        "value": "dummyIdToken",
+      },
+    ],
+    "cookie": [
+      {
+        "key": "cookie",
+        "value": "dummyCookieValue",
+      },
+    ],
+    "host": [
+      {
+        "key": "Host",
+        "value": "d111111abcdef8.cloudfront.net",
+      },
+    ],
+    "user-agent": [
+      {
+        "key": "User-Agent",
+        "value": "curl/7.66.0",
+      },
+    ],
+  },
+  "method": "GET",
+  "querystring": "",
+  "uri": "/",
+}
+`;
+
+exports[`authEdgeHandler > when "getIdToken" rejects > calls "lambdaEdgeErrorResponse" with correct args 1`] = `
+[
+  [
+    "eWUjcKPBi3",
+    {
+      "error": [Error: dummy getIdToken error message],
+      "statusCode": 401,
+    },
+  ],
+]
+`;
+
+exports[`authEdgeHandler > when "getIdToken" rejects > resolves with a correct value 1`] = `"dummyLambdaEdgeErrorResponse"`;
+
+exports[`authEdgeHandler > when "sessionId" is missing > calls "lambdaEdgeErrorResponse" with correct args 1`] = `
+[
+  [
+    "eWUjcKPBi3",
+    {
+      "error": [Error: missing session id],
+      "statusCode": 401,
+    },
+  ],
+]
+`;
+
+exports[`authEdgeHandler > when "sessionId" is missing > resolves with a correct value 1`] = `"dummyLambdaEdgeErrorResponse"`;
+
+exports[`authEdgeHandler > when the endpoint is public > resolved with a correct value 1`] = `
+{
+  "clientIp": "203.0.113.178",
+  "headers": {
+    "accept": [
+      {
+        "key": "accept",
+        "value": "*/*",
+      },
+    ],
+    "cookie": [
+      {
+        "key": "cookie",
+        "value": "dummyCookieValue",
+      },
+    ],
+    "host": [
+      {
+        "key": "Host",
+        "value": "d111111abcdef8.cloudfront.net",
+      },
+    ],
+    "user-agent": [
+      {
+        "key": "User-Agent",
+        "value": "curl/7.66.0",
+      },
+    ],
+  },
+  "method": "GET",
+  "querystring": "",
+  "uri": "/",
+}
+`;

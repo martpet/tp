@@ -1,7 +1,8 @@
 import { AttributeType } from 'aws-cdk-lib/aws-dynamodb';
 
 import { SessionsTableItem, UsersTableItem } from '~/types';
-import { createTableOptions } from '~/utils';
+
+import { createTableOptions } from '../constructs/Tables/createTableOptions';
 
 export const usersTableOptions = createTableOptions<UsersTableItem>({
   tableName: 'Users',
@@ -17,7 +18,7 @@ export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
     name: 'id',
     type: AttributeType.STRING,
   },
-  timeToLiveAttribute: 'expires',
+  timeToLiveAttribute: 'refreshTokenExpires',
   globalSecondaryIndexes: {
     UserSessions: {
       partitionKey: {

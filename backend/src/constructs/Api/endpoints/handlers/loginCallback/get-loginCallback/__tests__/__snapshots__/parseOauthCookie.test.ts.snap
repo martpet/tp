@@ -1,0 +1,24 @@
+// Vitest Snapshot v1
+
+exports[`parseOauthCookie > calls "parseEventCookies" with correct args 1`] = `
+[
+  [
+    {
+      "cookies": [
+        "dummyCookie1",
+        "dummyCookie2",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`parseOauthCookie > returns a correct value 1`] = `
+{
+  "dummyOauthCookieContentKey": "dummyOauthCookieContentValue",
+}
+`;
+
+exports[`parseOauthCookie > when "oauth" cookie is missing > returns a correct value 1`] = `{}`;
+
+exports[`parseOauthCookie > when "oauth" cookie value is not json-parsable > returns a correct value 1`] = `{}`;

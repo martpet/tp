@@ -1,0 +1,25 @@
+// Vitest Snapshot v1
+
+exports[`lambdaEdgeErrorResponse > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "dummyArg1",
+    "dummyArg2",
+  ],
+]
+`;
+
+exports[`lambdaEdgeErrorResponse > returns a correct value 1`] = `
+{
+  "body": "dummyErrorResponseBody",
+  "headers": {
+    "content-type": [
+      {
+        "value": "application/json",
+      },
+    ],
+  },
+  "status": 418,
+  "statusDescription": "I'm a teapot",
+}
+`;

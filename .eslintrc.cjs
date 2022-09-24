@@ -10,6 +10,7 @@ module.exports = {
   plugins: ['simple-import-sort', 'prettier', 'import', 'unused-imports'],
   root: true,
   rules: {
+    '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-use-before-define': [
       'error',
       {
@@ -26,10 +27,12 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
-    'no-console': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'simple-import-sort/exports': 'warn',
     'simple-import-sort/imports': 'warn',
     'unused-imports/no-unused-imports': 'warn',
-    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'no-console': 'off',
+    'no-var': 'off',
+    'vars-on-top': 'off',
   },
 };

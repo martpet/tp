@@ -1,0 +1,62 @@
+// Vitest Snapshot v1
+
+exports[`fetchTokens > calls "camelcaseKeys" with correct args 1`] = `
+[
+  [
+    {
+      "id_token": "dummyIdToken",
+    },
+  ],
+]
+`;
+
+exports[`fetchTokens > calls "fetch" with correct args 1`] = `
+[
+  [
+    "https://dummyAuthDomain/oauth2/token",
+    {
+      "body": URLSearchParams {
+        Symbol(query): [
+          "grant_type",
+          "authorization_code",
+          "client_id",
+          "dummyClientId",
+          "code",
+          "dummyCode",
+          "code_verifier",
+          "dummyCodeVerifier",
+          "redirect_uri",
+          "dummyLoginCallbackUrl",
+        ],
+        Symbol(context): null,
+      },
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;
+
+exports[`fetchTokens > calls "getIdTokenPayload" with correct args 1`] = `
+[
+  [
+    "dummyIdToken",
+  ],
+]
+`;
+
+exports[`fetchTokens > resolves with a correct value 1`] = `
+{
+  "dummyCamelCaseKey": "dummyCamelCaseValue",
+  "idTokenPayload": {
+    "aud": "dummyAud",
+    "givenName": "dummyGivenName",
+    "nonce": "dummyNonce",
+    "sub": "dummySub",
+  },
+}
+`;
+
+exports[`fetchTokens > when "fetch" response contains an "error" prop > rejects with a correct value 1`] = `[Error: dummyErrorMessage]`;

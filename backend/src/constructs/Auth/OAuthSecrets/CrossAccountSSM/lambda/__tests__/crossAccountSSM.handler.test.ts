@@ -71,4 +71,16 @@ describe('crossAccountSSM.handler', () => {
       return expect(handler(...args)).rejects.toMatchSnapshot();
     });
   });
+
+  describe('when "Parameters" are missing required values', () => {
+    beforeEach(() => {
+      ssmMock.on(GetParametersCommand).resolves({
+        Parameters: [{ Name: 'dummyName' }],
+      });
+    });
+
+    it('rejects with a correct value', () => {
+      return expect(handler(...args)).rejects.toMatchSnapshot();
+    });
+  });
 });

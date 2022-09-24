@@ -1,7 +1,7 @@
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { filterChangedProps } from '~/utils';
+import { createDynamoUpdateExpression, filterChangedProps } from '~/utils';
 
 import { getUserPropsFromCognitoEvent } from '../../getUserPropsFromCognitoEvent';
 import { updateUserFromEvent } from '../updateUserFromEvent';
@@ -9,6 +9,7 @@ import event from './__fixtures__/postAuthenticationEvent';
 
 vi.mock('../../getUserPropsFromCognitoEvent');
 vi.mock('~/../../shared/utils/filterChangedProps');
+vi.mock('~/utils/createDynamoUpdateExpression');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
@@ -16,6 +17,7 @@ const args = [event] as const;
 
 beforeEach(() => {
   ddbMock.reset();
+
   ddbMock.on(GetCommand).resolves({
     Item: {
       id: 'dummyId',
@@ -63,6 +65,11 @@ describe('updateUserFromEvent', () => {
   });
 
   describe('when user props in event are changed', () => {
+    it('calls "createDynamoUpdateExpression" with correct args', async () => {
+      await updateUserFromEvent(...args);
+      expect(vi.mocked(createDynamoUpdateExpression).mock.calls).toMatchSnapshot();
+    });
+
     it('sends "UpdateCommand" to DynamoDB with correct args', async () => {
       await updateUserFromEvent(...args);
       expect(ddbMock.commandCalls(UpdateCommand)[0].args[0].input).toMatchSnapshot();

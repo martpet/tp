@@ -1,0 +1,144 @@
+// Vitest Snapshot v1
+
+exports[`"get-logout" handler > calls "parseEventCookies" with correct args 1`] = `
+[
+  [
+    {
+      "cookies": "dummyCookies",
+      "headers": {
+        "referer": "dummyRefererHeader",
+      },
+    },
+  ],
+]
+`;
+
+exports[`"get-logout" handler > resolves with a correct value 1`] = `
+{
+  "cookies": [
+    "sessionId=; Expires=Sat, 01 Jan 2022 00:00:00 GMT",
+  ],
+  "headers": {
+    "location": "https://dummyauthdomain/logout?client_id=dummyClientId&logout_uri=dummyLogoutCallbackUrl",
+  },
+  "statusCode": 302,
+}
+`;
+
+exports[`"get-logout" handler > when "authDomain" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "WKSoIIT1Ds",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "authDomain" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "clientId" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "WKSoIIT1Ds",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "clientId" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "envName" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "WKSoIIT1Ds",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "envName" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "envName" is "personal" > when "referer" header is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "GkjK-mpVvL",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "envName" is "personal" > when "referer" header is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "envName" is "personal" > when "referer" is from localhost > resolves with a correct value 1`] = `
+{
+  "cookies": [
+    "sessionId=; Expires=Sat, 01 Jan 2022 00:00:00 GMT",
+  ],
+  "headers": {
+    "location": "https://dummyauthdomain/logout?client_id=dummyClientId&logout_uri=dummyLogoutCallbackLocalhostUrl",
+  },
+  "statusCode": 302,
+}
+`;
+
+exports[`"get-logout" handler > when "logoutCallbackLocalhostUrl" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "WKSoIIT1Ds",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "logoutCallbackLocalhostUrl" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "logoutCallbackUrl" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "WKSoIIT1Ds",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "logoutCallbackUrl" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" > calls "deleteSession" with correct args 1`] = `
+[
+  [
+    "dummySessionId",
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" > calls "revokeOauthTokens" with correct args 1`] = `
+[
+  [
+    {
+      "authDomain": "dummyAuthDomain",
+      "clientId": "dummyClientId",
+      "refreshToken": "dummyRefreshToken",
+    },
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" > when "deleteSession" rejects > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "If_8Sr_Y7L",
+    {
+      "error": "dummyDeleteSessionRejectedValue",
+    },
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" > when "deleteSession" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" > when "revokeOauthTokens" rejects > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "-8-K2WmZuo",
+    {
+      "error": "dummyRevokeOauthTokensRejectedValue",
+    },
+  ],
+]
+`;
+
+exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" > when "revokeOauthTokens" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;

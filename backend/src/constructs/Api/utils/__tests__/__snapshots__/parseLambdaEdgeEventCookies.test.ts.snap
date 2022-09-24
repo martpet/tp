@@ -1,0 +1,19 @@
+// Vitest Snapshot v1
+
+exports[`parseLambdaEdgeEventCookies > calls "parseEventCookies" with correct args 1`] = `
+[
+  [
+    {
+      "cookies": [
+        "dummyCookieValue",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`parseLambdaEdgeEventCookies > returns a correct value 1`] = `
+{
+  "dummyEventCookie": "dummyEventCookieValue",
+}
+`;

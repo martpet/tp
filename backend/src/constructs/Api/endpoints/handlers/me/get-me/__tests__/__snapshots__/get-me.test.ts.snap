@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`get-me > calls "getIdTokenPayload" with correct args 1`] = `
+[
+  [
+    "dummyIdToken",
+  ],
+]
+`;
+
+exports[`get-me > resolves with a correct value 1`] = `"dummyGivenName"`;
+
+exports[`get-me > when "authorization" header is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "RyFuj-_6Qo",
+  ],
+]
+`;
+
+exports[`get-me > when "authorization" header is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;

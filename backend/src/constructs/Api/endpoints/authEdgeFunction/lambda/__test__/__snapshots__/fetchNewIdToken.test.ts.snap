@@ -1,0 +1,41 @@
+// Vitest Snapshot v1
+
+exports[`fetchNewIdToken > calls "fetch" with correct args 1`] = `
+[
+  [
+    "https://dummyAuthDomain/oauth2/token",
+    {
+      "body": URLSearchParams {
+        Symbol(query): [
+          "grant_type",
+          "refresh_token",
+          "client_id",
+          "dummyClientId",
+          "refresh_token",
+          "dummyRefreshToken",
+        ],
+        Symbol(context): null,
+      },
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      "method": "POST",
+    },
+  ],
+]
+`;
+
+exports[`fetchNewIdToken > calls "updateSession" with correct args 1`] = `
+[
+  [
+    {
+      "idToken": "dummyIdToken",
+      "sessionId": "dummySessionId",
+    },
+  ],
+]
+`;
+
+exports[`fetchNewIdToken > returns a correct value 1`] = `"dummyIdToken"`;
+
+exports[`fetchNewIdToken > when "fetch" response contains an "error" prop > rejects with a correct value 1`] = `[Error: dummyErrorMessage]`;

@@ -1,7 +1,8 @@
 export * from '~/../../shared/utils';
 //
-export * from './constructsUtils';
-export * from './createTableOptions';
+export * from './checkLocalEnvVars';
+export * from './createDynamoUpdateExpression';
 export * from './getEnvName';
 export * from './getRandomBase64UrlSafe';
 export * from './getRoleCredentials';
+export * from './objectValuesToJson';

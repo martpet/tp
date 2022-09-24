@@ -8,7 +8,9 @@
 
 For *Production* and *Staging* environments run:
 
-`cd backend && npx cdk bootstrap --profile <profile>`
+`npx cdk bootstrap aws://<account-id>/<region> --profile <profile>`
+
+In addition, bootstrap the `us-east-1` region, if they are different from the region above.
 
 ## Hosted zones
 
@@ -28,7 +30,7 @@ In the *DevService* account:
 * Copy the *dev* hosted zone id to a variable named `devHostedZoneId` in *backend/consts/appConsts.ts*.
 * Copy the *NS* record from the *dev* zone into the *Production* account *root* zone.
 
-### Add policy for editing *Dev* hosted zone
+### Add a policy for editing *Dev* hosted zone
 
 In the *DevService* account create a policy named `HostedZoneRecords`.
 

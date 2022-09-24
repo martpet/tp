@@ -1,5 +1,5 @@
-export * from './Api/Api';
+export * from './Api';
 export * from './Auth';
 export * from './Tables';
-export * from './Web';
+export * from './Web/Web';
 export * from './Zone';

@@ -1,0 +1,25 @@
+// Vitest Snapshot v1
+
+exports[`updateSession > resolves with a correct value 1`] = `
+{
+  "Attributes": {
+    "dummyUpdateCommandAttr": "dummyUpdateCommandAttrValue",
+  },
+}
+`;
+
+exports[`updateSession > sends "UpdateCommand" to DynamoDB with correct args 1`] = `
+{
+  "ExpressionAttributeNames": {
+    "#idToken": "idToken",
+  },
+  "ExpressionAttributeValues": {
+    ":idToken": "dummyIdToken",
+  },
+  "Key": {
+    "id": "dummySessoinid",
+  },
+  "TableName": "TripPics-Sessions",
+  "UpdateExpression": "set #idToken = :idToken",
+}
+`;

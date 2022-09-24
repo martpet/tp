@@ -1,0 +1,71 @@
+// Vitest Snapshot v1
+
+exports[`"get-login" handler > calls "cookie.serialize" with correct args 1`] = `
+[
+  [
+    "oauth",
+    "{\\"stateNonce\\":\\"dummyStateNonce\\",\\"codeVerifier\\":\\"dummyCodeVerifier\\"}",
+    {
+      "httpOnly": true,
+      "path": "/loginCallback",
+      "sameSite": "lax",
+      "secure": true,
+    },
+  ],
+]
+`;
+
+exports[`"get-login" handler > resolves with a correct value 1`] = `
+{
+  "cookies": [
+    "dummyCookie",
+  ],
+  "headers": {
+    "location": "https://dummyauthdomain/oauth2/authorize?identity_provider=dummyProvider&client_id=dummyClientId&redirect_uri=dummyLoginCallbackUrl&response_type=code&state=dummyStateNonce&nonce=undefined&code_challenge_method=S256&code_challenge=dummyCodeChallenge",
+  },
+  "statusCode": 302,
+}
+`;
+
+exports[`"get-login" handler > when "authDomain" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "1rQkj3kpp4",
+  ],
+]
+`;
+
+exports[`"get-login" handler > when "authDomain" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-login" handler > when "clientId" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "1rQkj3kpp4",
+  ],
+]
+`;
+
+exports[`"get-login" handler > when "clientId" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-login" handler > when "loginCallbackUrl" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "1rQkj3kpp4",
+  ],
+]
+`;
+
+exports[`"get-login" handler > when "loginCallbackUrl" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-login" handler > when provider query string parameter is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "6gUyCQQT7Z",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`"get-login" handler > when provider query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;

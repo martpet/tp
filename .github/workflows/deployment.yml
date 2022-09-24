@@ -51,4 +51,4 @@ jobs:
           role-duration-seconds: 3600
 
       - name: Deploy stack
-        run: cd backend && npx cdk deploy --context envName=${{ inputs.ENV_NAME }} --require-approval never
+        run: cd backend && npx cdk deploy --all --require-approval never --context envName=${{ inputs.ENV_NAME }}

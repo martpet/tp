@@ -15,6 +15,7 @@ export function App() {
       <p>
         <a href={`${apiUrl}${apiPaths.logout}`}>logout</a>
       </p>
+      <a href={`${apiUrl}${apiPaths.me}`}>me</a>
     </>
   );
 }
@@ -29,9 +30,11 @@ function LoginButton({ provider }: { provider: IdentityProviderName }) {
 
   const openPopup = () => {
     const url = `${apiUrl}${apiPaths.login}?provider=${provider}`;
-    const popupWidth = 600;
-    const left = window.screen.width / 2 - popupWidth / 2;
-    const options = `toolbar=no, menubar=no, width=${popupWidth}, height=650, top=100, left=${left}`;
+    const width = 600;
+    const height = 650;
+    const left = window.screenLeft + window.innerWidth / 2 - width / 2;
+    const top = window.screenTop + window.innerHeight / 2 - height / 2;
+    const options = `toolbar=no, menubar=no, width=${width}, height=${height}, top=${top}, left=${left}`;
     window.open(url, 'loginpopup', options);
     window.addEventListener('message', popupMessageListener);
   };

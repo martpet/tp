@@ -1,5 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`getPersonalDevDomain > when called from backend > returns a correct value 1`] = `"john.dev.trip.pictures"`;
-
-exports[`getPersonalDevDomain > when called from frontend > returns a correct value 1`] = `"john.dev.trip.pictures"`;

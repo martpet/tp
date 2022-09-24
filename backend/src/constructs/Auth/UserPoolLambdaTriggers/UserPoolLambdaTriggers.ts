@@ -1,8 +1,9 @@
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
-import { Tables } from '~/constructs/Tables';
-import { capitalize, createNodejsFunction } from '~/utils';
+import { Tables } from '~/constructs';
+import { createNodejsFunction } from '~/constructs/utils';
+import { capitalize } from '~/utils';
 
 type TriggerName = 'postConfirmation' | 'postAuthentication';
 

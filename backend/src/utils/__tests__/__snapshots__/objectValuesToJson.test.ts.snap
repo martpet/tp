@@ -1,0 +1,10 @@
+// Vitest Snapshot v1
+
+exports[`objectValuesToJson > returns a correct value 1`] = `
+{
+  "array": "[\\"a\\"]",
+  "number": "1",
+  "object": "{\\"foo\\":\\"bar\\"}",
+  "string": "\\"1\\"",
+}
+`;

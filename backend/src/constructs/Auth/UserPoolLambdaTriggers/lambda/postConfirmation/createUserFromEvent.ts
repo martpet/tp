@@ -8,7 +8,7 @@ import { getUserPropsFromCognitoEvent } from '../getUserPropsFromCognitoEvent';
 
 const marshallOptions = { removeUndefinedValues: true };
 const ddbClient = new DynamoDBClient({});
-const ddbDocumentClient = DynamoDBDocumentClient.from(ddbClient, { marshallOptions });
+const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, { marshallOptions });
 
 export const createUserFromEvent = (event: PostConfirmationTriggerEvent) => {
   const userProps = getUserPropsFromCognitoEvent(event);
@@ -18,5 +18,5 @@ export const createUserFromEvent = (event: PostConfirmationTriggerEvent) => {
     Item: userProps,
   });
 
-  return ddbDocumentClient.send(putCommand);
+  return ddbDocClient.send(putCommand);
 };

@@ -1,17 +1,20 @@
-Bootstrap AWS account:
+# TP
 
-`npx cdk bootstrap aws://<account-id>/<region> --profile <profile>`
+## Setup dev env
+1. Bootstrap your personal dev AWS account
 
-Choose a personal subdomain name:
+`npx cdk bootstrap aws://<account-id>/<region> --profile <aws profile name>`
 
-* Create `.env.local` file in the root folder of the repository.
-* Add a subdomain name to a variable named `VITE_PERSONAL_SUBDOMAIN`.
+In addition, bootstrap the `us-east-1` region if it's different from the above region.
 
-Deploy:
+2. Add env variables
 
-`npm run deploy -- --profile <profile>`
+Copy `.env.local.example` to `.env.local` and add your own env variables.
+
+3. Deploy
+
+`npm run deploy -- --profile <aws profile name>`
 
 ----
 
-[Setup Staging and Prod environments](README-prod-setup.md)
-
+[setup prod and staging](README-prod-setup.md)

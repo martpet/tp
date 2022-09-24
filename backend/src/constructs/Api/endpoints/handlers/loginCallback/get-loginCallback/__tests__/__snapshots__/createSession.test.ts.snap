@@ -1,0 +1,47 @@
+// Vitest Snapshot v1
+
+exports[`createSession > calls "cookie.serialize" with correct args 1`] = `
+[
+  [
+    "sessionId",
+    "dummyNanoid",
+    {
+      "expires": 2023-01-01T00:00:00.000Z,
+      "httpOnly": true,
+      "sameSite": true,
+      "secure": true,
+    },
+  ],
+]
+`;
+
+exports[`createSession > resolves with a correct value 1`] = `"dummyCookie"`;
+
+exports[`createSession > sends "PutCommand" to DynamoDB with correct args 1`] = `
+{
+  "Item": {
+    "created": 1640995200000,
+    "id": "dummyNanoid",
+    "idToken": "dummyIdToken",
+    "refreshToken": "dummyRefreshToken",
+    "refreshTokenExpires": 1672531200000,
+    "userId": "dummySub ",
+  },
+  "TableName": "TripPics-Sessions",
+}
+`;
+
+exports[`createSession > when "envName" is "personal" > calls "cookie.serialize" with correct args 1`] = `
+[
+  [
+    "sessionId",
+    "dummyNanoid",
+    {
+      "expires": 2023-01-01T00:00:00.000Z,
+      "httpOnly": true,
+      "sameSite": "none",
+      "secure": true,
+    },
+  ],
+]
+`;

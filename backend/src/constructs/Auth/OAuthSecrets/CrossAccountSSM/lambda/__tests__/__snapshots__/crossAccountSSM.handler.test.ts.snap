@@ -29,6 +29,8 @@ exports[`crossAccountSSM.handler > sends "GetParametersCommand" to SSM with corr
 }
 `;
 
-exports[`crossAccountSSM.handler > when "Parameters" is missing from "GetParametersCommand" output > rejects with a correct value 1`] = `[Error: No output parameters]`;
+exports[`crossAccountSSM.handler > when "Parameters" are missing required values > rejects with a correct value 1`] = `[Error: Invalid SSM parameters]`;
+
+exports[`crossAccountSSM.handler > when "Parameters" is missing from "GetParametersCommand" output > rejects with a correct value 1`] = `[Error: Invalid SSM parameters]`;
 
 exports[`crossAccountSSM.handler > when "getParametersInput.Names" is missing > rejects with a correct value 1`] = `[Error: Missing input parameters names]`;
