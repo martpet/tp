@@ -51,7 +51,7 @@ exports[`"get-loginCallback" handler > calls "parseOauthCookie" with correct arg
 
 exports[`"get-loginCallback" handler > resolves with a correct value 1`] = `
 {
-  "body": "<script>opener.postMessage(\\"login-success\\", \\"*\\")</script>",
+  "body": "<script>opener.postMessage(\\"login-success\\", \\"https://trip.pictures\\")</script>",
   "cookies": [
     "dummySessionCookie",
   ],
@@ -81,6 +81,19 @@ exports[`"get-loginCallback" handler > when "clientId" env var is missing > call
 `;
 
 exports[`"get-loginCallback" handler > when "clientId" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-loginCallback" handler > when "code" query string parameter is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "1cByWITGGHw",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`"get-loginCallback" handler > when "code" query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
 exports[`"get-loginCallback" handler > when "createSession" rejects > calls "errorResponse" with correct args 1`] = `
 [
@@ -117,6 +130,19 @@ exports[`"get-loginCallback" handler > when "fetchTokens" rejects > calls "error
 `;
 
 exports[`"get-loginCallback" handler > when "fetchTokens" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-loginCallback" handler > when "globalLambda.cdkEnv" is "personal" > resolves with a correct value 1`] = `
+{
+  "body": "<script>opener.postMessage(\\"login-success\\", \\"*\\")</script>",
+  "cookies": [
+    "dummySessionCookie",
+  ],
+  "headers": {
+    "Content-Type": "text/html",
+  },
+  "statusCode": 200,
+}
+`;
 
 exports[`"get-loginCallback" handler > when "idTokenNonce" from "oauth" cookie does not match with "nonce" from the "idToken" payload > calls "errorResponse" with correct args 1`] = `
 [
@@ -171,6 +197,19 @@ exports[`"get-loginCallback" handler > when "oauth" cookie content is missing "s
 
 exports[`"get-loginCallback" handler > when "oauth" cookie content is missing "stateNonce" key > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
+exports[`"get-loginCallback" handler > when "state" query string parameter is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "1cByWITGGHw",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`"get-loginCallback" handler > when "state" query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
 exports[`"get-loginCallback" handler > when "stateNonce" from "oauth" cookie does not match with "state" from query strings params > calls "errorResponse" with correct args 1`] = `
 [
   [
@@ -183,29 +222,3 @@ exports[`"get-loginCallback" handler > when "stateNonce" from "oauth" cookie doe
 `;
 
 exports[`"get-loginCallback" handler > when "stateNonce" from "oauth" cookie does not match with "state" from query strings params > resolves with a correct value 1`] = `"dummyErrorResponse"`;
-
-exports[`"get-loginCallback" handler > when code query string parameter is missing > calls "errorResponse" with correct args 1`] = `
-[
-  [
-    "1cByWITGGHw",
-    {
-      "statusCode": 400,
-    },
-  ],
-]
-`;
-
-exports[`"get-loginCallback" handler > when code query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
-
-exports[`"get-loginCallback" handler > when state query string parameter is missing > calls "errorResponse" with correct args 1`] = `
-[
-  [
-    "1cByWITGGHw",
-    {
-      "statusCode": 400,
-    },
-  ],
-]
-`;
-
-exports[`"get-loginCallback" handler > when state query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;

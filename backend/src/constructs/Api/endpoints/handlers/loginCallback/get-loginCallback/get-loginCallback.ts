@@ -3,13 +3,15 @@ import { StatusCodes } from 'http-status-codes';
 
 import { OauthTokens, ProcessEnv, QueryStringParameters } from '~/constructs/Api/types';
 import { errorResponse } from '~/constructs/Api/utils';
-import { loginPopupSuccessMessage } from '~/consts';
+import { appEnvs, loginPopupSuccessMessage } from '~/consts';
 
 import { createSession } from './createSession';
 import { fetchTokens } from './fetchTokens';
 import { parseOauthCookie } from './parseOauthCookie';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+  const { cdkEnv } = globalLambda;
+
   const { state, code } = Object(
     event.queryStringParameters
   ) as QueryStringParameters<'/loginCallback'>;
@@ -60,11 +62,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return errorResponse('h7UMnEUDvF', { error });
   }
 
+  const postMessageTargetOrigin =
+    cdkEnv === 'personal' ? '*' : `https://${appEnvs[cdkEnv].appDomain}`;
+
   return {
     statusCode: StatusCodes.OK,
     cookies: [sessionCookie],
     headers: { 'Content-Type': 'text/html' },
-    // todo: Set specific target origin. Pass origin in state to /auth.
-    body: `<script>opener.postMessage("${loginPopupSuccessMessage}", "*")</script>`,
+    body: `<script>opener.postMessage("${loginPopupSuccessMessage}", "${postMessageTargetOrigin}")</script>`,
   };
 };

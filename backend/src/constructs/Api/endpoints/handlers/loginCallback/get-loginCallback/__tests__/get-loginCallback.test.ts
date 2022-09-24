@@ -28,6 +28,7 @@ const args = [
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
 
 beforeEach(() => {
+  globalLambda.cdkEnv = 'production';
   process.env.authDomain = 'dummyAuthDomain';
   process.env.clientId = 'dummyClientId';
   process.env.loginCallbackUrl = 'dummyLoginCallbackUrl';
@@ -54,12 +55,15 @@ describe('"get-loginCallback" handler', () => {
     return expect(handler(...args)).resolves.toMatchSnapshot();
   });
 
-  describe.each(['code', 'state'])('when %s query string parameter is missing', (key) => {
-    const argsClone = structuredClone(args);
-    const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
-    delete queryStringParameters[key];
-    itResolvesWithErrorResponse(handler, argsClone);
-  });
+  describe.each(['code', 'state'])(
+    'when "%s" query string parameter is missing',
+    (key) => {
+      const argsClone = structuredClone(args);
+      const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
+      delete queryStringParameters[key];
+      itResolvesWithErrorResponse(handler, argsClone);
+    }
+  );
 
   describe.each(['clientId', 'authDomain', 'loginCallbackUrl', 'envName'])(
     'when "%s" env var is missing',
@@ -111,5 +115,14 @@ describe('"get-loginCallback" handler', () => {
       vi.mocked(fetchTokens).mockResolvedValueOnce(tokensPropsClone);
     });
     itResolvesWithErrorResponse(handler, args);
+  });
+
+  describe('when "globalLambda.cdkEnv" is "personal"', () => {
+    beforeEach(() => {
+      globalLambda.cdkEnv = 'personal';
+    });
+    it('resolves with a correct value', () => {
+      return expect(handler(...args)).resolves.toMatchSnapshot();
+    });
   });
 });
