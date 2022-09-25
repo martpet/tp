@@ -1,5 +1,8 @@
 import { apiSubdomain } from '~/consts';
+import { getPersonalDevDomain } from '~/utils';
 
-import { appDomain } from './appDomain';
+const domain = import.meta.env.DEV
+  ? getPersonalDevDomain(import.meta.env)
+  : window.location.hostname;
 
-export const apiUrl = `https://${apiSubdomain}.${appDomain}`;
+export const apiUrl = `https://${apiSubdomain}.${domain}`;

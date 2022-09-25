@@ -54,7 +54,7 @@ export const addDistroBehavior = ({
   const cachePolicyProps: Writable<CachePolicyProps> = {
     defaultTtl: Duration.minutes(0),
     minTtl: Duration.minutes(0),
-    maxTtl: Duration.seconds(1),
+    maxTtl: Duration.seconds(1), // https://github.com/aws/aws-cdk/issues/13408
     cookieBehavior: CacheCookieBehavior.none(),
     queryStringBehavior: CacheQueryStringBehavior.none(),
   };
