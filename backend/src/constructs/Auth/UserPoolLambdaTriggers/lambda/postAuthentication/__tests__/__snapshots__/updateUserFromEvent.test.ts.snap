@@ -56,7 +56,7 @@ exports[`updateUserFromEvent > sends "GetCommand" to DynamoDB with correct args 
 }
 `;
 
-exports[`updateUserFromEvent > when output from "GetCommand" does not include "Item" > rejects with a correct value 1`] = `[Error: User does not exist]`;
+exports[`updateUserFromEvent > when output from "GetCommand" does not include "Item" > rejects with a correct value 1`] = `[Error: could not find user with id "dummyId"]`;
 
 exports[`updateUserFromEvent > when user props in event are changed > calls "createDynamoUpdateExpression" with correct args 1`] = `
 [

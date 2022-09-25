@@ -9,7 +9,7 @@ export const checkLocalEnvVars = (envName: EnvName) => {
   if (envName === 'personal') {
     names.forEach((varName) => {
       if (!process.env[varName]) {
-        throw new Error(`Environment variable "${varName}" is missing from .env.local`);
+        throw new Error(`environment variable "${varName}" is missing from .env.local`);
       }
     });
   }

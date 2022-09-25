@@ -12,4 +12,4 @@ exports[`deleteSession > sends "DeleteCommand" to DynamoDB with correct args 1`]
 }
 `;
 
-exports[`deleteSession > when "Attributes" prop is missing from "DeleteCommand" output > rejects with a correct value 1`] = `[Error: Could not find "Sessions" item with id "dummySessionId"]`;
+exports[`deleteSession > when "Attributes" prop is missing from "DeleteCommand" output > rejects with a correct value 1`] = `[Error: could not find session with id "dummySessionId"]`;

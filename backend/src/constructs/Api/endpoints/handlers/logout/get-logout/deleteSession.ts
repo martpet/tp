@@ -18,7 +18,7 @@ export const deleteSession = async (sessionId: string) => {
   const sessionsItem = Attributes as SessionsTableItem | undefined;
 
   if (!sessionsItem) {
-    throw new Error(`Could not find "Sessions" item with id "${sessionId}"`);
+    throw new Error(`could not find session with id "${sessionId}"`);
   }
 
   return sessionsItem.refreshToken;

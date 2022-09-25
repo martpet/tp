@@ -20,7 +20,7 @@ export const getIdToken = async (sessionId: string) => {
   const sessionsItem = Item as SessionsTableItem | undefined;
 
   if (!sessionsItem) {
-    throw new Error(`Could not find session with id "${sessionId}"`);
+    throw new Error(`could not find session with id "${sessionId}"`);
   }
 
   const { idToken, refreshToken, refreshTokenExpires } = sessionsItem;
@@ -35,5 +35,5 @@ export const getIdToken = async (sessionId: string) => {
     return fetchNewIdToken({ refreshToken, sessionId, clientId });
   }
 
-  throw new Error('ID token and refresh token have expired');
+  throw new Error('"id" and "refresh" tokens have expired');
 };

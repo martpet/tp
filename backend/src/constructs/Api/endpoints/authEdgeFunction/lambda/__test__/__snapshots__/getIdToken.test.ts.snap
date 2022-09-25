@@ -11,7 +11,7 @@ exports[`getTokens > sends "GetCommand" to DynamoDB with correct args 1`] = `
 }
 `;
 
-exports[`getTokens > when "Item" prop is missing from "GetCommand" output > rejects with a correct value 1`] = `[Error: Could not find session with id "dummySessionId"]`;
+exports[`getTokens > when "Item" prop is missing from "GetCommand" output > rejects with a correct value 1`] = `[Error: could not find session with id "dummySessionId"]`;
 
 exports[`getTokens > when "idToken" has expired > calls "fetchNewIdToken" with correct args 1`] = `
 [
@@ -27,4 +27,4 @@ exports[`getTokens > when "idToken" has expired > calls "fetchNewIdToken" with c
 
 exports[`getTokens > when "idToken" has expired > resolves with a correct value 1`] = `"newDummyIdToken"`;
 
-exports[`getTokens > when "refreshToken" has expired > rejects with a correct value 1`] = `[Error: ID token and refresh token have expired]`;
+exports[`getTokens > when "refreshToken" has expired > rejects with a correct value 1`] = `[Error: "id" and "refresh" tokens have expired]`;

@@ -17,7 +17,7 @@ export const updateUserFromEvent = async (event: PostAuthenticationTriggerEvent)
   const propsFromEvent = getUserPropsFromCognitoEvent(event);
   const userFromDb = await fetchUser(propsFromEvent);
   if (!userFromDb) {
-    throw new Error('User does not exist');
+    throw new Error(`could not find user with id "${propsFromEvent.id}"`);
   }
   const changedProps = filterChangedProps(propsFromEvent, userFromDb);
   if (!changedProps) {
