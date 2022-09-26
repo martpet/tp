@@ -1,4 +1,4 @@
-import { localhostPort } from '~/../../shared/consts';
+import { localhostPort } from '~/../../common/consts';
 
 export const appName = 'TripPics';
 export const authSubdomain = 'auth';

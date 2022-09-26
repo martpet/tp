@@ -1,2 +1,2 @@
-export * from '~/../../shared/utils';
+export * from '~/../../common/utils';
 //

@@ -8,8 +8,8 @@ export default mergeConfig(
   defaultConfig,
   defineConfig({
     test: {
-      include: ['shared/**/*.test.ts'],
-      alias: [{ find: '~', replacement: resolve('shared') }],
+      include: ['common/**/*.test.ts'],
+      alias: [{ find: '~', replacement: resolve('common') }],
       coverage: {
         include: ['**/utils/**', '!**/index.ts', '!**/__mocks__/**', '!backend/**'],
       },

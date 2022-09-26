@@ -1,4 +1,4 @@
-import { rootDomain } from '../consts/sharedConsts';
+import { rootDomain } from '../consts/commonConsts';
 
 const subdomainKey = 'VITE_PERSONAL_SUBDOMAIN';
 

@@ -4,8 +4,8 @@ import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import svgrPlugin from 'vite-plugin-svgr';
 
+import { localhostPort } from '../common/consts';
 import packageJson from '../package.json';
-import { localhostPort } from '../shared/consts';
 
 export default defineConfig({
   plugins: [

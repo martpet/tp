@@ -1,3 +1,3 @@
-export * from '~/../../shared/consts';
+export * from '~/../../common/consts';
 //
 export * from './apiUrl';
