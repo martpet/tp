@@ -173,7 +173,7 @@ exports[`authEdgeHandler > when "sessionId" is missing > calls "lambdaEdgeErrorR
   [
     "eWUjcKPBi3",
     {
-      "error": [Error: invalid or missing "sessionId" cookie],
+      "error": [Error: invalid or missing \`sessionId\` cookie],
       "statusCode": 401,
     },
   ],

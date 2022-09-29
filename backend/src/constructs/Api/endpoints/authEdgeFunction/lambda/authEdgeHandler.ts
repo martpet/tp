@@ -22,7 +22,7 @@ export const handler: LambdaEdgeViewerRequestHandler = async (event) => {
     const { sessionId } = parseLambdaEdgeEventCookies(event);
 
     if (!sessionId) {
-      throw new Error('invalid or missing "sessionId" cookie');
+      throw new Error('invalid or missing `sessionId` cookie');
     }
 
     const requestClone = clone(request); // https://github.com/facebook/jest/issues/7950

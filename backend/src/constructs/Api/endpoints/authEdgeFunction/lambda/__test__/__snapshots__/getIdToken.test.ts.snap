@@ -27,4 +27,4 @@ exports[`getTokens > when "idToken" has expired > calls "fetchNewIdToken" with c
 
 exports[`getTokens > when "idToken" has expired > resolves with a correct value 1`] = `"newDummyIdToken"`;
 
-exports[`getTokens > when "refreshToken" has expired > rejects with a correct value 1`] = `[Error: "id" and "refresh" tokens have expired]`;
+exports[`getTokens > when "refreshToken" has expired > rejects with a correct value 1`] = `[Error: \`id\` and \`refresh\` tokens have expired]`;

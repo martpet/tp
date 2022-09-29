@@ -35,5 +35,5 @@ export const getIdToken = async (sessionId: string) => {
     return fetchNewIdToken({ refreshToken, sessionId, clientId });
   }
 
-  throw new Error('"id" and "refresh" tokens have expired');
+  throw new Error('`id` and `refresh` tokens have expired');
 };

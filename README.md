@@ -1,20 +1,27 @@
 # TP
 
-## Setup dev env
-1. Bootstrap your personal dev AWS account
+## Local development
+
+### Bootstrap development AWS environment
 
 `npx cdk bootstrap aws://<account-id>/<region> --profile <aws profile name>`
 
-In addition, bootstrap the `us-east-1` region if it's different from the above region.
+Bootstrap also the `us-east-1` in the same AWS account.
 
-2. Add env variables
+### Set env vars
 
-Copy `.env.local.example` to `.env.local` and add your own env variables.
+Copy `.env.local.example` to `.env.local` and set personal values.
 
-3. Deploy
+### Start local frontend webserver
+
+`npm start`
+
+For Safari: disable "Prevent cross-site tracking" from Privacy settings. Otherwise "session" cookie is not sent from localhost to API backend.
+
+### Deploy to development AWS environment
 
 `npm run deploy -- --profile <aws profile name>`
 
 ----
 
-[setup prod and staging](README-prod-setup.md)
+[Setup production and staging AWS envs](README-prod-setup.md)
