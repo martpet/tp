@@ -27,8 +27,8 @@ import { AuthorizationHeader } from '~/constructs/Api/types';
 import { appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
 
+import { createSecurityHeadersBehavior } from './createSecurityHeadersBehavior';
 import { PublicEndpoints } from './getPublicEndpoints';
-import { securityHeadersBehavior } from './securityHeadersBehavior';
 
 type AddDistroBehaviorProps = {
   scope: Construct;
@@ -136,7 +136,7 @@ export const addDistroBehavior = ({
     `${id}ResponseHeaderPolicy`,
     {
       corsBehavior,
-      securityHeadersBehavior,
+      securityHeadersBehavior: createSecurityHeadersBehavior({ envName }),
     }
   );
 
