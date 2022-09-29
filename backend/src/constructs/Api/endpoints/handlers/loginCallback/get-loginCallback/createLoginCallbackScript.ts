@@ -11,7 +11,7 @@ export const createLoginCallbackScript = ({
   envName,
   appDomain,
 }: CreateLoginCallbackScriptProps) => {
-  const postMessageTargetOrigin = envName === 'personal' ? '*' : `https://${appDomain}}`;
+  const postMessageTargetOrigin = envName === 'personal' ? '*' : `https://${appDomain}`;
   const script = `opener.postMessage("${loginPopupSuccessMessage}", "${postMessageTargetOrigin}")`;
 
   return {
