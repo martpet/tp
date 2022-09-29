@@ -13,13 +13,14 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import { api } from '~/app';
-import { meSlice } from '~/features/me';
+import { meSlice, MeState } from '~/features/me';
 
 import { api401ResponseMiddleware, listenerMiddleware } from './middleware';
 
 const mePersistConfig = {
   key: meSlice.name,
   storage,
+  whitelist: <(keyof MeState)[]>['hasSession'],
 };
 
 export const rootReducer = combineReducers({
