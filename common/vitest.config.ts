@@ -11,7 +11,13 @@ export default mergeConfig(
       include: ['common/**/*.test.ts'],
       alias: [{ find: '~', replacement: resolve('common') }],
       coverage: {
-        include: ['**/utils/**', '!**/index.ts', '!**/__mocks__/**', '!backend/**'],
+        include: [
+          '!**/getPersonalDevDomain.ts',
+          '**/utils/**',
+          '!**/index.ts',
+          '!**/__mocks__/**',
+          '!backend/**',
+        ],
       },
     },
   })

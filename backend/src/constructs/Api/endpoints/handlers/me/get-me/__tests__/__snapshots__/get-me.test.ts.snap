@@ -8,7 +8,11 @@ exports[`get-me > calls "getIdTokenPayload" with correct args 1`] = `
 ]
 `;
 
-exports[`get-me > resolves with a correct value 1`] = `"dummyGivenName"`;
+exports[`get-me > resolves with a correct value 1`] = `
+{
+  "givenName": "dummyGivenName",
+}
+`;
 
 exports[`get-me > when "authorization" header is missing > calls "errorResponse" with correct args 1`] = `
 [

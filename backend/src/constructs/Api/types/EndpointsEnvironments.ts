@@ -1,6 +1,6 @@
-import { OnlyApiPaths } from '~/types';
+import { ApiPathMap } from '~/constructs/Api/types/ApiPathMap';
 
-export type EndpointsEnvironemntsKeys = OnlyApiPaths<{
+export type EndpointsEnvironemntsKeys = ApiPathMap<{
   '/login': 'authDomain' | 'clientId' | 'loginCallbackUrl';
   '/loginCallback': 'authDomain' | 'clientId' | 'loginCallbackUrl';
   '/logout':

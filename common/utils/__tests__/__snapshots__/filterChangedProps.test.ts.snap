@@ -1,0 +1,10 @@
+// Vitest Snapshot v1
+
+exports[`lowercase > return a correct value 1`] = `
+{
+  "b": "b2",
+  "d": "d",
+}
+`;
+
+exports[`lowercase > return a correct value when no props are changed 1`] = `undefined`;

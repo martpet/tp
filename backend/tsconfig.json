@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "module": "CommonJS",
+    "module": "CommonJS"
   },
   "extends": "../tsconfig.json",
   "include": [
     "src",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    ".eslintrc.cjs"
   ],
   "ts-node": {
+    "dotenv-flow-path": "../",
     "require": [
       "tsconfig-paths/register",
       "dotenv-flow/config"
-    ],  
-    "transpileOnly": true,
-    "dotenv-flow-path": "../"
+    ],
+    "transpileOnly": true
   }
 }

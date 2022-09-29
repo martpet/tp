@@ -31,7 +31,6 @@
     ".prettierrc.cjs",
     "vitest.config.ts",
     "setupTests.ts",
-    "common/",
     "__mocks__/"
   ]
 }

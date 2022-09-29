@@ -2,9 +2,9 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { errorResponse } from '~/constructs/Api/utils';
 
-export const itResolvesWithErrorResponse = (
-  handler: APIGatewayProxyHandlerV2,
-  args: Parameters<APIGatewayProxyHandlerV2>
+export const itResolvesWithErrorResponse = <T>(
+  handler: APIGatewayProxyHandlerV2<T>,
+  args: Parameters<APIGatewayProxyHandlerV2<T>>
 ) => {
   it('calls "errorResponse" with correct args', async () => {
     await handler(...args);

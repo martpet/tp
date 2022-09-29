@@ -1,6 +1,6 @@
-import { OnlyApiPaths } from '~/types';
+import { ApiPathMap } from '~/constructs/Api/types/ApiPathMap';
 
-export type EndpointsQueryStrings = OnlyApiPaths<{
+export type EndpointsQueryStrings = ApiPathMap<{
   '/login': ['provider'];
   '/loginCallback': ['code', 'state'];
 }>;

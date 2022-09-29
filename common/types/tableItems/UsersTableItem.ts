@@ -1,4 +1,4 @@
-import { IdentityProviderName } from '~/types';
+import { IdentityProviderName } from '../IdentityProviderName';
 
 export type UsersTableItem = {
   id: string;

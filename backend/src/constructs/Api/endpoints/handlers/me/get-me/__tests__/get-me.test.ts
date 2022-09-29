@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { getIdTokenPayload, itResolvesWithErrorResponse } from '~/constructs/Api/utils';
+import { Me } from '~/types';
 
 import { handler } from '../get-me';
 
@@ -13,7 +14,7 @@ const args = [
       authorization: 'dummyIdToken',
     },
   },
-] as unknown as Parameters<APIGatewayProxyHandlerV2>;
+] as unknown as Parameters<APIGatewayProxyHandlerV2<Me>>;
 
 describe('get-me', () => {
   it('calls "getIdTokenPayload" with correct args', async () => {

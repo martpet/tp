@@ -1,8 +1,9 @@
 import { Merge } from 'type-fest';
 
-import { ApiPath, OnlyApiPaths } from '~/types';
+import { ApiPathMap } from '~/constructs/Api/types/ApiPathMap';
+import { ApiPath } from '~/types';
 
-export type EndpointsHeaders = OnlyApiPaths<{
+export type EndpointsHeaders = ApiPathMap<{
   '/logout': ['referer'];
 }>;
 

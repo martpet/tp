@@ -1,4 +1,5 @@
 export * from './ApiMethod';
+export * from './ApiPathMap';
 export * from './EndpointsCookies';
 export * from './EndpointsEnvironments';
 export * from './EndpointsHeaders';
