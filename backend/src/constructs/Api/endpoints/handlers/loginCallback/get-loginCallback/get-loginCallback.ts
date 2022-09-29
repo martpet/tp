@@ -3,14 +3,17 @@ import { StatusCodes } from 'http-status-codes';
 
 import { OauthTokens, ProcessEnv, QueryStringParameters } from '~/constructs/Api/types';
 import { errorResponse } from '~/constructs/Api/utils';
-import { appEnvs, loginPopupSuccessMessage } from '~/consts';
+import { appEnvs } from '~/consts';
 
+import { createLoginCallbackScript } from './createLoginCallbackScript';
 import { createSession } from './createSession';
 import { fetchTokens } from './fetchTokens';
 import { parseOauthCookie } from './parseOauthCookie';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const { envName } = globalLambdaProps;
+  const { appDomain } = appEnvs[envName];
+  const { script: responseScript } = createLoginCallbackScript({ envName, appDomain });
 
   const { state, code } = Object(
     event.queryStringParameters
@@ -62,13 +65,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return errorResponse('h7UMnEUDvF', { error });
   }
 
-  const postMessageTargetOrigin =
-    envName === 'personal' ? '*' : `https://${appEnvs[envName].appDomain}`;
-
   return {
     statusCode: StatusCodes.OK,
     cookies: [sessionCookie],
     headers: { 'Content-Type': 'text/html' },
-    body: `<script>opener.postMessage("${loginPopupSuccessMessage}", "${postMessageTargetOrigin}")</script>`,
+    body: `<script>${responseScript}</script>`,
   };
 };

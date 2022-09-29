@@ -5,24 +5,32 @@ import {
   ResponseSecurityHeadersBehavior,
 } from 'aws-cdk-lib/aws-cloudfront';
 
-import { EnvName } from '~/types';
+import { createLoginCallbackScript } from '~/constructs/Api/endpoints/handlers/loginCallback/get-loginCallback/createLoginCallbackScript';
+import { appEnvs } from '~/consts';
+import { ApiPath, EnvName } from '~/types';
 
 type CreateSecurityHeadersBehaviorProps = {
   envName: EnvName;
+  path: ApiPath;
 };
 
 export const createSecurityHeadersBehavior = ({
   envName,
+  path,
 }: CreateSecurityHeadersBehaviorProps): ResponseSecurityHeadersBehavior => {
-  const loginCallbackInlineScriptHash = {
-    personal: 'sha256-rqwIreIIUGvrQThl0woaQ+qdBYaeNzCCVpnymkdmkK0=',
-    staging: 'sha256-53z1HluNxjChHwx03hANSQ2TBNNaFiPPVycoJhmcMB4=',
-    production: 'sha256-fn5JJ+ebDOhaPixGPfPsZ5GoIs+GUUMjqbIdj/38HAk=',
-  }[envName];
+  const { appDomain } = appEnvs[envName];
+  const inlneScriptsHashes: string[] = [];
+
+  if (path === '/loginCallback') {
+    const { cspHash } = createLoginCallbackScript({ envName, appDomain });
+    inlneScriptsHashes.push(cspHash);
+  }
+
+  const scriptsCspHashesString = inlneScriptsHashes.map((hash) => `'${hash}'`).join(' ');
 
   return {
     contentSecurityPolicy: {
-      contentSecurityPolicy: `script-src '${loginCallbackInlineScriptHash}' https:;`,
+      contentSecurityPolicy: `script-src ${scriptsCspHashesString} https:;`,
       override: true,
     },
     contentTypeOptions: { override: true },
@@ -39,8 +47,8 @@ export const createSecurityHeadersBehavior = ({
     xssProtection: {
       protection: true,
       modeBlock: true,
-      // reportUri: 'https://example.com/csp-report',
       override: true,
+      // reportUri: 'https://example.com/csp-report',
     },
   };
 };

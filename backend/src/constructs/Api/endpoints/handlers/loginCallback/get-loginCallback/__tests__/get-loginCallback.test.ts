@@ -5,6 +5,7 @@ import { itResolvesWithErrorResponse } from '~/constructs/Api/utils';
 
 import { dummyOauthTokens } from '../__mocks__/fetchTokens';
 import { dummyOauthCookieProps } from '../__mocks__/parseOauthCookie';
+import { createLoginCallbackScript } from '../createLoginCallbackScript';
 import { createSession } from '../createSession';
 import { fetchTokens } from '../fetchTokens';
 import { handler } from '../get-loginCallback';
@@ -16,6 +17,7 @@ vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('../fetchTokens');
 vi.mock('../parseOauthCookie');
 vi.mock('../createSession');
+vi.mock('../createLoginCallbackScript');
 
 const args = [
   {
@@ -28,7 +30,6 @@ const args = [
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
 
 beforeEach(() => {
-  globalLambdaProps.envName = 'production';
   process.env.authDomain = 'dummyAuthDomain';
   process.env.clientId = 'dummyClientId';
   process.env.loginCallbackUrl = 'dummyLoginCallbackUrl';
@@ -49,6 +50,11 @@ describe('"get-loginCallback" handler', () => {
   it('calls "createSession" with corrects args', async () => {
     await handler(...args);
     expect(vi.mocked(createSession).mock.calls).toMatchSnapshot();
+  });
+
+  it('calls "createLoginCallbackScript" with corrects args', async () => {
+    await handler(...args);
+    expect(vi.mocked(createLoginCallbackScript).mock.calls).toMatchSnapshot();
   });
 
   it('resolves with a correct value', () => {
@@ -115,14 +121,5 @@ describe('"get-loginCallback" handler', () => {
       vi.mocked(fetchTokens).mockResolvedValueOnce(tokensPropsClone);
     });
     itResolvesWithErrorResponse(handler, args);
-  });
-
-  describe('when "globalLambdaProps.envName" is "personal"', () => {
-    beforeEach(() => {
-      globalLambdaProps.envName = 'personal';
-    });
-    it('resolves with a correct value', () => {
-      return expect(handler(...args)).resolves.toMatchSnapshot();
-    });
   });
 });

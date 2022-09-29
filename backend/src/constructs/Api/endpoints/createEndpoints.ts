@@ -3,9 +3,10 @@ import { HttpUserPoolAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers-al
 import { CachePolicy, Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { Construct } from 'constructs';
+import { Entries } from 'type-fest';
 
 import { Auth, Tables } from '~/constructs';
-import { EndpointMethodOptions } from '~/constructs/Api/types';
+import { EndpointMethodOptions, EndpointsOptions } from '~/constructs/Api/types';
 
 import { addApiRoute } from './addApiRoute';
 import { addDistroBehavior, defaultCachePolicyProps } from './addDistroBehavior';
@@ -49,7 +50,7 @@ export const createEndpoints = ({
     defaultCachePolicyProps
   );
 
-  Object.entries(options).forEach(
+  (Object.entries(options) as Entries<EndpointsOptions>).forEach(
     ([path, { methods, cookies = [], headers = [], queryStrings = [] }]) => {
       Object.entries(methods).forEach(
         ([method, methodOptions]: [string, EndpointMethodOptions<unknown>]) => {

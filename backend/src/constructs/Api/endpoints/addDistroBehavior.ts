@@ -25,24 +25,11 @@ import { Writable } from 'type-fest';
 
 import { AuthorizationHeader } from '~/constructs/Api/types';
 import { appEnvs } from '~/consts';
+import { ApiPath } from '~/types';
 import { getEnvName } from '~/utils';
 
 import { createSecurityHeadersBehavior } from './createSecurityHeadersBehavior';
 import { PublicEndpoints } from './getPublicEndpoints';
-
-type AddDistroBehaviorProps = {
-  scope: Construct;
-  distribution: Distribution;
-  origin: HttpOrigin;
-  path: string;
-  methods: string[];
-  headers: string[];
-  cookies: string[];
-  queryStrings: Readonly<string[]>;
-  authEdgeFunction: experimental.EdgeFunction;
-  publicEndpoints: PublicEndpoints;
-  defaultCachePolicy: CachePolicy;
-};
 
 export const defaultCachePolicyProps: CachePolicyProps = {
   defaultTtl: Duration.minutes(0),
@@ -50,6 +37,20 @@ export const defaultCachePolicyProps: CachePolicyProps = {
   maxTtl: Duration.seconds(1), // https://github.com/aws/aws-cdk/issues/13408
   cookieBehavior: CacheCookieBehavior.none(),
   queryStringBehavior: CacheQueryStringBehavior.none(),
+};
+
+type AddDistroBehaviorProps = {
+  scope: Construct;
+  distribution: Distribution;
+  origin: HttpOrigin;
+  path: ApiPath;
+  methods: string[];
+  headers: string[];
+  cookies: string[];
+  queryStrings: Readonly<string[]>;
+  authEdgeFunction: experimental.EdgeFunction;
+  publicEndpoints: PublicEndpoints;
+  defaultCachePolicy: CachePolicy;
 };
 
 export const addDistroBehavior = ({
@@ -136,7 +137,7 @@ export const addDistroBehavior = ({
     `${id}ResponseHeaderPolicy`,
     {
       corsBehavior,
-      securityHeadersBehavior: createSecurityHeadersBehavior({ envName }),
+      securityHeadersBehavior: createSecurityHeadersBehavior({ envName, path }),
     }
   );
 

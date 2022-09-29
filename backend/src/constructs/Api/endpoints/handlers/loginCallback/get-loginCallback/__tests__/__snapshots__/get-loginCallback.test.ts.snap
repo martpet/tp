@@ -1,5 +1,16 @@
 // Vitest Snapshot v1
 
+exports[`"get-loginCallback" handler > calls "createLoginCallbackScript" with corrects args 1`] = `
+[
+  [
+    {
+      "appDomain": "trip.pictures",
+      "envName": "production",
+    },
+  ],
+]
+`;
+
 exports[`"get-loginCallback" handler > calls "createSession" with corrects args 1`] = `
 [
   [
@@ -50,7 +61,7 @@ exports[`"get-loginCallback" handler > calls "parseOauthCookie" with correct arg
 
 exports[`"get-loginCallback" handler > resolves with a correct value 1`] = `
 {
-  "body": "<script>opener.postMessage(\\"login-success\\", \\"https://trip.pictures\\")</script>",
+  "body": "<script>dummyScript</script>",
   "cookies": [
     "dummySessionCookie",
   ],
@@ -119,19 +130,6 @@ exports[`"get-loginCallback" handler > when "fetchTokens" rejects > calls "error
 `;
 
 exports[`"get-loginCallback" handler > when "fetchTokens" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
-
-exports[`"get-loginCallback" handler > when "globalLambdaProps.envName" is "personal" > resolves with a correct value 1`] = `
-{
-  "body": "<script>opener.postMessage(\\"login-success\\", \\"*\\")</script>",
-  "cookies": [
-    "dummySessionCookie",
-  ],
-  "headers": {
-    "Content-Type": "text/html",
-  },
-  "statusCode": 200,
-}
-`;
 
 exports[`"get-loginCallback" handler > when "idTokenNonce" from "oauth" cookie does not match with "nonce" from the "idToken" payload > calls "errorResponse" with correct args 1`] = `
 [
