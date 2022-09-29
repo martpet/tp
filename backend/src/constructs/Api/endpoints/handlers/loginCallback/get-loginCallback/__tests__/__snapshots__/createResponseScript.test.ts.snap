@@ -1,0 +1,23 @@
+// Vitest Snapshot v1
+
+exports[`createLoginCallbackScript > calls "createSha256CspHash" with corrects args 1`] = `
+[
+  [
+    "<script>opener.postMessage(\\"login-success\\", \\"https://dummyAppDomain}\\")</script>",
+  ],
+]
+`;
+
+exports[`createLoginCallbackScript > returns a correct value 1`] = `
+{
+  "cspHash": "dummySha256CspHash",
+  "responseScript": "<script>opener.postMessage(\\"login-success\\", \\"https://dummyAppDomain}\\")</script>",
+}
+`;
+
+exports[`createLoginCallbackScript > when "envName" is "personal" > returns a correct value 1`] = `
+{
+  "cspHash": "dummySha256CspHash",
+  "responseScript": "<script>opener.postMessage(\\"login-success\\", \\"*\\")</script>",
+}
+`;
