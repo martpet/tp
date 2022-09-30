@@ -1,5 +1,5 @@
 import { resolve } from 'app-root-path';
-import { Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { Duration, NestedStack, RemovalPolicy } from 'aws-cdk-lib';
 import {
   CachePolicy,
   Distribution,
@@ -20,7 +20,7 @@ type WebProps = {
   zone: Zone;
 };
 
-export class Web extends Construct {
+export class Web extends NestedStack {
   constructor(scope: Construct, id: string, { zone }: WebProps) {
     super(scope, id);
 

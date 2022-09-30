@@ -1,4 +1,4 @@
-import { RemovalPolicy } from 'aws-cdk-lib';
+import { NestedStack, RemovalPolicy } from 'aws-cdk-lib';
 import { Certificate, DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Role } from 'aws-cdk-lib/aws-iam';
 import {
@@ -14,7 +14,7 @@ import { CrossRegionMetricAlarm, CrossRegionSNSTopic } from '~/constructs';
 import { appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
 
-export class Zone extends Construct {
+export class Zone extends NestedStack {
   public readonly certificate: Certificate;
 
   public readonly hostedZone: HostedZone | IHostedZone;

@@ -2,8 +2,9 @@ import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 
 import { appEnvs, appName } from '~/consts';
-import { RootStack } from '~/stacks';
 import { EnvName } from '~/types';
+
+import { RootStack } from '../RootStack';
 
 describe('RootStack', () => {
   it.skip('produces a correct CloudFormation template', () => {

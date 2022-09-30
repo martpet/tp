@@ -1,7 +1,7 @@
 import { App } from 'aws-cdk-lib';
 
+import { RootStack } from '~/constructs';
 import { appEnvs, appName } from '~/consts';
-import { RootStack } from '~/stacks';
 import { checkLocalEnvVars, getEnvName } from '~/utils';
 
 const app = new App();

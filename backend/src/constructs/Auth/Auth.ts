@@ -1,4 +1,4 @@
-import { Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { Duration, NestedStack, RemovalPolicy } from 'aws-cdk-lib';
 import {
   UserPool,
   UserPoolClient,
@@ -29,7 +29,7 @@ type AuthProps = {
   web: Web;
 };
 
-export class Auth extends Construct {
+export class Auth extends NestedStack {
   public readonly userPool: UserPool;
 
   public readonly userPoolClient: UserPoolClient;

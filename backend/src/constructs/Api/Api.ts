@@ -1,5 +1,5 @@
 import { HttpApi } from '@aws-cdk/aws-apigatewayv2-alpha';
-import { Fn } from 'aws-cdk-lib';
+import { Fn, NestedStack } from 'aws-cdk-lib';
 import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
@@ -18,7 +18,7 @@ type ApiProps = {
   tables: Tables;
 };
 
-export class Api extends Construct {
+export class Api extends NestedStack {
   constructor(scope: Construct, id: string, { zone, tables, auth }: ApiProps) {
     super(scope, id);
 
