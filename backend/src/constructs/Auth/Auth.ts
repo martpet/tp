@@ -14,7 +14,7 @@ import {
   apiSubdomain,
   appEnvs,
   authSubdomain,
-  idTokenValidityInMinutes,
+  idTokenValidityInDays,
   localhostUrl,
   refreshTokenValidityInDays,
 } from '~/consts';
@@ -86,7 +86,7 @@ export class Auth extends Construct {
           authorizationCodeGrant: true,
         },
       },
-      idTokenValidity: Duration.minutes(idTokenValidityInMinutes),
+      idTokenValidity: Duration.days(idTokenValidityInDays),
       refreshTokenValidity: Duration.days(refreshTokenValidityInDays),
     });
 

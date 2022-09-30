@@ -24,4 +24,4 @@ export const appleKeyIdStaging = 'CUBN8UAVWR';
 export const appleKeyIdProd = '6U6N9CLL8X';
 export const applePrivateKeyParamName = '/oauth/apple/key-secret';
 export const refreshTokenValidityInDays = 365;
-export const idTokenValidityInMinutes = 60;
+export const idTokenValidityInDays = 1; // max is 1 day
