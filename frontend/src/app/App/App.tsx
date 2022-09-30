@@ -1,7 +1,7 @@
 import { apiPaths, apiUrl } from '~/common/consts';
 import { useAppDispatch, useAppSelector, useLoginPopup } from '~/common/hooks';
 import { IdentityProviderName } from '~/common/types';
-import { logout, selectMe } from '~/features/me';
+import { selectMe, signedOut } from '~/features/me';
 
 export function App() {
   const me = useAppSelector(selectMe);
@@ -23,7 +23,7 @@ function LogoutButton() {
   const dispatch = useAppDispatch();
 
   const handleClick = async () => {
-    await dispatch(logout());
+    await dispatch(signedOut());
     window.location.href = apiUrl + apiPaths.logout;
   };
 

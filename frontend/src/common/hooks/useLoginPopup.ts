@@ -1,14 +1,14 @@
 import { apiPaths, apiUrl, loginPopupSuccessMessage } from '~/common/consts';
 import { useAppDispatch } from '~/common/hooks';
 import { IdentityProviderName } from '~/common/types';
-import { setHasSession } from '~/features/me';
+import { signedIn } from '~/features/me';
 
 export const useLoginPopup = () => {
   const dispatch = useAppDispatch();
 
   const windowListener = ({ origin, source, data }: MessageEvent) => {
     if (origin === apiUrl && data === loginPopupSuccessMessage) {
-      dispatch(setHasSession(true));
+      dispatch(signedIn());
       (source as WindowProxy).close();
       window.removeEventListener('message', windowListener);
     }

@@ -20,7 +20,7 @@ import { api401ResponseMiddleware, listenerMiddleware } from './middleware';
 const mePersistConfig = {
   key: meSlice.name,
   storage,
-  whitelist: <(keyof MeState)[]>['hasSession'],
+  whitelist: <(keyof MeState)[]>['isSignedIn'],
 };
 
 export const rootReducer = combineReducers({

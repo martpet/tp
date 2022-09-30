@@ -1,16 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { startAppListening } from '~/app/store/middleware';
 import { Me, RootState } from '~/common/types';
 import { meApi } from '~/features/me';
 
 export type MeState = {
-  hasSession: boolean;
+  isSignedIn: boolean;
   data?: Me;
 };
 
 const initialState: MeState = {
-  hasSession: false,
+  isSignedIn: false,
   data: undefined,
 };
 
@@ -18,24 +18,26 @@ const slice = createSlice({
   name: 'me',
   initialState,
   reducers: {
-    setHasSession: (state, action: PayloadAction<boolean>) => {
-      state.hasSession = action.payload;
+    signedIn: (state) => {
+      state.isSignedIn = true;
     },
-    logout: (state) => {
-      state.hasSession = false;
-      state.data = undefined;
+    signedOut: () => {
+      return initialState;
+    },
+    api401Received: () => {
+      return initialState;
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, { payload }) => {
-      state.data = payload;
+    builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, action) => {
+      state.data = action.payload;
     });
   },
 });
 
 startAppListening({
   predicate: (_, currentState, previousState) => {
-    return currentState.me.hasSession === true && previousState.me.hasSession === false;
+    return currentState.me.isSignedIn === true && previousState.me.isSignedIn === false;
   },
   effect: (_, { dispatch }) => {
     dispatch(meApi.endpoints.getMe.initiate(undefined, { subscribe: false }));
@@ -44,6 +46,6 @@ startAppListening({
 
 export { slice as meSlice };
 
-export const { setHasSession, logout } = slice.actions;
+export const { signedIn, signedOut, api401Received } = slice.actions;
 
 export const selectMe = (state: RootState) => state.me.data;
