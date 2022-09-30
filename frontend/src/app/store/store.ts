@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
 import {
   FLUSH,
   PAUSE,
@@ -15,7 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import { api } from '~/app';
 import { meSlice, MeState } from '~/features/me';
 
-import { api401ResponseMiddleware, listenerMiddleware } from './middleware';
+import { api401ResponseMiddleware, listenerMiddleware, logger } from './middleware';
 
 const mePersistConfig = {
   key: meSlice.name,
