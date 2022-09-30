@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { api401Received } from '~/app/store/actions';
 import { startAppListening } from '~/app/store/middleware';
 import { Me, RootState } from '~/common/types';
 import { meApi } from '~/features/me';
@@ -24,11 +25,11 @@ const slice = createSlice({
     signedOut: () => {
       return initialState;
     },
-    api401Received: () => {
-      return initialState;
-    },
   },
   extraReducers: (builder) => {
+    builder.addCase(api401Received, () => {
+      return initialState;
+    });
     builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, action) => {
       state.data = action.payload;
     });
@@ -46,6 +47,6 @@ startAppListening({
 
 export { slice as meSlice };
 
-export const { signedIn, signedOut, api401Received } = slice.actions;
+export const { signedIn, signedOut } = slice.actions;
 
 export const selectMe = (state: RootState) => state.me.data;

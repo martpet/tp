@@ -1,7 +1,7 @@
 import { Middleware } from '@reduxjs/toolkit';
 
+import { api401Received } from '~/app/store/actions';
 import { RootState } from '~/common/types';
-import { api401Received } from '~/features/me';
 
 export const api401ResponseMiddleware: Middleware<{}, RootState> =
   ({ dispatch }) =>
