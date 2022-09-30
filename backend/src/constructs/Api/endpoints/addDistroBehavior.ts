@@ -17,18 +17,20 @@ import {
   OriginRequestQueryStringBehavior,
   ResponseHeadersCorsBehavior,
   ResponseHeadersPolicy,
+  ResponseSecurityHeadersBehavior,
   ViewerProtocolPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { Construct } from 'constructs';
-import { Writable } from 'type-fest';
+import deepmerge from 'deepmerge';
+import { PartialDeep, Writable } from 'type-fest';
 
 import { AuthorizationHeader } from '~/constructs/Api/types';
 import { appEnvs } from '~/consts';
 import { ApiPath } from '~/types';
 import { getEnvName } from '~/utils';
 
-import { createSecurityHeadersBehavior } from './createSecurityHeadersBehavior';
+import { defaultSecurityHeadersBehavior } from './defaultSecurityHeadersBehavior';
 import { PublicEndpoints } from './getPublicEndpoints';
 
 export const defaultCachePolicyProps: CachePolicyProps = {
@@ -44,10 +46,11 @@ type AddDistroBehaviorProps = {
   distribution: Distribution;
   origin: HttpOrigin;
   path: ApiPath;
-  methods: string[];
-  headers: string[];
-  cookies: string[];
-  queryStrings: Readonly<string[]>;
+  methodNames: string[];
+  headers?: string[];
+  cookies?: string[];
+  queryStrings?: Readonly<string[]>;
+  securityHeadersBehavior?: PartialDeep<ResponseSecurityHeadersBehavior>;
   authEdgeFunction: experimental.EdgeFunction;
   publicEndpoints: PublicEndpoints;
   defaultCachePolicy: CachePolicy;
@@ -58,10 +61,11 @@ export const addDistroBehavior = ({
   distribution,
   origin,
   path,
-  methods,
-  cookies,
-  headers,
-  queryStrings,
+  methodNames,
+  headers = [],
+  cookies = [],
+  queryStrings = [],
+  securityHeadersBehavior = {},
   authEdgeFunction,
   publicEndpoints,
   defaultCachePolicy,
@@ -77,7 +81,7 @@ export const addDistroBehavior = ({
   const corsBehavior: Writable<ResponseHeadersCorsBehavior> = {
     accessControlAllowCredentials: true,
     accessControlAllowHeaders: [authorizationHeader],
-    accessControlAllowMethods: methods,
+    accessControlAllowMethods: methodNames,
     accessControlAllowOrigins: [envName === 'personal' ? '*' : `https://${appDomain}`],
     accessControlMaxAge: Duration.hours(1),
     originOverride: true,
@@ -137,7 +141,11 @@ export const addDistroBehavior = ({
     `${id}ResponseHeaderPolicy`,
     {
       corsBehavior,
-      securityHeadersBehavior: createSecurityHeadersBehavior({ envName, path }),
+      securityHeadersBehavior: deepmerge(
+        defaultSecurityHeadersBehavior,
+        securityHeadersBehavior,
+        { clone: false }
+      ) as ResponseSecurityHeadersBehavior,
     }
   );
 

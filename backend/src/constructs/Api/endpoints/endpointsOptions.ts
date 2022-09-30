@@ -1,16 +1,30 @@
+import { HeadersReferrerPolicy } from 'aws-cdk-lib/aws-cloudfront';
+import { Construct } from 'constructs';
+
 import { Auth, Tables } from '~/constructs';
 import { EndpointsOptions } from '~/constructs/Api/types';
+import { appEnvs } from '~/consts';
+import { getEnvName } from '~/utils';
+
+import { createLoginCallbackScript } from './handlers/loginCallback/get-loginCallback/createLoginCallbackScript';
 
 type EndpointsProps = {
+  scope: Construct;
   auth: Auth;
   tables: Tables;
 };
 
-export const endpointsOptions = ({ tables, auth }: EndpointsProps): EndpointsOptions => {
+export const endpointsOptions = ({
+  scope,
+  tables,
+  auth,
+}: EndpointsProps): EndpointsOptions => {
   const { authDomain, loginCallbackUrl, logoutCallbackUrl, logoutCallbackLocalhostUrl } =
     auth;
   const clientId = auth.userPoolClient.userPoolClientId;
   const { sessionsTable } = tables;
+  const envName = getEnvName(scope);
+  const { appDomain } = appEnvs[envName];
 
   return {
     '/login': {
@@ -34,6 +48,16 @@ export const endpointsOptions = ({ tables, auth }: EndpointsProps): EndpointsOpt
           cb: (fn) => sessionsTable.grantWriteData(fn),
         },
       },
+      securityHeadersBehavior: {
+        contentSecurityPolicy: {
+          contentSecurityPolicy: `script-src '${
+            createLoginCallbackScript({
+              envName,
+              appDomain,
+            }).cspHash
+          }'`,
+        },
+      },
     },
 
     '/logout': {
@@ -49,6 +73,11 @@ export const endpointsOptions = ({ tables, auth }: EndpointsProps): EndpointsOpt
             logoutCallbackLocalhostUrl,
           },
           cb: (fn) => sessionsTable.grantWriteData(fn),
+        },
+      },
+      securityHeadersBehavior: {
+        referrerPolicy: {
+          referrerPolicy: HeadersReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE,
         },
       },
     },

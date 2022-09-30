@@ -31,7 +31,7 @@ export const createEndpoints = ({
   auth,
   tables,
 }: CreateEndpointProps) => {
-  const options = endpointsOptions({ auth, tables });
+  const options = endpointsOptions({ scope, auth, tables });
   const publicEndpoints = getPublicEndpoints(options);
   const userPoolAuthorizer = new HttpUserPoolAuthorizer('Authorizer', auth.userPool, {
     userPoolClients: [auth.userPoolClient],
@@ -51,7 +51,7 @@ export const createEndpoints = ({
   );
 
   (Object.entries(options) as Entries<EndpointsOptions>).forEach(
-    ([path, { methods, cookies = [], headers = [], queryStrings = [] }]) => {
+    ([path, { methods, ...distroBehaviourProps }]) => {
       Object.entries(methods).forEach(
         ([method, methodOptions]: [string, EndpointMethodOptions<unknown>]) => {
           addApiRoute({
@@ -66,17 +66,15 @@ export const createEndpoints = ({
       );
 
       addDistroBehavior({
+        ...distroBehaviourProps,
         scope,
         distribution,
         origin,
         path,
-        headers,
-        cookies,
-        queryStrings,
         authEdgeFunction,
         publicEndpoints,
         defaultCachePolicy,
-        methods: Object.keys(methods),
+        methodNames: Object.keys(methods),
       });
     }
   );

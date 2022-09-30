@@ -1,5 +1,6 @@
+import { ResponseSecurityHeadersBehavior } from 'aws-cdk-lib/aws-cloudfront';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { RequireAtLeastOne } from 'type-fest';
+import { PartialDeep, RequireAtLeastOne } from 'type-fest';
 
 import {
   ApiMethod,
@@ -17,6 +18,7 @@ export type EndpointsOptions = {
       { [mk in ApiMethod]: EndpointMethodOptions<K> },
       ApiMethod
     >;
+    securityHeadersBehavior?: PartialDeep<ResponseSecurityHeadersBehavior>;
   };
 };
 
