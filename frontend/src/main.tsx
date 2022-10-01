@@ -1,19 +1,22 @@
+import '~/assets/index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import { App, store } from '~/app';
+import { App, persistor, store, ThemeProvider } from '~/app';
 
-const contaner = document.getElementById('root');
+const contaner = document.getElementById('root') as HTMLElement;
 
-if (!contaner) {
-  console.error('Container element is missing');
-} else {
-  ReactDOM.createRoot(contaner).render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>
-  );
-}
+ReactDOM.createRoot(contaner).render(
+  <React.StrictMode>
+    <StoreProvider store={store}>
+      <PersistGate persistor={persistor}>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </PersistGate>
+    </StoreProvider>
+  </React.StrictMode>
+);

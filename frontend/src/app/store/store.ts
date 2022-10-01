@@ -9,22 +9,18 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 import { api } from '~/app';
-import { meSlice, MeState } from '~/features/me';
+import { appSlice } from '~/app/App';
+import { meSlice } from '~/features/me';
 
 import { api401ResponseMiddleware, listenerMiddleware, logger } from './middleware';
-
-const mePersistConfig = {
-  key: meSlice.name,
-  storage,
-  whitelist: <(keyof MeState)[]>['isSignedIn'],
-};
+import { appPersistConfig, mePersistConfig } from './persistConfigs';
 
 export const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [meSlice.name]: persistReducer(mePersistConfig, meSlice.reducer),
+  [appSlice.name]: persistReducer(appPersistConfig, appSlice.reducer),
 });
 
 export const store = configureStore({
