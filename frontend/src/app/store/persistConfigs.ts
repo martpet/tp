@@ -1,6 +1,6 @@
 import storage from 'redux-persist/es/storage';
 
-import { appSlice } from '~/app/App';
+import { appSlice, AppState } from '~/app/App';
 import { meSlice, MeState } from '~/features/me';
 
 export const mePersistConfig = {
@@ -12,4 +12,5 @@ export const mePersistConfig = {
 export const appPersistConfig = {
   key: appSlice.name,
   storage,
+  whitelist: <(keyof AppState)[]>['language'],
 };
