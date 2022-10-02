@@ -1,6 +1,6 @@
 import { createLogger } from 'redux-logger';
 
-export const logger = createLogger({
+export const loggerMiddleware = createLogger({
   collapsed: true,
   diff: true,
 });

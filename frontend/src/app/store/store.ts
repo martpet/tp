@@ -14,7 +14,7 @@ import { api } from '~/app';
 import { appSlice } from '~/app/App';
 import { meSlice } from '~/features/me';
 
-import { api401ResponseMiddleware, listenerMiddleware, logger } from './middleware';
+import { listenerMiddleware, loggerMiddleware } from './middleware';
 import { appPersistConfig, mePersistConfig } from './persistConfigs';
 
 export const rootReducer = combineReducers({
@@ -31,8 +31,8 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
-      .prepend(listenerMiddleware.middleware)
-      .concat(logger, api.middleware, api401ResponseMiddleware),
+      .prepend(listenerMiddleware)
+      .concat(loggerMiddleware, api.middleware),
 });
 
 export const persistor = persistStore(store);
