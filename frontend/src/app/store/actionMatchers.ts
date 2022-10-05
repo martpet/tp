@@ -1,16 +1,16 @@
 import { AnyAction } from '@reduxjs/toolkit';
 
-import { endpointsWithAppLoader } from '~/common/consts';
+import { endpointsWithLoader } from '~/common/consts';
 
 const isApiEndpoint = (action: AnyAction) => action.meta?.arg?.endpointName !== undefined;
 
-export const matchActiveQueryWithAppLoader = (action: AnyAction) =>
+export const matchPendingQueryWithLoader = (action: AnyAction) =>
   isApiEndpoint(action) &&
-  endpointsWithAppLoader.some((endpoint) => endpoint.matchPending(action));
+  endpointsWithLoader.some((endpoint) => endpoint.matchPending(action));
 
-export const matchCompletedQueryWithAppLoader = (action: AnyAction) =>
+export const matchCompletedQueryWithLoader = (action: AnyAction) =>
   isApiEndpoint(action) &&
-  endpointsWithAppLoader.some(
+  endpointsWithLoader.some(
     (endpoint) => endpoint.matchFulfilled(action) || endpoint.matchRejected(action)
   );
 

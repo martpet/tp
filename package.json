@@ -50,7 +50,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.2",
-    "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
@@ -64,7 +63,6 @@
     "@types/node": "^18.7.18",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.0",
-    "@types/redux-logger": "^3.0.9",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "@vitejs/plugin-react": "^2.1.0",

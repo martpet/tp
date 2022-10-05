@@ -10,11 +10,10 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 
-import { api } from '~/app';
-import { appSlice } from '~/app/App';
+import { api, appSlice } from '~/app';
 import { meSlice } from '~/features/me';
 
-import { listenerMiddleware, loggerMiddleware } from './middleware';
+import { listenerMiddleware } from './middleware';
 import { appPersistConfig, mePersistConfig } from './persistConfigs';
 
 export const rootReducer = combineReducers({
@@ -32,7 +31,7 @@ export const store = configureStore({
       },
     })
       .prepend(listenerMiddleware)
-      .concat(loggerMiddleware, api.middleware),
+      .concat(api.middleware),
 });
 
 export const persistor = persistStore(store);

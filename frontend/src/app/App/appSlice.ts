@@ -1,20 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
-  matchActiveQueryWithAppLoader,
-  matchCompletedQueryWithAppLoader,
+  matchCompletedQueryWithLoader,
+  matchPendingQueryWithLoader,
 } from '~/app/store/actionMatchers';
-import { initialLanguage } from '~/common/consts';
+import { defaultLanguage } from '~/common/consts';
 import { AppLanguage, RootState } from '~/common/types';
 
 export type AppState = {
   language: AppLanguage;
-  activeQueriesWithAppLoader: number;
+  pendingQueriesWithLoader: number;
 };
 
 const initialState: AppState = {
-  language: initialLanguage,
-  activeQueriesWithAppLoader: 0,
+  language: defaultLanguage,
+  pendingQueriesWithLoader: 0,
 };
 
 const slice = createSlice({
@@ -26,11 +26,11 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(matchActiveQueryWithAppLoader, (state) => {
-      state.activeQueriesWithAppLoader++;
+    builder.addMatcher(matchPendingQueryWithLoader, (state) => {
+      state.pendingQueriesWithLoader++;
     });
-    builder.addMatcher(matchCompletedQueryWithAppLoader, (state) => {
-      state.activeQueriesWithAppLoader--;
+    builder.addMatcher(matchCompletedQueryWithLoader, (state) => {
+      state.pendingQueriesWithLoader--;
     });
   },
 });
@@ -41,5 +41,5 @@ export const { languageChanged } = slice.actions;
 
 export const selectAppLanguage = (state: RootState) => state.app.language;
 
-export const selectHasActiveAppQueries = (state: RootState) =>
-  state.app.activeQueriesWithAppLoader > 0;
+export const selectHasPendingQueriesWithLoader = (state: RootState) =>
+  state.app.pendingQueriesWithLoader > 0;

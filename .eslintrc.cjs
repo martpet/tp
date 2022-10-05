@@ -34,7 +34,6 @@ module.exports = {
     'no-console': 'off',
     'no-var': 'off',
     'vars-on-top': 'off',
-    'newline-before-return': 'warn',
     'no-plusplus': 'off',
   },
 };

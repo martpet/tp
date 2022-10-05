@@ -1,10 +1,10 @@
-import { AppLoader } from './AppLoader';
+import { AppLoadingOverlay } from './AppLoadingOverlay';
 import { MyProfile } from './MyProfile';
 
 export function App() {
   return (
     <>
-      <AppLoader />
+      <AppLoadingOverlay />
       <MyProfile />
     </>
   );

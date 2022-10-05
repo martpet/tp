@@ -8,10 +8,10 @@ type Props = {
 };
 
 export function ThemeProvider({ children }: Props) {
-  const language = useAppSelector(selectAppLanguage);
+  const appLanguage = useAppSelector(selectAppLanguage);
 
   return (
-    <Provider theme={defaultTheme} locale={language}>
+    <Provider theme={defaultTheme} locale={appLanguage}>
       {children}
     </Provider>
   );
