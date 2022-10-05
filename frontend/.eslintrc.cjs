@@ -26,6 +26,11 @@ module.exports = {
         importNames: ['useSelector', 'useDispatch'],
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
+      {
+        name: 'react-intl',
+        importNames: ['FormattedMessage', 'useIntl'],
+        message: 'Use typed component `Text` and hook `useAppIntl` instead`',
+      },
     ],
   },
   settings: {

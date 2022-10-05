@@ -12,7 +12,14 @@ export function AppLoadingOverlay() {
   }
 
   return (
-    <View position="fixed" left="0" top="0" width="100vw" height="100vh" zIndex={9999}>
+    <View
+      position="fixed"
+      left="static-size-0"
+      top="static-size-0"
+      width="100vw"
+      height="100vh"
+      zIndex={9999}
+    >
       <LoadingOverlay />
     </View>
   );

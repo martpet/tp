@@ -4,25 +4,24 @@ import {
   matchCompletedQueryWithLoader,
   matchPendingQueryWithLoader,
 } from '~/app/store/actionMatchers';
-import { defaultLanguage } from '~/common/consts';
-import { AppLanguage, RootState } from '~/common/types';
+import { RootState } from '~/common/types';
 
 export type AppState = {
-  language: AppLanguage;
   pendingQueriesWithLoader: number;
+  browserLocale: string;
 };
 
 const initialState: AppState = {
-  language: defaultLanguage,
   pendingQueriesWithLoader: 0,
+  browserLocale: window.navigator.language,
 };
 
 const slice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    languageChanged: (state, action: PayloadAction<AppLanguage>) => {
-      state.language = action.payload;
+    browserLocaleChanged: (state, action: PayloadAction<string>) => {
+      state.browserLocale = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -37,9 +36,9 @@ const slice = createSlice({
 
 export { slice as appSlice };
 
-export const { languageChanged } = slice.actions;
-
-export const selectAppLanguage = (state: RootState) => state.app.language;
+export const { browserLocaleChanged } = slice.actions;
 
 export const selectHasPendingQueriesWithLoader = (state: RootState) =>
   state.app.pendingQueriesWithLoader > 0;
+
+export const selectBrowserLocale = (state: RootState) => state.app.browserLocale;

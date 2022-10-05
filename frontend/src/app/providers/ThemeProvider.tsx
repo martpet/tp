@@ -1,17 +1,17 @@
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 
-import { selectAppLanguage } from '~/app/App';
 import { useAppSelector } from '~/common/hooks';
+import { selectLanguage } from '~/features/me';
 
 type Props = {
   children?: React.ReactNode;
 };
 
 export function ThemeProvider({ children }: Props) {
-  const appLanguage = useAppSelector(selectAppLanguage);
+  const language = useAppSelector(selectLanguage);
 
   return (
-    <Provider theme={defaultTheme} locale={appLanguage}>
+    <Provider theme={defaultTheme} locale={language}>
       {children}
     </Provider>
   );

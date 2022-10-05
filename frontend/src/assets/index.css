@@ -6,4 +6,5 @@ body {
 
 #root > div {
   min-height: 100vh;
+  overflow: hidden;
 }
