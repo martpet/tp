@@ -1,7 +1,7 @@
 import { ApiMethod, EndpointsOptions } from '~/constructs/Api/types';
 import { ApiPath } from '~/types';
 
-export type PublicEndpoints = Partial<Record<string, string[]>>;
+export type PublicEndpoints = Partial<Record<ApiPath, ApiMethod[]>>;
 
 export const getPublicEndpoints = (
   endpointsOptions: EndpointsOptions

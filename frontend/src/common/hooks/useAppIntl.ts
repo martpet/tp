@@ -13,6 +13,12 @@ export const useAppIntl = () => {
     ...intl,
 
     formatMessage(
+      // Todo: use MergeDeep from type-fest
+      // ...(MergeDeep<
+      //   [Parameters<typeof intl.formatMessage>],
+      //   [Merge<MessageDescriptor, { id: keyof TranslationMessages }>]
+      // >)
+
       descriptor: Merge<MessageDescriptor, { id: keyof TranslationMessages }>,
       values?: Record<string, PrimitiveType>,
       opts?: IntlMessageFormatOptions

@@ -19,8 +19,9 @@ export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
     type: AttributeType.STRING,
   },
   timeToLiveAttribute: 'refreshTokenExpires',
-  globalSecondaryIndexes: {
-    UserSessions: {
+  globalSecondaryIndexes: [
+    {
+      indexName: 'UserSessions',
       partitionKey: {
         name: 'userId',
         type: AttributeType.STRING,
@@ -30,5 +31,5 @@ export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
         type: AttributeType.NUMBER,
       },
     },
-  },
+  ],
 });

@@ -21,14 +21,12 @@ type Attr<T> = {
 type Props<T> = SetRequired<TableProps, 'tableName'> & {
   partitionKey: Attr<T>;
   timeToLiveAttribute?: keyof T;
-  globalSecondaryIndexes?: Record<
-    string,
+  globalSecondaryIndexes?: Array<
     Merge<
       GlobalSecondaryIndexProps,
       {
         partitionKey: Attr<T>;
         sortKey?: Attr<T>;
-        indexName?: never;
       }
     >
   >;

@@ -6,11 +6,11 @@ const args = [lambdaEdgeViewerEvent] as Parameters<typeof checkIsPublicEndpoint>
 
 beforeEach(() => {
   const { request } = args[0].Records[0].cf;
-  request.uri = '/dummyPublicUri';
+  request.uri = '/login';
   request.method = 'GET';
 
   global.globalAuthEdgeFunctionProps = {
-    publicEndpoints: { '/dummyPublicUri': ['GET'] },
+    publicEndpoints: { '/login': ['GET'] },
     authDomain: '',
   };
 });
@@ -22,7 +22,7 @@ describe('checkIsPublicEndpoint', () => {
 
   describe('when the endpont method is not public', () => {
     beforeEach(() => {
-      global.globalAuthEdgeFunctionProps.publicEndpoints = { '/dummyPublicUri': [] };
+      global.globalAuthEdgeFunctionProps.publicEndpoints = { '/login': [] };
     });
     it('returns a correct value', () => {
       expect(checkIsPublicEndpoint(...args)).toBe(false);

@@ -15,11 +15,8 @@ export const createTable = (
   });
 
   if (globalSecondaryIndexes) {
-    Object.entries(globalSecondaryIndexes).forEach(([key, gsiProps]) => {
-      table.addGlobalSecondaryIndex({
-        indexName: key,
-        ...gsiProps,
-      } as GlobalSecondaryIndexProps);
+    globalSecondaryIndexes.forEach((gsiProps) => {
+      table.addGlobalSecondaryIndex({ ...gsiProps } as GlobalSecondaryIndexProps);
     });
   }
 
