@@ -39,6 +39,8 @@ export class Web extends NestedStack {
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: new CachePolicy(this, 'CachePolicy', {
           minTtl: Duration.days(365),
+          enableAcceptEncodingBrotli: true,
+          enableAcceptEncodingGzip: true,
         }),
       },
       defaultRootObject: 'index.html',
