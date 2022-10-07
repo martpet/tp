@@ -63,6 +63,7 @@ exports[`updateUserFromEvent > when user props in event are changed > calls "cre
   [
     {
       "dummyChangedProp": "dummyChangedPropValue",
+      "id": "dummyId",
     },
   ],
 ]
@@ -81,7 +82,7 @@ exports[`updateUserFromEvent > when user props in event are changed > sends "Upd
   "ExpressionAttributeNames": "dummyExpressionAttributeNames",
   "ExpressionAttributeValues": "dummyExpressionAttributeValues",
   "Key": {
-    "id": undefined,
+    "id": "dummyId",
   },
   "TableName": "TripPics-Users",
   "UpdateExpression": "dummyUpdateExpression",

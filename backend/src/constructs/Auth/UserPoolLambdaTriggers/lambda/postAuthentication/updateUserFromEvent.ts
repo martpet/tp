@@ -23,7 +23,10 @@ export const updateUserFromEvent = async (event: PostAuthenticationTriggerEvent)
   if (!changedProps) {
     return undefined;
   }
-  return updateUser(changedProps);
+  return updateUser({
+    id: propsFromEvent.id,
+    ...changedProps,
+  });
 };
 
 async function fetchUser(props: UserPropsFromCognitoEvent) {
