@@ -1,7 +1,7 @@
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { createUserFromEvent } from '../createUserFromEvent';
+import { createUserFromCognitoEvent } from '../createUserFromCognitoEvent';
 import event from './__fixtures__/postConfirmationEvent';
 
 vi.mock('../../getUserPropsFromCognitoEvent');
@@ -18,13 +18,13 @@ beforeEach(() => {
     .resolves({ Attributes: { dummyPutCommandAttrKey: 'dummyPutCommandAttrValue' } });
 });
 
-describe('createUserFromEvent', () => {
+describe('createUserFromCognitoEvent', () => {
   it('sends "PutCommand" to DynamoDB with correct args', async () => {
-    await createUserFromEvent(...args);
+    await createUserFromCognitoEvent(...args);
     expect(ddbMock.commandCalls(PutCommand)[0].args[0].input).toMatchSnapshot();
   });
 
   it('resolves with a correct value', () => {
-    return expect(createUserFromEvent(...args)).resolves.toMatchSnapshot();
+    return expect(createUserFromCognitoEvent(...args)).resolves.toMatchSnapshot();
   });
 });

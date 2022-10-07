@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`updateUserFromEvent > calls "filterChangedProps" with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > calls "filterChangedProps" with correct args 1`] = `
 [
   [
     {
@@ -15,7 +15,7 @@ exports[`updateUserFromEvent > calls "filterChangedProps" with correct args 1`] 
 ]
 `;
 
-exports[`updateUserFromEvent > calls "getUserPropsFromCognitoEvent" with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > calls "getUserPropsFromCognitoEvent" with correct args 1`] = `
 [
   [
     {
@@ -47,7 +47,7 @@ exports[`updateUserFromEvent > calls "getUserPropsFromCognitoEvent" with correct
 ]
 `;
 
-exports[`updateUserFromEvent > sends "GetCommand" to DynamoDB with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > sends "GetCommand" to DynamoDB with correct args 1`] = `
 {
   "Key": {
     "id": "dummyId",
@@ -56,20 +56,19 @@ exports[`updateUserFromEvent > sends "GetCommand" to DynamoDB with correct args 
 }
 `;
 
-exports[`updateUserFromEvent > when output from "GetCommand" does not include "Item" > rejects with a correct value 1`] = `[Error: could not find user with id "dummyId"]`;
+exports[`updateUserFromCognitoEvent > when output from "GetCommand" does not include "Item" > rejects with a correct value 1`] = `[Error: could not find user with id "dummyId"]`;
 
-exports[`updateUserFromEvent > when user props in event are changed > calls "createDynamoUpdateExpression" with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > when user props in event are changed > calls "createDynamoUpdateExpression" with correct args 1`] = `
 [
   [
     {
       "dummyChangedProp": "dummyChangedPropValue",
-      "id": "dummyId",
     },
   ],
 ]
 `;
 
-exports[`updateUserFromEvent > when user props in event are changed > resolves with a correct value 1`] = `
+exports[`updateUserFromCognitoEvent > when user props in event are changed > resolves with a correct value 1`] = `
 {
   "Attributes": {
     "dummyUpdateCommandAttrKey": "dummyUpdateCommandAttrValue",
@@ -77,7 +76,7 @@ exports[`updateUserFromEvent > when user props in event are changed > resolves w
 }
 `;
 
-exports[`updateUserFromEvent > when user props in event are changed > sends "UpdateCommand" to DynamoDB with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > when user props in event are changed > sends "UpdateCommand" to DynamoDB with correct args 1`] = `
 {
   "ExpressionAttributeNames": "dummyExpressionAttributeNames",
   "ExpressionAttributeValues": "dummyExpressionAttributeValues",
@@ -89,4 +88,4 @@ exports[`updateUserFromEvent > when user props in event are changed > sends "Upd
 }
 `;
 
-exports[`updateUserFromEvent > when user props in event are not changed > resolves with a correct value 1`] = `undefined`;
+exports[`updateUserFromCognitoEvent > when user props in event are not changed > resolves with a correct value 1`] = `undefined`;

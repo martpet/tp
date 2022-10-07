@@ -1,17 +1,17 @@
 import { PostConfirmationTriggerHandler } from 'aws-lambda';
 
-import { createUserFromEvent } from '../createUserFromEvent';
+import { createUserFromCognitoEvent } from '../createUserFromCognitoEvent';
 import { handler } from '../postConfirmation';
 import event from './__fixtures__/postConfirmationEvent';
 
-vi.mock('../createUserFromEvent');
+vi.mock('../createUserFromCognitoEvent');
 
 const args = [event] as unknown as Parameters<PostConfirmationTriggerHandler>;
 
 describe('postConfirmation', () => {
-  it('calls "createUserFromEvent" with correct args', async () => {
+  it('calls "createUserFromCognitoEvent" with correct args', async () => {
     await handler(...args);
-    expect(createUserFromEvent).toHaveBeenCalledWith(event);
+    expect(createUserFromCognitoEvent).toHaveBeenCalledWith(event);
   });
 
   it('resolves with a correct value', () => {

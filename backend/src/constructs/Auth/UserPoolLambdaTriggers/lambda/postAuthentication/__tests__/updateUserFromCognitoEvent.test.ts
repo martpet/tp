@@ -4,7 +4,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import { createDynamoUpdateExpression, filterChangedProps } from '~/utils';
 
 import { getUserPropsFromCognitoEvent } from '../../getUserPropsFromCognitoEvent';
-import { updateUserFromEvent } from '../updateUserFromEvent';
+import { updateUserFromCognitoEvent } from '../updateUserFromCognitoEvent';
 import event from './__fixtures__/postAuthenticationEvent';
 
 vi.mock('../../getUserPropsFromCognitoEvent');
@@ -30,19 +30,19 @@ beforeEach(() => {
   });
 });
 
-describe('updateUserFromEvent', () => {
+describe('updateUserFromCognitoEvent', () => {
   it('calls "getUserPropsFromCognitoEvent" with correct args', async () => {
-    await updateUserFromEvent(event);
+    await updateUserFromCognitoEvent(event);
     expect(vi.mocked(getUserPropsFromCognitoEvent).mock.calls).toMatchSnapshot();
   });
 
   it('sends "GetCommand" to DynamoDB with correct args', async () => {
-    await updateUserFromEvent(...args);
+    await updateUserFromCognitoEvent(...args);
     expect(ddbMock.commandCalls(GetCommand)[0].args[0].input).toMatchSnapshot();
   });
 
   it('calls "filterChangedProps" with correct args', async () => {
-    await updateUserFromEvent(...args);
+    await updateUserFromCognitoEvent(...args);
     expect(vi.mocked(filterChangedProps).mock.calls).toMatchSnapshot();
   });
 
@@ -51,7 +51,7 @@ describe('updateUserFromEvent', () => {
       ddbMock.on(GetCommand).resolves({});
     });
     it('rejects with a correct value', () => {
-      return expect(updateUserFromEvent(...args)).rejects.toMatchSnapshot();
+      return expect(updateUserFromCognitoEvent(...args)).rejects.toMatchSnapshot();
     });
   });
 
@@ -60,23 +60,23 @@ describe('updateUserFromEvent', () => {
       vi.mocked(filterChangedProps).mockImplementationOnce(() => undefined);
     });
     it('resolves with a correct value', async () => {
-      return expect(updateUserFromEvent(...args)).resolves.toMatchSnapshot();
+      return expect(updateUserFromCognitoEvent(...args)).resolves.toMatchSnapshot();
     });
   });
 
   describe('when user props in event are changed', () => {
     it('calls "createDynamoUpdateExpression" with correct args', async () => {
-      await updateUserFromEvent(...args);
+      await updateUserFromCognitoEvent(...args);
       expect(vi.mocked(createDynamoUpdateExpression).mock.calls).toMatchSnapshot();
     });
 
     it('sends "UpdateCommand" to DynamoDB with correct args', async () => {
-      await updateUserFromEvent(...args);
+      await updateUserFromCognitoEvent(...args);
       expect(ddbMock.commandCalls(UpdateCommand)[0].args[0].input).toMatchSnapshot();
     });
 
     it('resolves with a correct value', () => {
-      return expect(updateUserFromEvent(...args)).resolves.toMatchSnapshot();
+      return expect(updateUserFromCognitoEvent(...args)).resolves.toMatchSnapshot();
     });
   });
 });

@@ -13,20 +13,28 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, {
   marshallOptions: { removeUndefinedValues: true },
 });
 
-export const updateUserFromEvent = async (event: PostAuthenticationTriggerEvent) => {
+export const updateUserFromCognitoEvent = async (
+  event: PostAuthenticationTriggerEvent
+) => {
   const propsFromEvent = getUserPropsFromCognitoEvent(event);
-  const userFromDb = await fetchUser(propsFromEvent);
-  if (!userFromDb) {
+  const user = await fetchUser(propsFromEvent);
+
+  if (!user) {
     throw new Error(`could not find user with id "${propsFromEvent.id}"`);
   }
-  const changedProps = filterChangedProps(propsFromEvent, userFromDb);
+
+  const changedProps = filterChangedProps(propsFromEvent, user);
+
   if (!changedProps) {
     return undefined;
   }
-  return updateUser({
-    id: propsFromEvent.id,
-    ...changedProps,
+
+  const updateCommand = new UpdateCommand({
+    ...makeTableParams(user),
+    ...createDynamoUpdateExpression(changedProps),
   });
+
+  return ddbDocClient.send(updateCommand);
 };
 
 async function fetchUser(props: UserPropsFromCognitoEvent) {
@@ -35,18 +43,8 @@ async function fetchUser(props: UserPropsFromCognitoEvent) {
   return Item;
 }
 
-function updateUser(props: Partial<UsersTableItem>) {
-  const updateCommand = new UpdateCommand({
-    ...makeTableParams(props),
-    ...createDynamoUpdateExpression(props),
-  });
-
-  return ddbDocClient.send(updateCommand);
-}
-
 function makeTableParams(props: Partial<UsersTableItem>) {
   const pkName = usersTableOptions.partitionKey.name;
-
   return {
     TableName: usersTableOptions.tableName,
     Key: { [pkName]: props[pkName] },

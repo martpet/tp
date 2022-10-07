@@ -10,7 +10,7 @@ const marshallOptions = { removeUndefinedValues: true };
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, { marshallOptions });
 
-export const createUserFromEvent = (event: PostConfirmationTriggerEvent) => {
+export const createUserFromCognitoEvent = (event: PostConfirmationTriggerEvent) => {
   const userProps = getUserPropsFromCognitoEvent(event);
 
   const putCommand = new PutCommand({

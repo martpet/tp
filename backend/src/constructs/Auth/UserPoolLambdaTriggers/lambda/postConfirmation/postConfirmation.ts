@@ -1,8 +1,8 @@
 import { PostConfirmationTriggerHandler } from 'aws-lambda';
 
-import { createUserFromEvent } from './createUserFromEvent';
+import { createUserFromCognitoEvent } from './createUserFromCognitoEvent';
 
 export const handler: PostConfirmationTriggerHandler = async (event) => {
-  await createUserFromEvent(event);
+  await createUserFromCognitoEvent(event);
   return event;
 };
