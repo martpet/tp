@@ -2,6 +2,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { OauthCookieProps } from '~/constructs/Api/types';
 import { itResolvesWithErrorResponse } from '~/constructs/Api/utils';
+import { capitalize } from '~/utils';
 
 import { dummyOauthTokens } from '../__mocks__/fetchTokens';
 import { dummyOauthCookieProps } from '../__mocks__/parseOauthCookie';
@@ -25,6 +26,7 @@ const args = [
     queryStringParameters: {
       code: 'dummyCode',
       state: 'dummyState',
+      error_description: 'dummyQueryStringErrorDescription',
     },
   },
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
@@ -70,6 +72,15 @@ describe('"get-loginCallback" handler', () => {
       itResolvesWithErrorResponse(handler, argsClone);
     }
   );
+
+  describe.each(['error'])('when "%s" query string parameter is present', (key) => {
+    const argsClone = structuredClone(args);
+    (argsClone[0] as Required<typeof argsClone[0]>).queryStringParameters[
+      key
+    ] = `dummyQueryString${capitalize(key)}`;
+
+    itResolvesWithErrorResponse(handler, argsClone);
+  });
 
   describe.each(['clientId', 'authDomain', 'loginCallbackUrl'])(
     'when "%s" env var is missing',

@@ -40,7 +40,7 @@ export const endpointsOptions = ({
 
     '/loginCallback': {
       cookies: ['oauth'],
-      queryStrings: ['code', 'state'],
+      queryStrings: ['code', 'state', 'error', 'error_description'],
       methods: {
         GET: {
           isPublic: true,

@@ -52,6 +52,7 @@ exports[`"get-loginCallback" handler > calls "parseOauthCookie" with correct arg
       "cookies": "dummyCookies",
       "queryStringParameters": {
         "code": "dummyCode",
+        "error_description": "dummyQueryStringErrorDescription",
         "state": "dummyState",
       },
     },
@@ -117,6 +118,20 @@ exports[`"get-loginCallback" handler > when "createSession" rejects > calls "err
 `;
 
 exports[`"get-loginCallback" handler > when "createSession" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`"get-loginCallback" handler > when "error" query string parameter is present > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "5vR4w3wVJs",
+    {
+      "error": "dummyQueryStringError: dummyQueryStringErrorDescription",
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`"get-loginCallback" handler > when "error" query string parameter is present > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
 exports[`"get-loginCallback" handler > when "fetchTokens" rejects > calls "errorResponse" with correct args 1`] = `
 [

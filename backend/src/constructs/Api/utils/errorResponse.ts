@@ -42,7 +42,7 @@ export const errorResponse = (
     errorObj.description = description;
   }
 
-  if (error instanceof Error) {
+  if (error) {
     console.error(`[${traceId}]`, error);
 
     if (exposeError ?? exposeErrorEnvs.includes(envName)) {

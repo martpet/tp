@@ -15,14 +15,24 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const { appDomain } = appEnvs[envName];
   const { script: responseScript } = createLoginCallbackScript({ envName, appDomain });
 
-  const { state, code } = Object(
-    event.queryStringParameters
-  ) as QueryStringParameters<'/loginCallback'>;
+  const {
+    state,
+    code,
+    error: queryStringError,
+    error_description: queryStringErrorDescrption,
+  } = Object(event.queryStringParameters) as QueryStringParameters<'/loginCallback'>;
 
   const { clientId, authDomain, loginCallbackUrl } =
     process.env as ProcessEnv<'/loginCallback'>;
 
   const { stateNonce, idTokenNonce, codeVerifier } = parseOauthCookie(event);
+
+  if (queryStringError) {
+    return errorResponse('5vR4w3wVJs', {
+      statusCode: StatusCodes.BAD_REQUEST,
+      error: `${queryStringError}: ${queryStringErrorDescrption}`,
+    });
+  }
 
   if (!state || !code) {
     return errorResponse('1cByWITGGHw', { statusCode: StatusCodes.BAD_REQUEST });
