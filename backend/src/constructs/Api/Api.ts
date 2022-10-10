@@ -7,10 +7,10 @@ import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { Construct } from 'constructs';
 
 import { Auth, Tables, Zone } from '~/constructs';
+import { createDistroBehaviors } from '~/constructs/Api/endpoints/createDistroBehaviors';
+import { createRoutes } from '~/constructs/Api/endpoints/createRoutes';
 import { apiSubdomain, appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
-
-import { createEndpoints } from './endpoints/createEndpoints';
 
 type ApiProps = {
   zone: Zone;
@@ -36,13 +36,15 @@ export class Api extends NestedStack {
       logIncludesCookies: true,
     });
 
-    createEndpoints({
-      scope: this,
-      distribution,
+    createRoutes({ scope, api, auth, tables });
+
+    createDistroBehaviors({
+      scope,
       api,
-      origin,
       auth,
       tables,
+      distribution,
+      origin,
     });
 
     new ARecord(this, 'Alias', {

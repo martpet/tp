@@ -1,4 +1,4 @@
-import { lambdaEdgeViewerEvent } from '~/constructs/Api/__fixtures__';
+import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import { parseEventCookies, parseLambdaEdgeEventCookies } from '~/constructs/Api/utils';
 

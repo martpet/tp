@@ -7,7 +7,7 @@
   "include": [
     "src",
     "vitest.config.ts",
-    ".eslintrc.cjs"
+    ".eslintrc.cjs",
   ],
   "ts-node": {
     "dotenv-flow-path": "../",

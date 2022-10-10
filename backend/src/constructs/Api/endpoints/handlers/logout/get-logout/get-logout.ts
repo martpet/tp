@@ -2,7 +2,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import cookie from 'cookie';
 import { StatusCodes } from 'http-status-codes';
 
-import { EventHeaders, ProcessEnv } from '~/constructs/Api/types';
+import { EndpointEnvVars, EndpointHeaders } from '~/constructs/Api/types';
 import { cookieName, errorResponse, parseEventCookies } from '~/constructs/Api/utils';
 import { authPaths, localhostUrl } from '~/consts';
 
@@ -12,8 +12,8 @@ import { revokeOauthTokens } from './revokeOauthTokens';
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const { envName } = globalLambdaProps;
   const { authDomain, clientId, logoutCallbackUrl, logoutCallbackLocalhostUrl } =
-    process.env as ProcessEnv<'/logout'>;
-  const { referer } = event.headers as EventHeaders<'/logout'>;
+    process.env as EndpointEnvVars<'/logout'>;
+  const { referer } = event.headers as EndpointHeaders<'/logout'>;
   const { sessionId } = parseEventCookies<'/logout'>(event);
   const isFromLocalhost = envName === 'personal' && referer?.startsWith(localhostUrl);
   const cognitoLogoutUrl = new URL(`https://${authDomain}${authPaths.logout}`);

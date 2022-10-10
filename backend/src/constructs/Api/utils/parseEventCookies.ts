@@ -1,11 +1,11 @@
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
 import cookie from 'cookie';
 
-import { EndpointsCookies } from '../types';
+import { EndpointCookies, PathWithCookies } from '../types';
 
-export const parseEventCookies = <T extends keyof EndpointsCookies>(
+export const parseEventCookies = <T extends PathWithCookies>(
   event: APIGatewayProxyEventV2
-): Partial<Record<EndpointsCookies[T][number], string>> => {
+): EndpointCookies<T> => {
   try {
     const cookieHeaderString = event.cookies?.join(';');
     if (!cookieHeaderString) throw new Error();

@@ -1,12 +1,13 @@
-import { ApiPathMap } from '~/constructs/Api/types/ApiPathMap';
+import { ConditionalKeys } from 'type-fest';
 
-// Todo: declare query strings as consts and use them directly in endpointOptions
+import { apiOptions } from '~/consts';
+import { ApiPathOptions } from '~/types';
 
-export type EndpointsQueryStrings = ApiPathMap<{
-  '/login': ['provider'];
-  '/loginCallback': ['code', 'state', 'error', 'error_description'];
-}>;
+type PathWithQueryStrings = ConditionalKeys<
+  typeof apiOptions,
+  Pick<ApiPathOptions, 'queryStrings'>
+>;
 
-export type QueryStringParameters<T extends keyof EndpointsQueryStrings> = Partial<
-  Record<EndpointsQueryStrings[T][number], string>
+export type EndpointQueryStrings<T extends PathWithQueryStrings> = Partial<
+  Record<typeof apiOptions[T]['queryStrings'][number], string>
 >;

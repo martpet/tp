@@ -1,5 +1,3 @@
-import { ValueOf } from 'type-fest';
+import { AllEndpointsCookies } from '~/constructs/Api/types';
 
-import { EndpointsCookies } from '~/constructs/Api/types';
-
-export const cookieName = (name: ValueOf<EndpointsCookies>[number]) => name;
+export const cookieName = (name: keyof AllEndpointsCookies) => name;

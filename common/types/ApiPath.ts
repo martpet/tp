@@ -1,5 +1,3 @@
-import { ValueOf } from 'type-fest';
+import { apiOptions } from '../consts/apiOptions';
 
-import { apiPaths } from '../consts';
-
-export type ApiPath = ValueOf<typeof apiPaths>;
+export type ApiPath = keyof typeof apiOptions;

@@ -2,43 +2,32 @@ import { Construct } from 'constructs';
 
 import { Auth, Tables } from '~/constructs';
 import { createEdgeFunction } from '~/constructs/utils';
-import { appName } from '~/consts';
-
-import { PublicEndpoints } from '../getPublicEndpoints';
 
 declare global {
   var globalAuthEdgeFunctionProps: {
     authDomain: string;
-    publicEndpoints: PublicEndpoints;
   };
 }
 
-type CreateAuthEdgeFunctionProps = {
+type Props = {
   scope: Construct;
   auth: Auth;
   tables: Tables;
-  publicEndpoints: PublicEndpoints;
 };
 
-export const createAuthEdgeFunction = ({
-  scope,
-  auth,
-  tables,
-  publicEndpoints,
-}: CreateAuthEdgeFunctionProps) => {
-  const fn = createEdgeFunction(scope, 'AuthEdgeFunction', {
-    functionName: `${appName}-AuthEdge`,
+export const createAuthEdgeFunction = ({ scope, auth, tables }: Props) => {
+  const edgeFunction = createEdgeFunction(scope, 'AuthEdge', {
+    functionName: `AuthEdge`,
     entry: `${__dirname}/lambda/authEdgeHandler.ts`,
     globalLambdaProps: {
       globalAuthEdgeFunctionProps: {
         authDomain: auth.authDomain,
-        publicEndpoints,
       },
     },
   });
 
-  tables.sessionsTable.grantReadData(fn);
-  tables.sessionsTable.grantWriteData(fn);
+  tables.sessionsTable.grantReadData(edgeFunction);
+  tables.sessionsTable.grantWriteData(edgeFunction);
 
-  return fn;
+  return edgeFunction;
 };

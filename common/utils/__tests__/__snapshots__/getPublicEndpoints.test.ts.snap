@@ -1,0 +1,12 @@
+// Vitest Snapshot v1
+
+exports[`getPublicEndpoints > returns a correct value 1`] = `
+{
+  "/endpoint1": [
+    "POST",
+  ],
+  "/endpoint3": [
+    "GET",
+  ],
+}
+`;
