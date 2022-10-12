@@ -3,7 +3,7 @@ import { OnErrorFn } from '@formatjs/intl';
 import { ReactNode, useEffect } from 'react';
 import { IntlProvider as Provider } from 'react-intl';
 
-import { browserLocaleChanged, selectBrowserLocale } from '~/app/App';
+import { browserLocaleChanged, selectBrowserLocale } from '~/features/app';
 import { publicDirApi } from '~/app/services';
 import { LoadingOverlay } from '~/common/components';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';

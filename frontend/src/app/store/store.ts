@@ -10,8 +10,8 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 
-import { api, appSlice, publicDirApi } from '~/app';
-import { meSlice } from '~/features/me';
+import { api, publicDirApi } from '~/app';
+import { appSlice, meSlice } from '~/features';
 
 import { listenerMiddleware, loggerMiddleware } from './middleware';
 import { mePersistConfig } from './persistConfigs';
