@@ -1,4 +1,4 @@
-export * from '~/../../common/utils';
+export * from '~/../../shared/utils';
 //
 export * from './checkLocalEnvVars';
 export * from './createDynamoUpdateExpression';

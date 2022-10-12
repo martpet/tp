@@ -8,8 +8,8 @@ export default mergeConfig(
   defaultConfig,
   defineConfig({
     test: {
-      include: ['common/**/*.test.ts'],
-      alias: [{ find: '~', replacement: resolve('common') }],
+      include: ['shared/**/*.test.ts'],
+      alias: [{ find: '~', replacement: resolve('shared') }],
       coverage: {
         include: [
           '!**/getPersonalDevDomain.ts',

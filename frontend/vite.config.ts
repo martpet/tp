@@ -3,7 +3,7 @@ import { resolve } from 'app-root-path';
 import { defineConfig } from 'vite';
 import svgrPlugin from 'vite-plugin-svgr';
 
-import { localhostPort } from '../common/consts';
+import { localhostPort } from '../shared/consts';
 
 export default defineConfig({
   plugins: [

@@ -20,7 +20,7 @@ export default mergeConfig(
           '!**/constructs/utils/**',
           '!**/index.ts',
           '!**/__mocks__/**',
-          '!common/**',
+          '!shared/**',
           '!**/checkLocalEnvVars.ts',
         ],
       },

@@ -1,4 +1,4 @@
-export * from '../../../../common/types';
+export * from '../../../../shared/types';
 //
 export * from './AppDispatch';
 export * from './AppLanguage';

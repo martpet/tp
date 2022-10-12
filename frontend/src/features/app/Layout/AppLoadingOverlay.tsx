@@ -1,8 +1,8 @@
 import { View } from '@adobe/react-spectrum';
 
-import { selectHasPendingQueriesWithLoader } from '~/features/app/appSlice';
 import { LoadingOverlay } from '~/common/components';
 import { useAppSelector } from '~/common/hooks';
+import { selectHasPendingQueriesWithLoader } from '~/features/app/appSlice';
 
 export function AppLoadingOverlay() {
   const isLoading = useAppSelector(selectHasPendingQueriesWithLoader);

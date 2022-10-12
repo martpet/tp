@@ -8,7 +8,7 @@ import { updateUserFromCognitoEvent } from '../updateUserFromCognitoEvent';
 import event from './__fixtures__/postAuthenticationEvent';
 
 vi.mock('../../getUserPropsFromCognitoEvent');
-vi.mock('~/../../common/utils/filterChangedProps');
+vi.mock('~/../../shared/utils/filterChangedProps');
 vi.mock('~/utils/createDynamoUpdateExpression');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);

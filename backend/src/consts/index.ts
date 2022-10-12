@@ -1,4 +1,4 @@
-export * from '~/../../common/consts';
+export * from '~/../../shared/consts';
 //
 export * from './appConsts';
 export * from './appEnvs';

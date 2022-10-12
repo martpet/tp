@@ -1,4 +1,4 @@
-import { getPersonalDevDomain } from '~/../../common/utils/getPersonalDevDomain';
+import { getPersonalDevDomain } from '~/../../shared/utils/getPersonalDevDomain';
 import {
   appleClientIdDev,
   appleClientIdProd,
