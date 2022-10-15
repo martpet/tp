@@ -8,16 +8,17 @@ import { getEnvName, objectValuesToJson } from '~/utils';
 
 type CreateEdgeFunctionProps = Partial<experimental.EdgeFunctionProps> & {
   entry: string;
-  globalLambdaProps?: GlobalLambdaProps;
+  globalProps?: GlobalLambdaProps;
 };
 
 export const createEdgeFunction = (
   scope: Construct,
   id: string,
-  { globalLambdaProps, entry, ...props }: CreateEdgeFunctionProps
+  { globalProps, entry, ...props }: CreateEdgeFunctionProps
 ) => {
   const fileName = entry.split('/').at(-1)?.split('.ts')[0];
-  const defaultGlobalLambdaProps: DefaultGlobalLambdaProps = {
+
+  const defaultGlobalProps: DefaultGlobalLambdaProps = {
     globalLambdaProps: {
       envName: getEnvName(scope),
     },
@@ -31,8 +32,8 @@ export const createEdgeFunction = (
       buildOptions: {
         minify: true,
         define: objectValuesToJson({
-          ...defaultGlobalLambdaProps,
-          ...globalLambdaProps,
+          ...defaultGlobalProps,
+          ...globalProps,
         }),
       },
     }),

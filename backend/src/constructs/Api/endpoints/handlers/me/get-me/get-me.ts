@@ -11,9 +11,11 @@ export const handler: APIGatewayProxyHandlerV2<Me> = async ({ headers }) => {
     return errorResponse('RyFuj-_6Qo');
   }
 
-  const { givenName } = getIdTokenPayload(idToken);
+  const { givenName, picture, familyName } = getIdTokenPayload(idToken);
 
   return {
     givenName,
+    familyName,
+    picture,
   };
 };

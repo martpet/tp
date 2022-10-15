@@ -3,7 +3,6 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "rvest.vs-code-prettier-eslint",
-    "stylelint.vscode-stylelint",
-    "ZixuanChen.vitest-explorer"
+    "stylelint.vscode-stylelint"
   ]
 }

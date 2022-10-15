@@ -7,15 +7,15 @@ import { DefaultGlobalLambdaProps, GlobalLambdaProps } from '~/constructs/types'
 import { getEnvName, objectValuesToJson } from '~/utils';
 
 type CreateNodejsFunctionProps = NodejsFunctionProps & {
-  globalLambdaProps?: GlobalLambdaProps;
+  globalProps?: GlobalLambdaProps;
 };
 
 export const createNodejsFunction = (
   scope: Construct,
   id: string,
-  { globalLambdaProps, ...props }: CreateNodejsFunctionProps
+  { globalProps, ...props }: CreateNodejsFunctionProps
 ) => {
-  const defaultGlobalLambdaProps: DefaultGlobalLambdaProps = {
+  const defaultGlobalProps: DefaultGlobalLambdaProps = {
     globalLambdaProps: {
       envName: getEnvName(scope),
     },
@@ -26,8 +26,8 @@ export const createNodejsFunction = (
     bundling: {
       minify: true,
       define: objectValuesToJson({
-        ...defaultGlobalLambdaProps,
-        ...globalLambdaProps,
+        ...defaultGlobalProps,
+        ...globalProps,
       }),
     },
   };

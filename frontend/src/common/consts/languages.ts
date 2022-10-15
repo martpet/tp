@@ -1,1 +1,1 @@
-export const appLanguages = ['en', 'bg'] as const;
+export const languages = ['en', 'bg'] as const;

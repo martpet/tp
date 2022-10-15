@@ -1,0 +1,22 @@
+{
+  "+nlJVj": {
+    "defaultMessage": "Google logo",
+    "description": "google login button logo alt text"
+  },
+  "Q+W8Ci": {
+    "defaultMessage": "Sign in with Google",
+    "description": "google sign in button"
+  },
+  "XuAvU3": {
+    "defaultMessage": "Sign in with Apple",
+    "description": "apple sign in button"
+  },
+  "aq56G8": {
+    "defaultMessage": "Sign Out",
+    "description": "logout button"
+  },
+  "oB9CE2": {
+    "defaultMessage": "Profile",
+    "description": "toolbar profile button aria label"
+  }
+}

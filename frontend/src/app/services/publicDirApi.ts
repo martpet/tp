@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ResolvedIntlConfig } from 'react-intl';
 
-import { AppLanguage, TranslationMessages } from '~/common/types';
+import { Language } from '~/common/types';
 
 export const publicDirApi = createApi({
   reducerPath: 'publicDirApi',
@@ -8,8 +9,8 @@ export const publicDirApi = createApi({
     baseUrl: '/',
   }),
   endpoints: ({ query }) => ({
-    getTranslations: query<TranslationMessages, AppLanguage>({
-      query: (language) => `/translations/${language}.json`,
+    getTranslations: query<ResolvedIntlConfig['messages'], Language>({
+      query: (language) => `/compiled-lang/${language}.json`,
     }),
   }),
 });

@@ -12,7 +12,5 @@
   ],
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.quoteStyle": "single",
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "vitest.enable": true,
-  "vitest.commandLine": "npm run test:backend -- --coverage=false",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

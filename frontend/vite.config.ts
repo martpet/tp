@@ -7,12 +7,24 @@ import { localhostPort } from '../shared/consts';
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: [
+          [
+            'formatjs',
+            {
+              idInterpolationPattern: '[sha512:contenthash:base64:6]',
+              ast: true,
+              removeDefaultMessage: false,
+            },
+          ],
+        ],
+      },
+    }),
     svgrPlugin(),
 
-    // Assets from public dir not served when using createHtmlPlugin
+    // Cannot use `createHtmlPlugin` - assets from public dir not served:
     // https://github.com/vbenjs/vite-plugin-html/issues/94
-
     // createHtmlPlugin({
     //   inject: {
     //     data: {
@@ -22,7 +34,17 @@ export default defineConfig({
     // }),
   ],
   resolve: {
-    alias: [{ find: '~', replacement: resolve('frontend/src') }],
+    alias: [
+      {
+        find: '~',
+        replacement: resolve('frontend/src'),
+      },
+      {
+        // https://formatjs.io/docs/guides/advanced-usage#react-intl-without-parser-40-smaller
+        find: '@formatjs/icu-messageformat-parser',
+        replacement: '@formatjs/icu-messageformat-parser/no-parser',
+      },
+    ],
   },
   build: {
     outDir: './dist',

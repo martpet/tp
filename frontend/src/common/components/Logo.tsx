@@ -8,11 +8,14 @@ type Props = {
 
 export function Logo({ size = 'static-size-400' }: Props) {
   const navigate = useNavigate();
+  const logoText = 'TP';
 
-  const handlePress = () => navigate('/');
+  const handleClick = () => {
+    navigate('/');
+  };
 
   return (
-    <ActionButton isQuiet onPress={handlePress}>
+    <ActionButton isQuiet onPress={handleClick}>
       <View
         width={size}
         height={size}
@@ -21,7 +24,7 @@ export function Logo({ size = 'static-size-400' }: Props) {
         borderColor="gray-500"
       >
         <Flex height="100%" justifyContent="center" alignItems="center">
-          TP
+          {logoText}
         </Flex>
       </View>
     </ActionButton>

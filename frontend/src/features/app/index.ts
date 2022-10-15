@@ -1,2 +1,2 @@
-export * from './App';
+export * from './App/App';
 export * from './appSlice';

@@ -1,10 +1,12 @@
-/* @import "fonts/fonts.css"; */
+@import "fonts/fonts.css";
 
 body {
   margin: 0;
 }
 
-#root > div {
-  min-height: 100vh;
-  overflow: hidden;
+button[class^="spectrum-Button"]:not(:disabled),
+button[class^="spectrum-ActionButton"]:not([aria-checked="true"]),
+[class^="spectrum-Tabs-item"]:not([aria-selected="true"]),
+[class^="spectrum-Menu-item"] {
+  cursor: pointer !important;
 }

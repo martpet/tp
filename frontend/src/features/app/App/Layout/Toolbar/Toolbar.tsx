@@ -2,14 +2,12 @@ import { Divider, Flex } from '@adobe/react-spectrum';
 
 import { Logo } from '~/common/components';
 import { sideSpace } from '~/common/consts';
-import { useAppSelector, useToolbarPosition } from '~/common/hooks';
-import { selectLanguage } from '~/features/me';
+import { useToolbarPosition } from '~/common/hooks';
 
-import { MyProfile } from './MyProfile';
+import { ProfileButton } from './ProfileButton';
 
 export function Toolbar() {
   const { isToolbarOnTop } = useToolbarPosition();
-  const language = useAppSelector(selectLanguage);
 
   return (
     <Flex direction={isToolbarOnTop ? 'column' : 'row'} height="100%">
@@ -27,8 +25,7 @@ export function Toolbar() {
           gap="size-85"
           alignItems="center"
         >
-          <p>{language}</p>
-          <MyProfile />
+          <ProfileButton />
         </Flex>
       </Flex>
       <Divider size="M" orientation={isToolbarOnTop ? 'horizontal' : 'vertical'} />

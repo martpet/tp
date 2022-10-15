@@ -1,0 +1,22 @@
+{
+  "+nlJVj": {
+    "defaultMessage": "Лого на Гугъл",
+    "description": "google login button logo alt text"
+  },
+  "oB9CE2": {
+    "defaultMessage": "Профил",
+    "description": "toolbar profile button aria label"
+  },
+  "Q+W8Ci": {
+    "defaultMessage": "Влез с Google",
+    "description": "google sign in button"
+  },
+  "XuAvU3": {
+    "defaultMessage": "Влез с Apple",
+    "description": "apple sign in button"
+  },
+  "aq56G8": {
+    "defaultMessage": "Излез от профила",
+    "description": "logout button"
+  }
+}
