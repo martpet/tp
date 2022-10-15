@@ -1,4 +1,4 @@
-import { Content, Flex, Heading } from '@adobe/react-spectrum';
+import { Content, Flex, Heading, View } from '@adobe/react-spectrum';
 
 import { Avatar } from '~/common/components';
 import { useAppSelector } from '~/common/hooks';
@@ -21,10 +21,13 @@ export default function ProfileDialogContent({ close }: Props) {
     <Content>
       <Flex direction="column" alignItems="center">
         <Avatar user={me} size="XXL" />
-        <Heading level={2} marginBottom="size-300">
+        <Heading level={2} marginY="size-100">
           {fullName}
         </Heading>
-        <LogoutButton onClick={close} />
+        {me.email}
+        <View marginTop="size-350">
+          <LogoutButton onClick={close} />
+        </View>
       </Flex>
     </Content>
   );

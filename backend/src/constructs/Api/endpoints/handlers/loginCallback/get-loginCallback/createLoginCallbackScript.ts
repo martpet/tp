@@ -1,6 +1,6 @@
 import { loginPopupSuccessMessage } from '~/consts';
 import { EnvName } from '~/types';
-import { createSha256CspHash } from '~/utils/createSha256CspHash';
+import { createSha256CspHash } from '~/utils';
 
 type CreateLoginCallbackScriptProps = {
   envName: EnvName;

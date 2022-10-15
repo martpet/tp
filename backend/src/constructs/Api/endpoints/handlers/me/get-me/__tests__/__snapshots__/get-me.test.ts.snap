@@ -10,6 +10,7 @@ exports[`get-me > calls "getIdTokenPayload" with correct args 1`] = `
 
 exports[`get-me > resolves with a correct value 1`] = `
 {
+  "email": "dummyEmail",
   "familyName": "dummyFamilyName",
   "givenName": "dummyGivenName",
   "picture": "dummyPicture",

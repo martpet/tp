@@ -52,6 +52,7 @@ exports[`fetchTokens > resolves with a correct value 1`] = `
   "dummyCamelCaseKey": "dummyCamelCaseValue",
   "idTokenPayload": {
     "aud": "dummyAud",
+    "email": "dummyEmail",
     "familyName": "dummyFamilyName",
     "givenName": "dummyGivenName",
     "nonce": "dummyNonce",

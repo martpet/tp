@@ -5,4 +5,5 @@ export const getIdTokenPayload = vi.fn().mockReturnValue({
   givenName: 'dummyGivenName',
   familyName: 'dummyFamilyName',
   picture: 'dummyPicture',
+  email: 'dummyEmail',
 });
