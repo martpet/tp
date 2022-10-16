@@ -1,5 +1,5 @@
 export * from './LoginButton/LoginButton';
-export * from './LoginDialog';
+export * from './LoginDialog/LoginDialog';
 export * from './LogoutButton';
 export * from './meApi';
 export * from './meSlice';

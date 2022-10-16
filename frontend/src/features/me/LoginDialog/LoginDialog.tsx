@@ -3,18 +3,18 @@ import { lazy, Suspense } from 'react';
 
 import { LoadingOverlay } from '~/common/components';
 
+const promise = import('./LoginDialogContent');
+const LoginDialogContent = lazy(() => promise);
+
 type Props = {
-  close?: () => void;
+  close: () => void;
 };
 
-const promise = import('./ProfileDialogContent');
-const ProfileDialogContent = lazy(() => promise);
-
-export function ProfileDialog({ close }: Props) {
+export function LoginDialog({ close }: Props) {
   return (
-    <Dialog>
+    <Dialog size="S">
       <Suspense fallback={<LoadingOverlay transparent />}>
-        <ProfileDialogContent close={close} />
+        <LoginDialogContent close={close} />
       </Suspense>
     </Dialog>
   );

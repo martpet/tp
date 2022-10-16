@@ -1,4 +1,4 @@
-import { Content, Dialog, Flex } from '@adobe/react-spectrum';
+import { Content, Flex } from '@adobe/react-spectrum';
 import { isWebKit } from '@react-aria/utils';
 
 import { LoginButton } from '~/features/me';
@@ -7,7 +7,7 @@ type Props = {
   close: () => void;
 };
 
-export function LoginDialog({ close }: Props) {
+export default function LoginDialogContent({ close }: Props) {
   const buttons = [
     <LoginButton key="g" provider="Google" onClick={close} />,
     <LoginButton key="a" provider="SignInWithApple" onClick={close} />,
@@ -18,14 +18,12 @@ export function LoginDialog({ close }: Props) {
   }
 
   return (
-    <Dialog size="S">
-      <Content>
-        <Flex justifyContent="center">
-          <Flex direction="column" gap="size-250">
-            {buttons}
-          </Flex>
+    <Content>
+      <Flex justifyContent="center">
+        <Flex direction="column" gap="size-250">
+          {buttons}
         </Flex>
-      </Content>
-    </Dialog>
+      </Flex>
+    </Content>
   );
 }
