@@ -10,7 +10,7 @@ export function ProfileButton() {
   const me = useAppSelector(selectMe);
   const { formatMessage } = useIntl();
 
-  const buttonLabel = formatMessage({
+  const buttonAriaLabel = formatMessage({
     defaultMessage: 'Profile',
     description: 'toolbar profile button aria label',
   });
@@ -18,17 +18,17 @@ export function ProfileButton() {
   if (me) {
     return (
       <DialogTrigger type="popover">
-        <ActionButton isQuiet aria-label={buttonLabel}>
+        <ActionButton isQuiet aria-label={buttonAriaLabel}>
           <Avatar user={me} />
         </ActionButton>
-        {(close) => <ProfileDialog close={close} />}
+        <ProfileDialog />
       </DialogTrigger>
     );
   }
 
   return (
     <DialogTrigger type="popover">
-      <ActionButton isQuiet aria-label={buttonLabel}>
+      <ActionButton isQuiet aria-label={buttonAriaLabel}>
         <ProfileIcon />
       </ActionButton>
       {(close) => <LoginDialog close={close} />}
@@ -36,4 +36,4 @@ export function ProfileButton() {
   );
 }
 
-// TODO: add tooltip to buttons when issue fixed: https://github.com/adobe/react-spectrum/issues/3009
+// TODO: Add tooltips to buttons when fixed: https://github.com/adobe/react-spectrum/issues/3009

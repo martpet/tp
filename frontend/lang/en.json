@@ -3,9 +3,33 @@
     "defaultMessage": "Google logo",
     "description": "google login button logo alt text"
   },
+  "/QE/Ru": {
+    "defaultMessage": "Layout",
+    "description": "settings tab"
+  },
+  "5STaZv": {
+    "defaultMessage": "Colors",
+    "description": "settings tab"
+  },
+  "7hkxXs": {
+    "defaultMessage": "Profile",
+    "description": "profile dialog aria-label"
+  },
+  "7obuz/": {
+    "defaultMessage": "Login",
+    "description": "login dialog aria-label"
+  },
+  "ITu5Da": {
+    "defaultMessage": "Language",
+    "description": "settings tab"
+  },
   "Q+W8Ci": {
     "defaultMessage": "Sign in with Google",
     "description": "google sign in button"
+  },
+  "VqcGix": {
+    "defaultMessage": "Settings",
+    "description": "settings dialog aria-label"
   },
   "XuAvU3": {
     "defaultMessage": "Sign in with Apple",
@@ -18,5 +42,9 @@
   "oB9CE2": {
     "defaultMessage": "Profile",
     "description": "toolbar profile button aria label"
+  },
+  "x8bEvj": {
+    "defaultMessage": "Settings",
+    "description": "toolbar settings button aria label"
   }
 }

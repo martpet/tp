@@ -83,6 +83,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     statusCode: StatusCodes.OK,
     cookies: [sessionCookie],
     headers: { 'Content-Type': 'text/html' },
+    // Todo: add "Please wait..." text and <style>
     body: `<script>${responseScript}</script>`,
   };
 };

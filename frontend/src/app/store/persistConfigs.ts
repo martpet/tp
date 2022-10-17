@@ -6,5 +6,5 @@ import { meSlice, MeState } from '~/features/me';
 export const mePersistConfig: PersistConfig<MeState> = {
   key: meSlice.name,
   storage,
-  blacklist: <(keyof MeState)[]>['user'],
+  whitelist: <Array<keyof MeState>>['isSignedIn'],
 };

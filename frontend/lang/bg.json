@@ -1,7 +1,31 @@
 {
+  "/QE/Ru": {
+    "defaultMessage": "Подредба",
+    "description": "settings tab"
+  },
   "+nlJVj": {
     "defaultMessage": "Лого на Гугъл",
     "description": "google login button logo alt text"
+  },
+  "5STaZv": {
+    "defaultMessage": "Цветове",
+    "description": "settings tab"
+  },
+  "7hkxXs": {
+    "defaultMessage": "Профил",
+    "description": "profile dialog aria-label"
+  },
+  "7obuz/": {
+    "defaultMessage": "Вход",
+    "description": "login dialog aria-label"
+  },
+  "aq56G8": {
+    "defaultMessage": "Излез от профила",
+    "description": "logout button"
+  },
+  "ITu5Da": {
+    "defaultMessage": "Език",
+    "description": "settings tab"
   },
   "oB9CE2": {
     "defaultMessage": "Профил",
@@ -11,12 +35,16 @@
     "defaultMessage": "Влез с Google",
     "description": "google sign in button"
   },
+  "VqcGix": {
+    "defaultMessage": "Настройки",
+    "description": "settings dialog aria-label"
+  },
+  "x8bEvj": {
+    "defaultMessage": "Настройки",
+    "description": "toolbar settings button aria label"
+  },
   "XuAvU3": {
     "defaultMessage": "Влез с Apple",
     "description": "apple sign in button"
-  },
-  "aq56G8": {
-    "defaultMessage": "Излез от профила",
-    "description": "logout button"
   }
 }

@@ -11,7 +11,7 @@ import {
 } from 'redux-persist';
 
 import { api, publicDirApi } from '~/app';
-import { appSlice, meSlice } from '~/features';
+import { appSlice, meSlice, settingsSlice } from '~/features';
 
 import { listenerMiddleware, loggerMiddleware } from './middleware';
 import { mePersistConfig } from './persistConfigs';
@@ -21,6 +21,7 @@ export const rootReducer = combineReducers({
   [publicDirApi.reducerPath]: publicDirApi.reducer,
   [meSlice.name]: persistReducer(mePersistConfig, meSlice.reducer),
   [appSlice.name]: appSlice.reducer,
+  [settingsSlice.name]: settingsSlice.reducer,
 });
 
 export const store = configureStore({

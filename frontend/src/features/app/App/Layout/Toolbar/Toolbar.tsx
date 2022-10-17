@@ -5,6 +5,7 @@ import { sideSpace } from '~/common/consts';
 import { useToolbarPosition } from '~/common/hooks';
 
 import { ProfileButton } from './ProfileButton';
+import { SettingsButton } from './SettingsButton';
 
 export function Toolbar() {
   const { isToolbarOnTop } = useToolbarPosition();
@@ -22,9 +23,10 @@ export function Toolbar() {
         <Logo />
         <Flex
           direction={isToolbarOnTop ? 'row' : 'column'}
-          gap="size-85"
+          gap="size-50"
           alignItems="center"
         >
+          <SettingsButton />
           <ProfileButton />
         </Flex>
       </Flex>

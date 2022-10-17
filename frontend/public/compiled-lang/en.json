@@ -5,10 +5,46 @@
       "value": "Google logo"
     }
   ],
+  "/QE/Ru": [
+    {
+      "type": 0,
+      "value": "Layout"
+    }
+  ],
+  "5STaZv": [
+    {
+      "type": 0,
+      "value": "Colors"
+    }
+  ],
+  "7hkxXs": [
+    {
+      "type": 0,
+      "value": "Profile"
+    }
+  ],
+  "7obuz/": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "ITu5Da": [
+    {
+      "type": 0,
+      "value": "Language"
+    }
+  ],
   "Q+W8Ci": [
     {
       "type": 0,
       "value": "Sign in with Google"
+    }
+  ],
+  "VqcGix": [
+    {
+      "type": 0,
+      "value": "Settings"
     }
   ],
   "XuAvU3": [
@@ -27,6 +63,12 @@
     {
       "type": 0,
       "value": "Profile"
+    }
+  ],
+  "x8bEvj": [
+    {
+      "type": 0,
+      "value": "Settings"
     }
   ]
 }
