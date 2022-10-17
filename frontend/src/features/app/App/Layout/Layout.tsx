@@ -1,6 +1,7 @@
-import { Grid, View } from '@adobe/react-spectrum';
+import { ActionButton, Grid, View } from '@adobe/react-spectrum';
 
-import { useToolbarPosition } from '~/common/hooks';
+import { useAppDispatch, useAppSelector, useToolbarPosition } from '~/common/hooks';
+import { languageChanged, selectLanguage } from '~/features/app';
 
 import { Toolbar } from './Toolbar/Toolbar';
 
@@ -9,6 +10,8 @@ const contentArea = 'content';
 
 export function Layout() {
   const { isToolbarOnTop } = useToolbarPosition();
+  const language = useAppSelector(selectLanguage);
+  const dispatch = useAppDispatch();
 
   const gridStyleProps = isToolbarOnTop
     ? {
@@ -27,7 +30,11 @@ export function Layout() {
       <View gridArea={toolbarArea} elementType="header">
         <Toolbar />
       </View>
-      <View gridArea={contentArea} elementType="main" />
+      <View gridArea={contentArea} elementType="main">
+        <div>{language}</div>
+        <ActionButton onPress={() => dispatch(languageChanged('bg'))}>BG</ActionButton>
+        <ActionButton onPress={() => dispatch(languageChanged('en'))}>EN</ActionButton>
+      </View>
     </Grid>
   );
 }

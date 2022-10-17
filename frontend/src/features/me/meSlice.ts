@@ -1,21 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { match401ApiResponse } from '~/app/store/actionMatchers';
 import { startAppListening } from '~/app/store/middleware';
-import { languages } from '~/common/consts';
-import { Language, Me, RootState } from '~/common/types';
+import { Me, RootState } from '~/common/types';
 import { meApi } from '~/features/me';
 
 export type MeState = {
   isSignedIn: boolean;
   user?: Me;
-  language?: Language;
 };
 
 const initialState: MeState = {
   isSignedIn: false,
   user: undefined,
-  language: undefined,
 };
 
 const slice = createSlice({
@@ -24,9 +21,6 @@ const slice = createSlice({
   reducers: {
     signedIn: (state) => {
       state.isSignedIn = true;
-    },
-    languageChanged: (state, action: PayloadAction<Language>) => {
-      state.language = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -50,16 +44,6 @@ startAppListening({
 
 export { slice as meSlice };
 
-export const { signedIn, languageChanged } = slice.actions;
+export const { signedIn } = slice.actions;
 
 export const selectMe = (state: RootState) => state.me.user;
-
-export const selectLanguage = (state: RootState): Language => {
-  if (state.me.language) {
-    return state.me.language;
-  }
-  return (
-    languages.find((language) => language === window.navigator.language.split('-')[0]) ||
-    'en'
-  );
-};

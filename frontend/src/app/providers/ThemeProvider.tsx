@@ -1,7 +1,7 @@
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 
 import { useAppSelector } from '~/common/hooks';
-import { selectLanguage } from '~/features/me';
+import { selectLanguage } from '~/features/app';
 
 type Props = {
   children?: React.ReactNode;
