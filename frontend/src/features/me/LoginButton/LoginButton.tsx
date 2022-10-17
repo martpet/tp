@@ -1,9 +1,9 @@
 import { Button, View } from '@adobe/react-spectrum';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import googleLogo from '~/assets/google-logo.svg';
 import { IdentityProviderName } from '~/common/types';
 
-import googleLogo from './google_g_logo.svg';
 import { useLoginPopup } from './useLoginPopup';
 
 type Props = {

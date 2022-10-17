@@ -1,7 +1,26 @@
 import { Flex } from '@adobe/react-spectrum';
 import { isWebKit } from '@react-aria/utils';
 
+import adobeCleanBold from '~/assets/fonts/AdobeClean-Bold.woff2';
+import googleLogo from '~/assets/google-logo.svg';
 import { LoginButton } from '~/features/me';
+
+// Preload assets after LoginContent is lazy loaded
+document.head.insertAdjacentHTML(
+  'beforeend',
+  `<link 
+    rel="preload" 
+    href="${googleLogo}"
+    as="image"
+    type="image/svg+xml" />
+
+  <link
+    rel="preload" 
+    href="${adobeCleanBold}" 
+    as="font" 
+    type="font/woff2"
+    crossorigin />`
+);
 
 type Props = {
   onLoginButtonClick?: () => void;
