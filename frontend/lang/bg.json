@@ -46,5 +46,9 @@
   "XuAvU3": {
     "defaultMessage": "Влез с Apple",
     "description": "apple sign in button"
+  },
+  "ZpWjQd": {
+    "defaultMessage": "Начало",
+    "description": "logo button aria-label"
   }
 }

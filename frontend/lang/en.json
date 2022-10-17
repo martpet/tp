@@ -35,6 +35,10 @@
     "defaultMessage": "Sign in with Apple",
     "description": "apple sign in button"
   },
+  "ZpWjQd": {
+    "defaultMessage": "Home",
+    "description": "logo button aria-label"
+  },
   "aq56G8": {
     "defaultMessage": "Sign Out",
     "description": "logout button"
