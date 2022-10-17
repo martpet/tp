@@ -16,9 +16,12 @@ export function IntlProvider({ children }: Props) {
   const language = useAppSelector(selectLanguage);
   const dispatch = useAppDispatch();
 
-  const { data: messages, isFetching } = publicDirApi.useGetTranslationsQuery(language, {
+  const { data, isFetching } = publicDirApi.useGetTranslationsQuery(language, {
     skip: language === 'en',
   });
+
+  // https://github.com/reduxjs/redux-toolkit/pull/2779
+  const messages = language === 'en' ? undefined : data;
 
   useEffect(() => {
     const listener = () => {
