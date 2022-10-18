@@ -7,6 +7,10 @@
     "defaultMessage": "Лого на Гугъл",
     "description": "google login button logo alt text"
   },
+  "4yg8Sf": {
+    "defaultMessage": "Избери език",
+    "description": "language picker label"
+  },
   "5STaZv": {
     "defaultMessage": "Цветове",
     "description": "settings tab"
@@ -35,10 +39,6 @@
     "defaultMessage": "Влез с Google",
     "description": "google sign in button"
   },
-  "VqcGix": {
-    "defaultMessage": "Настройки",
-    "description": "settings dialog aria-label"
-  },
   "x8bEvj": {
     "defaultMessage": "Настройки",
     "description": "toolbar settings button aria label"
@@ -50,5 +50,9 @@
   "ZpWjQd": {
     "defaultMessage": "Начало",
     "description": "logo button aria-label"
+  },
+  "zJ5RUL": {
+    "defaultMessage": "Настройки",
+    "description": "settings dialog heading"
   }
 }

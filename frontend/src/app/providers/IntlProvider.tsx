@@ -1,5 +1,5 @@
 import { OnErrorFn } from '@formatjs/intl';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { IntlProvider as Provider } from 'react-intl';
 
 import { publicDirApi } from '~/app/services/publicDirApi';
@@ -15,23 +15,28 @@ type Props = {
 export function IntlProvider({ children }: Props) {
   const language = useAppSelector(selectLanguage);
   const dispatch = useAppDispatch();
-
-  const { data, isFetching } = publicDirApi.useGetTranslationsQuery(language, {
-    skip: language === 'en',
+  const skip = language === 'en';
+  const [lastFetchedLanguage, setLastFetchedLanguage] = useState('');
+  const { data, isFetching, isSuccess } = publicDirApi.useGetTranslationsQuery(language, {
+    skip,
   });
+  const messages = lastFetchedLanguage === defaultLanguage ? undefined : data;
 
-  // https://github.com/reduxjs/redux-toolkit/pull/2779
-  const messages = language === 'en' ? undefined : data;
+  useLayoutEffect(() => {
+    if (skip || isSuccess) {
+      setLastFetchedLanguage(language);
+    }
+  }, [skip, isSuccess]);
 
   useEffect(() => {
-    const listener = () => {
-      dispatch(browserLocaleChanged(window.navigator.language));
-    };
+    const listener = () => dispatch(browserLocaleChanged());
     window.addEventListener('languagechange', listener);
-    return () => {
-      window.removeEventListener('languagechange', listener);
-    };
+    return () => window.removeEventListener('languagechange', listener);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const handleError: OnErrorFn = (error) => {
     console.warn(error.message);
@@ -39,12 +44,12 @@ export function IntlProvider({ children }: Props) {
 
   return (
     <Provider
-      locale={language}
+      locale={lastFetchedLanguage || defaultLanguage}
       defaultLocale={defaultLanguage}
       messages={messages}
       onError={handleError}
     >
-      {isFetching ? <LoadingOverlay /> : children}
+      {!lastFetchedLanguage && isFetching ? <LoadingOverlay /> : children}
     </Provider>
   );
 }

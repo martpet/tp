@@ -6,6 +6,8 @@ import { useIntl } from 'react-intl';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { selectActiveTab, SettingsTabKey, tabChanged } from '~/features/settings';
 
+import { Languages } from './Languages';
+
 export default function SettingsContent() {
   const activeTab = useAppSelector(selectActiveTab);
   const isMobile = useIsMobileDevice();
@@ -22,7 +24,7 @@ export default function SettingsContent() {
     {
       key: 'language',
       name: formatMessage({ defaultMessage: 'Language', description: 'settings tab' }),
-      children: '',
+      children: <Languages />,
     },
     {
       key: 'colors',

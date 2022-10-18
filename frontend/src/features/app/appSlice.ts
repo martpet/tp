@@ -26,8 +26,8 @@ const slice = createSlice({
     languageChanged: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
     },
-    browserLocaleChanged: (state, action: PayloadAction<string>) => {
-      state.browserLocale = action.payload;
+    browserLocaleChanged: (state) => {
+      state.browserLocale = window.navigator.language;
     },
   },
   extraReducers: (builder) => {

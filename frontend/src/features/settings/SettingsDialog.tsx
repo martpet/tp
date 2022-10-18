@@ -1,19 +1,18 @@
-import { Content, Dialog } from '@adobe/react-spectrum';
-import { useIntl } from 'react-intl';
+import { Content, Dialog, Divider, Heading } from '@adobe/react-spectrum';
+import { FormattedMessage } from 'react-intl';
 
 import { Settings } from '~/features/settings';
 
 export function SettingsDialog() {
-  const { formatMessage } = useIntl();
-
   return (
-    <Dialog
-      size="L"
-      aria-label={formatMessage({
-        defaultMessage: 'Settings',
-        description: 'settings dialog aria-label',
-      })}
-    >
+    <Dialog size="L">
+      <Heading>
+        <FormattedMessage
+          defaultMessage="Settings"
+          description="settings dialog heading"
+        />
+      </Heading>
+      <Divider />
       <Content>
         <Settings />
       </Content>

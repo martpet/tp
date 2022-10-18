@@ -7,6 +7,10 @@
     "defaultMessage": "Layout",
     "description": "settings tab"
   },
+  "4yg8Sf": {
+    "defaultMessage": "Choose language",
+    "description": "language picker label"
+  },
   "5STaZv": {
     "defaultMessage": "Colors",
     "description": "settings tab"
@@ -27,10 +31,6 @@
     "defaultMessage": "Sign in with Google",
     "description": "google sign in button"
   },
-  "VqcGix": {
-    "defaultMessage": "Settings",
-    "description": "settings dialog aria-label"
-  },
   "XuAvU3": {
     "defaultMessage": "Sign in with Apple",
     "description": "apple sign in button"
@@ -50,5 +50,9 @@
   "x8bEvj": {
     "defaultMessage": "Settings",
     "description": "toolbar settings button aria label"
+  },
+  "zJ5RUL": {
+    "defaultMessage": "Settings",
+    "description": "settings dialog heading"
   }
 }
