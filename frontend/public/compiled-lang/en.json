@@ -1,10 +1,4 @@
 {
-  "+nlJVj": [
-    {
-      "type": 0,
-      "value": "Google logo"
-    }
-  ],
   "/QE/Ru": [
     {
       "type": 0,
@@ -35,22 +29,22 @@
       "value": "Login"
     }
   ],
+  "FvWJ8C": [
+    {
+      "type": 0,
+      "value": "Continue with Google"
+    }
+  ],
   "ITu5Da": [
     {
       "type": 0,
       "value": "Language"
     }
   ],
-  "Q+W8Ci": [
+  "LKo07P": [
     {
       "type": 0,
-      "value": "Sign in with Google"
-    }
-  ],
-  "XuAvU3": [
-    {
-      "type": 0,
-      "value": "Sign in with Apple"
+      "value": "Log In"
     }
   ],
   "ZpWjQd": [
@@ -63,6 +57,12 @@
     {
       "type": 0,
       "value": "Sign Out"
+    }
+  ],
+  "jOxmkh": [
+    {
+      "type": 0,
+      "value": "Continue with Apple"
     }
   ],
   "oB9CE2": [

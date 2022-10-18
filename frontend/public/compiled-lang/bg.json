@@ -1,10 +1,4 @@
 {
-  "+nlJVj": [
-    {
-      "type": 0,
-      "value": "Лого на Гугъл"
-    }
-  ],
   "/QE/Ru": [
     {
       "type": 0,
@@ -35,22 +29,22 @@
       "value": "Вход"
     }
   ],
+  "FvWJ8C": [
+    {
+      "type": 0,
+      "value": "Вход с Google"
+    }
+  ],
   "ITu5Da": [
     {
       "type": 0,
       "value": "Език"
     }
   ],
-  "Q+W8Ci": [
+  "LKo07P": [
     {
       "type": 0,
-      "value": "Влез с Google"
-    }
-  ],
-  "XuAvU3": [
-    {
-      "type": 0,
-      "value": "Влез с Apple"
+      "value": "Вход"
     }
   ],
   "ZpWjQd": [
@@ -63,6 +57,12 @@
     {
       "type": 0,
       "value": "Излез от профила"
+    }
+  ],
+  "jOxmkh": [
+    {
+      "type": 0,
+      "value": "Вход с Apple"
     }
   ],
   "oB9CE2": [

@@ -3,10 +3,6 @@
     "defaultMessage": "Подредба",
     "description": "settings tab"
   },
-  "+nlJVj": {
-    "defaultMessage": "Лого на Гугъл",
-    "description": "google login button logo alt text"
-  },
   "4yg8Sf": {
     "defaultMessage": "Избери език",
     "description": "language picker label"
@@ -35,17 +31,9 @@
     "defaultMessage": "Профил",
     "description": "toolbar profile button aria label"
   },
-  "Q+W8Ci": {
-    "defaultMessage": "Влез с Google",
-    "description": "google sign in button"
-  },
   "x8bEvj": {
     "defaultMessage": "Настройки",
     "description": "toolbar settings button aria label"
-  },
-  "XuAvU3": {
-    "defaultMessage": "Влез с Apple",
-    "description": "apple sign in button"
   },
   "ZpWjQd": {
     "defaultMessage": "Начало",
@@ -54,5 +42,17 @@
   "zJ5RUL": {
     "defaultMessage": "Настройки",
     "description": "settings dialog heading"
+  },
+  "jOxmkh": {
+    "defaultMessage": "Вход с Apple",
+    "description": "apple login button"
+  },
+  "FvWJ8C": {
+    "defaultMessage": "Вход с Google",
+    "description": "google login button"
+  },
+  "LKo07P": {
+    "defaultMessage": "Вход",
+    "description": "login dialog heading"
   }
 }

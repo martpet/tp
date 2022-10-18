@@ -1,8 +1,4 @@
 {
-  "+nlJVj": {
-    "defaultMessage": "Google logo",
-    "description": "google login button logo alt text"
-  },
   "/QE/Ru": {
     "defaultMessage": "Layout",
     "description": "settings tab"
@@ -23,17 +19,17 @@
     "defaultMessage": "Login",
     "description": "login dialog aria-label"
   },
+  "FvWJ8C": {
+    "defaultMessage": "Continue with Google",
+    "description": "google login button"
+  },
   "ITu5Da": {
     "defaultMessage": "Language",
     "description": "settings tab"
   },
-  "Q+W8Ci": {
-    "defaultMessage": "Sign in with Google",
-    "description": "google sign in button"
-  },
-  "XuAvU3": {
-    "defaultMessage": "Sign in with Apple",
-    "description": "apple sign in button"
+  "LKo07P": {
+    "defaultMessage": "Log In",
+    "description": "login dialog heading"
   },
   "ZpWjQd": {
     "defaultMessage": "Home",
@@ -42,6 +38,10 @@
   "aq56G8": {
     "defaultMessage": "Sign Out",
     "description": "logout button"
+  },
+  "jOxmkh": {
+    "defaultMessage": "Continue with Apple",
+    "description": "apple login button"
   },
   "oB9CE2": {
     "defaultMessage": "Profile",

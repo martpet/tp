@@ -1,5 +1,5 @@
 import { Button, View } from '@adobe/react-spectrum';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import googleLogo from '~/assets/google-logo.svg';
 import { IdentityProviderName } from '~/common/types';
@@ -13,7 +13,6 @@ type Props = {
 
 export function LoginButton({ provider, onClick }: Props) {
   const loginWithPopup = useLoginPopup();
-  const { formatMessage } = useIntl();
   const appleIcon = '';
 
   const handleClick = () => {
@@ -35,8 +34,8 @@ export function LoginButton({ provider, onClick }: Props) {
             {appleIcon}
           </View>
           <FormattedMessage
-            defaultMessage="Sign in with Apple"
-            description="apple sign in button"
+            defaultMessage="Continue with Apple"
+            description="apple login button"
           />
         </>
       )}
@@ -46,16 +45,14 @@ export function LoginButton({ provider, onClick }: Props) {
           <View marginEnd="static-size-100">
             <img
               src={googleLogo}
-              alt={formatMessage({
-                defaultMessage: 'Google logo',
-                description: 'google login button logo alt text',
-              })}
+              alt=""
+              role="presentation"
               style={{ width: '1em', height: '1em', position: 'relative', top: '2px' }}
             />
           </View>
           <FormattedMessage
-            defaultMessage="Sign in with Google"
-            description="google sign in button"
+            defaultMessage="Continue with Google"
+            description="google login button"
           />
         </>
       )}
