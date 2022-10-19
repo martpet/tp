@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { match401ApiResponse } from '~/app/store/actionMatchers';
 import { startAppListening } from '~/app/store/middleware';
 import { Me, RootState } from '~/common/types';
-import { meApi } from '~/features/me';
+import { meApi } from '~/features/me/meApi';
 
 export type MeState = {
   isSignedIn: boolean;

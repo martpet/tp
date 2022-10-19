@@ -1,17 +1,12 @@
 import { Button } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
+import { persistor } from '~/app/store';
 import { apiPaths, apiUrl } from '~/common/consts';
 
-type Props = {
-  onClick?: () => void;
-};
-
-export function LogoutButton({ onClick }: Props) {
+export function LogoutButton() {
   const handleClick = async () => {
-    if (onClick) {
-      onClick();
-    }
+    await persistor.purge();
     window.location.href = apiUrl + apiPaths.logout;
   };
   return (

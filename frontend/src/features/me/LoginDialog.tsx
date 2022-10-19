@@ -1,4 +1,4 @@
-import { Content, Dialog, Divider, Heading } from '@adobe/react-spectrum';
+import { Content, Dialog, Divider, Heading, View } from '@adobe/react-spectrum';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Login } from '~/features/me';
@@ -23,7 +23,9 @@ export function LoginDialog({ close }: Props) {
       </Heading>
       <Divider />
       <Content>
-        <Login onLoginButtonClick={close} />
+        <View>
+          <Login onLoginButtonClick={close} />
+        </View>
       </Content>
     </Dialog>
   );
