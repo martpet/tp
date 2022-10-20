@@ -15,7 +15,7 @@ export default function ProfileContent() {
 
   return (
     <Flex direction="column" alignItems="center">
-      <Avatar user={me} size="XXL" />
+      <Avatar user={me} size={72} />
       <Heading level={2} marginY="size-100">
         {fullName}
       </Heading>

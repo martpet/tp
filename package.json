@@ -40,6 +40,7 @@
     "@aws-sdk/util-dynamodb": "^3.188.0",
     "@formatjs/intl": "^2.5.0",
     "@mrgrain/cdk-esbuild": "^3.11.2",
+    "@react-spectrum/avatar": "^3.0.0-alpha.10",
     "@react-spectrum/label": "^3.8.0",
     "@reduxjs/toolkit": "^1.8.6",
     "@vitest/coverage-istanbul": "^0.24.3",
@@ -113,7 +114,6 @@
     "vite": "^3.1.8",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svgr": "^2.2.2",
-    "vitest": "^0.24.3",
-    "yarn": "^1.22.19"
+    "vitest": "^0.24.3"
   }
 }

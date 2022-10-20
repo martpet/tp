@@ -1,0 +1,10 @@
+.boringAvatarWrap {
+  display: inline;
+  padding-inline: calc(var(--spectrum-global-dimension-size-85) - 1px);
+}
+
+.boringAvatarWrap > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
