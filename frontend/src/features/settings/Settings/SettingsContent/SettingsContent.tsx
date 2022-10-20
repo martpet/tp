@@ -6,14 +6,15 @@ import { useIntl } from 'react-intl';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { selectActiveTab, SettingsTabKey, tabChanged } from '~/features/settings';
 
-import { Colors } from './Colors';
-import { Languages } from './Languages';
+import { Colors } from './Colors/Colors';
+import { Languages } from './Languages/Languages';
 
 export default function SettingsContent() {
   const activeTab = useAppSelector(selectActiveTab);
   const isMobile = useIsMobileDevice();
   const dispatch = useAppDispatch();
   const { formatMessage } = useIntl();
+  const tabListSpace = 'size-400';
 
   type Tab = {
     key: SettingsTabKey;
@@ -51,8 +52,8 @@ export default function SettingsContent() {
       orientation={isMobile ? 'horizontal' : 'vertical'}
     >
       <TabList
-        marginEnd={isMobile ? 0 : 'size-400'}
-        marginBottom={isMobile ? 'size-400' : 0}
+        marginEnd={isMobile ? 0 : tabListSpace}
+        marginBottom={isMobile ? tabListSpace : 0}
       >
         {(tab: Tab) => <Item>{tab.name}</Item>}
       </TabList>

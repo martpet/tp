@@ -1,27 +1,29 @@
 # TP
 
-## Local development
+This is a personal playground, using AWS CDK, Adobe React Spectrum, Redux Toolkit Query, and others.
 
-### Bootstrap development AWS environment
+## Getting started
+
+### Bootstrap AWS dev environment
 
 `npx cdk bootstrap aws://<account-id>/<region> --profile <aws profile name>`
 
-Bootstrap also the `us-east-1` in the same AWS account.
+Also bootstrap the `us-east-1` region.
 
-### Set env vars
+### Add local env variables
 
 Copy `.env.local.example` to `.env.local` and set personal values.
 
-### Start local frontend webserver
+### Run local frontend server
 
 `npm start`
 
-For Safari: disable "Prevent cross-site tracking" from Privacy settings. Otherwise "session" cookie is not sent from localhost to API backend.
+For Safari: disable *Prevent cross-site tracking* from *Privacy settings*. Otherwise `sessionId` cookie is not sent from localhost to API backend.
 
-### Deploy to development AWS environment
+### Deploy frontend and backend to AWS dev
 
 `npm run deploy -- --profile <aws profile name>`
 
 ----
 
-[Setup production and staging AWS envs](README-prod-setup.md)
+Check also: [Setting up prod and staging environments](README-prod-setup.md)
