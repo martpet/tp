@@ -1,3 +1,4 @@
+import { ColorScheme } from '@react-types/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
@@ -10,12 +11,14 @@ import { Language, RootState } from '~/common/types';
 export type AppState = {
   pendingQueriesWithLoader: number;
   language?: Language;
+  colorScheme?: ColorScheme;
   browserLocale: string;
 };
 
 const initialState: AppState = {
   pendingQueriesWithLoader: 0,
   language: undefined,
+  colorScheme: undefined,
   browserLocale: window.navigator.language,
 };
 
@@ -25,6 +28,10 @@ const slice = createSlice({
   reducers: {
     languageChanged: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
+    },
+
+    colorSchemeChanged: (state, action: PayloadAction<ColorScheme | undefined>) => {
+      state.colorScheme = action.payload;
     },
     browserLocaleChanged: (state) => {
       state.browserLocale = window.navigator.language;
@@ -42,7 +49,8 @@ const slice = createSlice({
 
 export { slice as appSlice };
 
-export const { languageChanged, browserLocaleChanged } = slice.actions;
+export const { languageChanged, browserLocaleChanged, colorSchemeChanged } =
+  slice.actions;
 
 export const selectHasPendingQueriesWithLoader = (state: RootState) =>
   state.app.pendingQueriesWithLoader > 0;
@@ -54,3 +62,5 @@ export const selectLanguage = (state: RootState): Language => {
   const browserLanguage = state.app.browserLocale.split('-')[0] as Language;
   return languages.includes(browserLanguage) ? browserLanguage : defaultLanguage;
 };
+
+export const selectColorScheme = (state: RootState) => state.app.colorScheme;

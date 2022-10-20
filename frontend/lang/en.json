@@ -19,6 +19,18 @@
     "defaultMessage": "Login",
     "description": "login dialog aria-label"
   },
+  "A6sLC1": {
+    "defaultMessage": "Dark",
+    "description": "color scheme picker item - dark"
+  },
+  "BAOl3n": {
+    "defaultMessage": "Light",
+    "description": "color scheme picker item - light"
+  },
+  "FOqNnc": {
+    "defaultMessage": "Auto",
+    "description": "color scheme picker item - auto"
+  },
   "FvWJ8C": {
     "defaultMessage": "Continue with Google",
     "description": "google login button"
@@ -30,6 +42,10 @@
   "LKo07P": {
     "defaultMessage": "Log In",
     "description": "login dialog heading"
+  },
+  "VTNl29": {
+    "defaultMessage": "Choose a color scheme",
+    "description": "color scheme picker label"
   },
   "ZpWjQd": {
     "defaultMessage": "Home",

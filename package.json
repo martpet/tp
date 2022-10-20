@@ -40,6 +40,7 @@
     "@aws-sdk/util-dynamodb": "^3.188.0",
     "@formatjs/intl": "^2.5.0",
     "@mrgrain/cdk-esbuild": "^3.11.2",
+    "@react-spectrum/label": "^3.8.0",
     "@reduxjs/toolkit": "^1.8.6",
     "@vitest/coverage-istanbul": "^0.24.3",
     "app-root-path": "^3.1.0",

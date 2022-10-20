@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { selectActiveTab, SettingsTabKey, tabChanged } from '~/features/settings';
 
+import { Colors } from './Colors';
 import { Languages } from './Languages';
 
 export default function SettingsContent() {
@@ -29,7 +30,7 @@ export default function SettingsContent() {
     {
       key: 'colors',
       name: formatMessage({ defaultMessage: 'Colors', description: 'settings tab' }),
-      children: '',
+      children: <Colors />,
     },
     {
       key: 'layout',

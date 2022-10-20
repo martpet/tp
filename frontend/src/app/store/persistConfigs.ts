@@ -6,7 +6,7 @@ import { appSlice, AppState, meSlice, MeState } from '~/features';
 export const appPersistConfig: PersistConfig<AppState> = {
   key: appSlice.name,
   storage,
-  whitelist: <Array<keyof AppState>>['language'],
+  whitelist: <Array<keyof AppState>>['language', 'colorScheme'],
 };
 
 export const mePersistConfig: PersistConfig<MeState> = {

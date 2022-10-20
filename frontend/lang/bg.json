@@ -19,40 +19,56 @@
     "defaultMessage": "Вход",
     "description": "login dialog aria-label"
   },
+  "A6sLC1": {
+    "defaultMessage": "тъмна",
+    "description": "color scheme picker item - dark"
+  },
   "aq56G8": {
     "defaultMessage": "Излез от профила",
     "description": "logout button"
   },
-  "ITu5Da": {
-    "defaultMessage": "Език",
-    "description": "settings tab"
+  "BAOl3n": {
+    "defaultMessage": "светла",
+    "description": "color scheme picker item - light"
   },
-  "oB9CE2": {
-    "defaultMessage": "Профил",
-    "description": "toolbar profile button aria label"
-  },
-  "x8bEvj": {
-    "defaultMessage": "Настройки",
-    "description": "toolbar settings button aria label"
-  },
-  "ZpWjQd": {
-    "defaultMessage": "Начало",
-    "description": "logo button aria-label"
-  },
-  "zJ5RUL": {
-    "defaultMessage": "Настройки",
-    "description": "settings dialog heading"
-  },
-  "jOxmkh": {
-    "defaultMessage": "Вход с Apple",
-    "description": "apple login button"
+  "FOqNnc": {
+    "defaultMessage": "автоматична",
+    "description": "color scheme picker item - auto"
   },
   "FvWJ8C": {
     "defaultMessage": "Вход с Google",
     "description": "google login button"
   },
+  "ITu5Da": {
+    "defaultMessage": "Език",
+    "description": "settings tab"
+  },
+  "jOxmkh": {
+    "defaultMessage": "Вход с Apple",
+    "description": "apple login button"
+  },
   "LKo07P": {
     "defaultMessage": "Вход",
     "description": "login dialog heading"
+  },
+  "oB9CE2": {
+    "defaultMessage": "Профил",
+    "description": "toolbar profile button aria label"
+  },
+  "VTNl29": {
+    "defaultMessage": "Избери тема",
+    "description": "color scheme picker label"
+  },
+  "x8bEvj": {
+    "defaultMessage": "Настройки",
+    "description": "toolbar settings button aria label"
+  },
+  "zJ5RUL": {
+    "defaultMessage": "Настройки",
+    "description": "settings dialog heading"
+  },
+  "ZpWjQd": {
+    "defaultMessage": "Начало",
+    "description": "logo button aria-label"
   }
 }
