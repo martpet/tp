@@ -8,6 +8,7 @@ import { selectActiveTab, SettingsTabKey, tabChanged } from '~/features/settings
 
 import { Colors } from './Colors/Colors';
 import { Languages } from './Languages/Languages';
+import { Layout } from './Layout/Layout';
 
 export default function SettingsContent() {
   const activeTab = useAppSelector(selectActiveTab);
@@ -36,7 +37,7 @@ export default function SettingsContent() {
     {
       key: 'layout',
       name: formatMessage({ defaultMessage: 'Layout', description: 'settings tab' }),
-      children: '',
+      children: <Layout />,
     },
   ];
 

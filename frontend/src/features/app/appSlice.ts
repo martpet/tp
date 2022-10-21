@@ -6,12 +6,13 @@ import {
   matchPendingQueryWithLoader,
 } from '~/app/store/actionMatchers';
 import { defaultLanguage, languages } from '~/common/consts';
-import { Language, RootState } from '~/common/types';
+import { Language, RootState, ToolbarPosition } from '~/common/types';
 
 export type AppState = {
   pendingQueriesWithLoader: number;
   language?: Language;
   colorScheme?: ColorScheme;
+  toolbarPosition?: ToolbarPosition;
   browserLocale: string;
 };
 
@@ -29,9 +30,11 @@ const slice = createSlice({
     languageChanged: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
     },
-
     colorSchemeChanged: (state, action: PayloadAction<ColorScheme | undefined>) => {
       state.colorScheme = action.payload;
+    },
+    toolbarPositionChanged: (state, action: PayloadAction<ToolbarPosition>) => {
+      state.toolbarPosition = action.payload;
     },
     browserLocaleChanged: (state) => {
       state.browserLocale = window.navigator.language;
@@ -49,9 +52,15 @@ const slice = createSlice({
 
 export { slice as appSlice };
 
-export const { languageChanged, browserLocaleChanged, colorSchemeChanged } =
-  slice.actions;
+// Action creators
+export const {
+  languageChanged,
+  browserLocaleChanged,
+  colorSchemeChanged,
+  toolbarPositionChanged,
+} = slice.actions;
 
+// Selectors
 export const selectHasPendingQueriesWithLoader = (state: RootState) =>
   state.app.pendingQueriesWithLoader > 0;
 
@@ -64,3 +73,6 @@ export const selectLanguage = (state: RootState): Language => {
 };
 
 export const selectColorScheme = (state: RootState) => state.app.colorScheme;
+
+export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
+  state.app.toolbarPosition || 'top';

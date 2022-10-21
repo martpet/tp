@@ -43,10 +43,6 @@
     "defaultMessage": "Log In",
     "description": "login dialog heading"
   },
-  "VTNl29": {
-    "defaultMessage": "Choose a color scheme",
-    "description": "color scheme picker label"
-  },
   "ZpWjQd": {
     "defaultMessage": "Home",
     "description": "logo button aria-label"
@@ -55,6 +51,10 @@
     "defaultMessage": "Sign Out",
     "description": "logout button"
   },
+  "cgaF0x": {
+    "defaultMessage": "Left",
+    "description": "toolbar position picker label - left"
+  },
   "jOxmkh": {
     "defaultMessage": "Continue with Apple",
     "description": "apple login button"
@@ -62,6 +62,22 @@
   "oB9CE2": {
     "defaultMessage": "Profile",
     "description": "toolbar profile button aria label"
+  },
+  "sXOp4w": {
+    "defaultMessage": "Top",
+    "description": "toolbar position picker label - top"
+  },
+  "tPjCT2": {
+    "defaultMessage": "(Disabled on mobile)",
+    "description": "toolbar position disabled picker additional label"
+  },
+  "tuwnSe": {
+    "defaultMessage": "Color scheme",
+    "description": "color scheme picker label"
+  },
+  "u3XllG": {
+    "defaultMessage": "Toolbar position",
+    "description": "toolbar position picker label"
   },
   "x8bEvj": {
     "defaultMessage": "Settings",

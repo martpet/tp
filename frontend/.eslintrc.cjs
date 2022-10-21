@@ -41,6 +41,11 @@ module.exports = {
         importNames: ['useSelector', 'useDispatch'],
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
+      {
+        name: '~/features/app',
+        importNames: ['selectToolbarPosition'],
+        message: 'Use hook `useToolbarPosition` instead.',
+      },
     ],
   },
   settings: {

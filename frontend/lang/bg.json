@@ -31,6 +31,10 @@
     "defaultMessage": "светла",
     "description": "color scheme picker item - light"
   },
+  "cgaF0x": {
+    "defaultMessage": "в ляво",
+    "description": "toolbar position picker label - left"
+  },
   "FOqNnc": {
     "defaultMessage": "автоматична",
     "description": "color scheme picker item - auto"
@@ -55,9 +59,21 @@
     "defaultMessage": "Профил",
     "description": "toolbar profile button aria label"
   },
-  "VTNl29": {
-    "defaultMessage": "Избери тема",
+  "sXOp4w": {
+    "defaultMessage": "отгоре",
+    "description": "toolbar position picker label - top"
+  },
+  "tPjCT2": {
+    "defaultMessage": "(Изключена на мобилни устройства)",
+    "description": "toolbar position disabled picker additional label"
+  },
+  "tuwnSe": {
+    "defaultMessage": "Цветова схема",
     "description": "color scheme picker label"
+  },
+  "u3XllG": {
+    "defaultMessage": "Позиция на лента с инструменти",
+    "description": "toolbar position picker label"
   },
   "x8bEvj": {
     "defaultMessage": "Настройки",
