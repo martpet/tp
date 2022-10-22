@@ -1,8 +1,7 @@
-import { ColorScheme } from '@react-types/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { defaultLanguage, languages } from '~/common/consts';
-import { Language, RootState, ToolbarPosition } from '~/common/types';
+import { ColorScheme, Language, RootState, ToolbarPosition } from '~/common/types';
 import { SettingsTabKey } from '~/features/settings/types';
 
 export type SettingsState = {
@@ -29,7 +28,7 @@ const slice = createSlice({
     languageChanged: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
     },
-    colorSchemeChanged: (state, action: PayloadAction<ColorScheme | undefined>) => {
+    colorSchemeChanged: (state, action: PayloadAction<ColorScheme>) => {
       state.colorScheme = action.payload;
     },
     toolbarPositionChanged: (state, action: PayloadAction<ToolbarPosition>) => {
@@ -53,7 +52,7 @@ export const selectLanguage = (state: RootState): Language => {
   return languages.includes(browserLanguage) ? browserLanguage : defaultLanguage;
 };
 
-export const selectColorScheme = (state: RootState) => state.settings.colorScheme;
+export const selectColorScheme = (state: RootState) => state.settings.colorScheme || 'os';
 
 export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
   state.settings.toolbarPosition || 'top';

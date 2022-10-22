@@ -1,6 +1,5 @@
 import { ActionGroup, Item, Text } from '@adobe/react-spectrum';
 import { Label } from '@react-spectrum/label';
-import { ColorScheme } from '@react-types/provider';
 import Light from '@spectrum-icons/workflow/Light';
 import Moon from '@spectrum-icons/workflow/Moon';
 import OS from '@spectrum-icons/workflow/OS';
@@ -8,27 +7,21 @@ import { Key, ReactNode, useId } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
+import { ColorScheme } from '~/common/types';
 import { colorSchemeChanged, selectColorScheme } from '~/features/settings';
 
 export function ColorSchemePicker() {
   const colorScheme = useAppSelector(selectColorScheme);
   const dispatch = useAppDispatch();
   const { formatMessage } = useIntl();
-  const autoScheme = 'auto';
   const labelId = useId();
 
-  const handleChange = (key: Key) => {
-    let newScheme: ColorScheme | undefined;
-    if (key === autoScheme) {
-      newScheme = undefined;
-    } else {
-      newScheme = key as ColorScheme;
-    }
-    dispatch(colorSchemeChanged(newScheme));
+  const handleChange = (newScheme: Key) => {
+    dispatch(colorSchemeChanged(newScheme as ColorScheme));
   };
 
   type Item = {
-    key: ColorScheme | typeof autoScheme;
+    key: ColorScheme;
     label: string;
     icon?: ReactNode;
   };
@@ -51,7 +44,7 @@ export function ColorSchemePicker() {
       }),
     },
     {
-      key: autoScheme,
+      key: 'os',
       icon: <OS />,
       label: formatMessage({
         defaultMessage: 'Auto',
@@ -73,7 +66,7 @@ export function ColorSchemePicker() {
         density="compact"
         selectionMode="single"
         items={items}
-        selectedKeys={[colorScheme || autoScheme]}
+        selectedKeys={[colorScheme]}
         onAction={handleChange}
       >
         {(item: Item) => (
