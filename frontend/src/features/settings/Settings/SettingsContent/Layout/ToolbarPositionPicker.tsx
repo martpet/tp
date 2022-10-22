@@ -7,7 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppDispatch, useToolbarPosition } from '~/common/hooks';
 import { ToolbarPosition } from '~/common/types';
-import { toolbarPositionChanged } from '~/features/app';
+import { toolbarPositionChanged } from '~/features/settings';
 
 export function ToolbarPositionPicker() {
   const { toolbarPosition, isToolbarPositionDisabled } = useToolbarPosition();

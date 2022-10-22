@@ -6,7 +6,8 @@ import { publicDirApi } from '~/app/services/publicDirApi';
 import { LoadingOverlay } from '~/common/components';
 import { defaultLanguage } from '~/common/consts';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
-import { browserLocaleChanged, selectLanguage } from '~/features/app';
+import { browserLocaleChanged } from '~/features/app';
+import { selectLanguage } from '~/features/settings';
 
 type Props = {
   children: ReactNode;

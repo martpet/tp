@@ -14,14 +14,14 @@ import { api, publicDirApi } from '~/app/services';
 import { appSlice, meSlice, settingsSlice } from '~/features';
 
 import { listenerMiddleware, loggerMiddleware } from './middleware';
-import { appPersistConfig, mePersistConfig } from './persistConfigs';
+import { mePersistConfig, settingsPersistConfig } from './persistConfigs';
 
 export const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [publicDirApi.reducerPath]: publicDirApi.reducer,
-  [appSlice.name]: persistReducer(appPersistConfig, appSlice.reducer),
+  [appSlice.name]: appSlice.reducer,
   [meSlice.name]: persistReducer(mePersistConfig, meSlice.reducer),
-  [settingsSlice.name]: settingsSlice.reducer,
+  [settingsSlice.name]: persistReducer(settingsPersistConfig, settingsSlice.reducer),
 });
 
 export const store = configureStore({

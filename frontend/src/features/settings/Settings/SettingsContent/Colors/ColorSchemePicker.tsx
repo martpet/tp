@@ -8,7 +8,7 @@ import { Key, ReactNode, useId } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
-import { colorSchemeChanged, selectColorScheme } from '~/features/app';
+import { colorSchemeChanged, selectColorScheme } from '~/features/settings';
 
 export function ColorSchemePicker() {
   const colorScheme = useAppSelector(selectColorScheme);

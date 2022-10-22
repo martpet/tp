@@ -1,12 +1,12 @@
 import { PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/es/storage';
 
-import { appSlice, AppState, meSlice, MeState } from '~/features';
+import { appSlice, meSlice, MeState, SettingsState } from '~/features';
 
-export const appPersistConfig: PersistConfig<AppState> = {
+export const settingsPersistConfig: PersistConfig<SettingsState> = {
   key: appSlice.name,
   storage,
-  whitelist: <Array<keyof AppState>>['language', 'colorScheme', 'toolbarPosition'],
+  whitelist: <Array<keyof SettingsState>>['language', 'colorScheme', 'toolbarPosition'],
 };
 
 export const mePersistConfig: PersistConfig<MeState> = {

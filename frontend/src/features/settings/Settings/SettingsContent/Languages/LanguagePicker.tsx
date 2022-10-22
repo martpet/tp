@@ -7,7 +7,7 @@ import { Spinner } from '~/common/components';
 import { languages } from '~/common/consts';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { Language } from '~/common/types';
-import { languageChanged, selectLanguage } from '~/features/app';
+import { languageChanged, selectLanguage } from '~/features/settings';
 
 export function LanguagePicker() {
   const language = useAppSelector(selectLanguage);
