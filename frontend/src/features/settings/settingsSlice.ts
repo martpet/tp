@@ -2,17 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { defaultLanguage, languages } from '~/common/consts';
 import { ColorScheme, Language, RootState, ToolbarPosition } from '~/common/types';
-import { SettingsTabKey } from '~/features/settings/types';
 
 export type SettingsState = {
-  activeTab: SettingsTabKey;
   language?: Language;
   colorScheme?: ColorScheme;
   toolbarPosition?: ToolbarPosition;
 };
 
 const initialState: SettingsState = {
-  activeTab: 'language',
   language: undefined,
   colorScheme: undefined,
   toolbarPosition: undefined,
@@ -22,9 +19,6 @@ const slice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    tabChanged: (state, action: PayloadAction<SettingsTabKey>) => {
-      state.activeTab = action.payload;
-    },
     languageChanged: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
     },
@@ -39,10 +33,8 @@ const slice = createSlice({
 
 export { slice as settingsSlice };
 
-export const { tabChanged, languageChanged, colorSchemeChanged, toolbarPositionChanged } =
+export const { languageChanged, colorSchemeChanged, toolbarPositionChanged } =
   slice.actions;
-
-export const selectActiveTab = (state: RootState) => state.settings.activeTab;
 
 export const selectLanguage = (state: RootState): Language => {
   if (state.settings.language) {
