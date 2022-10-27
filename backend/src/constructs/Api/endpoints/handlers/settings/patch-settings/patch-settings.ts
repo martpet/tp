@@ -29,6 +29,10 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async ({
     return errorResponse('UMxOJy1cpJ');
   }
 
+  if (!body) {
+    return errorResponse('x1IsNHbqd3', { statusCode: StatusCodes.BAD_REQUEST });
+  }
+
   try {
     data = JSON.parse(body);
   } catch (e) {

@@ -36,15 +36,21 @@ describe('patch-settings', () => {
 
   itResolves(handler, args);
 
-  describe('when "event.body" is not JSON', () => {
+  describe('when "event.body" is missing', () => {
     const argsClone = structuredClone(args);
     argsClone[0].body = undefined;
     itResolvesWithError(handler, argsClone);
   });
 
+  describe('when "event.body" is not JSON', () => {
+    const argsClone = structuredClone(args);
+    argsClone[0].body = 'not json';
+    itResolvesWithError(handler, argsClone);
+  });
+
   describe('when "event.body" has unallowed keys', () => {
     const argsClone = structuredClone(args);
-    argsClone[0].body = JSON.stringify({ dummyUnallowedKey: 'dummyUnallowedKeyValue' });
+    argsClone[0].body = JSON.stringify({ dummyUnallowedKey: '' });
     itResolvesWithError(handler, argsClone);
   });
 });

@@ -54,6 +54,19 @@ exports[`patch-settings > when "event.body" has unallowed keys > calls "errorRes
 
 exports[`patch-settings > when "event.body" has unallowed keys > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
+exports[`patch-settings > when "event.body" is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "x1IsNHbqd3",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`patch-settings > when "event.body" is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
 exports[`patch-settings > when "event.body" is not JSON > calls "errorResponse" with correct args 1`] = `
 [
   [
