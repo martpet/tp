@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-
 import { PostAuthenticationTriggerEvent } from 'aws-lambda';
 
 import { usersTableOptions } from '~/consts';
-import { UserPropsFromCognitoEvent, UsersTableItem } from '~/types';
+import { UserPropsFromCognito, UsersTableItem } from '~/types';
 import { createDynamoUpdateExpression, filterChangedProps } from '~/utils';
 
 import { getUserPropsFromCognitoEvent } from '../getUserPropsFromCognitoEvent';
@@ -37,7 +37,7 @@ export const updateUserFromCognitoEvent = async (
   return ddbDocClient.send(updateCommand);
 };
 
-async function fetchUser(props: UserPropsFromCognitoEvent) {
+async function fetchUser(props: UserPropsFromCognito) {
   const getCommand = new GetCommand(makeTableParams(props));
   const { Item } = await ddbDocClient.send(getCommand);
   return Item;

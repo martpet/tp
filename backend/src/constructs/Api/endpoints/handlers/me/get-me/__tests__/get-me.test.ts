@@ -1,35 +1,54 @@
+import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import { mockClient } from 'aws-sdk-client-mock';
 
-import { getIdTokenPayload, itResolvesWithErrorResponse } from '~/constructs/Api/utils';
-import { Me } from '~/types';
+import {
+  itGetsIdTokenPayload,
+  itResolves,
+  itResolvesWithError,
+  itSendsDdbCommand,
+} from '~/constructs/Api/utils';
+import { GetMeResponse } from '~/types';
 
 import { handler } from '../get-me';
 
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
 
+const ddbMock = mockClient(DynamoDBDocumentClient);
+
 const args = [
   {
-    headers: {
-      authorization: 'dummyIdToken',
-    },
+    headers: { authorization: 'dummyAuthorizationHeader' },
   },
-] as unknown as Parameters<APIGatewayProxyHandlerV2<Me>>;
+] as unknown as Parameters<APIGatewayProxyHandlerV2<GetMeResponse>>;
+
+beforeEach(() => {
+  ddbMock.reset();
+
+  ddbMock.on(GetCommand).resolves({
+    Item: {
+      givenName: 'dummyGivenName',
+      familyName: 'dummyFamilyName',
+      picture: 'dummyPicture',
+      email: 'dummyEmail',
+      settings: 'dummySettings',
+      randomProp: 'this should not be included in response',
+    },
+  });
+});
 
 describe('get-me', () => {
-  it('calls "getIdTokenPayload" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(getIdTokenPayload).mock.calls).toMatchSnapshot();
-  });
+  itGetsIdTokenPayload(handler, args);
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itSendsDdbCommand(GetCommand, ddbMock, handler, args);
 
-  describe('when "authorization" header is missing', () => {
-    const argsClone = structuredClone(args);
-    argsClone[0].headers.authorization = undefined;
+  itResolves(handler, args);
 
-    itResolvesWithErrorResponse(handler, argsClone);
+  describe('when "Item" is missing from "GetCommand" output', () => {
+    beforeEach(() => {
+      ddbMock.on(GetCommand).resolves({});
+    });
+    itResolvesWithError(handler, args);
   });
 });

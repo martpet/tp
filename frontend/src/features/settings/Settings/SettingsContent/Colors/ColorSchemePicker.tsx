@@ -8,7 +8,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { ColorScheme } from '~/common/types';
-import { colorSchemeChanged, selectColorScheme } from '~/features/settings';
+import { selectColorScheme, settingsChanged } from '~/features/settings';
 
 export function ColorSchemePicker() {
   const colorScheme = useAppSelector(selectColorScheme);
@@ -17,7 +17,7 @@ export function ColorSchemePicker() {
   const labelId = useId();
 
   const handleChange = (newScheme: Key) => {
-    dispatch(colorSchemeChanged(newScheme as ColorScheme));
+    dispatch(settingsChanged({ colorScheme: newScheme as ColorScheme }));
   };
 
   type Item = {

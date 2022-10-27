@@ -15,6 +15,10 @@ export const handler: LambdaEdgeViewerRequestHandler = async (event) => {
     const { request } = event.Records[0].cf;
     delete request.headers.authorization;
 
+    if (request.method === 'OPTIONS') {
+      return { status: StatusCodes.NO_CONTENT };
+    }
+
     if (checkIsPublicEndpoint(event)) {
       return request;
     }

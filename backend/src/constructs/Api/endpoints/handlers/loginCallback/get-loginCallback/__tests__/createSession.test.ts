@@ -3,6 +3,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import cookie from 'cookie';
 
 import { OauthTokens } from '~/constructs/Api/types';
+import { itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
 
 import { createSession } from '../createSession';
 
@@ -32,16 +33,11 @@ describe('createSession', () => {
     expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
   });
 
-  it('sends "PutCommand" to DynamoDB with correct args', async () => {
-    await createSession(...args);
-    expect(ddbMock.commandCalls(PutCommand)[0].args[0].input).toMatchSnapshot();
-  });
+  itSendsDdbCommand(PutCommand, ddbMock, createSession, args);
 
-  it('resolves with a correct value', () => {
-    return expect(createSession(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(createSession, args);
 
-  describe('when "globalLambdaProps.cdkNev" is "personal"', () => {
+  describe('when "globalLambdaProps.envName" is "personal"', () => {
     const initialEnvName = globalLambdaProps.envName;
 
     beforeAll(() => {

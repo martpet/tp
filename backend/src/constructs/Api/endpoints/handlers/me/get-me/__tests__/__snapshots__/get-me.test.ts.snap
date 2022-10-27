@@ -3,7 +3,7 @@
 exports[`get-me > calls "getIdTokenPayload" with correct args 1`] = `
 [
   [
-    "dummyIdToken",
+    "dummyAuthorizationHeader",
   ],
 ]
 `;
@@ -14,8 +14,28 @@ exports[`get-me > resolves with a correct value 1`] = `
   "familyName": "dummyFamilyName",
   "givenName": "dummyGivenName",
   "picture": "dummyPicture",
+  "settings": "dummySettings",
 }
 `;
+
+exports[`get-me > sends "GetCommand" to DynamoDB with correct args 1`] = `
+{
+  "Key": {
+    "id": "dummySub",
+  },
+  "TableName": "TripPics-Users",
+}
+`;
+
+exports[`get-me > when "Item" is missing from "GetCommand" output > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "Satqo0r-AS",
+  ],
+]
+`;
+
+exports[`get-me > when "Item" is missing from "GetCommand" output > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
 exports[`get-me > when "authorization" header is missing > calls "errorResponse" with correct args 1`] = `
 [

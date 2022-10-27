@@ -2,13 +2,16 @@ import { AssumeRoleCommand, Credentials, STSClient } from '@aws-sdk/client-sts';
 import { mockClient } from 'aws-sdk-client-mock';
 import camelcaseKeys from 'camelcase-keys';
 
+import { itRejects, itResolves } from '~/constructs/Api/utils';
 import { getRoleCredentials } from '~/utils';
 
 const stsMock = mockClient(STSClient);
 
 vi.mock('camelcase-keys');
 
-const args = ['dummyRoleArn', 'dummySessionName'] as const;
+const args = ['dummyRoleArn', 'dummySessionName'] as Parameters<
+  typeof getRoleCredentials
+>;
 
 const assumeRoleOutput = {
   Credentials: {
@@ -35,18 +38,14 @@ describe('getRoleCredentials', () => {
     expect(vi.mocked(camelcaseKeys).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(getRoleCredentials(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(getRoleCredentials, args);
 
   describe('when credentials are missing from "AssumeRoleCommand" output', () => {
     beforeEach(() => {
       stsMock.on(AssumeRoleCommand).resolves({});
     });
 
-    it('rejects with a correct value', () => {
-      return expect(getRoleCredentials(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(getRoleCredentials, args);
   });
 
   describe.each(['AccessKeyId', 'SecretAccessKey'])(

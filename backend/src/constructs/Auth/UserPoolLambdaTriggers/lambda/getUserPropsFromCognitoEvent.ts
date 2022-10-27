@@ -1,16 +1,12 @@
 import { PostAuthenticationTriggerEvent, PostConfirmationTriggerEvent } from 'aws-lambda';
 
-import {
-  CognitoIdentity,
-  IdentityProviderName,
-  UserPropsFromCognitoEvent,
-} from '~/types';
+import { CognitoIdentity, IdentityProviderName, UserPropsFromCognito } from '~/types';
 
 type TriggerEvent = PostConfirmationTriggerEvent | PostAuthenticationTriggerEvent;
 
 export const getUserPropsFromCognitoEvent = (
   event: TriggerEvent
-): UserPropsFromCognitoEvent => {
+): UserPropsFromCognito => {
   const { userAttributes } = event.request;
   const identity = JSON.parse(userAttributes.identities)[0] as CognitoIdentity;
 

@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { OauthCookieProps } from '~/constructs/Api/types';
-import { itResolvesWithErrorResponse } from '~/constructs/Api/utils';
+import { itResolves, itResolvesWithError } from '~/constructs/Api/utils';
 import { capitalize } from '~/utils';
 
 import { dummyOauthTokens } from '../__mocks__/fetchTokens';
@@ -59,9 +59,7 @@ describe('"get-loginCallback" handler', () => {
     expect(vi.mocked(createLoginCallbackScript).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(handler, args);
 
   describe.each(['code', 'state'])(
     'when "%s" query string parameter is missing',
@@ -69,7 +67,7 @@ describe('"get-loginCallback" handler', () => {
       const argsClone = structuredClone(args);
       const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
       delete queryStringParameters[key];
-      itResolvesWithErrorResponse(handler, argsClone);
+      itResolvesWithError(handler, argsClone);
     }
   );
 
@@ -79,7 +77,7 @@ describe('"get-loginCallback" handler', () => {
       key
     ] = `dummyQueryString${capitalize(key)}`;
 
-    itResolvesWithErrorResponse(handler, argsClone);
+    itResolvesWithError(handler, argsClone);
   });
 
   describe.each(['clientId', 'authDomain', 'loginCallbackUrl'])(
@@ -88,7 +86,7 @@ describe('"get-loginCallback" handler', () => {
       beforeEach(() => {
         delete process.env[key];
       });
-      itResolvesWithErrorResponse(handler, args);
+      itResolvesWithError(handler, args);
     }
   );
 
@@ -100,7 +98,7 @@ describe('"get-loginCallback" handler', () => {
       beforeEach(() => {
         vi.mocked(parseOauthCookie).mockReturnValueOnce(oauthCookiePropsClone);
       });
-      itResolvesWithErrorResponse(handler, args);
+      itResolvesWithError(handler, args);
     }
   );
 
@@ -108,21 +106,21 @@ describe('"get-loginCallback" handler', () => {
     beforeEach(() => {
       vi.mocked(fetchTokens).mockRejectedValueOnce(new Error('dummyErrorMessage'));
     });
-    itResolvesWithErrorResponse(handler, args);
+    itResolvesWithError(handler, args);
   });
 
   describe('when "createSession" rejects', () => {
     beforeEach(() => {
       vi.mocked(createSession).mockRejectedValueOnce(new Error('dummyErrorMessage'));
     });
-    itResolvesWithErrorResponse(handler, args);
+    itResolvesWithError(handler, args);
   });
 
   describe('when "stateNonce" from "oauth" cookie does not match with "state" from query strings params', () => {
     const argsClone = structuredClone(args);
     const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
     queryStringParameters.state = 'differentState';
-    itResolvesWithErrorResponse(handler, argsClone);
+    itResolvesWithError(handler, argsClone);
   });
 
   describe('when "idTokenNonce" from "oauth" cookie does not match with "nonce" from the "idToken" payload', () => {
@@ -131,6 +129,6 @@ describe('"get-loginCallback" handler', () => {
     beforeEach(() => {
       vi.mocked(fetchTokens).mockResolvedValueOnce(tokensPropsClone);
     });
-    itResolvesWithErrorResponse(handler, args);
+    itResolvesWithError(handler, args);
   });
 });

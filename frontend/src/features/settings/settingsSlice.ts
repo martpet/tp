@@ -1,50 +1,95 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import { RequireAtLeastOne } from 'type-fest';
 
+import { startAppListening } from '~/app/store/middleware';
 import { defaultLanguage, languages } from '~/common/consts';
-import { ColorScheme, Language, RootState, ToolbarPosition } from '~/common/types';
+import { Language, RootState, ToolbarPosition, UserSettings } from '~/common/types';
+import { meApi } from '~/features/me';
+import { settingsApi, SettingsTabKey } from '~/features/settings';
+
+import { getSettingsSyncPatches } from './getSettingsSyncPatches';
 
 export type SettingsState = {
-  language?: Language;
-  colorScheme?: ColorScheme;
-  toolbarPosition?: ToolbarPosition;
+  userSettings: UserSettings;
+  activeTab: SettingsTabKey;
 };
 
 const initialState: SettingsState = {
-  language: undefined,
-  colorScheme: undefined,
-  toolbarPosition: undefined,
+  userSettings: {
+    language: undefined,
+    colorScheme: undefined,
+    toolbarPosition: undefined,
+  },
+  activeTab: 'language',
 };
 
-const slice = createSlice({
+// Custom actions
+export const settingsChanged =
+  createAction<RequireAtLeastOne<UserSettings>>('settings/changed');
+
+export const settingsFromDbChanged = createAction<RequireAtLeastOne<UserSettings>>(
+  'settings/changedFromDb'
+);
+
+// Slice
+export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    languageChanged: (state, action: PayloadAction<Language>) => {
-      state.language = action.payload;
+    activeTabChanged: (state, action: PayloadAction<SettingsTabKey>) => {
+      state.activeTab = action.payload;
     },
-    colorSchemeChanged: (state, action: PayloadAction<ColorScheme>) => {
-      state.colorScheme = action.payload;
-    },
-    toolbarPositionChanged: (state, action: PayloadAction<ToolbarPosition>) => {
-      state.toolbarPosition = action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      isAnyOf(settingsChanged, settingsFromDbChanged),
+      (state, action) => {
+        Object.assign(state.userSettings, action.payload);
+      }
+    );
   },
 });
 
-export { slice as settingsSlice };
+// Actions
+export const { activeTabChanged } = settingsSlice.actions;
 
-export const { languageChanged, colorSchemeChanged, toolbarPositionChanged } =
-  slice.actions;
+// Selectors
+export const selectActiveTab = (state: RootState) => state.settings.activeTab;
 
 export const selectLanguage = (state: RootState): Language => {
-  if (state.settings.language) {
-    return state.settings.language;
-  }
+  const { language } = state.settings.userSettings;
+  if (language) return language;
   const browserLanguage = state.app.browserLocale.split('-')[0] as Language;
   return languages.includes(browserLanguage) ? browserLanguage : defaultLanguage;
 };
 
-export const selectColorScheme = (state: RootState) => state.settings.colorScheme || 'os';
+export const selectColorScheme = (state: RootState) =>
+  state.settings.userSettings.colorScheme || 'os';
 
 export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
-  state.settings.toolbarPosition || 'top';
+  state.settings.userSettings.toolbarPosition || 'top';
+
+// Listeners
+// on settingsChanged - save to db
+startAppListening({
+  actionCreator: settingsChanged,
+  effect: (action, listenerApi) => {
+    const { user } = listenerApi.getState().me;
+    if (user) {
+      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
+    }
+  },
+});
+// on login - sync local with remote settings
+startAppListening({
+  matcher: meApi.endpoints.getMe.matchFulfilled,
+  effect: (_, listenerApi) => {
+    const { localPatch, remotePatch } = getSettingsSyncPatches(listenerApi.getState());
+    if (localPatch) {
+      listenerApi.dispatch(settingsFromDbChanged(localPatch));
+    }
+    if (remotePatch) {
+      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(remotePatch));
+    }
+  },
+});

@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import fetch, { Response } from 'node-fetch';
 
-import { getIdTokenPayload } from '~/constructs/Api/utils';
+import { getIdTokenPayload, itRejects, itResolves } from '~/constructs/Api/utils';
 
 import { fetchTokens } from '../fetchTokens';
 
@@ -17,7 +17,7 @@ const args = [
     authDomain: 'dummyAuthDomain',
     loginCallbackUrl: 'dummyLoginCallbackUrl',
   },
-] as const;
+] as unknown as Parameters<typeof fetchTokens>;
 
 vi.mocked(fetch).mockResolvedValue({
   json: () => Promise.resolve({ id_token: 'dummyIdToken' }),
@@ -39,9 +39,7 @@ describe('fetchTokens', () => {
     expect(vi.mocked(getIdTokenPayload).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(fetchTokens(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(fetchTokens, args);
 
   describe('when "fetch" response contains an "error" prop', () => {
     beforeEach(() => {
@@ -50,8 +48,6 @@ describe('fetchTokens', () => {
       } as Response);
     });
 
-    it('rejects with a correct value', () => {
-      expect(fetchTokens(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(fetchTokens, args);
   });
 });

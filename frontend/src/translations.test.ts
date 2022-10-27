@@ -1,5 +1,4 @@
-import { defaultLanguage } from '~/common/consts/defaultLanguage';
-import { languages } from '~/common/consts/languages';
+import { defaultLanguage, languages } from '~/common/consts';
 import { Language } from '~/common/types';
 
 const getIds = async (language: Language) => {

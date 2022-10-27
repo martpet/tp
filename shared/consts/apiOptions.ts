@@ -1,28 +1,28 @@
 export const apiOptions = {
   '/login': {
+    methods: {
+      GET: { isPublic: true },
+    },
     cookies: ['oauth'],
     queryStrings: ['provider'],
     envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
-    methods: {
-      GET: { isPublic: true },
-    },
   },
 
   '/loginCallback': {
+    methods: {
+      GET: { isPublic: true },
+    },
     cookies: ['oauth'],
     queryStrings: ['code', 'state', 'error', 'error_description'],
     envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
-    methods: {
-      GET: { isPublic: true },
-    },
   },
 
   '/logout': {
-    cookies: ['sessionId'],
-    headers: ['referer'],
     methods: {
       GET: { isPublic: true },
     },
+    cookies: ['sessionId'],
+    headers: ['referer'],
     envVars: [
       'authDomain',
       'clientId',
@@ -34,6 +34,12 @@ export const apiOptions = {
   '/me': {
     methods: {
       GET: {},
+    },
+  },
+
+  '/settings': {
+    methods: {
+      PATCH: {},
     },
   },
 } as const; // todo: use "as const satisfies ApiOptions" (typescript 4.9)

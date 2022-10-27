@@ -1,3 +1,3 @@
-import { ColorScheme as SpectrumColorScheme } from '@react-types/provider';
+import { UserSettings } from '~/common/types';
 
-export type ColorScheme = SpectrumColorScheme | 'os';
+export type ColorScheme = UserSettings['colorScheme'];

@@ -7,7 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppDispatch, useToolbarPosition } from '~/common/hooks';
 import { ToolbarPosition } from '~/common/types';
-import { toolbarPositionChanged } from '~/features/settings';
+import { settingsChanged } from '~/features/settings';
 
 export function ToolbarPositionPicker() {
   const { toolbarPosition, isToolbarPositionDisabled } = useToolbarPosition();
@@ -42,7 +42,7 @@ export function ToolbarPositionPicker() {
 
   const handleChange = (key: Key) => {
     const newPosition = key as ToolbarPosition;
-    dispatch(toolbarPositionChanged(newPosition));
+    dispatch(settingsChanged({ toolbarPosition: newPosition }));
   };
 
   return (

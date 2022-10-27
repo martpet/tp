@@ -1,5 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 
+import { itRejects, itResolves } from '~/constructs/Api/utils';
+
 import { revokeOauthTokens } from '../revokeOauthTokens';
 
 vi.mock('node-fetch');
@@ -10,7 +12,7 @@ const args = [
     refreshToken: 'dummyRefreshToken',
     clientId: 'dummyClientId',
   },
-] as const;
+] as Parameters<typeof revokeOauthTokens>;
 
 beforeEach(() => {
   vi.mocked(fetch).mockResolvedValue({ ok: true } as Response);
@@ -22,9 +24,7 @@ describe('revokeOauthTokens', () => {
     expect(vi.mocked(fetch).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(revokeOauthTokens(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(revokeOauthTokens, args);
 
   describe('when "fetch" response is not "ok"', () => {
     beforeEach(() => {
@@ -34,8 +34,6 @@ describe('revokeOauthTokens', () => {
       } as Response);
     });
 
-    it('rejects with a correct value', () => {
-      return expect(revokeOauthTokens(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(revokeOauthTokens, args);
   });
 });

@@ -1,11 +1,13 @@
 import { DeleteCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
+import { itRejects, itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
+
 import { deleteSession } from '../deleteSession';
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
-const args = ['dummySessionId'] as const;
+const args = ['dummySessionId'] as Parameters<typeof deleteSession>;
 
 beforeEach(() => {
   ddbMock.reset();
@@ -16,22 +18,15 @@ beforeEach(() => {
 });
 
 describe('deleteSession', () => {
-  it('sends "DeleteCommand" to DynamoDB with correct args', async () => {
-    await deleteSession(...args);
-    expect(ddbMock.commandCalls(DeleteCommand)[0].args[0].input).toMatchSnapshot();
-  });
+  itSendsDdbCommand(DeleteCommand, ddbMock, deleteSession, args);
 
-  it('resolves with a correct value', () => {
-    return expect(deleteSession(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(deleteSession, args);
 
   describe('when "Attributes" prop is missing from "DeleteCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(DeleteCommand).resolves({});
     });
 
-    it('rejects with a correct value', () => {
-      return expect(deleteSession(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(deleteSession, args);
   });
 });

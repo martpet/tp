@@ -1,1 +1,2 @@
-export * from './Me';
+export * from './MeResponse';
+export * from './SettingsResponse';

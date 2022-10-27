@@ -3,7 +3,12 @@ import { mockClient } from 'aws-sdk-client-mock';
 import millis from 'milliseconds';
 
 import { IdTokenPayload } from '~/constructs/Api/types';
-import { getIdTokenPayload } from '~/constructs/Api/utils';
+import {
+  getIdTokenPayload,
+  itRejects,
+  itResolves,
+  itSendsDdbCommand,
+} from '~/constructs/Api/utils';
 
 import { fetchNewIdToken } from '../fetchNewIdToken';
 import { getIdToken } from '../getIdToken';
@@ -13,14 +18,15 @@ vi.mock('~/constructs/Api/utils/getIdTokenPayload');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 const originalDate = Date.now();
-const idTokenExpires = Date.now() + millis.days(1);
+const idTokenExpiresInMills = Date.now() + millis.days(1);
 const refreshTokenExpires = Date.now() + millis.years(1);
+
 const args = ['dummySessionId'] as Parameters<typeof getIdToken>;
 
 vi.mocked(fetchNewIdToken).mockResolvedValue('newDummyIdToken');
 
 vi.mocked(getIdTokenPayload).mockReturnValue({
-  exp: idTokenExpires,
+  exp: idTokenExpiresInMills / 1000,
   aud: 'dummyAud',
 } as IdTokenPayload);
 
@@ -37,28 +43,21 @@ beforeEach(() => {
 });
 
 describe('getTokens', () => {
-  it('sends "GetCommand" to DynamoDB with correct args', async () => {
-    await getIdToken(...args);
-    expect(ddbMock.commandCalls(GetCommand)[0].args[0].input).toMatchSnapshot();
-  });
+  itSendsDdbCommand(GetCommand, ddbMock, getIdToken, args);
 
-  it('resolves with a correct value', () => {
-    return expect(getIdToken(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(getIdToken, args);
 
   describe('when "Item" prop is missing from "GetCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
 
-    it('rejects with a correct value', () => {
-      return expect(getIdToken(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(getIdToken, args);
   });
 
   describe('when "idToken" has expired', () => {
     beforeAll(() => {
-      vi.setSystemTime(new Date(idTokenExpires + millis.days(1)));
+      vi.setSystemTime(new Date(idTokenExpiresInMills + millis.days(1)));
     });
 
     afterAll(() => {
@@ -70,9 +69,7 @@ describe('getTokens', () => {
       expect(vi.mocked(fetchNewIdToken).mock.calls).toMatchSnapshot();
     });
 
-    it('resolves with a correct value', () => {
-      return expect(getIdToken(...args)).resolves.toMatchSnapshot();
-    });
+    itResolves(getIdToken, args);
   });
 
   describe('when "refreshToken" has expired', () => {
@@ -84,8 +81,6 @@ describe('getTokens', () => {
       vi.setSystemTime(originalDate);
     });
 
-    it('rejects with a correct value', () => {
-      return expect(getIdToken(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(getIdToken, args);
   });
 });

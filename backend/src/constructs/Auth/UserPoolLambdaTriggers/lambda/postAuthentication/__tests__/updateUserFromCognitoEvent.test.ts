@@ -1,6 +1,7 @@
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
+import { itRejects, itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
 import { createDynamoUpdateExpression, filterChangedProps } from '~/utils';
 
 import { getUserPropsFromCognitoEvent } from '../../getUserPropsFromCognitoEvent';
@@ -13,7 +14,7 @@ vi.mock('~/utils/createDynamoUpdateExpression');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
-const args = [event] as const;
+const args = [event] as Parameters<typeof updateUserFromCognitoEvent>;
 
 beforeEach(() => {
   ddbMock.reset();
@@ -36,10 +37,7 @@ describe('updateUserFromCognitoEvent', () => {
     expect(vi.mocked(getUserPropsFromCognitoEvent).mock.calls).toMatchSnapshot();
   });
 
-  it('sends "GetCommand" to DynamoDB with correct args', async () => {
-    await updateUserFromCognitoEvent(...args);
-    expect(ddbMock.commandCalls(GetCommand)[0].args[0].input).toMatchSnapshot();
-  });
+  itSendsDdbCommand(GetCommand, ddbMock, updateUserFromCognitoEvent, args);
 
   it('calls "filterChangedProps" with correct args', async () => {
     await updateUserFromCognitoEvent(...args);
@@ -50,18 +48,15 @@ describe('updateUserFromCognitoEvent', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
-    it('rejects with a correct value', () => {
-      return expect(updateUserFromCognitoEvent(...args)).rejects.toMatchSnapshot();
-    });
+
+    itRejects(updateUserFromCognitoEvent, args);
   });
 
   describe('when user props in event are not changed', () => {
     beforeEach(() => {
       vi.mocked(filterChangedProps).mockImplementationOnce(() => undefined);
     });
-    it('resolves with a correct value', async () => {
-      return expect(updateUserFromCognitoEvent(...args)).resolves.toMatchSnapshot();
-    });
+    itResolves(updateUserFromCognitoEvent, args);
   });
 
   describe('when user props in event are changed', () => {
@@ -70,13 +65,8 @@ describe('updateUserFromCognitoEvent', () => {
       expect(vi.mocked(createDynamoUpdateExpression).mock.calls).toMatchSnapshot();
     });
 
-    it('sends "UpdateCommand" to DynamoDB with correct args', async () => {
-      await updateUserFromCognitoEvent(...args);
-      expect(ddbMock.commandCalls(UpdateCommand)[0].args[0].input).toMatchSnapshot();
-    });
+    itSendsDdbCommand(UpdateCommand, ddbMock, updateUserFromCognitoEvent, args);
 
-    it('resolves with a correct value', () => {
-      return expect(updateUserFromCognitoEvent(...args)).resolves.toMatchSnapshot();
-    });
+    itResolves(updateUserFromCognitoEvent, args);
   });
 });

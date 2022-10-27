@@ -18,6 +18,7 @@ export default mergeConfig(
           '**/lambda/**',
           '**/utils/**',
           '!**/constructs/utils/**',
+          '!**/constructs/Api/utils/testHelpers/**',
           '!**/index.ts',
           '!**/__mocks__/**',
           '!shared/**',

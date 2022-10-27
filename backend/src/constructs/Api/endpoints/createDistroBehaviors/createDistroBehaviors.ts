@@ -3,12 +3,13 @@ import { Duration } from 'aws-cdk-lib';
 import {
   AddBehaviorOptions,
   AllowedMethods,
+  CacheCookieBehavior,
   CacheHeaderBehavior,
   CachePolicy,
   CachePolicyProps,
+  CacheQueryStringBehavior,
   Distribution,
   experimental,
-  HeadersReferrerPolicy,
   LambdaEdgeEventType,
   OriginRequestCookieBehavior,
   OriginRequestHeaderBehavior,
@@ -17,26 +18,20 @@ import {
   OriginRequestQueryStringBehavior,
   ResponseHeadersCorsBehavior,
   ResponseHeadersPolicy,
-  ResponseSecurityHeadersBehavior,
   ViewerProtocolPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { Construct } from 'constructs';
-import deepmerge from 'deepmerge';
-import { PartialDeep, Writable } from 'type-fest';
+import { Writable } from 'type-fest';
 
 import { Auth, Tables } from '~/constructs';
-import {
-  authorizationHeader,
-  defaultCachePolicyProps,
-  defaultSecurityHeadersBehavior,
-} from '~/constructs/Api/consts';
+import { authorizationHeader } from '~/constructs/Api/consts';
+import { getSecurityHeadersBehavior } from '~/constructs/Api/endpoints/createDistroBehaviors/getSecurityHeadersBehavior';
 import { apiOptions, appEnvs, publicEndpoints } from '~/consts';
 import { ApiOptions, ApiPath } from '~/types';
 import { getEnvName } from '~/utils';
 
-import { createAuthEdgeFunction } from './authEdgeFunction';
-import { createLoginCallbackScript } from './handlers/loginCallback/get-loginCallback/createLoginCallbackScript';
+import { createAuthEdgeFunction } from '../authEdgeFunction';
 
 type Props = {
   scope: Construct;
@@ -56,6 +51,14 @@ export const createDistroBehaviors = ({
 }: Props) => {
   const authEdgeFunction = createAuthEdgeFunction({ scope, auth, tables });
 
+  const defaultCachePolicyProps: CachePolicyProps = {
+    defaultTtl: Duration.minutes(0),
+    minTtl: Duration.minutes(0),
+    maxTtl: Duration.seconds(1), // 1s - https://github.com/aws/aws-cdk/issues/13408
+    cookieBehavior: CacheCookieBehavior.none(),
+    queryStringBehavior: CacheQueryStringBehavior.none(),
+  };
+
   const defaultCachePolicy = new CachePolicy(
     scope,
     'CachePolicy',
@@ -69,6 +72,7 @@ export const createDistroBehaviors = ({
       distribution,
       authEdgeFunction,
       defaultCachePolicy,
+      defaultCachePolicyProps,
       path,
     });
   });
@@ -80,11 +84,13 @@ function addBehavior({
   distribution,
   authEdgeFunction,
   defaultCachePolicy,
+  defaultCachePolicyProps,
   path,
 }: Pick<Props, 'scope' | 'origin' | 'distribution'> & {
   path: ApiPath;
   authEdgeFunction: experimental.EdgeFunction;
   defaultCachePolicy: CachePolicy;
+  defaultCachePolicyProps: CachePolicyProps;
 }) {
   const id = path.replace('/', '');
   const envName = getEnvName(scope);
@@ -92,7 +98,6 @@ function addBehavior({
   const hasPrivateEndpoints = !Object.keys(publicEndpoints).includes(path);
   const customCachePolicyProps: Writable<CachePolicyProps> = {};
   const originRequestPolicyProps: Writable<OriginRequestPolicyProps> = {};
-
   const {
     methods,
     headers = [],
@@ -100,36 +105,30 @@ function addBehavior({
     queryStrings = [],
   } = (apiOptions as ApiOptions)[path];
 
+  const corsBehavior: ResponseHeadersCorsBehavior = {
+    accessControlAllowCredentials: true,
+    accessControlAllowHeaders: ['content-type'],
+    accessControlAllowMethods: Object.keys(methods),
+    accessControlAllowOrigins: [envName === 'personal' ? '*' : `https://${appDomain}`],
+    accessControlMaxAge: Duration.days(1),
+    originOverride: true,
+  };
+
+  const responseHeadersPolicy = new ResponseHeadersPolicy(
+    scope,
+    `${id}ResponseHeaderPolicy`,
+    {
+      corsBehavior,
+      securityHeadersBehavior: getSecurityHeadersBehavior({ envName, appDomain, path }),
+    }
+  );
+
   const behaviorOptions: Writable<AddBehaviorOptions> = {
     edgeLambdas: [],
     viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     allowedMethods: AllowedMethods.ALLOW_ALL,
-  };
-
-  const customSecurityHeadersBehaviors: Partial<
-    Record<ApiPath, PartialDeep<ResponseSecurityHeadersBehavior>>
-  > = {
-    '/loginCallback': {
-      contentSecurityPolicy: {
-        contentSecurityPolicy: `script-src '${
-          createLoginCallbackScript({ envName, appDomain }).cspHash
-        }'`,
-      },
-    },
-    '/logout': {
-      referrerPolicy: {
-        referrerPolicy: HeadersReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE,
-      },
-    },
-  };
-
-  const corsBehavior: Writable<ResponseHeadersCorsBehavior> = {
-    accessControlAllowCredentials: true,
-    accessControlAllowHeaders: [authorizationHeader],
-    accessControlAllowMethods: Object.keys(methods),
-    accessControlAllowOrigins: [envName === 'personal' ? '*' : `https://${appDomain}`],
-    accessControlMaxAge: Duration.hours(1),
-    originOverride: true,
+    responseHeadersPolicy,
+    cachePolicy: defaultCachePolicy,
   };
 
   if (hasPrivateEndpoints) {
@@ -146,7 +145,6 @@ function addBehavior({
     originRequestPolicyProps.headerBehavior = OriginRequestHeaderBehavior.allowList(
       ...headers
     );
-    corsBehavior.accessControlAllowHeaders.concat(headers);
   }
 
   if (cookies.length) {
@@ -160,6 +158,13 @@ function addBehavior({
       OriginRequestQueryStringBehavior.allowList(...queryStrings);
   }
 
+  if (Object.keys(customCachePolicyProps).length) {
+    behaviorOptions.cachePolicy = new CachePolicy(scope, `${id}CachePolicy`, {
+      ...defaultCachePolicyProps,
+      ...customCachePolicyProps,
+    });
+  }
+
   if (Object.keys(originRequestPolicyProps).length) {
     behaviorOptions.originRequestPolicy = new OriginRequestPolicy(
       scope,
@@ -167,27 +172,6 @@ function addBehavior({
       originRequestPolicyProps
     );
   }
-
-  if (Object.keys(customCachePolicyProps).length) {
-    behaviorOptions.cachePolicy = new CachePolicy(scope, `${id}CachePolicy`, {
-      ...defaultCachePolicyProps,
-      ...customCachePolicyProps,
-    });
-  } else {
-    behaviorOptions.cachePolicy = defaultCachePolicy;
-  }
-
-  const securityHeadersBehavior = deepmerge(
-    defaultSecurityHeadersBehavior,
-    customSecurityHeadersBehaviors[path] || {},
-    { clone: false }
-  ) as ResponseSecurityHeadersBehavior;
-
-  behaviorOptions.responseHeadersPolicy = new ResponseHeadersPolicy(
-    scope,
-    `${id}ResponseHeaderPolicy`,
-    { corsBehavior, securityHeadersBehavior }
-  );
 
   distribution.addBehavior(path, origin, behaviorOptions);
 }

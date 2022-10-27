@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import cookie from 'cookie';
 
-import { itResolvesWithErrorResponse } from '~/constructs/Api/utils';
+import { itResolves, itResolvesWithError } from '~/constructs/Api/utils';
 
 import { handler } from '../get-login';
 
@@ -29,15 +29,13 @@ describe('"get-login" handler', () => {
     expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(handler, args);
 
   describe.each(['provider'])('when "%s" query string parameter is missing', (key) => {
     const argsClone = structuredClone(args);
     const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
     delete queryStringParameters[key];
-    itResolvesWithErrorResponse(handler, argsClone);
+    itResolvesWithError(handler, argsClone);
   });
 
   describe.each(['authDomain', 'loginCallbackUrl', 'clientId'])(
@@ -46,7 +44,7 @@ describe('"get-login" handler', () => {
       beforeEach(() => {
         delete process.env[key];
       });
-      itResolvesWithErrorResponse(handler, args);
+      itResolvesWithError(handler, args);
     }
   );
 });

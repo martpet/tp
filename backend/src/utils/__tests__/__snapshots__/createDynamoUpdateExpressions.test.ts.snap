@@ -4,10 +4,27 @@ exports[`createDynamoUpdateExpression > returns a correct value 1`] = `
 {
   "ExpressionAttributeNames": {
     "#param1": "param1",
+    "#param2": "param2",
   },
   "ExpressionAttributeValues": {
     ":param1": "param1Value",
+    ":param2": "param2Value",
   },
-  "UpdateExpression": "set #param1 = :param1",
+  "UpdateExpression": "set #param1 = :param1,#param2 = :param2",
+}
+`;
+
+exports[`createDynamoUpdateExpression > returns a correct value when parent key is provided 1`] = `
+{
+  "ExpressionAttributeNames": {
+    "#dummyParentKey": "dummyParentKey",
+    "#param1": "param1",
+    "#param2": "param2",
+  },
+  "ExpressionAttributeValues": {
+    ":param1": "param1Value",
+    ":param2": "param2Value",
+  },
+  "UpdateExpression": "set #dummyParentKey.#param1 = :param1,#dummyParentKey.#param2 = :param2",
 }
 `;

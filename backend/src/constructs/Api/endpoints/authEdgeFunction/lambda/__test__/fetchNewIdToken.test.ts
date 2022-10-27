@@ -1,5 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 
+import { itRejects } from '~/constructs/Api/utils';
+
 import { fetchNewIdToken } from '../fetchNewIdToken';
 import { updateSession } from '../updateSession';
 
@@ -44,8 +46,6 @@ describe('fetchNewIdToken', () => {
       } as Response);
     });
 
-    it('rejects with a correct value', () => {
-      expect(fetchNewIdToken(...args)).rejects.toMatchSnapshot();
-    });
+    itRejects(fetchNewIdToken, args);
   });
 });

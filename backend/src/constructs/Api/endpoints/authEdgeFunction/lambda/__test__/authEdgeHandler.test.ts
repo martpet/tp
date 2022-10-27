@@ -1,7 +1,8 @@
 import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import {
-  itResolvesWithLambdaEdgeErrorResponse,
+  itResolves,
+  itResolvesWithLambdaEdgeError,
   parseLambdaEdgeEventCookies,
 } from '~/constructs/Api/utils';
 
@@ -37,9 +38,7 @@ describe('authEdgeHandler', () => {
     expect(vi.mocked(getIdToken).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(handler, args);
 
   describe('when the endpoint is public', () => {
     beforeEach(() => {
@@ -50,11 +49,20 @@ describe('authEdgeHandler', () => {
     });
   });
 
+  describe('when the request method is "OPTIONS"', () => {
+    const argsClone = structuredClone(args);
+    argsClone[0].Records[0].cf.request.method = 'OPTIONS';
+
+    it('resolved with a correct value', () => {
+      return expect(handler(...argsClone)).resolves.toMatchSnapshot();
+    });
+  });
+
   describe('when "sessionId" is missing', () => {
     beforeEach(() => {
       vi.mocked(parseLambdaEdgeEventCookies).mockReturnValueOnce({});
     });
-    itResolvesWithLambdaEdgeErrorResponse(handler, args);
+    itResolvesWithLambdaEdgeError(handler, args);
   });
 
   describe('when "getIdToken" rejects', () => {
@@ -63,6 +71,6 @@ describe('authEdgeHandler', () => {
         new Error('dummy getIdToken error message')
       );
     });
-    itResolvesWithLambdaEdgeErrorResponse(handler, args);
+    itResolvesWithLambdaEdgeError(handler, args);
   });
 });

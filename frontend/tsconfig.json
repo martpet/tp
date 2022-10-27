@@ -15,5 +15,5 @@
     "vite.config.ts",
     "vitest.config.ts",
     ".eslintrc.cjs"
-  ],
+, "../shared/consts/languages.ts"  ],
 }

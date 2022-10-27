@@ -216,3 +216,9 @@ exports[`authEdgeHandler > when the endpoint is public > resolved with a correct
   "uri": "/",
 }
 `;
+
+exports[`authEdgeHandler > when the request method is "OPTIONS" > resolved with a correct value 1`] = `
+{
+  "status": 204,
+}
+`;

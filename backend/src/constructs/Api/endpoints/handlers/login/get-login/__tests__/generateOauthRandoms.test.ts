@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 
+import { itResolves } from '~/constructs/Api/utils';
 import { getRandomBase64UrlSafe } from '~/utils';
 
 import { generateOauthRandoms } from '../generateOauthRandoms';
@@ -37,7 +38,5 @@ describe('generateOauthRandoms', () => {
     ).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(generateOauthRandoms()).resolves.toMatchSnapshot();
-  });
+  itResolves(generateOauthRandoms);
 });

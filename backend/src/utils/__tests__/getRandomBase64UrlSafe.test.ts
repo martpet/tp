@@ -1,24 +1,23 @@
 import crypto from 'crypto';
 
+import { itResolves } from '~/constructs/Api/utils';
 import { getRandomBase64UrlSafe } from '~/utils';
 
 vi.mock('crypto');
 vi.mock('util');
 
-const callArgs = [128] as const;
+const args = [128] as Parameters<typeof getRandomBase64UrlSafe>;
 
 describe('getRandomBase64UrlSafe', () => {
   it('calls "crypto.randomBytes" with correct args', async () => {
-    await getRandomBase64UrlSafe(...callArgs);
+    await getRandomBase64UrlSafe(...args);
     expect(vi.mocked(crypto.randomBytes).mock.calls).toMatchSnapshot();
   });
 
   it('calls "toString" from the return value of "crypto.randomBytes" with correct args', async () => {
-    await getRandomBase64UrlSafe(...callArgs);
+    await getRandomBase64UrlSafe(...args);
     expect(vi.mocked(crypto.randomBytes(1).toString).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(getRandomBase64UrlSafe(...callArgs)).resolves.toMatchSnapshot();
-  });
+  itResolves(getRandomBase64UrlSafe, args);
 });

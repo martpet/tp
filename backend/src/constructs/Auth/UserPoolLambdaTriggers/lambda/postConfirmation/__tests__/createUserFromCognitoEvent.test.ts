@@ -1,6 +1,8 @@
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
+import { itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
+
 import { createUserFromCognitoEvent } from '../createUserFromCognitoEvent';
 import event from './__fixtures__/postConfirmationEvent';
 
@@ -8,7 +10,7 @@ vi.mock('../../getUserPropsFromCognitoEvent');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
-const args = [event] as const;
+const args = [event] as Parameters<typeof createUserFromCognitoEvent>;
 
 beforeEach(() => {
   ddbMock.reset();
@@ -19,12 +21,7 @@ beforeEach(() => {
 });
 
 describe('createUserFromCognitoEvent', () => {
-  it('sends "PutCommand" to DynamoDB with correct args', async () => {
-    await createUserFromCognitoEvent(...args);
-    expect(ddbMock.commandCalls(PutCommand)[0].args[0].input).toMatchSnapshot();
-  });
+  itSendsDdbCommand(PutCommand, ddbMock, createUserFromCognitoEvent, args);
 
-  it('resolves with a correct value', () => {
-    return expect(createUserFromCognitoEvent(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(createUserFromCognitoEvent, args);
 });

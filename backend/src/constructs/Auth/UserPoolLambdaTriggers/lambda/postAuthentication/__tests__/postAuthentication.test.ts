@@ -1,5 +1,7 @@
 import { PostAuthenticationTriggerHandler } from 'aws-lambda';
 
+import { itResolves } from '~/constructs/Api/utils';
+
 import { handler } from '../postAuthentication';
 import { updateUserFromCognitoEvent } from '../updateUserFromCognitoEvent';
 import event from './__fixtures__/postAuthenticationEvent';
@@ -14,7 +16,5 @@ describe('postAuthentication', () => {
     expect(updateUserFromCognitoEvent).toHaveBeenCalledWith(event);
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toBe(event);
-  });
+  itResolves(handler, args);
 });

@@ -2,7 +2,7 @@ import { RequireAtLeastOne } from 'type-fest';
 
 export type ApiOptions = Record<string, ApiPathOptions>;
 
-export type ApiMethod = 'GET' | 'POST';
+export type ApiMethod = 'GET' | 'PATCH';
 
 export type ApiMethodsOptions = RequireAtLeastOne<
   Record<ApiMethod, { isPublic?: boolean }>

@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { persistor } from '~/app';
 import { match401ApiResponse } from '~/app/store/actionMatchers';
 import { startAppListening } from '~/app/store/middleware';
+import { apiPaths, apiUrl } from '~/common/consts';
 import { Me, RootState } from '~/common/types';
 import { meApi } from '~/features/me/meApi';
 
@@ -15,13 +17,14 @@ const initialState: MeState = {
   user: undefined,
 };
 
-const slice = createSlice({
+export const meSlice = createSlice({
   name: 'me',
   initialState,
   reducers: {
     signedIn: (state) => {
       state.isSignedIn = true;
     },
+    signedOut: () => {},
   },
   extraReducers: (builder) => {
     builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, action) => {
@@ -33,6 +36,14 @@ const slice = createSlice({
   },
 });
 
+// Actions
+export const { signedIn, signedOut } = meSlice.actions;
+
+// Selectors
+export const selectMe = (state: RootState) => state.me.user;
+
+// Listeners
+// on sign in - fetch user
 startAppListening({
   predicate: (_, currentState, previousState) => {
     return currentState.me.isSignedIn && !previousState.me.isSignedIn;
@@ -41,9 +52,11 @@ startAppListening({
     dispatch(meApi.endpoints.getMe.initiate(undefined, { subscribe: false }));
   },
 });
-
-export { slice as meSlice };
-
-export const { signedIn } = slice.actions;
-
-export const selectMe = (state: RootState) => state.me.user;
+// on signedOut - purge localStorage state and redirect to /logout
+startAppListening({
+  actionCreator: signedOut,
+  effect: async () => {
+    await persistor.purge();
+    window.location.href = apiUrl + apiPaths.logout;
+  },
+});

@@ -30,6 +30,8 @@ export const createRoutes = ({ scope, api, auth, tables }: Props) => {
   const handlersCallbacks: HandlerCallbacks = {
     '/loginCallback': (h) => tables.sessionsTable.grantWriteData(h),
     '/logout': (h) => tables.sessionsTable.grantWriteData(h),
+    '/me': (h) => tables.usersTable.grantReadData(h),
+    '/settings': (h) => tables.usersTable.grantWriteData(h),
   };
 
   const userPoolAuthorizer = new HttpUserPoolAuthorizer('Authorizer', auth.userPool, {

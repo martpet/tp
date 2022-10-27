@@ -4,15 +4,14 @@ import { Key, ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
-import { selectSettingsActiveTab, settingsActiveTabChanged } from '~/features/app';
-import { SettingsTabKey } from '~/features/settings';
+import { activeTabChanged, selectActiveTab, SettingsTabKey } from '~/features/settings';
 
 import { Colors } from './Colors/Colors';
 import { Languages } from './Languages/Languages';
 import { Layout } from './Layout/Layout';
 
 export default function SettingsContent() {
-  const activeTab = useAppSelector(selectSettingsActiveTab);
+  const activeTab = useAppSelector(selectActiveTab);
   const isMobile = useIsMobileDevice();
   const dispatch = useAppDispatch();
   const { formatMessage } = useIntl();
@@ -43,7 +42,7 @@ export default function SettingsContent() {
   ];
 
   const handleTabChange = (key: Key) => {
-    dispatch(settingsActiveTabChanged(key as SettingsTabKey));
+    dispatch(activeTabChanged(key as SettingsTabKey));
   };
 
   return (

@@ -25,7 +25,9 @@ export const getIdToken = async (sessionId: string) => {
 
   const { idToken, refreshToken, refreshTokenExpires } = sessionsItem;
   const { exp, aud: clientId } = getIdTokenPayload(idToken);
-  const idTokenExpires = exp - 5000;
+
+  // 'exp' is seconds since epoch
+  const idTokenExpires = exp * 1000 - 5000;
 
   if (idTokenExpires > Date.now()) {
     return idToken;

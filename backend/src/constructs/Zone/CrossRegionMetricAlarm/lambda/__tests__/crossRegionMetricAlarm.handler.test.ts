@@ -7,6 +7,8 @@ import {
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
+import { itResolves } from '~/constructs/Api/utils';
+
 import { handler } from '../crossRegionMetricAlarm.handler';
 
 const cloudWatchMock = mockClient(CloudWatchClient);
@@ -20,7 +22,7 @@ const args = [
       },
     },
   } as unknown as CloudFormationCustomResourceEvent,
-] as const;
+] as Parameters<typeof handler>;
 
 beforeEach(() => {
   cloudWatchMock.reset();
@@ -38,9 +40,7 @@ describe('crossRegionMetricAlarm.handler', () => {
     ).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(handler, args);
 
   describe('when "RequestType" is "Delete"', () => {
     const argsClone = structuredClone(args);

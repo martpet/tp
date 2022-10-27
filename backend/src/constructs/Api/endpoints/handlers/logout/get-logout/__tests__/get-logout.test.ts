@@ -1,6 +1,10 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
-import { itResolvesWithErrorResponse, parseEventCookies } from '~/constructs/Api/utils';
+import {
+  itResolves,
+  itResolvesWithError,
+  parseEventCookies,
+} from '~/constructs/Api/utils';
 
 import { deleteSession } from '../deleteSession';
 import { handler } from '../get-logout';
@@ -33,9 +37,7 @@ describe('"get-logout" handler', () => {
     expect(vi.mocked(parseEventCookies).mock.calls).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(handler, args);
 
   describe('when "parseEventCookies" returns a "sessionId"', () => {
     beforeEach(() => {
@@ -58,7 +60,7 @@ describe('"get-logout" handler', () => {
       beforeEach(() => {
         vi.mocked(deleteSession).mockRejectedValueOnce('dummyDeleteSessionRejectedValue');
       });
-      itResolvesWithErrorResponse(handler, args);
+      itResolvesWithError(handler, args);
     });
 
     describe('when "revokeOauthTokens" rejects', () => {
@@ -67,7 +69,7 @@ describe('"get-logout" handler', () => {
           'dummyRevokeOauthTokensRejectedValue'
         );
       });
-      itResolvesWithErrorResponse(handler, args);
+      itResolvesWithError(handler, args);
     });
   });
 
@@ -86,16 +88,13 @@ describe('"get-logout" handler', () => {
       const argsClone = structuredClone(args);
       delete argsClone[0].headers.referer;
 
-      itResolvesWithErrorResponse(handler, argsClone);
+      itResolvesWithError(handler, argsClone);
     });
 
     describe('when "referer" is from localhost', () => {
       const argsClone = structuredClone(args);
       argsClone[0].headers.referer = 'http://localhost:3000/dummyPath';
-
-      it('resolves with a correct value', () => {
-        return expect(handler(...argsClone)).resolves.toMatchSnapshot();
-      });
+      itResolves(handler, argsClone);
     });
   });
 
@@ -108,6 +107,6 @@ describe('"get-logout" handler', () => {
     beforeEach(() => {
       delete process.env[key];
     });
-    itResolvesWithErrorResponse(handler, args);
+    itResolvesWithError(handler, args);
   });
 });

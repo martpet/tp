@@ -8,6 +8,8 @@ import {
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
+import { itResolves } from '~/constructs/Api/utils';
+
 import { handler } from '../crossRegionSNSTopic.handler';
 
 const snsMock = mockClient(SNSClient);
@@ -20,7 +22,7 @@ const args = [
       createTopicInput: 'dummyCreateTopicInput',
     },
   } as unknown as CloudFormationCustomResourceEvent,
-] as const;
+] as Parameters<typeof handler>;
 
 beforeEach(() => {
   snsMock.reset();
@@ -40,9 +42,7 @@ describe('crossRegionSNSTopic.handler', () => {
     expect(snsMock.commandCalls(CreateTopicCommand)[0].args[0].input).toMatchSnapshot();
   });
 
-  it('resolves with a correct value', () => {
-    return expect(handler(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(handler, args);
 
   describe('when "subscribeInputs" is provided', () => {
     const argsClone = structuredClone(args);
@@ -72,8 +72,6 @@ describe('crossRegionSNSTopic.handler', () => {
       expect(snsMock.commandCalls(DeleteTopicCommand)[0].args[0].input).toMatchSnapshot();
     });
 
-    it('resolves with a correct value', () => {
-      expect(handler(...argsClone)).resolves.toMatchSnapshot();
-    });
+    itResolves(handler, argsClone);
   });
 });

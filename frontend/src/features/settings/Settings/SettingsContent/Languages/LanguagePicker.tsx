@@ -7,7 +7,7 @@ import { Spinner } from '~/common/components';
 import { languages } from '~/common/consts';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { Language } from '~/common/types';
-import { languageChanged, selectLanguage } from '~/features/settings';
+import { selectLanguage, settingsChanged } from '~/features/settings';
 
 export function LanguagePicker() {
   const language = useAppSelector(selectLanguage);
@@ -16,7 +16,7 @@ export function LanguagePicker() {
   const { formatMessage } = useIntl();
 
   const handleChange = (newLanguage: Key) => {
-    dispatch(languageChanged(newLanguage as Language));
+    dispatch(settingsChanged({ language: newLanguage as Language }));
   };
 
   const items = languages.map((code) => ({
