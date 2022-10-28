@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { persistor } from '~/app';
 import { match401ApiResponse } from '~/app/store/actionMatchers';
 import { startAppListening } from '~/app/store/middleware';
 import { apiPaths, apiUrl } from '~/common/consts';
@@ -56,7 +55,9 @@ startAppListening({
 startAppListening({
   actionCreator: signedOut,
   effect: async () => {
-    await persistor.purge();
+    // Remove state from local storage?
+    // await persistor.purge();
+
     window.location.href = apiUrl + apiPaths.logout;
   },
 });
