@@ -2,8 +2,8 @@ import { lazy, Suspense } from 'react';
 
 import { LoadingOverlay } from '~/common/components';
 
-const promise = import('./SettingsContent/SettingsContent');
-const SettingsContent = lazy(() => promise);
+const modulePromise = import('./SettingsContent/SettingsContent');
+const SettingsContent = lazy(() => modulePromise);
 
 export function Settings() {
   return (

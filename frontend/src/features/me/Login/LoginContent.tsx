@@ -43,7 +43,7 @@ export default function LoginContent({ onLoginButtonClick }: Props) {
   }
 
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" alignItems="center" UNSAFE_style={{ height: '100%' }}>
       <Flex direction="column" gap="size-250">
         {buttons}
       </Flex>

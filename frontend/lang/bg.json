@@ -1,4 +1,16 @@
 {
+  "2kwLAg": {
+    "defaultMessage": "Качвае на снимки",
+    "description": "upload dialog heading"
+  },
+  "DWTA3g": {
+    "defaultMessage": "Затвори",
+    "description": "upload dialog close button"
+  },
+  "mOqhio": {
+    "defaultMessage": "Качи снимки",
+    "description": "toolbar upload button aria label"
+  },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
     "description": "settings tab"

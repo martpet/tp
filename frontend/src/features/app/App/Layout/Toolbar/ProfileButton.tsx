@@ -1,3 +1,5 @@
+// TODO: Add tooltip to ActionButton when fixed: https://github.com/adobe/react-spectrum/issues/3009
+
 import { ActionButton, DialogTrigger } from '@adobe/react-spectrum';
 import ProfileIcon from '@spectrum-icons/workflow/RealTimeCustomerProfile';
 import { useIntl } from 'react-intl';
@@ -35,5 +37,3 @@ export function ProfileButton() {
     </DialogTrigger>
   );
 }
-
-// TODO: Add tooltips to buttons when fixed: https://github.com/adobe/react-spectrum/issues/3009

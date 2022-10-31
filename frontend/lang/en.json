@@ -3,6 +3,10 @@
     "defaultMessage": "Layout",
     "description": "settings tab"
   },
+  "2kwLAg": {
+    "defaultMessage": "Upload photos",
+    "description": "upload dialog heading"
+  },
   "4yg8Sf": {
     "defaultMessage": "Choose language",
     "description": "language picker label"
@@ -26,6 +30,10 @@
   "BAOl3n": {
     "defaultMessage": "Light",
     "description": "color scheme picker item - light"
+  },
+  "DWTA3g": {
+    "defaultMessage": "Close",
+    "description": "upload dialog close button"
   },
   "FOqNnc": {
     "defaultMessage": "Auto",
@@ -58,6 +66,10 @@
   "jOxmkh": {
     "defaultMessage": "Continue with Apple",
     "description": "apple login button"
+  },
+  "mOqhio": {
+    "defaultMessage": "Upload photos",
+    "description": "toolbar upload button aria label"
   },
   "oB9CE2": {
     "defaultMessage": "Profile",
