@@ -20,7 +20,9 @@ export const meSlice = createSlice({
     signedIn: (state) => {
       state.isSignedIn = true;
     },
-    signedOut: () => {},
+    signedOut: (state) => {
+      state.isSignedIn = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(match401ApiResponse, () => {
