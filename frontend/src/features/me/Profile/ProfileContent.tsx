@@ -1,11 +1,10 @@
 import { Flex, Heading, View } from '@adobe/react-spectrum';
 
 import { Avatar } from '~/common/components';
-import { useAppSelector } from '~/common/hooks';
-import { LogoutButton, selectMe } from '~/features/me';
+import { LogoutButton, useMe } from '~/features/me';
 
 export default function ProfileContent() {
-  const me = useAppSelector(selectMe);
+  const { me } = useMe();
 
   if (!me) {
     return null;

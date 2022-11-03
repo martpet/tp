@@ -5,12 +5,11 @@ import ProfileIcon from '@spectrum-icons/workflow/RealTimeCustomerProfile';
 import { useIntl } from 'react-intl';
 
 import { Avatar } from '~/common/components';
-import { useAppSelector } from '~/common/hooks';
-import { LoginDialog, ProfileDialog, selectMe } from '~/features/me';
+import { LoginDialog, ProfileDialog, useMe } from '~/features/me';
 
 export function ProfileButton() {
-  const me = useAppSelector(selectMe);
   const { formatMessage } = useIntl();
+  const { me } = useMe();
 
   const buttonAriaLabel = formatMessage({
     defaultMessage: 'Profile',

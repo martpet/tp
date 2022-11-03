@@ -1,8 +1,7 @@
-import { useAppSelector } from '~/common/hooks';
-import { Login, selectMe } from '~/features/me';
+import { Login, useMe } from '~/features/me';
 
 export default function UploadContent() {
-  const me = useAppSelector(selectMe);
+  const { me } = useMe();
 
   if (!me) {
     return <Login />;

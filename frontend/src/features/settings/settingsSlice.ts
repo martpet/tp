@@ -7,7 +7,7 @@ import { Language, RootState, ToolbarPosition, UserSettings } from '~/common/typ
 import { meApi } from '~/features/me';
 import { settingsApi, SettingsTabKey } from '~/features/settings';
 
-import { getSettingsSyncPatches } from './getSettingsSyncPatches';
+import { getSettingsToSync } from './getSettingsToSync';
 
 export type SettingsState = {
   userSettings: UserSettings;
@@ -70,21 +70,25 @@ export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
   state.settings.userSettings.toolbarPosition || 'top';
 
 // Listeners
-// on settingsChanged - save to db
+// on `settingsChanged` copy settings to db
 startAppListening({
   actionCreator: settingsChanged,
   effect: (action, listenerApi) => {
-    const { user } = listenerApi.getState().me;
-    if (user) {
+    const state = listenerApi.getState();
+    if (state.me.isSignedIn) {
       listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
     }
   },
 });
-// on login - sync local with remote settings
+// on login sync settings
 startAppListening({
   matcher: meApi.endpoints.getMe.matchFulfilled,
-  effect: (_, listenerApi) => {
-    const { localPatch, remotePatch } = getSettingsSyncPatches(listenerApi.getState());
+  effect: (action, listenerApi) => {
+    const state = listenerApi.getState();
+    const { localPatch, remotePatch } = getSettingsToSync({
+      localSettings: state.settings.userSettings,
+      remoteSettings: action.payload.settings,
+    });
     if (localPatch) {
       listenerApi.dispatch(settingsFromDbChanged(localPatch));
     }
