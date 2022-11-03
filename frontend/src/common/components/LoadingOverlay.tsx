@@ -4,9 +4,10 @@ import { Spinner } from '~/common/components';
 
 type Props = {
   transparent?: boolean;
+  text?: string;
 };
 
-export function LoadingOverlay({ transparent }: Props) {
+export function LoadingOverlay({ transparent, text }: Props) {
   return (
     <View
       position="absolute"
@@ -22,7 +23,7 @@ export function LoadingOverlay({ transparent }: Props) {
       }}
     >
       <Flex height="100%" alignItems="center" justifyContent="center">
-        <Spinner />
+        <Spinner text={text} />
       </Flex>
     </View>
   );

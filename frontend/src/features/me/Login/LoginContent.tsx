@@ -3,7 +3,8 @@ import { isWebKit } from '@react-aria/utils';
 
 import adobeCleanBold from '~/assets/fonts/AdobeClean-Bold.woff2';
 import googleLogo from '~/assets/google-logo.svg';
-import { LoginButton } from '~/features/me';
+import { Spinner } from '~/common/components';
+import { LoginButton, useMe } from '~/features/me';
 
 // Preload assets after LoginContent is lazy loaded
 document.head.insertAdjacentHTML(
@@ -27,26 +28,32 @@ type Props = {
 };
 
 export default function LoginContent({ onLoginButtonClick }: Props) {
+  const { isLoading: isLoadingMe } = useMe();
+
   const handleButtonClick = () => {
     if (onLoginButtonClick) {
       onLoginButtonClick();
     }
   };
 
-  const buttons = [
+  const loginButtons = [
     <LoginButton key="g" provider="Google" onClick={handleButtonClick} />,
     <LoginButton key="a" provider="SignInWithApple" onClick={handleButtonClick} />,
   ];
 
   if (isWebKit()) {
-    buttons.reverse();
+    loginButtons.reverse();
   }
 
   return (
     <Flex justifyContent="center" alignItems="center" UNSAFE_style={{ height: '100%' }}>
-      <Flex direction="column" gap="size-250">
-        {buttons}
-      </Flex>
+      {isLoadingMe ? (
+        <Spinner />
+      ) : (
+        <Flex direction="column" gap="size-250">
+          {loginButtons}
+        </Flex>
+      )}
     </Flex>
   );
 }

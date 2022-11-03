@@ -20,9 +20,7 @@ export const meSlice = createSlice({
     signedIn: (state) => {
       state.isSignedIn = true;
     },
-    signedOut: (state) => {
-      state.isSignedIn = false;
-    },
+    signedOut: () => {},
   },
   extraReducers: (builder) => {
     builder.addMatcher(match401ApiResponse, () => {
@@ -36,6 +34,11 @@ export const { signedIn, signedOut } = meSlice.actions;
 startAppListening({
   actionCreator: signedOut,
   effect: async () => {
+    // Clearing `isSignedIn` from localStorage prevents unneeded request to fetch user after
+    // page is reloaded on logout. If `isSignedIn` was cleared from reducer on `signedOut`
+    // then the UI would change before the page reload on loagout, which looks ugly.
+    localStorage.removeItem('persist:me');
+
     window.location.href = apiUrl + apiPaths.logout;
   },
 });

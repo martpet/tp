@@ -1,8 +1,21 @@
+/* eslint-disable formatjs/no-literal-string-in-jsx */
 import { ProgressCircle, SpectrumProgressCircleProps } from '@adobe/react-spectrum';
 
-export function Spinner(props: SpectrumProgressCircleProps) {
-  // Hardcode aria-label, because Spinner can be used outside IntlProvider context
+type Props = SpectrumProgressCircleProps & {
+  text?: string;
+};
 
-  // eslint-disable-next-line formatjs/no-literal-string-in-jsx
-  return <ProgressCircle isIndeterminate aria-label="Loading" {...props} />;
+export function Spinner({ text, ...props }: Props) {
+  // Hardcode aria-label text, since component can be used outside `IntlProvider`.
+  return (
+    <>
+      <ProgressCircle
+        marginX="size-125"
+        aria-label="Loading"
+        isIndeterminate
+        {...props}
+      />
+      {text}
+    </>
+  );
 }
