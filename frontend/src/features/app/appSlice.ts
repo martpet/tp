@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  matchCompletedQueryWithLoader,
-  matchPendingQueryWithLoader,
+  matchCompletedQueryWithAppLoader,
+  matchPendingQueryWithAppLoader,
 } from '~/app/store/actionMatchers';
 import { RootState } from '~/common/types';
 
@@ -25,10 +25,10 @@ export const appSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(matchPendingQueryWithLoader, (state) => {
+    builder.addMatcher(matchPendingQueryWithAppLoader, (state) => {
       state.pendingQueriesWithLoader++;
     });
-    builder.addMatcher(matchCompletedQueryWithLoader, (state) => {
+    builder.addMatcher(matchCompletedQueryWithAppLoader, (state) => {
       state.pendingQueriesWithLoader--;
     });
   },
