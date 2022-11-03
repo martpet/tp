@@ -21,7 +21,7 @@ export function ProfileButton() {
     return (
       <DialogTrigger type="popover">
         <ActionButton isQuiet aria-label={buttonAriaLabel}>
-          <Avatar user={me} />
+          <Avatar user={me} spectrumProps={{ marginX: 6 }} />
         </ActionButton>
         <ProfileDialog />
       </DialogTrigger>

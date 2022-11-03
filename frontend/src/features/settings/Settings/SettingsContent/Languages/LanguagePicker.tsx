@@ -27,7 +27,7 @@ export function LanguagePicker() {
   items.sort();
 
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="end">
       <Picker
         items={items}
         selectedKey={language}
@@ -40,7 +40,7 @@ export function LanguagePicker() {
         {(item) => <Item>{item.label}</Item>}
       </Picker>
 
-      {isLoading && <Spinner size="S" marginStart="size-125" />}
+      {isLoading && <Spinner size="S" marginStart="size-125" marginBottom="size-100" />}
     </Flex>
   );
 }

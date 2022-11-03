@@ -10,13 +10,14 @@ import classes from './Avatar.module.css';
 type Props = {
   user: Me;
   size?: SpectrumAvatarProps['size'];
+  spectrumProps?: Omit<SpectrumAvatarProps, 'src'>;
 };
 
-export function Avatar({ user, size = 'avatar-size-100' }: Props) {
+export function Avatar({ user, size = 'avatar-size-100', spectrumProps }: Props) {
   const altText = `${user.givenName} ${user.familyName}`;
 
   return user.picture ? (
-    <SpectrumAvatar src={user.picture} alt={altText} size={size} />
+    <SpectrumAvatar src={user.picture} alt={altText} size={size} {...spectrumProps} />
   ) : (
     <View width={size} height={size} UNSAFE_className={classes.boringAvatarWrap}>
       <BoringAvatar name={user.givenName + user.familyName} variant="beam" />
