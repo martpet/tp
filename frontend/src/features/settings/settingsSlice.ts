@@ -23,11 +23,11 @@ const initialState: SettingsState = {
   activeTab: 'language',
 };
 
-// Custom actions
+// Actions
 export const settingsChanged =
   createAction<RequireAtLeastOne<UserSettings>>('settings/changed');
 
-export const settingsFromDbChanged = createAction<RequireAtLeastOne<UserSettings>>(
+export const gotNewSettingsFromDb = createAction<RequireAtLeastOne<UserSettings>>(
   'settings/changedFromDb'
 );
 
@@ -42,7 +42,7 @@ export const settingsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      isAnyOf(settingsChanged, settingsFromDbChanged),
+      isAnyOf(settingsChanged, gotNewSettingsFromDb),
       (state, action) => {
         Object.assign(state.userSettings, action.payload);
       }
@@ -50,7 +50,7 @@ export const settingsSlice = createSlice({
   },
 });
 
-// Actions
+// Generated Actions
 export const { activeTabChanged } = settingsSlice.actions;
 
 // Selectors
@@ -90,7 +90,7 @@ startAppListening({
       remoteSettings: action.payload.settings,
     });
     if (localPatch) {
-      listenerApi.dispatch(settingsFromDbChanged(localPatch));
+      listenerApi.dispatch(gotNewSettingsFromDb(localPatch));
     }
     if (remotePatch) {
       listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(remotePatch));

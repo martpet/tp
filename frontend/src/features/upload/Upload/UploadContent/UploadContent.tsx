@@ -1,5 +1,8 @@
 import { Login, useMe } from '~/features/me';
 
+import { DropZone } from './DropZone';
+import { EmptyState } from './EmptyState';
+
 export default function UploadContent() {
   const { me } = useMe();
 
@@ -7,6 +10,9 @@ export default function UploadContent() {
     return <Login />;
   }
 
-  // eslint-disable-next-line formatjs/no-literal-string-in-jsx
-  return <>todo</>;
+  return (
+    <DropZone>
+      <EmptyState />
+    </DropZone>
+  );
 }

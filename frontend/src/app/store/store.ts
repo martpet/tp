@@ -12,6 +12,7 @@ import {
 
 import { api, publicDirApi } from '~/app/services';
 import { appSlice, meSlice, settingsSlice } from '~/features';
+import { uploadSlice } from '~/features/upload';
 
 import { listenerMiddleware, loggerMiddleware } from './middleware';
 import { mePersistConfig, settingsPersistConfig } from './persistConfigs';
@@ -22,6 +23,7 @@ export const rootReducer = combineReducers({
   [appSlice.name]: appSlice.reducer,
   [meSlice.name]: persistReducer(mePersistConfig, meSlice.reducer),
   [settingsSlice.name]: persistReducer(settingsPersistConfig, settingsSlice.reducer),
+  [uploadSlice.name]: uploadSlice.reducer,
 });
 
 export const store = configureStore({

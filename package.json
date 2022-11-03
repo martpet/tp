@@ -43,6 +43,7 @@
     "@react-spectrum/avatar": "^3.0.0-alpha.10",
     "@react-spectrum/label": "^3.8.0",
     "@reduxjs/toolkit": "^1.8.6",
+    "@spectrum-icons/illustrations": "^3.5.0",
     "@vitest/coverage-istanbul": "^0.24.3",
     "app-root-path": "^3.1.0",
     "aws-cdk-lib": "^2.46.0",

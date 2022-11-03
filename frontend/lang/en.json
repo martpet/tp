@@ -3,6 +3,10 @@
     "defaultMessage": "Layout",
     "description": "settings tab"
   },
+  "2TuW1z": {
+    "defaultMessage": "Select files from your computer or drop them here",
+    "description": "upload empty state illustration body"
+  },
   "2kwLAg": {
     "defaultMessage": "Upload photos",
     "description": "upload dialog heading"
@@ -71,6 +75,10 @@
     "defaultMessage": "Upload photos",
     "description": "toolbar upload button aria label"
   },
+  "n5BdYp": {
+    "defaultMessage": "Select files",
+    "description": "button choose files (initial state)"
+  },
   "oB9CE2": {
     "defaultMessage": "Profile",
     "description": "toolbar profile button aria label"
@@ -90,6 +98,14 @@
   "u3XllG": {
     "defaultMessage": "Toolbar position",
     "description": "toolbar position picker label"
+  },
+  "vk/Gju": {
+    "defaultMessage": "Drop your files",
+    "description": "upload empty state illustration heading"
+  },
+  "w9Al+W": {
+    "defaultMessage": "Select more files",
+    "description": "button choose files (with added files)"
   },
   "x8bEvj": {
     "defaultMessage": "Settings",

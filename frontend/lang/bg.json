@@ -1,19 +1,15 @@
 {
-  "2kwLAg": {
-    "defaultMessage": "Качвае на снимки",
-    "description": "upload dialog heading"
-  },
-  "DWTA3g": {
-    "defaultMessage": "Затвори",
-    "description": "upload dialog close button"
-  },
-  "mOqhio": {
-    "defaultMessage": "Качи снимки",
-    "description": "toolbar upload button aria label"
-  },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
     "description": "settings tab"
+  },
+  "2kwLAg": {
+    "defaultMessage": "Качване на снимки",
+    "description": "upload dialog heading"
+  },
+  "2TuW1z": {
+    "defaultMessage": "Избери файлове от компютъра или ги довалчи тук",
+    "description": "upload empty state illustration body"
   },
   "4yg8Sf": {
     "defaultMessage": "Избери език",
@@ -47,6 +43,10 @@
     "defaultMessage": "в ляво",
     "description": "toolbar position picker label - left"
   },
+  "DWTA3g": {
+    "defaultMessage": "Затвори",
+    "description": "upload dialog close button"
+  },
   "FOqNnc": {
     "defaultMessage": "автоматична",
     "description": "color scheme picker item - auto"
@@ -67,6 +67,14 @@
     "defaultMessage": "Вход",
     "description": "login dialog heading"
   },
+  "mOqhio": {
+    "defaultMessage": "Качи снимки",
+    "description": "toolbar upload button aria label"
+  },
+  "n5BdYp": {
+    "defaultMessage": "Избери файлове",
+    "description": "button choose files (initial state)"
+  },
   "oB9CE2": {
     "defaultMessage": "Профил",
     "description": "toolbar profile button aria label"
@@ -86,6 +94,14 @@
   "u3XllG": {
     "defaultMessage": "Позиция на лента с инструменти",
     "description": "toolbar position picker label"
+  },
+  "vk/Gju": {
+    "defaultMessage": "Довлачи файлове тук",
+    "description": "upload empty state illustration heading"
+  },
+  "w9Al+W": {
+    "defaultMessage": "Избери още файлове",
+    "description": "button choose files (with added files)"
   },
   "x8bEvj": {
     "defaultMessage": "Настройки",

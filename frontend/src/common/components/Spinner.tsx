@@ -10,7 +10,7 @@ export function Spinner({ text, ...props }: Props) {
   return (
     <>
       <ProgressCircle
-        marginX="size-125"
+        marginX={text ? 'size-125' : ''}
         aria-label="Loading"
         isIndeterminate
         {...props}
