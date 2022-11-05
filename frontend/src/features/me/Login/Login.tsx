@@ -2,8 +2,8 @@ import { lazy, Suspense } from 'react';
 
 import { LoadingOverlay } from '~/common/components';
 
-const modulePromise = import('./LoginContent');
-const LoginContent = lazy(() => modulePromise);
+const modulePromise = import('./LoginInner/LoginInner');
+const LoginInner = lazy(() => modulePromise);
 
 type Props = {
   onLoginButtonClick?: () => void;
@@ -12,7 +12,7 @@ type Props = {
 export function Login({ onLoginButtonClick }: Props) {
   return (
     <Suspense fallback={<LoadingOverlay transparent />}>
-      <LoginContent onLoginButtonClick={onLoginButtonClick} />
+      <LoginInner onLoginButtonClick={onLoginButtonClick} />
     </Suspense>
   );
 }

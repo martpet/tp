@@ -1,9 +1,11 @@
 import { Flex, Heading, View } from '@adobe/react-spectrum';
 
 import { Avatar } from '~/common/components';
-import { LogoutButton, useMe } from '~/features/me';
+import { useMe } from '~/features/me';
 
-export default function ProfileContent() {
+import { LogoutButton } from './LogoutButton';
+
+export default function ProfileInner() {
   const { me } = useMe();
 
   if (!me) {

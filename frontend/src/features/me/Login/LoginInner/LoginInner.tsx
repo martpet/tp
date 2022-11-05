@@ -4,7 +4,9 @@ import { isWebKit } from '@react-aria/utils';
 import adobeCleanBold from '~/assets/fonts/AdobeClean-Bold.woff2';
 import googleLogo from '~/assets/google-logo.svg';
 import { Spinner } from '~/common/components';
-import { LoginButton, useMe } from '~/features/me';
+import { useMe } from '~/features/me';
+
+import { LoginButton } from './LoginButton';
 
 // Preload assets after LoginContent is lazy loaded
 document.head.insertAdjacentHTML(
@@ -27,7 +29,7 @@ type Props = {
   onLoginButtonClick?: () => void;
 };
 
-export default function LoginContent({ onLoginButtonClick }: Props) {
+export default function LoginInner({ onLoginButtonClick }: Props) {
   const { isLoading: isLoadingMe } = useMe();
 
   const handleButtonClick = () => {

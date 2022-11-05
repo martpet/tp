@@ -1,3 +1,2 @@
-export * from './Upload/Upload';
-export * from './UploadDialog';
+export * from './UploadDialog/UploadDialog';
 export * from './uploadSlice';

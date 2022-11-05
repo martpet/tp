@@ -1,16 +1,16 @@
-import { Button } from '@adobe/react-spectrum';
+import { Button, SpectrumButtonProps } from '@adobe/react-spectrum';
 import { ChangeEventHandler, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
+import { acceptedUploadFileTypes } from '~/features/upload/consts';
 import { addFiles } from '~/features/upload/thunks';
 import { selectFiles } from '~/features/upload/uploadSlice';
 
-import { acceptedUploadFileTypes } from './consts';
+type Props = Omit<SpectrumButtonProps, 'variant'>;
 
-export function ButtonSelectFiles() {
-  const { files } = useAppSelector(selectFiles);
-  const isUploading = false; // todo: select from store
+export function ButtonAddFiles(buttonProps: Props) {
+  const files = useAppSelector(selectFiles);
   const inputElRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
@@ -36,7 +36,7 @@ export function ButtonSelectFiles() {
         onChange={handleInputChange}
       />
 
-      <Button variant="cta" isDisabled={isUploading} onPress={handleButtonPress}>
+      <Button variant="cta" onPress={handleButtonPress} {...buttonProps}>
         {!files.length ? (
           <FormattedMessage
             defaultMessage="Select files"

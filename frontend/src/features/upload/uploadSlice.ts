@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '~/common/types';
 import { addFiles } from '~/features/upload/thunks';
@@ -20,21 +20,14 @@ export const uploadSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addFiles.fulfilled, (state, action) => {
-      state.filesMeta = state.filesMeta.concat(action.payload.filesMeta);
-      state.duplicateFilesKeys = action.payload.duplicateFilesKeys;
+      if (action.payload.filesMeta.length) {
+        state.filesMeta = state.filesMeta.concat(action.payload.filesMeta);
+      }
+      if (action.payload.duplicateFilesKeys.length) {
+        state.duplicateFilesKeys = action.payload.duplicateFilesKeys;
+      }
     });
   },
 });
 
-export const selectFiles = createSelector(
-  (state: RootState) => state.upload.filesMeta,
-  (state: RootState) => state.upload.duplicateFilesKeys,
-  (filesMeta, duplicateFilesKeys) => {
-    const files = filesMeta.map((meta) => ({
-      blob: window.uploadBlobs[meta.key],
-      ...meta,
-    }));
-    const duplicateFiles = files.filter(({ key }) => duplicateFilesKeys.includes(key));
-    return { files, duplicateFiles };
-  }
-);
+export const selectFiles = (state: RootState) => state.upload.filesMeta;

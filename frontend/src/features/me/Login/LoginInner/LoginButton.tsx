@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import googleLogo from '~/assets/google-logo.svg';
 import { IdentityProviderName } from '~/common/types';
 
-import { useLoginPopup } from './useLoginPopup';
+import { useLoginPopup } from '../useLoginPopup';
 
 type Props = {
   provider: IdentityProviderName;

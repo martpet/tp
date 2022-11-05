@@ -1,33 +1,30 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { RootState } from '~/common/types';
 import { FileMeta } from '~/features/upload/types';
-
-declare global {
-  interface Window {
-    uploadBlobs: Record<string, File>;
-  }
-}
-
-window.uploadBlobs = {};
 
 export const addFiles = createAsyncThunk(
   'upload/addFilesStatus',
-  async (fileList: FileList) => {
+  async (fileList: FileList, thunkAPI) => {
     const filesMeta: FileMeta[] = [];
+    const state = thunkAPI.getState() as RootState;
+    const currentFilesKeys = state.upload.filesMeta.map((file) => file.key);
     const duplicateFilesKeys: string[] = [];
 
     Array.from(fileList).forEach((file) => {
       const { name, size } = file;
       const key = `${name}-${size}`;
 
-      if (Object.keys(window.uploadBlobs).includes(key)) {
+      if (currentFilesKeys.includes(key)) {
         duplicateFilesKeys.push(key);
         return;
       }
 
-      window.uploadBlobs[key] = file;
-
-      filesMeta.push({ key, name });
+      filesMeta.push({
+        key,
+        name,
+        objectURL: URL.createObjectURL(file),
+      });
     });
 
     return {

@@ -1,7 +1,7 @@
 import { Content, Dialog } from '@adobe/react-spectrum';
 import { useIntl } from 'react-intl';
 
-import { Profile } from '~/features/me';
+import { Profile } from './Profile/Profile';
 
 export function ProfileDialog() {
   const { formatMessage } = useIntl();
