@@ -7,9 +7,9 @@ import { acceptedUploadFileTypes } from '~/features/upload/consts';
 import { addFiles } from '~/features/upload/thunks';
 import { selectFiles } from '~/features/upload/uploadSlice';
 
-type Props = Omit<SpectrumButtonProps, 'variant'>;
+type Props = SpectrumButtonProps;
 
-export function ButtonAddFiles(buttonProps: Props) {
+export function ButtonAddFiles({ variant = 'cta', ...buttonProps }: Props) {
   const files = useAppSelector(selectFiles);
   const inputElRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -36,7 +36,7 @@ export function ButtonAddFiles(buttonProps: Props) {
         onChange={handleInputChange}
       />
 
-      <Button variant="cta" onPress={handleButtonPress} {...buttonProps}>
+      <Button variant={variant} onPress={handleButtonPress} {...buttonProps}>
         {!files.length ? (
           <FormattedMessage
             defaultMessage="Select files"

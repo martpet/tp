@@ -2,8 +2,16 @@ export type FileMeta = {
   key: string;
   name: string;
   objectURL: string;
-};
-
-export type FileMetaWithBlob = FileMeta & {
-  blob: File;
+  exif: {
+    dateTimeOriginal?: string;
+    gpsAltitude?: number;
+    gpsLatitude?: number;
+    gpsLongitude?: number;
+    gpsDestBearing?: number;
+    gpsHPositioningError?: number;
+    gpsSpeed?: number;
+    make?: string;
+    model?: string;
+    lensModel?: string;
+  };
 };

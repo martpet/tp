@@ -12,7 +12,7 @@ export function UploadDialogButtons() {
 
   return (
     <>
-      {files.length > 0 && <ButtonAddFiles />}
+      {files.length > 0 && <ButtonAddFiles variant="secondary" />}
       <Button variant="secondary" onPress={dismiss}>
         <FormattedMessage
           defaultMessage="Close"
