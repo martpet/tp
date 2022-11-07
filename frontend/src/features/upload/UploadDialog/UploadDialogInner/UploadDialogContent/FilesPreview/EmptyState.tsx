@@ -2,7 +2,7 @@ import { Content, Heading, IllustratedMessage, View } from '@adobe/react-spectru
 import UploadIllustration from '@spectrum-icons/illustrations/Upload';
 import { FormattedMessage } from 'react-intl';
 
-import { ButtonAddFiles } from '~/features/upload/UploadDialog/UploadDialogInner/ButtonAddFiles';
+import { ButtonAddFiles } from '../../ButtonAddFiles';
 
 export function EmptyState() {
   return (

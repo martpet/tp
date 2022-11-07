@@ -1,1 +1,1 @@
-export * from './addFiles';
+export * from './addFiles/addFiles';

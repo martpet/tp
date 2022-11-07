@@ -31,6 +31,10 @@
     "defaultMessage": "Dark",
     "description": "color scheme picker item - dark"
   },
+  "AkAQGg": {
+    "defaultMessage": "Add more files",
+    "description": "button choose files (with added files)"
+  },
   "BAOl3n": {
     "defaultMessage": "Light",
     "description": "color scheme picker item - light"
@@ -63,9 +67,17 @@
     "defaultMessage": "Sign Out",
     "description": "logout button"
   },
+  "b/bNh2": {
+    "defaultMessage": "n/a",
+    "description": "upload preview thumbnail meta data n/a"
+  },
   "cgaF0x": {
     "defaultMessage": "Left",
     "description": "toolbar position picker label - left"
+  },
+  "itRC+9": {
+    "defaultMessage": "Remove",
+    "description": "upload thumbnail button remove"
   },
   "jOxmkh": {
     "defaultMessage": "Continue with Apple",
@@ -102,10 +114,6 @@
   "vk/Gju": {
     "defaultMessage": "Drop your files",
     "description": "upload empty state illustration heading"
-  },
-  "w9Al+W": {
-    "defaultMessage": "Select more files",
-    "description": "button choose files (with added files)"
   },
   "x8bEvj": {
     "defaultMessage": "Settings",

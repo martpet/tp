@@ -1,13 +1,14 @@
 import { Button, SpectrumButtonProps } from '@adobe/react-spectrum';
 import { ChangeEventHandler, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { SetOptional } from 'type-fest';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { acceptedUploadFileTypes } from '~/features/upload/consts';
 import { addFiles } from '~/features/upload/thunks';
 import { selectFiles } from '~/features/upload/uploadSlice';
 
-type Props = SpectrumButtonProps;
+type Props = SetOptional<SpectrumButtonProps, 'variant'>;
 
 export function ButtonAddFiles({ variant = 'cta', ...buttonProps }: Props) {
   const files = useAppSelector(selectFiles);
@@ -16,6 +17,7 @@ export function ButtonAddFiles({ variant = 'cta', ...buttonProps }: Props) {
 
   const handleButtonPress = () => {
     inputElRef.current?.click();
+    import('exifreader');
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -44,7 +46,7 @@ export function ButtonAddFiles({ variant = 'cta', ...buttonProps }: Props) {
           />
         ) : (
           <FormattedMessage
-            defaultMessage="Select more files"
+            defaultMessage="Add more files"
             description="button choose files (with added files)"
           />
         )}

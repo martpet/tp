@@ -31,9 +31,17 @@
     "defaultMessage": "тъмна",
     "description": "color scheme picker item - dark"
   },
+  "AkAQGg": {
+    "defaultMessage": "Избери още файлове",
+    "description": "button choose files (with added files)"
+  },
   "aq56G8": {
     "defaultMessage": "Излез от профила",
     "description": "logout button"
+  },
+  "b/bNh2": {
+    "defaultMessage": "няма дата",
+    "description": "upload preview thumbnail meta data n/a"
   },
   "BAOl3n": {
     "defaultMessage": "светла",
@@ -54,6 +62,10 @@
   "FvWJ8C": {
     "defaultMessage": "Вход с Google",
     "description": "google login button"
+  },
+  "itRC+9": {
+    "defaultMessage": "Премахни",
+    "description": "upload thumbnail button remove"
   },
   "ITu5Da": {
     "defaultMessage": "Език",
@@ -98,10 +110,6 @@
   "vk/Gju": {
     "defaultMessage": "Довлачи файлове тук",
     "description": "upload empty state illustration heading"
-  },
-  "w9Al+W": {
-    "defaultMessage": "Избери още файлове",
-    "description": "button choose files (with added files)"
   },
   "x8bEvj": {
     "defaultMessage": "Настройки",

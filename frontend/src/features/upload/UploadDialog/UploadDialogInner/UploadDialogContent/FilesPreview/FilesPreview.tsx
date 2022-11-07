@@ -1,16 +1,17 @@
 import { Grid, minmax, repeat } from '@adobe/react-spectrum';
-import { DragEventHandler } from 'react';
 
 import { useAppSelector } from '~/common/hooks';
 import { selectFiles } from '~/features/upload';
 
-export function Thumbnails() {
+import { EmptyState } from './EmptyState';
+import { Thumbnail } from './Thumbnail';
+
+export function FilesPreview() {
   const files = useAppSelector(selectFiles);
 
-  const preventImageDrag: DragEventHandler<HTMLImageElement> = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
+  if (!files.length) {
+    return <EmptyState />;
+  }
 
   return (
     <Grid
@@ -19,13 +20,7 @@ export function Thumbnails() {
       rowGap="size-350"
     >
       {files.map((file) => (
-        <img
-          key={file.key}
-          alt={file.name}
-          src={file.objectURL}
-          onDragStart={preventImageDrag}
-          style={{ width: '100%', display: 'block' }}
-        />
+        <Thumbnail file={file} key={file.key} />
       ))}
     </Grid>
   );

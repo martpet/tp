@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '~/common/types';
 import { addFiles } from '~/features/upload/thunks';
@@ -17,7 +17,11 @@ const initialState: UploadState = {
 export const uploadSlice = createSlice({
   name: 'upload',
   initialState,
-  reducers: {},
+  reducers: {
+    fileRemoved: (state, action: PayloadAction<string>) => {
+      state.filesMeta = state.filesMeta.filter(({ key }) => key !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(addFiles.fulfilled, (state, action) => {
       if (action.payload.filesMeta.length) {
@@ -29,5 +33,7 @@ export const uploadSlice = createSlice({
     });
   },
 });
+
+export const { fileRemoved } = uploadSlice.actions;
 
 export const selectFiles = (state: RootState) => state.upload.filesMeta;
