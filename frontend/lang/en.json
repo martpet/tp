@@ -19,6 +19,10 @@
     "defaultMessage": "Colors",
     "description": "settings tab"
   },
+  "6Tm3pB": {
+    "defaultMessage": "Remove",
+    "description": "   remove"
+  },
   "7hkxXs": {
     "defaultMessage": "Profile",
     "description": "profile dialog aria-label"
@@ -67,17 +71,9 @@
     "defaultMessage": "Sign Out",
     "description": "logout button"
   },
-  "b/bNh2": {
-    "defaultMessage": "n/a",
-    "description": "upload preview thumbnail meta data n/a"
-  },
   "cgaF0x": {
     "defaultMessage": "Left",
     "description": "toolbar position picker label - left"
-  },
-  "itRC+9": {
-    "defaultMessage": "Remove",
-    "description": "upload thumbnail button remove"
   },
   "jOxmkh": {
     "defaultMessage": "Continue with Apple",

@@ -1,7 +1,7 @@
 import { Login, useMe } from '~/features/me';
 
 import { DropZone } from './DropZone';
-import { FilesPreview } from './FilesPreview/FilesPreview';
+import { ThumbnailsList } from './ThumbnailsList/ThumbnailsList';
 
 export default function UploadDialoContent() {
   const { me } = useMe();
@@ -12,7 +12,7 @@ export default function UploadDialoContent() {
 
   return (
     <DropZone>
-      <FilesPreview />
+      <ThumbnailsList />
     </DropZone>
   );
 }

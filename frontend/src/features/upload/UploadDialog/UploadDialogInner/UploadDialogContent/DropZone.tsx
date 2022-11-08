@@ -1,7 +1,7 @@
-import { DragEventHandler, useState } from 'react';
+import { DragEventHandler, ReactNode, useState } from 'react';
 
 type Props = {
-  children: JSX.Element;
+  children: ReactNode;
 };
 
 export function DropZone({ children }: Props) {
@@ -25,7 +25,7 @@ export function DropZone({ children }: Props) {
     if (isUploading) {
       return;
     }
-    console.log(event.dataTransfer.files);
+    console.log('files dropped', event.dataTransfer.files);
     setOnTarget(false);
   };
 

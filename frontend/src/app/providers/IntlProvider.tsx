@@ -1,5 +1,5 @@
 import { OnErrorFn } from '@formatjs/intl';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { IntlProvider as Provider } from 'react-intl';
 
 import { publicDirApi } from '~/app/services/publicDirApi';
@@ -10,7 +10,7 @@ import { browserLocaleChanged } from '~/features/app';
 import { selectLanguage } from '~/features/settings';
 
 type Props = {
-  children: JSX.Element;
+  children: ReactNode;
 };
 
 export function IntlProvider({ children }: Props) {

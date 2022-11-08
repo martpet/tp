@@ -39,10 +39,6 @@
     "defaultMessage": "Излез от профила",
     "description": "logout button"
   },
-  "b/bNh2": {
-    "defaultMessage": "няма дата",
-    "description": "upload preview thumbnail meta data n/a"
-  },
   "BAOl3n": {
     "defaultMessage": "светла",
     "description": "color scheme picker item - light"
