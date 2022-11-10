@@ -23,11 +23,20 @@ export const addFiles = createAsyncThunk(
           return;
         }
 
+        const exif = await getExifData(file);
+
+        const validityErrors: FileMeta['validityErrors'] = [];
+
+        if (!exif.gpsLatitude || !exif.gpsLongitude) {
+          validityErrors.push('location');
+        }
+
         filesMeta.push({
+          objectURL: URL.createObjectURL(file),
           key,
           name,
-          objectURL: URL.createObjectURL(file),
-          exif: await getExifData(file),
+          exif,
+          validityErrors,
         });
       })
     );

@@ -6,7 +6,7 @@ import { selectFiles } from '~/features/upload';
 import { FileMeta } from '~/features/upload/types';
 
 import { EmptyState } from './EmptyState';
-import { Thumbnail } from './Thumbnail';
+import { Thumbnail } from './Thumbnail/Thumbnail';
 
 export function ThumbnailsList() {
   const files = useAppSelector(selectFiles);

@@ -2,6 +2,7 @@ export type FileMeta = {
   key: string;
   name: string;
   objectURL: string;
+  validityErrors: 'location'[];
   exif: {
     dateTimeOriginal?: string;
     offsetTimeOriginal?: string;

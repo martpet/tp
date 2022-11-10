@@ -19,10 +19,6 @@
     "defaultMessage": "Colors",
     "description": "settings tab"
   },
-  "6Tm3pB": {
-    "defaultMessage": "Remove",
-    "description": "   remove"
-  },
   "7hkxXs": {
     "defaultMessage": "Profile",
     "description": "profile dialog aria-label"
@@ -43,6 +39,10 @@
     "defaultMessage": "Light",
     "description": "color scheme picker item - light"
   },
+  "BNALnm": {
+    "defaultMessage": "Remove",
+    "description": "upload thumbnail remove button aria label"
+  },
   "DWTA3g": {
     "defaultMessage": "Close",
     "description": "upload dialog close button"
@@ -58,6 +58,10 @@
   "ITu5Da": {
     "defaultMessage": "Language",
     "description": "settings tab"
+  },
+  "KhEEKP": {
+    "defaultMessage": "Cannot upload: Missing location data",
+    "description": "upload thumbnail missing location message"
   },
   "LKo07P": {
     "defaultMessage": "Log In",
