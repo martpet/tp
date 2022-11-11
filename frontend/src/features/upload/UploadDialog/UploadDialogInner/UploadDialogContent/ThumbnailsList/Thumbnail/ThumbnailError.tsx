@@ -16,7 +16,7 @@ export function ThumbnailError({ file }: Props) {
   return (
     <View
       backgroundColor="negative"
-      marginY="size-75"
+      marginY="size-25"
       paddingX="size-75"
       paddingY="size-25"
     >

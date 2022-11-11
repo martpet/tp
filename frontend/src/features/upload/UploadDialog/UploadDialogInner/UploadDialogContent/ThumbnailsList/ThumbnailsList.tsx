@@ -16,7 +16,7 @@ export function ThumbnailsList() {
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      if (isNewFileAdded) lastThumbnailRef.current?.scrollIntoView();
+      if (isNewFileAdded) lastThumbnailRef.current?.scrollIntoView(false);
       prevFilesRef.current = files;
     });
   }, [files]);
@@ -30,6 +30,7 @@ export function ThumbnailsList() {
       columns={{ S: repeat('auto-fill', minmax('size-5000', '1fr')) }}
       columnGap="size-300"
       rowGap="size-350"
+      alignItems="start"
     >
       {files.map((file, index) => (
         <div {...(index === files.length - 1 && { ref: lastThumbnailRef })}>
