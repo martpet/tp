@@ -1,126 +1,142 @@
 {
-  "ZpWjQd": {
-    "description": "logo button aria-label",
-    "defaultMessage": "Начало"
+  "/QE/Ru": {
+    "defaultMessage": "Подредба",
+    "description": "settings tab"
   },
-  "zJ5RUL": {
-    "description": "settings dialog heading",
-    "defaultMessage": "Настройки"
-  },
-  "x8bEvj": {
-    "description": "toolbar settings button aria label",
-    "defaultMessage": "Настройки"
-  },
-  "vk/Gju": {
-    "description": "upload empty state illustration heading",
-    "defaultMessage": "Довлачи файлове тук"
-  },
-  "u3XllG": {
-    "description": "toolbar position picker label",
-    "defaultMessage": "Позиция на лента с инструменти"
-  },
-  "tuwnSe": {
-    "description": "color scheme picker label",
-    "defaultMessage": "Цветова схема"
-  },
-  "tPjCT2": {
-    "description": "toolbar position disabled picker additional label",
-    "defaultMessage": "(Изключена на мобилни устройства)"
-  },
-  "sXOp4w": {
-    "description": "toolbar position picker label - top",
-    "defaultMessage": "отгоре"
-  },
-  "oB9CE2": {
-    "description": "toolbar profile button aria label",
-    "defaultMessage": "Профил"
-  },
-  "n5BdYp": {
-    "description": "button choose files (initial state)",
-    "defaultMessage": "Избери файлове"
-  },
-  "mOqhio": {
-    "description": "toolbar upload button aria label",
-    "defaultMessage": "Качи снимки"
-  },
-  "LKo07P": {
-    "description": "login dialog heading",
-    "defaultMessage": "Вход"
-  },
-  "KhEEKP": {
-    "description": "upload thumbnail missing location message",
-    "defaultMessage": "Cannot upload: Missing location data"
-  },
-  "jOxmkh": {
-    "description": "apple login button",
-    "defaultMessage": "Вход с Apple"
-  },
-  "ITu5Da": {
-    "description": "settings tab",
-    "defaultMessage": "Език"
-  },
-  "FvWJ8C": {
-    "description": "google login button",
-    "defaultMessage": "Вход с Google"
-  },
-  "FOqNnc": {
-    "description": "color scheme picker item - auto",
-    "defaultMessage": "автоматична"
-  },
-  "DWTA3g": {
-    "description": "upload dialog close button",
-    "defaultMessage": "Затвори"
-  },
-  "cgaF0x": {
-    "description": "toolbar position picker label - left",
-    "defaultMessage": "в ляво"
-  },
-  "BNALnm": {
-    "description": "upload thumbnail remove button aria label",
-    "defaultMessage": "Премахни"
-  },
-  "BAOl3n": {
-    "description": "color scheme picker item - light",
-    "defaultMessage": "светла"
-  },
-  "aq56G8": {
-    "description": "logout button",
-    "defaultMessage": "Излез от профила"
-  },
-  "AkAQGg": {
-    "description": "button choose files (with added files)",
-    "defaultMessage": "Избери още файлове"
-  },
-  "A6sLC1": {
-    "description": "color scheme picker item - dark",
-    "defaultMessage": "тъмна"
-  },
-  "7obuz/": {
-    "description": "login dialog aria-label",
-    "defaultMessage": "Вход"
-  },
-  "7hkxXs": {
-    "description": "profile dialog aria-label",
-    "defaultMessage": "Профил"
-  },
-  "5STaZv": {
-    "description": "settings tab",
-    "defaultMessage": "Цветове"
-  },
-  "4yg8Sf": {
-    "description": "language picker label",
-    "defaultMessage": "Избери език"
+  "17kFBm": {
+    "defaultMessage": "дата",
+    "description": "file meta: date"
   },
   "2TuW1z": {
-    "description": "upload empty state illustration body",
-    "defaultMessage": "Избери файлове от компютъра или ги довалчи тук"
+    "defaultMessage": "Избери файлове от компютъра или ги довалчи тук",
+    "description": "upload empty state illustration body"
   },
   "2kwLAg": {
-    "description": "upload dialog heading",
-    "defaultMessage": "Качване на снимки"
+    "defaultMessage": "Качване на снимки",
+    "description": "upload dialog heading"
   },
-  "/QE/Ru": {
-    "description": "settings tab",
-    "defaultMessage": "Подредба"
+  "4yg8Sf": {
+    "defaultMessage": "Избери език",
+    "description": "language picker label"
+  },
+  "5STaZv": {
+    "defaultMessage": "Цветове",
+    "description": "settings tab"
+  },
+  "7hkxXs": {
+    "defaultMessage": "Профил",
+    "description": "profile dialog aria-label"
+  },
+  "7obuz/": {
+    "defaultMessage": "Вход",
+    "description": "login dialog aria-label"
+  },
+  "A6sLC1": {
+    "defaultMessage": "тъмна",
+    "description": "color scheme picker item - dark"
+  },
+  "AkAQGg": {
+    "defaultMessage": "Избери още файлове",
+    "description": "button choose files (with added files)"
+  },
+  "BAOl3n": {
+    "defaultMessage": "светла",
+    "description": "color scheme picker item - light"
+  },
+  "BNALnm": {
+    "defaultMessage": "Премахни",
+    "description": "upload thumbnail remove button aria label"
+  },
+  "DWTA3g": {
+    "defaultMessage": "Затвори",
+    "description": "upload dialog close button"
+  },
+  "FOqNnc": {
+    "defaultMessage": "автоматична",
+    "description": "color scheme picker item - auto"
+  },
+  "FvWJ8C": {
+    "defaultMessage": "Вход с Google",
+    "description": "google login button"
+  },
+  "ITu5Da": {
+    "defaultMessage": "Език",
+    "description": "settings tab"
+  },
+  "LKo07P": {
+    "defaultMessage": "Вход",
+    "description": "login dialog heading"
+  },
+  "PH0Ug8": {
+    "defaultMessage": "Не може да се качи:",
+    "description": "upload thumbnail error intro"
+  },
+  "PLJPTc": {
+    "defaultMessage": "Качване",
+    "description": "upload dialog upload button"
+  },
+  "VeLxrQ": {
+    "defaultMessage": "GPS локация",
+    "description": "file meta: location"
+  },
+  "ZpWjQd": {
+    "defaultMessage": "Начало",
+    "description": "logo button aria-label"
+  },
+  "aq56G8": {
+    "defaultMessage": "Излез от профила",
+    "description": "logout button"
+  },
+  "cgaF0x": {
+    "defaultMessage": "в ляво",
+    "description": "toolbar position picker label - left"
+  },
+  "jOxmkh": {
+    "defaultMessage": "Вход с Apple",
+    "description": "apple login button"
+  },
+  "mOqhio": {
+    "defaultMessage": "Качи снимки",
+    "description": "toolbar upload button aria label"
+  },
+  "n5BdYp": {
+    "defaultMessage": "Избери файлове",
+    "description": "button choose files (initial state)"
+  },
+  "oB9CE2": {
+    "defaultMessage": "Профил",
+    "description": "toolbar profile button aria label"
+  },
+  "sXOp4w": {
+    "defaultMessage": "отгоре",
+    "description": "toolbar position picker label - top"
+  },
+  "tPjCT2": {
+    "defaultMessage": "(Изключена на мобилни устройства)",
+    "description": "toolbar position disabled picker additional label"
+  },
+  "tuwnSe": {
+    "defaultMessage": "Цветова схема",
+    "description": "color scheme picker label"
+  },
+  "u3XllG": {
+    "defaultMessage": "Позиция на лента с инструменти",
+    "description": "toolbar position picker label"
+  },
+  "vk/Gju": {
+    "defaultMessage": "Довлачи файлове тук",
+    "description": "upload empty state illustration heading"
+  },
+  "x8bEvj": {
+    "defaultMessage": "Настройки",
+    "description": "toolbar settings button aria label"
+  },
+  "xcpX65": {
+    "defaultMessage": "{items_count, plural, one {Липсва} other {Липсват}} {items}",
+    "description": "file missing meta data error"
+  },
+  "zJ5RUL": {
+    "defaultMessage": "Настройки",
+    "description": "settings dialog heading"
   }
 }

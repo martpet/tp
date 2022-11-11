@@ -2,7 +2,7 @@ import { Content, Heading, IllustratedMessage, View } from '@adobe/react-spectru
 import UploadIllustration from '@spectrum-icons/illustrations/Upload';
 import { FormattedMessage } from 'react-intl';
 
-import { ButtonAddFiles } from '../../ButtonAddFiles';
+import { AddFilesButton } from '../../AddFilesButton';
 
 export function EmptyState() {
   return (
@@ -20,7 +20,7 @@ export function EmptyState() {
           description="upload empty state illustration body"
         />
         <View marginTop="size-450">
-          <ButtonAddFiles />
+          <AddFilesButton />
         </View>
       </Content>
     </IllustratedMessage>

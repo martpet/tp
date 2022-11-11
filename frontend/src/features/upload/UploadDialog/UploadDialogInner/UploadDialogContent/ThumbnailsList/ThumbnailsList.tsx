@@ -33,8 +33,11 @@ export function ThumbnailsList() {
       alignItems="start"
     >
       {files.map((file, index) => (
-        <div {...(index === files.length - 1 && { ref: lastThumbnailRef })}>
-          <Thumbnail file={file} key={file.key} />
+        <div
+          key={file.key}
+          {...(index === files.length - 1 && { ref: lastThumbnailRef })}
+        >
+          <Thumbnail file={file} />
         </div>
       ))}
     </Grid>

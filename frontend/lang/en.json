@@ -3,6 +3,10 @@
     "defaultMessage": "Layout",
     "description": "settings tab"
   },
+  "17kFBm": {
+    "defaultMessage": "date",
+    "description": "file meta: date"
+  },
   "2TuW1z": {
     "defaultMessage": "Select files from your computer or drop them here",
     "description": "upload empty state illustration body"
@@ -59,13 +63,21 @@
     "defaultMessage": "Language",
     "description": "settings tab"
   },
-  "KhEEKP": {
-    "defaultMessage": "Cannot upload: Missing location data",
-    "description": "upload thumbnail missing location message"
-  },
   "LKo07P": {
     "defaultMessage": "Log In",
     "description": "login dialog heading"
+  },
+  "PH0Ug8": {
+    "defaultMessage": "Cannot upload:",
+    "description": "upload thumbnail error intro"
+  },
+  "PLJPTc": {
+    "defaultMessage": "Start upload",
+    "description": "upload dialog upload button"
+  },
+  "VeLxrQ": {
+    "defaultMessage": "GPS location",
+    "description": "file meta: location"
   },
   "ZpWjQd": {
     "defaultMessage": "Home",
@@ -118,6 +130,10 @@
   "x8bEvj": {
     "defaultMessage": "Settings",
     "description": "toolbar settings button aria label"
+  },
+  "xcpX65": {
+    "defaultMessage": "Missing {items}",
+    "description": "file missing meta data error"
   },
   "zJ5RUL": {
     "defaultMessage": "Settings",

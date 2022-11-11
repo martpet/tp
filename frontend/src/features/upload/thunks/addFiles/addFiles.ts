@@ -10,8 +10,8 @@ export const addFiles = createAsyncThunk(
   async (fileList: FileList, thunkAPI) => {
     const filesMeta: FileMeta[] = [];
     const state = thunkAPI.getState() as RootState;
-    const currentFilesKeys = state.upload.filesMeta.map((file) => file.key);
-    const duplicateFilesKeys: string[] = [];
+    const currentFilesKeys = state.upload.files.map((file) => file.key);
+    const duplicateKeys: string[] = [];
 
     await Promise.all(
       Array.from(fileList).map(async (file) => {
@@ -19,31 +19,22 @@ export const addFiles = createAsyncThunk(
         const key = `${name}-${size}`;
 
         if (currentFilesKeys.includes(key)) {
-          duplicateFilesKeys.push(key);
+          duplicateKeys.push(key);
           return;
         }
 
-        const exif = await getExifData(file);
-
-        const validityErrors: FileMeta['validityErrors'] = [];
-
-        if (!exif.gpsLatitude || !exif.gpsLongitude) {
-          validityErrors.push('location');
-        }
-
         filesMeta.push({
-          objectURL: URL.createObjectURL(file),
           key,
           name,
-          exif,
-          validityErrors,
+          exif: await getExifData(file),
+          objectURL: URL.createObjectURL(file),
         });
       })
     );
 
     return {
       filesMeta,
-      duplicateFilesKeys,
+      duplicateKeys,
     };
   }
 );

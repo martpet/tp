@@ -1,17 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '~/common/types';
 import { addFiles } from '~/features/upload/thunks';
-import { FileMeta } from '~/features/upload/types';
+import { FileMeta, FileValidityError } from '~/features/upload/types';
 
 type UploadState = {
-  filesMeta: FileMeta[];
-  duplicateFilesKeys: string[];
+  files: FileMeta[];
+  duplicateAddedFiles: string[];
 };
 
 const initialState: UploadState = {
-  filesMeta: [],
-  duplicateFilesKeys: [],
+  files: [],
+  duplicateAddedFiles: [],
 };
 
 export const uploadSlice = createSlice({
@@ -19,21 +19,36 @@ export const uploadSlice = createSlice({
   initialState,
   reducers: {
     fileRemoved: (state, action: PayloadAction<string>) => {
-      state.filesMeta = state.filesMeta.filter(({ key }) => key !== action.payload);
+      state.files = state.files.filter(({ key }) => key !== action.payload);
     },
   },
   extraReducers: (builder) => {
     builder.addCase(addFiles.fulfilled, (state, action) => {
       if (action.payload.filesMeta.length) {
-        state.filesMeta = state.filesMeta.concat(action.payload.filesMeta);
+        state.files = state.files.concat(action.payload.filesMeta);
       }
-      if (action.payload.duplicateFilesKeys.length) {
-        state.duplicateFilesKeys = action.payload.duplicateFilesKeys;
-      }
+      state.duplicateAddedFiles = action.payload.duplicateKeys;
     });
   },
 });
 
 export const { fileRemoved } = uploadSlice.actions;
 
-export const selectFiles = (state: RootState) => state.upload.filesMeta;
+export const selectFiles = (state: RootState) => state.upload.files;
+
+export const selectFilesValidity = createSelector(selectFiles, (files) =>
+  Object.fromEntries(
+    files.map(({ key, exif }) => {
+      const errors: FileValidityError[] = [];
+      if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
+      if (!exif.dateTimeOriginal) errors.push('missingDate');
+      return [key, errors];
+    })
+  )
+);
+
+export const selectUploadableFiles = createSelector(
+  selectFiles,
+  selectFilesValidity,
+  (files, filesValidity) => files.filter(({ key }) => !filesValidity[key].length)
+);
