@@ -3,7 +3,7 @@ import { isAppleDevice } from '@react-aria/utils';
 import { Label } from '@react-spectrum/label';
 import Close from '@spectrum-icons/workflow/Close';
 import { DragEventHandler } from 'react';
-import { FormattedDate, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { useAppDispatch } from '~/common/hooks';
 import { FileMeta } from '~/features/upload/types';
@@ -16,8 +16,12 @@ type Props = {
 };
 
 export function Thumbnail({ file }: Props) {
-  const { formatMessage } = useIntl();
+  const { formatMessage, formatDate } = useIntl();
   const dispatch = useAppDispatch();
+
+  const formattedDate =
+    file.exif.dateTimeOriginal &&
+    formatDate(file.exif.dateTimeOriginal.split('Z')[0], { dateStyle: 'long' });
 
   const preventImageDrag: DragEventHandler<HTMLImageElement> = (event) => {
     event.preventDefault();
@@ -62,11 +66,7 @@ export function Thumbnail({ file }: Props) {
 
       <ThumbnailError file={file} />
 
-      <Label marginTop="size-50">
-        {file.exif.dateTimeOriginal && (
-          <FormattedDate value={file.exif.dateTimeOriginal} dateStyle="long" />
-        )}
-      </Label>
+      {formattedDate && <Label marginTop="size-50">{formattedDate}</Label>}
     </>
   );
 }
