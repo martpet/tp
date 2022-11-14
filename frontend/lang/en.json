@@ -11,6 +11,10 @@
     "defaultMessage": "Select files from your computer or drop them here",
     "description": "upload empty state illustration body"
   },
+  "2XzbH9": {
+    "defaultMessage": "Photos taken with <em>\"High Efficiency\"</em> (<em>Settings → Camera → Formats</em>) cannot be uploaded from an iPhone. You can upload this photo from a Mac.",
+    "description": "thumbnail error iphone high efficiency help content"
+  },
   "2kwLAg": {
     "defaultMessage": "Upload photos",
     "description": "upload dialog heading"
@@ -58,6 +62,10 @@
   "FvWJ8C": {
     "defaultMessage": "Continue with Google",
     "description": "google login button"
+  },
+  "GT7oVC": {
+    "defaultMessage": "iPhone users",
+    "description": "thumbnail error iphone high efficiency help heading"
   },
   "ITu5Da": {
     "defaultMessage": "Language",

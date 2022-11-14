@@ -33,6 +33,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
     'no-restricted-imports': 'off',
+    'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
     'no-param-reassign': ['error', { props: false }],
     '@typescript-eslint/no-restricted-imports': [
       'warn',

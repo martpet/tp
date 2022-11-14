@@ -11,6 +11,10 @@
     "defaultMessage": "Избери файлове от компютъра или ги довалчи тук",
     "description": "upload empty state illustration body"
   },
+  "2XzbH9": {
+    "defaultMessage": "Снимки, направени с <em>\"Високо ефективен\"</em> (<em>Настройки → Камера → Формати</em>), не могат да бъдат качени от iPhone. Може да ги качите от компютър.",
+    "description": "thumbnail error iphone high efficiency help content"
+  },
   "2kwLAg": {
     "defaultMessage": "Качване на снимки",
     "description": "upload dialog heading"
@@ -58,6 +62,10 @@
   "FvWJ8C": {
     "defaultMessage": "Вход с Google",
     "description": "google login button"
+  },
+  "GT7oVC": {
+    "defaultMessage": "За iPhone потребители",
+    "description": "thumbnail error iphone high efficiency help heading"
   },
   "ITu5Da": {
     "defaultMessage": "Език",

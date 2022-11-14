@@ -9,7 +9,7 @@ import { useAppDispatch } from '~/common/hooks';
 import { FileMeta } from '~/features/upload/types';
 import { fileRemoved } from '~/features/upload/uploadSlice';
 
-import { ThumbnailError } from './ThumbnailError';
+import { ThumbnailError } from './ThumbnailError/ThumbnailError';
 
 type Props = {
   file: FileMeta;
@@ -35,7 +35,11 @@ export function Thumbnail({ file }: Props) {
           alt={file.name}
           src={file.objectURL}
           onDragStart={preventImageDrag}
-          style={{ width: '100%', gridColumn: '1', gridRow: '1' }}
+          style={{
+            width: '100%',
+            gridColumn: '1',
+            gridRow: '1',
+          }}
         />
         <Flex
           justifyContent={isAppleDevice() ? 'start' : 'end'}
