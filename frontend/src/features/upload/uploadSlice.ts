@@ -1,15 +1,17 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '~/common/types';
-import { addFiles } from '~/features/upload/thunks';
+import { addFiles, upload } from '~/features/upload/thunks';
 import { FileMeta, FileValidityError } from '~/features/upload/types';
 
 type UploadState = {
+  status: 'idle' | 'pending' | 'succeeded' | 'failed';
   files: FileMeta[];
   duplicateAddedFiles: string[];
 };
 
 const initialState: UploadState = {
+  status: 'idle',
   files: [],
   duplicateAddedFiles: [],
 };
@@ -29,10 +31,21 @@ export const uploadSlice = createSlice({
       }
       state.duplicateAddedFiles = action.payload.duplicateKeys;
     });
+    builder.addCase(upload.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(upload.fulfilled, (state) => {
+      state.status = 'succeeded';
+    });
+    builder.addCase(upload.rejected, (state) => {
+      state.status = 'failed';
+    });
   },
 });
 
 export const { fileRemoved } = uploadSlice.actions;
+
+export const selectUploadStatus = (state: RootState) => state.upload.status;
 
 export const selectFiles = (state: RootState) => state.upload.files;
 

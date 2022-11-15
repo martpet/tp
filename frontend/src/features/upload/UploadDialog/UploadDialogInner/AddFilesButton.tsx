@@ -6,25 +6,26 @@ import { SetOptional } from 'type-fest';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { acceptedUploadFileTypes } from '~/features/upload/consts';
 import { addFiles } from '~/features/upload/thunks';
-import { selectFiles } from '~/features/upload/uploadSlice';
+import { selectFiles, selectUploadStatus } from '~/features/upload/uploadSlice';
 
 type Props = SetOptional<SpectrumButtonProps, 'variant'>;
 
 export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   const files = useAppSelector(selectFiles);
   const dispatch = useAppDispatch();
+  const uploadStatus = useAppSelector(selectUploadStatus);
 
   const inputElement = useMemo(() => {
-    const el = document.createElement('input');
-    el.type = 'file';
-    el.multiple = true;
-    el.accept = acceptedUploadFileTypes.join(',');
-    el.addEventListener('change', () => {
-      if (el.files) {
-        dispatch(addFiles(el.files));
+    const element = document.createElement('input');
+    element.type = 'file';
+    element.multiple = true;
+    element.accept = acceptedUploadFileTypes.join(',');
+    element.addEventListener('change', () => {
+      if (element.files) {
+        dispatch(addFiles(element.files));
       }
     });
-    return el;
+    return element;
   }, []);
 
   const handleButtonPress = () => {
@@ -33,7 +34,12 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   };
 
   return (
-    <Button variant={variant} onPress={handleButtonPress} {...buttonProps}>
+    <Button
+      variant={variant}
+      onPress={handleButtonPress}
+      isDisabled={uploadStatus === 'pending'}
+      {...buttonProps}
+    >
       {!files.length ? (
         <FormattedMessage
           defaultMessage="Select files"
