@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { StatusCodes } from 'http-status-codes';
 
-import { EndpointHeaders } from '~/constructs/Api/types';
+import { ApiRouteHeaders } from '~/constructs/Api/types';
 import { errorResponse, getIdTokenPayload } from '~/constructs/Api/utils';
 import { usersTableOptions } from '~/consts';
 import { PatchSettingsResponse, UserSettings, UsersTableItem } from '~/types';
@@ -23,7 +23,7 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async ({
   headers,
 }) => {
   let data;
-  const { authorization } = headers as EndpointHeaders<'/settings'>;
+  const { authorization } = headers as ApiRouteHeaders<'/settings'>;
 
   if (!authorization) {
     return errorResponse('UMxOJy1cpJ');

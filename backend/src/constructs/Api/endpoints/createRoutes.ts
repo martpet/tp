@@ -5,10 +5,10 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
 import { Auth, Tables } from '~/constructs';
-import { AllEndpointsEnvVars } from '~/constructs/Api/types';
+import { AllApiRoutesEnvVars } from '~/constructs/Api/types';
 import { createNodejsFunction } from '~/constructs/utils';
-import { apiOptions } from '~/consts';
-import { ApiOptions, ApiPath } from '~/types';
+import { apiRoutes } from '~/consts';
+import { ApiPath, ApiRoutes } from '~/types';
 import { capitalize } from '~/utils';
 
 export type Props = {
@@ -19,7 +19,7 @@ export type Props = {
 };
 
 export const createRoutes = ({ scope, api, auth, tables }: Props) => {
-  const envVars: AllEndpointsEnvVars = {
+  const envVars: AllApiRoutesEnvVars = {
     authDomain: auth.authDomain,
     clientId: auth.userPoolClient.userPoolClientId,
     loginCallbackUrl: auth.loginCallbackUrl,
@@ -38,7 +38,7 @@ export const createRoutes = ({ scope, api, auth, tables }: Props) => {
     userPoolClients: [auth.userPoolClient],
   });
 
-  Object.entries(apiOptions as ApiOptions).forEach(([path, { methods }]) => {
+  Object.entries(apiRoutes as ApiRoutes).forEach(([path, { methods }]) => {
     Object.entries(methods).forEach(([method, { isPublic }]) => {
       addApiRoute({
         scope,
@@ -70,20 +70,20 @@ function addApiRoute({
   method: string;
   isPublic?: boolean;
   userPoolAuthorizer: HttpUserPoolAuthorizer;
-  envVars: AllEndpointsEnvVars;
+  envVars: AllApiRoutesEnvVars;
   handlersCallbacks: HandlerCallbacks;
 }) {
   const pathName = path.replace('/', '');
   const methodName = method.toLowerCase();
   const fileName = `${methodName}-${pathName}`;
   const id = `${capitalize(pathName)}${capitalize(methodName)}`;
-  const envVarsKeys = (apiOptions as ApiOptions)[path as ApiPath].envVars;
+  const envVarsKeys = (apiRoutes as ApiRoutes)[path as ApiPath].envVars;
   const environment: Record<string, string> = {};
   const handlerCallback = handlersCallbacks[path as ApiPath];
 
   if (envVarsKeys) {
     envVarsKeys.forEach((key) => {
-      environment[key] = envVars[key as keyof AllEndpointsEnvVars];
+      environment[key] = envVars[key as keyof AllApiRoutesEnvVars];
     });
   }
 

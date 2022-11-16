@@ -1,3 +1,3 @@
-import { AllEndpointsCookies } from '~/constructs/Api/types';
+import { AllApiRoutesCookies } from '~/constructs/Api/types';
 
-export const cookieName = (name: keyof AllEndpointsCookies) => name;
+export const cookieName = (name: keyof AllApiRoutesCookies) => name;

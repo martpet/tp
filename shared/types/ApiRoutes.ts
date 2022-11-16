@@ -1,6 +1,6 @@
 import { RequireAtLeastOne } from 'type-fest';
 
-export type ApiOptions = Record<string, ApiPathOptions>;
+export type ApiRoutes = Record<string, ApiRouteOptions>;
 
 export type ApiMethod = 'GET' | 'POST' | 'PATCH';
 
@@ -8,7 +8,7 @@ export type ApiMethodsOptions = RequireAtLeastOne<
   Record<ApiMethod, { isPublic?: boolean }>
 >;
 
-export type ApiPathOptions = {
+export type ApiRouteOptions = {
   methods: ApiMethodsOptions;
   cookies?: Readonly<string[]>;
   queryStrings?: Readonly<string[]>;

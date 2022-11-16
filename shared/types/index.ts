@@ -1,5 +1,5 @@
-export * from './ApiOptions';
 export * from './ApiPath';
 export * from './apiResponses';
+export * from './ApiRoutes';
 export * from './Me';
 export * from './tableItems';

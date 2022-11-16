@@ -1,4 +1,4 @@
-export const apiOptions = {
+export const apiRoutes = {
   '/login': {
     methods: {
       GET: { isPublic: true },
@@ -47,4 +47,4 @@ export const apiOptions = {
       POST: {},
     },
   },
-} as const; // todo: use "as const satisfies ApiOptions" (typescript 4.9)
+} as const; // todo: use "as const satisfies ApiRoutes" (typescript 4.9)

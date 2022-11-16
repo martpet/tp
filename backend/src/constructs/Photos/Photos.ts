@@ -12,7 +12,7 @@ export class Photos extends NestedStack {
 
     new Bucket(scope, 'PhotosBucket', {
       encryption: BucketEncryption.S3_MANAGED,
-      autoDeleteObjects: true,
+      autoDeleteObjects: envName === 'personal',
       removalPolicy:
         envName === 'personal' ? RemovalPolicy.DESTROY : RemovalPolicy.RETAIN,
     });

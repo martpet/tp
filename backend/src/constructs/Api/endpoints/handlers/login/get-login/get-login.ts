@@ -3,8 +3,8 @@ import cookie from 'cookie';
 import { StatusCodes } from 'http-status-codes';
 
 import {
-  EndpointEnvVars,
-  EndpointQueryStrings,
+  ApiRouteEnvVars,
+  ApiRouteQueryStrings,
   OauthCookieProps,
 } from '~/constructs/Api/types';
 import { cookieName, errorResponse } from '~/constructs/Api/utils';
@@ -14,9 +14,9 @@ import { generateOauthRandoms } from './generateOauthRandoms';
 
 export const handler: APIGatewayProxyHandlerV2 = async ({ queryStringParameters }) => {
   const { clientId, authDomain, loginCallbackUrl } =
-    process.env as EndpointEnvVars<'/login'>;
+    process.env as ApiRouteEnvVars<'/login'>;
 
-  const { provider } = Object(queryStringParameters) as EndpointQueryStrings<'/login'>;
+  const { provider } = Object(queryStringParameters) as ApiRouteQueryStrings<'/login'>;
 
   if (!clientId || !authDomain || !loginCallbackUrl) {
     return errorResponse('1rQkj3kpp4');

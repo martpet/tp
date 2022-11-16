@@ -1,5 +1,5 @@
-import { ApiOptions } from '../types';
+import { ApiRoutes } from '../types';
 import { getPublicEndpoints } from '../utils';
-import { apiOptions } from './apiOptions';
+import { apiRoutes } from './apiRoutes';
 
-export const publicEndpoints = getPublicEndpoints(apiOptions as ApiOptions);
+export const publicEndpoints = getPublicEndpoints(apiRoutes as ApiRoutes);
