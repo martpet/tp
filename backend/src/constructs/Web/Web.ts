@@ -16,12 +16,12 @@ import { Zone } from '~/constructs';
 import { appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
 
-type WebProps = {
+type Props = {
   zone: Zone;
 };
 
 export class Web extends NestedStack {
-  constructor(scope: Construct, id: string, { zone }: WebProps) {
+  constructor(scope: Construct, id: string, { zone }: Props) {
     super(scope, id);
 
     const envName = getEnvName(this);

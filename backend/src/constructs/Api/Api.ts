@@ -13,14 +13,14 @@ import { getEnvName } from '~/utils';
 import { createDistroBehaviors } from './endpoints/createDistroBehaviors/createDistroBehaviors';
 import { createRoutes } from './endpoints/createRoutes';
 
-type ApiProps = {
+type Props = {
   zone: Zone;
   auth: Auth;
   tables: Tables;
 };
 
 export class Api extends NestedStack {
-  constructor(scope: Construct, id: string, { zone, tables, auth }: ApiProps) {
+  constructor(scope: Construct, id: string, { zone, tables, auth }: Props) {
     super(scope, id);
 
     const envName = getEnvName(this);

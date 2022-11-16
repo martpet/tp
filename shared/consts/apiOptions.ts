@@ -42,4 +42,9 @@ export const apiOptions = {
       PATCH: {},
     },
   },
+  '/generate-upload-urls': {
+    methods: {
+      POST: {},
+    },
+  },
 } as const; // todo: use "as const satisfies ApiOptions" (typescript 4.9)

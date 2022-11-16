@@ -23,7 +23,7 @@ import { getEnvName } from '~/utils';
 import { IdentityProviders } from './IdentityProviders';
 import { UserPoolLambdaTriggers } from './UserPoolLambdaTriggers';
 
-type AuthProps = {
+type Props = {
   zone: Zone;
   tables: Tables;
   web: Web;
@@ -42,7 +42,7 @@ export class Auth extends NestedStack {
 
   public readonly logoutCallbackLocalhostUrl: string;
 
-  constructor(scope: Construct, id: string, { zone, tables, web }: AuthProps) {
+  constructor(scope: Construct, id: string, { zone, tables, web }: Props) {
     super(scope, id);
 
     const envName = getEnvName(this);
