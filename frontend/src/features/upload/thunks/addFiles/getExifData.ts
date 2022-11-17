@@ -8,7 +8,8 @@ export async function getExifData(file: File): Promise<FileMeta['exif']> {
   const { gps, exif } = tags;
 
   return {
-    dateTimeOriginal: isoDate(exif?.DateTimeOriginal, exif?.OffsetTimeOriginal),
+    dateTimeOriginal: dateTimeString(exif?.DateTimeOriginal),
+    offsetTimeOriginal: exif?.OffsetTimeOriginal?.value[0],
     gpsAltitude: number(gps?.Altitude, 0),
     gpsLatitude: number(gps?.Latitude, 6),
     gpsLongitude: number(gps?.Longitude, 6),
@@ -50,16 +51,12 @@ function length(
   return result;
 }
 
-function isoDate(
-  dateTag: StringArrayTag | undefined,
-  offsetTag: StringArrayTag | undefined
-) {
-  if (!dateTag || !offsetTag) {
+function dateTimeString(dateTag: StringArrayTag | undefined) {
+  if (!dateTag) {
     return undefined;
   }
   const [date, time] = dateTag.value[0].split(' ');
-  const zone = offsetTag.value[0];
-  return `${date.replaceAll(':', '-')}T${time}Z${zone}`;
+  return `${date.replaceAll(':', '-')}T${time}`;
 }
 
 function milesToKm(miles: number) {

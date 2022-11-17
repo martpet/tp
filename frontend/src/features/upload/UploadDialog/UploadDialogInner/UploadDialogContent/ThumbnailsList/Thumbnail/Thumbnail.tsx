@@ -17,7 +17,7 @@ export function Thumbnail({ file }: Props) {
 
   const formattedDate =
     file.exif.dateTimeOriginal &&
-    formatDate(file.exif.dateTimeOriginal.split('Z')[0], { dateStyle: 'long' });
+    formatDate(file.exif.dateTimeOriginal, { dateStyle: 'long' });
 
   const preventDrag: DragEventHandler<HTMLImageElement> = (event) => {
     event.preventDefault();
