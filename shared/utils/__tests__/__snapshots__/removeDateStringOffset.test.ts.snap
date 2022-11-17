@@ -1,0 +1,9 @@
+// Vitest Snapshot v1
+
+exports[`removeDateStringOffset > removes UTC representation 1`] = `"2022-11-17T10:08:23.917"`;
+
+exports[`removeDateStringOffset > removes negative offset 1`] = `"2022-11-17T10:08:23.917"`;
+
+exports[`removeDateStringOffset > removes positive offset 1`] = `"2022-11-17T10:08:23.917"`;
+
+exports[`removeDateStringOffset > returns original string if no offset representation 1`] = `"2022-11-17T10:08:23.917"`;

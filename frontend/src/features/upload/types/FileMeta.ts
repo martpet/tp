@@ -4,7 +4,6 @@ export type FileMeta = {
   objectURL: string;
   exif: {
     dateTimeOriginal?: string;
-    offsetTimeOriginal?: string;
     gpsAltitude?: number;
     gpsLatitude?: number;
     gpsLongitude?: number;

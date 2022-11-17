@@ -54,7 +54,7 @@ export const selectFilesValidity = createSelector(selectFiles, (files) =>
     files.map(({ key, exif }) => {
       const errors: FileValidityError[] = [];
       if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
-      if (!exif.dateTimeOriginal || !exif.offsetTimeOriginal) errors.push('missingDate');
+      if (!exif.dateTimeOriginal) errors.push('missingDate');
       return [key, errors];
     })
   )

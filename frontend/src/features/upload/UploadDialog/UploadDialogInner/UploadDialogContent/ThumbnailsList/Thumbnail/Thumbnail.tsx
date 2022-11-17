@@ -3,6 +3,7 @@ import { Label } from '@react-spectrum/label';
 import { DragEventHandler } from 'react';
 import { useIntl } from 'react-intl';
 
+import { removeDateStringOffset } from '~/common/utils';
 import { FileMeta } from '~/features/upload/types';
 
 import { ThumbnailError } from './ThumbnailError/ThumbnailError';
@@ -17,7 +18,9 @@ export function Thumbnail({ file }: Props) {
 
   const formattedDate =
     file.exif.dateTimeOriginal &&
-    formatDate(file.exif.dateTimeOriginal, { dateStyle: 'long' });
+    formatDate(removeDateStringOffset(file.exif.dateTimeOriginal), {
+      dateStyle: 'long',
+    });
 
   const preventDrag: DragEventHandler<HTMLImageElement> = (event) => {
     event.preventDefault();
