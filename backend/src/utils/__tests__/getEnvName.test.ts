@@ -1,22 +1,32 @@
-import { Construct } from 'constructs';
-
 import { getEnvName } from '~/utils/getEnvName';
 
-const scope = {
-  node: {
-    tryGetContext: () => 'dummyEnvName',
+const tryGetContext = vi.fn().mockReturnValue('dummyEnvName');
+
+const args = [
+  {
+    node: { tryGetContext },
   },
-} as unknown as Construct;
+] as unknown as Parameters<typeof getEnvName>;
 
 describe('getEnvName', () => {
-  it('returns the "envName"', () => {
-    expect(getEnvName(scope)).toBe('dummyEnvName');
+  it('calls "tryGetContext" with correct args', () => {
+    getEnvName(...args);
+    expect(tryGetContext.mock.calls).toMatchSnapshot();
   });
 
-  it('throws if "envName" context is missing', () => {
-    scope.node.tryGetContext = () => '';
-    expect(() => {
-      getEnvName(scope);
-    }).toThrowErrorMatchingSnapshot();
+  it('returns a correct value', () => {
+    expect(getEnvName(...args)).toMatchSnapshot();
+  });
+
+  describe('when "envName" is missing from cdk context', () => {
+    beforeEach(() => {
+      tryGetContext.mockReturnValueOnce('');
+    });
+
+    it('throws correct error', () => {
+      expect(() => {
+        getEnvName(...args);
+      }).toThrowErrorMatchingSnapshot();
+    });
   });
 });

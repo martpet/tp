@@ -21,8 +21,8 @@
     "build": "npm run intl:extract-compile && vite build frontend",
     "deploy": "npm run check && npm run build && cd backend && NODE_ENV=development npx cdk deploy --all --require-approval=never --context envName=personal",
     "generate-id": "node -e 'import(\"nanoid\").then(({nanoid}) => console.log(nanoid(10)))'",
-    "intl:extract": "formatjs extract 'frontend/src/**/*.ts*' --flatten --ignore='**/*.d.ts' --out-file frontend/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-    "intl:compile": "formatjs compile-folder --ast frontend/lang frontend/public/compiled-lang",
+    "intl:extract": "formatjs extract 'frontend/src/**/*.ts*' --flatten --ignore='**/*.d.ts' --out-file frontend/src/translations/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+    "intl:compile": "formatjs compile-folder --ast frontend/src/translations frontend/public/translations",
     "intl:extract-compile": "npm run intl:extract & npm run intl:compile",
     "prepare": "husky install"
   },
@@ -33,6 +33,7 @@
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.46.0-alpha.0",
     "@aws-sdk/client-cloudwatch": "^3.188.0",
     "@aws-sdk/client-dynamodb": "^3.188.0",
+    "@aws-sdk/client-s3": "^3.212.0",
     "@aws-sdk/client-sns": "^3.188.0",
     "@aws-sdk/client-ssm": "^3.188.0",
     "@aws-sdk/client-sts": "^3.188.0",

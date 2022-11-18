@@ -10,7 +10,7 @@ export const publicDirApi = createApi({
   }),
   endpoints: ({ query }) => ({
     getTranslations: query<ResolvedIntlConfig['messages'], Language>({
-      query: (language) => `/compiled-lang/${language}.json`,
+      query: (language) => `/translations/${language}.json`,
     }),
   }),
 });

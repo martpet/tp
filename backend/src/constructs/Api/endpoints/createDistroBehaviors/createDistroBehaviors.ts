@@ -29,7 +29,7 @@ import { authorizationHeader } from '~/constructs/Api/consts';
 import { getSecurityHeadersBehavior } from '~/constructs/Api/endpoints/createDistroBehaviors/getSecurityHeadersBehavior';
 import { apiRoutes, appEnvs, publicEndpoints } from '~/consts';
 import { ApiPath, ApiRoutes } from '~/types';
-import { getEnvName } from '~/utils';
+import { getAllowedOrigins, getEnvName } from '~/utils';
 
 import { createAuthEdgeFunction } from '../authEdgeFunction';
 
@@ -109,7 +109,7 @@ function addBehavior({
     accessControlAllowCredentials: true,
     accessControlAllowHeaders: ['content-type'],
     accessControlAllowMethods: Object.keys(methods),
-    accessControlAllowOrigins: [envName === 'personal' ? '*' : `https://${appDomain}`],
+    accessControlAllowOrigins: getAllowedOrigins(scope),
     accessControlMaxAge: Duration.days(1),
     originOverride: true,
   };

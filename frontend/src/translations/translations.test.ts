@@ -2,7 +2,7 @@ import { defaultLanguage, languages } from '~/common/consts';
 import { Language } from '~/common/types';
 
 const getIds = async (language: Language) => {
-  const { default: messages } = await import(`~/../lang/${language}.json`);
+  const { default: messages } = await import(`./${language}.json`);
   return Object.keys(messages).sort();
 };
 

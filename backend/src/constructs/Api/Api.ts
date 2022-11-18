@@ -6,7 +6,7 @@ import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { Construct } from 'constructs';
 
-import { Auth, Tables, Zone } from '~/constructs';
+import { Auth, Photos, Tables, Zone } from '~/constructs';
 import { apiSubdomain, appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
 
@@ -17,10 +17,11 @@ type Props = {
   zone: Zone;
   auth: Auth;
   tables: Tables;
+  photos: Photos;
 };
 
 export class Api extends NestedStack {
-  constructor(scope: Construct, id: string, { zone, tables, auth }: Props) {
+  constructor(scope: Construct, id: string, { zone, tables, auth, photos }: Props) {
     super(scope, id);
 
     const envName = getEnvName(this);
@@ -37,7 +38,7 @@ export class Api extends NestedStack {
       logIncludesCookies: true,
     });
 
-    createRoutes({ scope, api, auth, tables });
+    createRoutes({ scope, api, auth, tables, photos });
 
     createDistroBehaviors({
       scope,

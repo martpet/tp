@@ -1,0 +1,22 @@
+// Vitest Snapshot v1
+
+exports[`getAllowedOrigins > calls "getEnvName" with corrects args 1`] = `
+[
+  [
+    "dummyScope",
+  ],
+]
+`;
+
+exports[`getAllowedOrigins > returns a correct value 1`] = `
+[
+  "https://trip.pictures",
+]
+`;
+
+exports[`getAllowedOrigins > when the environment is "personal > returns a correct value 1`] = `
+[
+  "https://johndoe.dev.trip.pictures",
+  "http://localhost:3000",
+]
+`;

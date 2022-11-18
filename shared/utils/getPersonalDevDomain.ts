@@ -6,7 +6,10 @@ export const getPersonalDevDomain = (env: any) => {
   // @ts-ignore
   const isBrowser = typeof window !== 'undefined';
 
-  if ((isBrowser && !env.DEV) || (!isBrowser && env.NODE_ENV !== 'development')) {
+  if (
+    (isBrowser && !env.DEV) ||
+    (!isBrowser && !['development', 'test'].includes(env.NODE_ENV))
+  ) {
     return '';
   }
 

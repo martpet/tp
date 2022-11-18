@@ -1,34 +1,40 @@
 export const apiRoutes = {
   '/login': {
     methods: {
-      GET: { isPublic: true },
+      GET: {
+        isPublic: true,
+        envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
+      },
     },
     cookies: ['oauth'],
     queryStrings: ['provider'],
-    envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
   },
 
   '/loginCallback': {
     methods: {
-      GET: { isPublic: true },
+      GET: {
+        isPublic: true,
+        envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
+      },
     },
     cookies: ['oauth'],
     queryStrings: ['code', 'state', 'error', 'error_description'],
-    envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
   },
 
   '/logout': {
     methods: {
-      GET: { isPublic: true },
+      GET: {
+        isPublic: true,
+        envVars: [
+          'authDomain',
+          'clientId',
+          'logoutCallbackUrl',
+          'logoutCallbackLocalhostUrl',
+        ],
+      },
     },
     cookies: ['sessionId'],
     headers: ['referer'],
-    envVars: [
-      'authDomain',
-      'clientId',
-      'logoutCallbackUrl',
-      'logoutCallbackLocalhostUrl',
-    ],
   },
 
   '/me': {
@@ -44,7 +50,9 @@ export const apiRoutes = {
   },
   '/generate-upload-urls': {
     methods: {
-      POST: {},
+      POST: {
+        envVars: ['photosBucket'],
+      },
     },
   },
 } as const; // todo: use "as const satisfies ApiRoutes" (typescript 4.9)

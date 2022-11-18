@@ -1,3 +1,13 @@
 // Vitest Snapshot v1
 
-exports[`getEnvName > throws if "envName" context is missing 1`] = `"envName in CDK context is required"`;
+exports[`getEnvName > calls "tryGetContext" with correct args 1`] = `
+[
+  [
+    "envName",
+  ],
+]
+`;
+
+exports[`getEnvName > returns a correct value 1`] = `"dummyEnvName"`;
+
+exports[`getEnvName > when "envName" is missing from cdk context > throws correct error 1`] = `"\`envName\` in CDK context is required"`;

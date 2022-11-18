@@ -2,7 +2,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import cookie from 'cookie';
 import { StatusCodes } from 'http-status-codes';
 
-import { ApiRouteEnvVars, ApiRouteHeaders } from '~/constructs/Api/types';
+import { ApiRouteHeaders, HandlerEnvVars } from '~/constructs/Api/types';
 import { cookieName, errorResponse, parseEventCookies } from '~/constructs/Api/utils';
 import { authPaths, localhostUrl } from '~/consts';
 
@@ -12,7 +12,7 @@ import { revokeOauthTokens } from './revokeOauthTokens';
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const { envName } = globalLambdaProps;
   const { authDomain, clientId, logoutCallbackUrl, logoutCallbackLocalhostUrl } =
-    process.env as ApiRouteEnvVars<'/logout'>;
+    process.env as HandlerEnvVars<'/logout', 'GET'>;
   const { referer } = event.headers as ApiRouteHeaders<'/logout'>;
   const { sessionId } = parseEventCookies<'/logout'>(event);
   const isFromLocalhost = envName === 'personal' && referer?.startsWith(localhostUrl);

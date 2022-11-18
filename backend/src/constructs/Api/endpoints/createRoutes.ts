@@ -4,102 +4,103 @@ import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-al
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
-import { Auth, Tables } from '~/constructs';
-import { AllApiRoutesEnvVars } from '~/constructs/Api/types';
+import { Auth, Photos, Tables } from '~/constructs';
+import { ApiEnvVars } from '~/constructs/Api/types';
 import { createNodejsFunction } from '~/constructs/utils';
 import { apiRoutes } from '~/consts';
-import { ApiPath, ApiRoutes } from '~/types';
+import { ApiMethodOptions, ApiPath } from '~/types';
 import { capitalize } from '~/utils';
+
+type CreateRouteCallbacks = Partial<Record<ApiPath, (fn: NodejsFunction) => void>>;
 
 export type Props = {
   scope: Construct;
   api: HttpApi;
   auth: Auth;
   tables: Tables;
+  photos: Photos;
 };
 
-export const createRoutes = ({ scope, api, auth, tables }: Props) => {
-  const envVars: AllApiRoutesEnvVars = {
+export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
+  const envVarsMap: ApiEnvVars = {
     authDomain: auth.authDomain,
     clientId: auth.userPoolClient.userPoolClientId,
     loginCallbackUrl: auth.loginCallbackUrl,
     logoutCallbackUrl: auth.logoutCallbackUrl,
     logoutCallbackLocalhostUrl: auth.logoutCallbackLocalhostUrl,
+    photosBucket: photos.bucket.bucketName,
   };
 
-  const handlersCallbacks: HandlerCallbacks = {
-    '/loginCallback': (h) => tables.sessionsTable.grantWriteData(h),
-    '/logout': (h) => tables.sessionsTable.grantWriteData(h),
-    '/me': (h) => tables.usersTable.grantReadData(h),
-    '/settings': (h) => tables.usersTable.grantWriteData(h),
+  const callbacks: CreateRouteCallbacks = {
+    '/loginCallback': (f) => tables.sessionsTable.grantWriteData(f),
+    '/logout': (f) => tables.sessionsTable.grantWriteData(f),
+    '/me': (f) => tables.usersTable.grantReadData(f),
+    '/settings': (f) => tables.usersTable.grantWriteData(f),
+    '/generate-upload-urls': (f) => photos.bucket.grantPut(f),
   };
 
   const userPoolAuthorizer = new HttpUserPoolAuthorizer('Authorizer', auth.userPool, {
     userPoolClients: [auth.userPoolClient],
   });
 
-  Object.entries(apiRoutes as ApiRoutes).forEach(([path, { methods }]) => {
-    Object.entries(methods).forEach(([method, { isPublic }]) => {
-      addApiRoute({
+  Object.entries(apiRoutes).forEach(([path, { methods }]) => {
+    Object.entries(methods).forEach(([method, methodOptions]) => {
+      createRoute({
         scope,
         api,
         path,
         method,
-        isPublic,
+        methodOptions,
         userPoolAuthorizer,
-        envVars,
-        handlersCallbacks,
+        envVarsMap,
+        callbacks,
       });
     });
   });
 };
 
-type HandlerCallbacks = Partial<Record<ApiPath, (h: NodejsFunction) => void>>;
-
-function addApiRoute({
+function createRoute({
   scope,
   api,
   path,
   method,
-  isPublic,
+  methodOptions,
   userPoolAuthorizer,
-  envVars,
-  handlersCallbacks,
+  envVarsMap,
+  callbacks,
 }: Pick<Props, 'scope' | 'api'> & {
   path: string;
   method: string;
-  isPublic?: boolean;
+  methodOptions: ApiMethodOptions;
   userPoolAuthorizer: HttpUserPoolAuthorizer;
-  envVars: AllApiRoutesEnvVars;
-  handlersCallbacks: HandlerCallbacks;
+  envVarsMap: ApiEnvVars;
+  callbacks: CreateRouteCallbacks;
 }) {
-  const pathName = path.replace('/', '');
-  const methodName = method.toLowerCase();
-  const fileName = `${methodName}-${pathName}`;
-  const id = `${capitalize(pathName)}${capitalize(methodName)}`;
-  const envVarsKeys = (apiRoutes as ApiRoutes)[path as ApiPath].envVars;
-  const environment: Record<string, string> = {};
-  const handlerCallback = handlersCallbacks[path as ApiPath];
+  const formattedPathName = path.replace('/', '');
+  const formattedMethodName = method.toLowerCase();
+  const fileName = `${formattedMethodName}-${formattedPathName}`;
+  const handlerId = `${capitalize(formattedPathName)}${capitalize(formattedMethodName)}`;
+  const handlerEnvironment: Record<string, string> = {};
+  const createRouteCallback = callbacks[path as ApiPath];
+  const { isPublic, envVars = [] } = methodOptions;
 
-  if (envVarsKeys) {
-    envVarsKeys.forEach((key) => {
-      environment[key] = envVars[key as keyof AllApiRoutesEnvVars];
-    });
-  }
+  envVars.forEach((key) => {
+    handlerEnvironment[key] = envVarsMap[key as keyof ApiEnvVars];
+  });
 
-  const handler = createNodejsFunction(scope, `Handler${id}`, {
-    entry: `${__dirname}/handlers/${pathName}/${fileName}/${fileName}.ts`,
-    environment,
+  const handler = createNodejsFunction(scope, `Handler${handlerId}`, {
+    entry: `${__dirname}/handlers/${formattedPathName}/${fileName}/${fileName}.ts`,
+    environment: handlerEnvironment,
   });
 
   api.addRoutes({
     path,
     methods: [method as HttpMethod],
-    integration: new HttpLambdaIntegration(`${id}Integration`, handler),
+    integration: new HttpLambdaIntegration(`${handlerId}Integration`, handler),
     authorizer: isPublic ? undefined : userPoolAuthorizer,
   });
 
-  if (handlerCallback) {
-    handlerCallback(handler);
+  if (createRouteCallback) {
+    createRouteCallback(handler);
   }
 }

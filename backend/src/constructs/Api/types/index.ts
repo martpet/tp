@@ -1,5 +1,5 @@
+export * from './ApiEnvVars';
 export * from './ApiRouteCookies';
-export * from './ApiRouteEnvVars';
 export * from './ApiRouteHeaders';
 export * from './ApiRouteQueryStrings';
 export * from './LambdaEdgeOriginRequestHandler';

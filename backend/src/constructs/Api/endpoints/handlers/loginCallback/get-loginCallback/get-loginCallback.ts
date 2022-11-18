@@ -2,8 +2,8 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { StatusCodes } from 'http-status-codes';
 
 import {
-  ApiRouteEnvVars,
   ApiRouteQueryStrings,
+  HandlerEnvVars,
   OauthTokens,
 } from '~/constructs/Api/types';
 import { errorResponse } from '~/constructs/Api/utils';
@@ -26,8 +26,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     error_description: queryStringErrorDescrption,
   } = Object(event.queryStringParameters) as ApiRouteQueryStrings<'/loginCallback'>;
 
-  const { clientId, authDomain, loginCallbackUrl } =
-    process.env as ApiRouteEnvVars<'/loginCallback'>;
+  const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnvVars<
+    '/loginCallback',
+    'GET'
+  >;
 
   const { stateNonce, idTokenNonce, codeVerifier } = parseOauthCookie(event);
 
