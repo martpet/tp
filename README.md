@@ -1,35 +1,64 @@
 # TP
 
-A playground for [AWS CDK](https://aws.amazon.com/cdk), [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) and [React Spectrum](https://react-spectrum.adobe.com).
+This is a fullstack javascript project, a playground for [AWS CDK](https://aws.amazon.com/cdk), [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) and [React Spectrum](https://react-spectrum.adobe.com).
 
-## Getting started
+## Setup development environment
 
-### 1. Specify your personal AWS account
-Provide the administrator with your personal AWS account ID, or ask for a new organizational account specifically for this project.
+### 1. Specify personal account
+Provide the administrator with:
+* your personal AWS account ID (or ask for an organizational account),
+* a name for your dev subdomain (Ex: **johndoe**).
 
-*For administrators: [How to add developers](README-prod-setup.md#how-to-add-developers-to-project)*
+(*Administrators: [How to add developers](README-prod-setup.md#how-to-add-developers-to-project)*)
 
-### 2. Bootstrap your AWS account for CDK
+### 2. Bootstrap your personal account
 
-`npx cdk bootstrap aws://<account id>/<region> --profile <aws profile name>`
+`npx cdk bootstrap aws://<id>/<region> --profile <profile>`
 
 Also bootstrap the `us-east-1` region.
 
-### 3. Set personal environment variables
+### 3. Set environment variables
 
-Copy `.env.local.example` to `.env.local` and set personal values.
+In the root project folder copy `.env.local.example` to `.env.local` and set own values.
+
+### 4. Install Node modules
+
+Check required Node version in `.nvmrc`
+
+`npm install`
+
+### 5. Deploy personal stack
+
+See *Deploying* bellow.
 
 ## Developing
 
-### Frontend server
+### Start frontend server
 
 `npm start`
 
-For *Safari* users: Disable *Prevent cross-site tracking* from *Privacy settings*, or `sessionId` cookie won't be sent from localhost to API.
+Web server runs on localhost:3000 and calls your personal stack.
 
-### Deploying to personal AWS account
+*Safari* users need to disable *Prevent cross-site tracking* in *Privacy Settings*, otherwise  `sessionId` cookie won't be sent from localhost to API backend.
+
+## Deploying
+
+### Personal stack
 
 `npm run deploy -- --profile <aws profile name>`
+
+[localhost:3000](http://localhost:3000), *myname.dev.trip.pictures*
+
+
+### Staging
+Deployment is triggered by pushing to branch `main`.
+
+[test.trip.pictures](http://test.trip.pictures)
+
+### Production
+Deployment is triggered by creating a new release.
+
+[trip.pictures](http://trip.pictures)
 
 ----
 

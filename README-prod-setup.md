@@ -1,34 +1,34 @@
-# Setup Staging and Prod environments
+# Setup AWS environments
 
 ## AWS Organizations
 * Create `Production`, `Staging` and `DevService` accounts.
 * Create a `Dev` organizational unit.
 
-## Bootstrap
+## Bootstrap environments
 
 For *Production* and *Staging* environments run:
 
-`npx cdk bootstrap aws://<account-id>/<region> --profile <profile>`
+`npx cdk bootstrap aws://<id>/<region> --profile <profile>`
 
-In addition, bootstrap the `us-east-1` region, if they are different from the region above.
+In addition, bootstrap the `us-east-1` region.
 
 ## Hosted zones
 
 ### Create hosted zones
 
 In the *Production* account:
-* Create the *root* public hosted zone with name `my-domain.com`.
-* Copy the *root* hosted zone id to a variable named `rootHostedZoneId` in *backend/consts/appConsts.ts*.
+* Create the **root** hosted zone with a name `trip.pictures`.
+* Copy the **root** hosted zone id to a variable named `rootHostedZoneId` in *backend/consts/appConsts.ts*.
 
 In the *Staging* account:
-* Create the *test* public hosted zone with name `test.my-domain.com`.
-* Copy the *test* hosted zone id to a variable named `stagingHostedZoneId` in *backend/consts/appConsts.ts*.
-* Copy the *NS* record from the *test* zone into the *Production* account *root* zone.
+* Create the **test** hosted zone with a name `test.trip.pictures`.
+* Copy the **test** hosted zone id to a variable named `stagingHostedZoneId` in *backend/consts/appConsts.ts*.
+* Copy the *NS* record from the **test** zone into the *Production* account **root** zone.
 
 In the *DevService* account:
-* Create the *dev* public hosted zone with name `dev.my-domain.com`.
-* Copy the *dev* hosted zone id to a variable named `devHostedZoneId` in *backend/consts/appConsts.ts*.
-* Copy the *NS* record from the *dev* zone into the *Production* account *root* zone.
+* Create the **dev** hosted zone with name `dev.my-domain.com`.
+* Copy the **dev** hosted zone id to a variable named `devHostedZoneId` in *backend/consts/appConsts.ts*.
+* Copy the *NS* record from the **dev** zone into the *Production* account **root** zone.
 
 ### Add a policy for editing *Dev* hosted zone
 
@@ -43,7 +43,7 @@ In the *DevService* account create a policy named `HostedZoneRecords`.
             {
                 "Effect": "Allow",
                 "Action": "route53:ChangeResourceRecordSets",
-                "Resource": "arn:aws:route53:::hostedzone/DEV_HOSTED_ZONE_ID"
+                "Resource": "arn:aws:route53:::hostedzone/<DEV HOSTED ZONE ID>"
             },
             {
                 "Effect": "Allow",
@@ -59,25 +59,12 @@ In the *DevService* account create a policy named `HostedZoneRecords`.
 In the *HostedZones* account:
 
 * Register a domain in Route53.
-* Use the name servers from the *root* zone NS record.
+* Use the name servers from the **root** zone NS record.
 * Copy the domain name to a variable named `rootDomain` in *shared/consts/commonConsts.ts*
 
 ## Identity providers
 
-Setup OAuth for each environment (Dev, Staging and Production):
-
-<details>
-<summary>Google</summary>
-
-1. Go to [Credentials](https://console.cloud.google.com/apis/credentials) in *Google Cloud*.
-2. Click *Create credentials* > *OAuth client ID*.
-3. Select the *Web application* type.
-4. Add `https://auth.<domain>` to *Authorized JavaScript origins* .
-5. Add `https://auth.<domain>/oauth2/idpresponse` to *Authorized redirect URIs*.
-6. Copy *Client ID* to variables named `googleClientIdDev`, `googleClientIdStaging` and `googleClientIdProd` in *backend/consts/appConsts.ts*.
-7. In the AWS accounts (*DevService*, *Staging* and *Production) add a string parameter to *Parameter store* (for *DevService* use a **secure** string) and put the *Client secret* in it.
-8. Copy the name of the string parameter to a single variable named `googleClientSecretParamName` in *backend/consts/appConsts.ts*.
-</details>
+Setup *OAuth* with the following 3 env names: *Dev*, *Stage*, *Prod*:
 
 <details>
 <summary>Apple</summary>
@@ -99,8 +86,8 @@ Setup OAuth for each environment (Dev, Staging and Production):
 14. *Continue* > *Register*.
 15. Choose again the service from the list.
 16. Check *Sign in with Apple*, click *Configure*.
-17. Add `auth.<domain>` to *Domains and Subdomains*.
-18. Add `https://auth.<domain>/oauth2/idpresponse` to *Return URLs*.
+17. Add `auth.trip.pictures` to *Domains and Subdomains*.
+18. Add `https://auth.trip.pictures/oauth2/idpresponse` to *Return URLs*.
 19. *Continue* > *Save*.
 20. Go to *Keys* and create new.
 21. Key name: `<app-name><env>`.
@@ -109,6 +96,21 @@ Setup OAuth for each environment (Dev, Staging and Production):
 24. Copy the key ids to variables `appleKeyIdDev`, `appleKeyIdStaging` and `appleKeyIdProd` in *backend/consts/appConsts.ts*.
 25. In the AWS accounts (*DevService*, *Staging* and *Production) add a string parameter to *Parameter store* (for *DevService* use a **secure** string) and put the downloaded private key in it.
 26. Copy the name of the string parameter to a single variable named `applePrivateKeyParamName` in *backend/consts/appConsts.ts*.
+</details>
+
+
+
+<details>
+<summary>Google</summary>
+
+1. Go to [Credentials](https://console.cloud.google.com/apis/credentials) in *Google Cloud*.
+2. Click *Create credentials* > *OAuth client ID*.
+3. Select the *Web application* type.
+4. Add `https://auth.trip.pictures` to *Authorized JavaScript origins* .
+5. Add `https://auth.trip.pictures/oauth2/idpresponse` to *Authorized redirect URIs*.
+6. Copy *Client ID* to variables named `googleClientIdDev`, `googleClientIdStaging` and `googleClientIdProd` in *backend/consts/appConsts.ts*.
+7. In the AWS accounts (*DevService*, *Staging* and *Production*) add a string parameter to *Parameter store* (for *DevService* use a **secure** string) and put the *Client secret* in it.
+8. Copy the name of the string parameter to a single variable named `googleClientSecretParamName` in *backend/consts/appConsts.ts*.
 </details>
 
 ### Add a policy for reading the *Dev* identity provider secrets
@@ -173,10 +175,10 @@ Copy the ARN of *DevAccountServiceRole* role to a variable named `devAccountServ
 
 Developers need permissions to assume the *DevAccountServiceRole* from the *DevService* AWS account.
 
-There are two options:
+Choose one of the two options:
 
-* Create a personal account in the *Dev* organizational unit.
 * Add permissions for their own account to assume the *DevAccountServiceRole*.
+* Create a personal account in the *Dev* organizational unit.
 
 <details>
     <summary>Permissions for their own account to asssume DevAccountServiceRole</summary>
@@ -190,14 +192,13 @@ There are two options:
     }
 </details>
 
-In addition, each user's personal domain name should be added to:
+Also,
 
-[Google console](https://console.cloud.google.com/apis/credentials).
-* Add `https://auth.<user-domain>` to *Authorized JavaScript origins* .
-* Add `https://auth.<user-domain>/oauth2/idpresponse` to *Authorized redirect URIs*.
+Add in [Apple console](https://developer.apple.com/account):
+* `auth.<user name>.trip.pictures` to *Domains and Subdomains*.
+* `https://auth.<user name>.trip.pictures/oauth2/idpresponse` to *Return URLs*.
 
-and
+Add in [Google console](https://console.cloud.google.com/apis/credentials):
+* `https://auth.<user name>.trip.pictures` to *Authorized JavaScript origins* .
+* `https://auth.<user name>.trip.pictures/oauth2/idpresponse` to *Authorized redirect URIs*.
 
-[Apple console](https://developer.apple.com/account)
-* Add `auth.<user-domain>` to *Domains and Subdomains*.
-* Add `https://auth.<user-domain>/oauth2/idpresponse` to *Return URLs*.
