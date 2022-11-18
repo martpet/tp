@@ -1,29 +1,36 @@
 # TP
 
-This is a personal playground, using AWS CDK, Adobe React Spectrum, Redux Toolkit Query, and others.
+A playground for [AWS CDK](https://aws.amazon.com/cdk), [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) and [React Spectrum](https://react-spectrum.adobe.com).
 
 ## Getting started
 
-### Bootstrap AWS dev environment
+### 1. Specify your personal AWS account
+Provide the administrator with your personal AWS account ID, or ask for a new organizational account specifically for this project.
 
-`npx cdk bootstrap aws://<account-id>/<region> --profile <aws profile name>`
+*For administrators: [How to add developers](README-prod-setup.md#how-to-add-developers-to-project)*
+
+### 2. Bootstrap your AWS account for CDK
+
+`npx cdk bootstrap aws://<account id>/<region> --profile <aws profile name>`
 
 Also bootstrap the `us-east-1` region.
 
-### Add local env variables
+### 3. Set personal environment variables
 
 Copy `.env.local.example` to `.env.local` and set personal values.
 
-### Run local frontend server
+## Developing
+
+### Frontend server
 
 `npm start`
 
-For Safari: disable *Prevent cross-site tracking* from *Privacy settings*. Otherwise `sessionId` cookie is not sent from localhost to API backend.
+For *Safari* users: Disable *Prevent cross-site tracking* from *Privacy settings*, or `sessionId` cookie won't be sent from localhost to API.
 
-### Deploy frontend and backend to AWS dev
+### Deploying to personal AWS account
 
 `npm run deploy -- --profile <aws profile name>`
 
 ----
 
-Check also: [Setting up prod and staging environments](README-prod-setup.md)
+*Check also: [Setting up prod and staging environments](README-prod-setup.md)*
