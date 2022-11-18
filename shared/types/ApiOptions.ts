@@ -1,6 +1,6 @@
 import { RequireAtLeastOne } from 'type-fest';
 
-export type ApiRoutes = Record<string, ApiRouteOptions>;
+export type ApiOptions = Record<string, ApiRouteOptions>;
 
 export type ApiRouteOptions = {
   methods: RequireAtLeastOne<Record<ApiMethod, ApiMethodOptions>>;

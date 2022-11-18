@@ -1,6 +1,6 @@
 import { ApiPaths } from '../types';
-import { apiRoutes } from './apiRoutes';
+import { apiOptions } from './apiOptions';
 
 export const apiPaths = Object.fromEntries(
-  Object.keys(apiRoutes).map((key) => [key.replace('/', ''), key])
+  Object.keys(apiOptions).map((key) => [key.replace('/', ''), key])
 ) as ApiPaths;

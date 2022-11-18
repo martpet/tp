@@ -27,8 +27,8 @@ import { Writable } from 'type-fest';
 import { Auth, Tables } from '~/constructs';
 import { authorizationHeader } from '~/constructs/Api/consts';
 import { getSecurityHeadersBehavior } from '~/constructs/Api/endpoints/createDistroBehaviors/getSecurityHeadersBehavior';
-import { apiRoutes, appEnvs, publicEndpoints } from '~/consts';
-import { ApiPath, ApiRoutes } from '~/types';
+import { apiOptions, appEnvs, publicEndpoints } from '~/consts';
+import { ApiPath, ApiOptions } from '~/types';
 import { getAllowedOrigins, getEnvName } from '~/utils';
 
 import { createAuthEdgeFunction } from '../authEdgeFunction';
@@ -65,7 +65,7 @@ export const createDistroBehaviors = ({
     defaultCachePolicyProps
   );
 
-  (Object.keys(apiRoutes) as ApiPath[]).forEach((path) => {
+  (Object.keys(apiOptions) as ApiPath[]).forEach((path) => {
     addBehavior({
       scope,
       origin,
@@ -103,7 +103,7 @@ function addBehavior({
     headers = [],
     cookies = [],
     queryStrings = [],
-  } = (apiRoutes as ApiRoutes)[path];
+  } = (apiOptions as ApiOptions)[path];
 
   const corsBehavior: ResponseHeadersCorsBehavior = {
     accessControlAllowCredentials: true,

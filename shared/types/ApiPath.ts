@@ -1,8 +1,8 @@
 import { Replace } from 'type-fest';
 
-import { apiRoutes } from '../consts/apiRoutes';
+import { apiOptions } from '../consts/apiOptions';
 
-export type ApiPath = keyof typeof apiRoutes;
+export type ApiPath = keyof typeof apiOptions;
 
 export type ApiPaths = {
   [key in Replace<ApiPath, '/', ''>]: `/${key}`;

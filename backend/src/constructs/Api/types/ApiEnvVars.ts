@@ -1,9 +1,9 @@
 import { SetRequired } from 'type-fest';
 
-import { apiRoutes } from '~/consts';
+import { apiOptions } from '~/consts';
 import { ApiMethodOptions, DeepValues, envVarsKey } from '~/types';
 
-type Routes = typeof apiRoutes;
+type Routes = typeof apiOptions;
 type EnvVarsKey = typeof envVarsKey;
 type ApiMethodOptionsWithEnvVars = SetRequired<ApiMethodOptions, EnvVarsKey>;
 

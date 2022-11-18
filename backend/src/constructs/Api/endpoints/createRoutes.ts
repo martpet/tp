@@ -7,7 +7,7 @@ import { Construct } from 'constructs';
 import { Auth, Photos, Tables } from '~/constructs';
 import { ApiEnvVars } from '~/constructs/Api/types';
 import { createNodejsFunction } from '~/constructs/utils';
-import { apiRoutes } from '~/consts';
+import { apiOptions } from '~/consts';
 import { ApiMethodOptions, ApiPath } from '~/types';
 import { capitalize } from '~/utils';
 
@@ -43,7 +43,7 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
     userPoolClients: [auth.userPoolClient],
   });
 
-  Object.entries(apiRoutes).forEach(([path, { methods }]) => {
+  Object.entries(apiOptions).forEach(([path, { methods }]) => {
     Object.entries(methods).forEach(([method, methodOptions]) => {
       createRoute({
         scope,

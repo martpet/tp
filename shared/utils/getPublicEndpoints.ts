@@ -1,9 +1,9 @@
-import { ApiMethod, ApiPath, ApiRoutes } from '../types';
+import { ApiMethod, ApiPath, ApiOptions } from '../types';
 
-export const getPublicEndpoints = (apiRoutes: ApiRoutes) => {
+export const getPublicEndpoints = (apiOptions: ApiOptions) => {
   const result: Partial<Record<ApiPath, ApiMethod[]>> = {};
 
-  Object.entries(apiRoutes as ApiRoutes).forEach(([path, { methods }]) => {
+  Object.entries(apiOptions as ApiOptions).forEach(([path, { methods }]) => {
     const publicMethods: ApiMethod[] = [];
 
     Object.entries(methods).forEach(([method, { isPublic }]) => {
