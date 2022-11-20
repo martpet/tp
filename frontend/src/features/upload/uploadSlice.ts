@@ -2,18 +2,16 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '~/common/types';
 import { addFiles, upload } from '~/features/upload/thunks';
-import { FileMeta, FileValidityError } from '~/features/upload/types';
+import { FileMeta, FileValidationError, UploadableFile } from '~/features/upload/types';
 
 type UploadState = {
   status: 'idle' | 'pending' | 'succeeded' | 'failed';
   files: FileMeta[];
-  duplicateAddedFiles: string[];
 };
 
 const initialState: UploadState = {
   status: 'idle',
   files: [],
-  duplicateAddedFiles: [],
 };
 
 export const uploadSlice = createSlice({
@@ -21,15 +19,12 @@ export const uploadSlice = createSlice({
   initialState,
   reducers: {
     fileRemoved: (state, action: PayloadAction<string>) => {
-      state.files = state.files.filter(({ key }) => key !== action.payload);
+      state.files = state.files.filter(({ id }) => id !== action.payload);
     },
   },
   extraReducers: (builder) => {
     builder.addCase(addFiles.fulfilled, (state, action) => {
-      if (action.payload.filesMeta.length) {
-        state.files = state.files.concat(action.payload.filesMeta);
-      }
-      state.duplicateAddedFiles = action.payload.duplicateKeys;
+      state.files = state.files.concat(action.payload);
     });
     builder.addCase(upload.pending, (state) => {
       state.status = 'pending';
@@ -49,19 +44,32 @@ export const selectUploadStatus = (state: RootState) => state.upload.status;
 
 export const selectFiles = (state: RootState) => state.upload.files;
 
-export const selectFilesValidity = createSelector(selectFiles, (files) =>
+export const selectDuplicateFiles = createSelector(selectFiles, (files) => {
+  const fingerPrints: string[] = [];
+  return files.filter((file) => {
+    const isDuplicate = fingerPrints.includes(file.fingerPrint);
+    fingerPrints.push(file.fingerPrint);
+    return isDuplicate;
+  });
+});
+
+export const selectFilesValidationErrors = createSelector(selectFiles, (files) =>
   Object.fromEntries(
-    files.map(({ key, exif }) => {
-      const errors: FileValidityError[] = [];
+    files.map(({ id, exif }) => {
+      const errors: FileValidationError[] = [];
       if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
       if (!exif.dateTimeOriginal) errors.push('missingDate');
-      return [key, errors];
+      return [id, errors];
     })
   )
 );
 
 export const selectUploadableFiles = createSelector(
   selectFiles,
-  selectFilesValidity,
-  (files, filesValidity) => files.filter(({ key }) => !filesValidity[key].length)
+  selectDuplicateFiles,
+  selectFilesValidationErrors,
+  (files, duplicateFiles, validationErrors) =>
+    files.filter(
+      (file) => !duplicateFiles.includes(file) && !validationErrors[file.id].length
+    ) as UploadableFile[]
 );

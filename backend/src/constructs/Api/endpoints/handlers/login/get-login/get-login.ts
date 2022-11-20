@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import {
   ApiRouteQueryStrings,
-  HandlerEnvVars,
+  HandlerEnv,
   OauthCookieProps,
 } from '~/constructs/Api/types';
 import { cookieName, errorResponse } from '~/constructs/Api/utils';
@@ -13,7 +13,7 @@ import { apiPaths, authPaths } from '~/consts';
 import { generateOauthRandoms } from './generateOauthRandoms';
 
 export const handler: APIGatewayProxyHandlerV2 = async ({ queryStringParameters }) => {
-  const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnvVars<
+  const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnv<
     '/login',
     'GET'
   >;

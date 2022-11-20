@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import {
   ApiRouteQueryStrings,
-  HandlerEnvVars,
+  HandlerEnv,
   OauthTokens,
 } from '~/constructs/Api/types';
 import { errorResponse } from '~/constructs/Api/utils';
@@ -26,7 +26,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     error_description: queryStringErrorDescrption,
   } = Object(event.queryStringParameters) as ApiRouteQueryStrings<'/loginCallback'>;
 
-  const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnvVars<
+  const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnv<
     '/loginCallback',
     'GET'
   >;

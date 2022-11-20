@@ -16,8 +16,8 @@ export function ThumbnailRemoveButton({ file }: Props) {
   const uploadStatus = useAppSelector(selectUploadStatus);
   const dispatch = useAppDispatch();
 
-  const handleRemove = (fileKey: string) => () => {
-    dispatch(fileRemoved(fileKey));
+  const handleRemove = (fileId: string) => () => {
+    dispatch(fileRemoved(fileId));
   };
 
   return (
@@ -29,7 +29,7 @@ export function ThumbnailRemoveButton({ file }: Props) {
     >
       {uploadStatus !== 'pending' && (
         <ActionButton
-          onPress={handleRemove(file.key)}
+          onPress={handleRemove(file.id)}
           UNSAFE_style={{ transform: 'scale(0.65)' }}
           aria-label={formatMessage({
             defaultMessage: 'Remove',

@@ -19,6 +19,10 @@
     "defaultMessage": "Upload photos",
     "description": "upload dialog heading"
   },
+  "3fg+R4": {
+    "defaultMessage": "This file was already selected",
+    "description": "upload thumbnail duplicate file message "
+  },
   "4yg8Sf": {
     "defaultMessage": "Choose language",
     "description": "language picker label"

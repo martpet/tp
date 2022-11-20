@@ -18,42 +18,41 @@ const allowedSettingsKeys: Array<keyof UserSettings> = [
   'toolbarPosition',
 ];
 
-export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async ({
-  body,
-  headers,
-}) => {
-  let data;
-  const { authorization } = headers as ApiRouteHeaders<'/settings'>;
+const settingsAttrName: keyof UsersTableItem = 'settings';
+
+export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (event) => {
+  const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
 
   if (!authorization) {
     return errorResponse('UMxOJy1cpJ');
   }
 
-  if (!body) {
+  const { sub: userId } = getIdTokenPayload(authorization);
+
+  if (!event.body) {
     return errorResponse('x1IsNHbqd3', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
+  let parsedBody;
+
   try {
-    data = JSON.parse(body);
-  } catch (e) {
+    parsedBody = JSON.parse(event.body);
+  } catch (_err) {
     return errorResponse('d6QTt6tKWK', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
-  const hasUnallowedKeys = Object.keys(data).some(
+  const hasUnknownKeys = Object.keys(parsedBody).some(
     (key) => !allowedSettingsKeys.includes(key as keyof UserSettings)
   );
 
-  if (hasUnallowedKeys) {
+  if (hasUnknownKeys) {
     return errorResponse('IUKROTi0UF', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
-  const { sub } = getIdTokenPayload(authorization);
-  const settingsAttrName: keyof UsersTableItem = 'settings';
-
   const updateCommand = new UpdateCommand({
     TableName: usersTableOptions.tableName,
-    Key: { [usersTableOptions.partitionKey.name]: sub },
-    ...createDynamoUpdateExpression(data, settingsAttrName),
+    Key: { [usersTableOptions.partitionKey.name]: userId },
+    ...createDynamoUpdateExpression(parsedBody, settingsAttrName),
   });
 
   await ddbDocClient.send(updateCommand);

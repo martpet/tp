@@ -1,6 +1,7 @@
 export type FileMeta = {
-  key: string;
+  id: string;
   name: string;
+  fingerPrint: string;
   objectURL: string;
   exif: {
     dateTimeOriginal?: string;

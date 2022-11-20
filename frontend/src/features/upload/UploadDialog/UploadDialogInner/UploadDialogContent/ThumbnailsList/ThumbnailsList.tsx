@@ -33,10 +33,7 @@ export function ThumbnailsList() {
       alignItems="start"
     >
       {files.map((file, index) => (
-        <div
-          key={file.key}
-          {...(index === files.length - 1 && { ref: lastThumbnailRef })}
-        >
+        <div key={file.id} {...(index === files.length - 1 && { ref: lastThumbnailRef })}>
           <Thumbnail file={file} />
         </div>
       ))}

@@ -16,19 +16,18 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   const uploadStatus = useAppSelector(selectUploadStatus);
 
   const inputElement = useMemo(() => {
-    const element = document.createElement('input');
-    element.type = 'file';
-    element.multiple = true;
-    element.accept = acceptedUploadFileTypes.join(',');
-    element.addEventListener('change', () => {
-      if (element.files) {
-        dispatch(addFiles(element.files));
-      }
+    const el = document.createElement('input');
+    el.type = 'file';
+    el.multiple = true;
+    el.accept = acceptedUploadFileTypes.join(',');
+    el.addEventListener('change', () => {
+      if (el.files) dispatch(addFiles(el.files));
     });
-    return element;
+    return el;
   }, []);
 
-  const handleButtonPress = () => {
+  const handleClick = () => {
+    inputElement.value = '';
     inputElement.click();
     import('exifreader'); // start preloading exif reader
   };
@@ -36,7 +35,7 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   return (
     <Button
       variant={variant}
-      onPress={handleButtonPress}
+      onPress={handleClick}
       isDisabled={uploadStatus === 'pending'}
       {...buttonProps}
     >

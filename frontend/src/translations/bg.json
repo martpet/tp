@@ -1,4 +1,8 @@
 {
+  "3fg+R4": {
+    "defaultMessage": "Този файл вече е бил добавен",
+    "description": "upload thumbnail duplicate file message "
+  },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
     "description": "settings tab"

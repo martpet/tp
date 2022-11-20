@@ -20,11 +20,11 @@
     "preview": "npm run build && vite preview frontend",
     "build": "npm run intl:extract-compile && vite build frontend",
     "deploy": "npm run check && npm run build && cd backend && NODE_ENV=development npx cdk deploy --all --require-approval=never --context envName=personal",
-    "generate-id": "node -e 'import(\"nanoid\").then(({nanoid}) => console.log(nanoid(10)))'",
     "intl:extract": "formatjs extract 'frontend/src/**/*.ts*' --flatten --ignore='**/*.d.ts' --out-file frontend/src/translations/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
     "intl:compile": "formatjs compile-folder --ast frontend/src/translations frontend/public/translations",
     "intl:extract-compile": "npm run intl:extract & npm run intl:compile",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "genid": "node -e 'import(\"nanoid\").then(({nanoid}) => console.log(nanoid(10)))'"
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.22.0",
@@ -38,6 +38,7 @@
     "@aws-sdk/client-ssm": "^3.188.0",
     "@aws-sdk/client-sts": "^3.188.0",
     "@aws-sdk/lib-dynamodb": "^3.188.0",
+    "@aws-sdk/s3-presigned-post": "^3.213.0",
     "@aws-sdk/util-dynamodb": "^3.188.0",
     "@formatjs/intl": "^2.5.0",
     "@mrgrain/cdk-esbuild": "^3.11.2",
