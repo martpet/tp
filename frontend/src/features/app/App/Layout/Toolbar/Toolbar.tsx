@@ -32,7 +32,7 @@ export function Toolbar() {
           <ProfileButton />
         </Flex>
       </Flex>
-      <Divider size="M" orientation={isToolbarOnTop ? 'horizontal' : 'vertical'} />
+      <Divider size="S" orientation={isToolbarOnTop ? 'horizontal' : 'vertical'} />
     </Flex>
   );
 }

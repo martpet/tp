@@ -1,7 +1,8 @@
-import { Button, SpectrumButtonProps } from '@adobe/react-spectrum';
+import { Button, SpectrumButtonProps, Text } from '@adobe/react-spectrum';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SetOptional } from 'type-fest';
+import AddToSelection from '@spectrum-icons/workflow/AddToSelection';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { acceptedUploadFileTypes } from '~/features/upload/consts';
@@ -39,17 +40,24 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
       isDisabled={uploadStatus === 'pending'}
       {...buttonProps}
     >
+      
       {!files.length ? (
         <FormattedMessage
           defaultMessage="Select files"
           description="button choose files (initial state)"
         />
       ) : (
-        <FormattedMessage
-          defaultMessage="Add more files"
-          description="button choose files (with added files)"
-        />
+        <>
+          <AddToSelection />
+          <Text>
+            <FormattedMessage
+              defaultMessage="Add more files"
+              description="button choose files (with added files)"
+            />
+          </Text>
+        </>
       )}
+      
     </Button>
   );
 }

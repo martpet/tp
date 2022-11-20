@@ -32,6 +32,7 @@ module.exports = {
     'react/no-unused-prop-types': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
+    'react/style-prop-object': ['on', { allow: ['Button'] }],
     'no-restricted-imports': 'off',
     'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
     'no-param-reassign': ['error', { props: false }],

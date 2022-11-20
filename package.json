@@ -27,7 +27,7 @@
     "genid": "node -e 'import(\"nanoid\").then(({nanoid}) => console.log(nanoid(10)))'"
   },
   "dependencies": {
-    "@adobe/react-spectrum": "^3.22.0",
+    "@adobe/react-spectrum": "^3.23.0",
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.46.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "^2.46.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.46.0-alpha.0",

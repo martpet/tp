@@ -1,4 +1,4 @@
-import { Grid } from '@adobe/react-spectrum';
+import { View } from '@adobe/react-spectrum';
 import { Label } from '@react-spectrum/label';
 import { DragEventHandler } from 'react';
 import { useIntl } from 'react-intl';
@@ -29,7 +29,7 @@ export function Thumbnail({ file }: Props) {
 
   return (
     <>
-      <Grid>
+      <View position="relative">
         <img
           alt={file.name}
           src={file.objectURL}
@@ -38,10 +38,11 @@ export function Thumbnail({ file }: Props) {
             width: '100%',
             gridColumn: '1',
             gridRow: '1',
+            display: 'block'
           }}
         />
         <ThumbnailRemoveButton file={file} />
-      </Grid>
+      </View>
       <ThumbnailError file={file} />
       {formattedDate && <Label marginTop="size-50">{formattedDate}</Label>}
     </>
