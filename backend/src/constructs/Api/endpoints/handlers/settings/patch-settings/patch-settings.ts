@@ -22,26 +22,23 @@ const settingsAttrName: keyof UsersTableItem = 'settings';
 
 export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (event) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
+  let settingsPatch;
 
   if (!authorization) {
     return errorResponse('UMxOJy1cpJ');
   }
 
-  const { sub: userId } = getIdTokenPayload(authorization);
-
   if (!event.body) {
     return errorResponse('x1IsNHbqd3', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
-  let parsedBody;
-
   try {
-    parsedBody = JSON.parse(event.body);
+    settingsPatch = JSON.parse(event.body);
   } catch (_err) {
     return errorResponse('d6QTt6tKWK', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
-  const hasUnknownKeys = Object.keys(parsedBody).some(
+  const hasUnknownKeys = Object.keys(settingsPatch).some(
     (key) => !allowedSettingsKeys.includes(key as keyof UserSettings)
   );
 
@@ -49,10 +46,12 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (e
     return errorResponse('IUKROTi0UF', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
+  const { sub } = getIdTokenPayload(authorization);
+
   const updateCommand = new UpdateCommand({
     TableName: usersTableOptions.tableName,
-    Key: { [usersTableOptions.partitionKey.name]: userId },
-    ...createDynamoUpdateExpression(parsedBody, settingsAttrName),
+    Key: { [usersTableOptions.partitionKey.name]: sub },
+    ...createDynamoUpdateExpression(settingsPatch, settingsAttrName),
   });
 
   await ddbDocClient.send(updateCommand);

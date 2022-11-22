@@ -31,6 +31,10 @@
     "defaultMessage": "Colors",
     "description": "settings tab"
   },
+  "5l+6Ai": {
+    "defaultMessage": "File size is {this_size} but maximum allowed is {max_size}",
+    "description": "upload thumbnail file size error"
+  },
   "7hkxXs": {
     "defaultMessage": "Profile",
     "description": "profile dialog aria-label"

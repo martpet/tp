@@ -10,7 +10,7 @@ import { createSession } from '../createSession';
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
 vi.mock('cookie');
-vi.mock('nanoid');
+vi.mock('crypto');
 
 const args = [
   {

@@ -1,6 +1,6 @@
 import { apiPaths, apiUrl, loginPopupSuccessMessage } from '~/common/consts';
 import { useAppDispatch } from '~/common/hooks';
-import { IdentityProviderName } from '~/common/types';
+import { IdentityProvider } from '~/common/types';
 import { signedIn } from '~/features/me';
 
 export const useLoginPopup = () => {
@@ -14,7 +14,7 @@ export const useLoginPopup = () => {
     }
   };
 
-  return (provider: IdentityProviderName) => {
+  return (provider: IdentityProvider) => {
     const url = `${apiUrl}${apiPaths.login}?provider=${provider}`;
     const width = 600;
     const height = 650;

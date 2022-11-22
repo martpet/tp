@@ -14,11 +14,11 @@ export const usersTableOptions = createTableOptions<UsersTableItem>({
 
 export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
   tableName: 'Sessions',
+  timeToLiveAttribute: 'refreshTokenExpires',
   partitionKey: {
     name: 'id',
     type: AttributeType.STRING,
   },
-  timeToLiveAttribute: 'refreshTokenExpires',
   globalSecondaryIndexes: [
     {
       indexName: 'UserSessions',

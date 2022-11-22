@@ -1,3 +1,2 @@
-export * from './FileErrors';
+export * from './FileValidationError';
 export * from './FileMeta';
-export * from './UploadableFile';

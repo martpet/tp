@@ -4,7 +4,7 @@ exports[`createSession > calls "cookie.serialize" with correct args 1`] = `
 [
   [
     "sessionId",
-    "dummyNanoid",
+    "dummyUUID",
     {
       "expires": 2023-01-01T00:00:00.000Z,
       "httpOnly": true,
@@ -21,7 +21,7 @@ exports[`createSession > sends "PutCommand" to DynamoDB with correct args 1`] = 
 {
   "Item": {
     "created": 1640995200000,
-    "id": "dummyNanoid",
+    "id": "dummyUUID",
     "idToken": "dummyIdToken",
     "refreshToken": "dummyRefreshToken",
     "refreshTokenExpires": 1672531200000,
@@ -35,7 +35,7 @@ exports[`createSession > when "globalLambdaProps.envName" is "personal" > calls 
 [
   [
     "sessionId",
-    "dummyNanoid",
+    "dummyUUID",
     {
       "expires": 2023-01-01T00:00:00.000Z,
       "httpOnly": true,

@@ -10,5 +10,7 @@ export const upload = createAsyncThunk(
     const state = getState() as RootState;
     const files = selectUploadableFiles(state);
     return dispatch(uploadApi.endpoints.generateUploadUrls.initiate(files));
+
+    // use the 100-continue HTTP status code before upoading - maybe file size is too big or another problem
   }
 );

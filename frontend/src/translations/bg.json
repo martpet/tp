@@ -150,5 +150,9 @@
   "zJ5RUL": {
     "defaultMessage": "Настройки",
     "description": "settings dialog heading"
+  },
+  "5l+6Ai": {
+    "defaultMessage": "Файлът е {this_size}, но максималният разрешен размер е {max_size}",
+    "description": "upload thumbnail file size error"
   }
 }

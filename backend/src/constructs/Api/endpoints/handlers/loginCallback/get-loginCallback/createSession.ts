@@ -1,8 +1,8 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import cookie from 'cookie';
+import crypto from 'crypto';
 import millis from 'milliseconds';
-import { nanoid } from 'nanoid';
 
 import { OauthTokens } from '~/constructs/Api/types';
 import { cookieName } from '~/constructs/Api/utils';
@@ -19,8 +19,7 @@ type CreateSessionProps = {
 export const createSession = async ({ tokens }: CreateSessionProps) => {
   const { idTokenPayload, refreshToken, idToken } = tokens;
   const { envName } = globalLambdaProps;
-
-  const sessionId = nanoid();
+  const sessionId = crypto.randomUUID();
   const created = Date.now();
   const refreshTokenExpires = created + millis.days(refreshTokenValidityInDays);
 

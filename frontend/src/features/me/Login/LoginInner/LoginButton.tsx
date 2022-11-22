@@ -2,12 +2,12 @@ import { Button, View } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
 import googleLogo from '~/assets/google-logo.svg';
-import { IdentityProviderName } from '~/common/types';
+import { IdentityProvider } from '~/common/types';
 
 import { useLoginPopup } from '../useLoginPopup';
 
 type Props = {
-  provider: IdentityProviderName;
+  provider: IdentityProvider;
   onClick?: () => void;
 };
 

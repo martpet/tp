@@ -24,7 +24,7 @@
     "intl:compile": "formatjs compile-folder --ast frontend/src/translations frontend/public/translations",
     "intl:extract-compile": "npm run intl:extract & npm run intl:compile",
     "prepare": "husky install",
-    "genid": "node -e 'import(\"nanoid\").then(({nanoid}) => console.log(nanoid(10)))'"
+    "random": "node -e 'console.log(crypto.randomBytes(5).toString(`hex`))'"
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.23.0",
@@ -103,7 +103,6 @@
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.1",
-    "nanoid": "^4.0.0",
     "prettier": "^2.6.2",
     "redux-logger": "^3.0.6",
     "stylelint": "^14.14.0",

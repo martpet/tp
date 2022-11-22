@@ -36,7 +36,7 @@ startAppListening({
   effect: async () => {
     // Clearing `isSignedIn` from localStorage prevents unneeded request to fetch user after
     // page is reloaded on logout. If `isSignedIn` was cleared from reducer on `signedOut`
-    // then the UI would change before the page reload on loagout, which looks ugly.
+    // then the UI would change before the page reload on logout, which looks ugly.
     localStorage.removeItem('persist:me');
 
     window.location.href = apiUrl + apiPaths.logout;

@@ -2,7 +2,7 @@ import type { NumberTag, StringArrayTag } from 'exifreader';
 
 import { FileMeta } from '~/features/upload/types';
 
-export async function getExifData(file: File): Promise<FileMeta['exif']> {
+export async function getExif(file: File): Promise<FileMeta['exif']> {
   const { default: ExifReader } = await import('exifreader');
   const tags = await ExifReader.load(file, { expanded: true });
   const { gps, exif } = tags;

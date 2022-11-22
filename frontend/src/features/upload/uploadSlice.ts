@@ -1,8 +1,9 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { maxPhotoUploadBytes } from '~/common/consts';
 import { RootState } from '~/common/types';
 import { addFiles, upload } from '~/features/upload/thunks';
-import { FileMeta, FileValidationError, UploadableFile } from '~/features/upload/types';
+import { FileMeta, FileValidationError } from '~/features/upload/types';
 
 type UploadState = {
   status: 'idle' | 'pending' | 'succeeded' | 'failed';
@@ -44,32 +45,26 @@ export const selectUploadStatus = (state: RootState) => state.upload.status;
 
 export const selectFiles = (state: RootState) => state.upload.files;
 
-export const selectDuplicateFiles = createSelector(selectFiles, (files) => {
-  const fingerPrints: string[] = [];
-  return files.filter((file) => {
-    const isDuplicate = fingerPrints.includes(file.fingerPrint);
-    fingerPrints.push(file.fingerPrint);
-    return isDuplicate;
-  });
-});
+export const selectValidationErrorsMap = createSelector(selectFiles, (files) => {
+  const hashes: string[] = [];
 
-export const selectFilesValidationErrors = createSelector(selectFiles, (files) =>
-  Object.fromEntries(
-    files.map(({ id, exif }) => {
+  return Object.fromEntries(
+    files.map(({ id, size, exif, hash }) => {
       const errors: FileValidationError[] = [];
+
+      if (size > maxPhotoUploadBytes) errors.push('maxSizeExceeded');
       if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
       if (!exif.dateTimeOriginal) errors.push('missingDate');
+      if (hashes.includes(hash)) errors.push('isDuplicate');
+
+      hashes.push(hash);
       return [id, errors];
     })
-  )
-);
+  );
+});
 
 export const selectUploadableFiles = createSelector(
   selectFiles,
-  selectDuplicateFiles,
-  selectFilesValidationErrors,
-  (files, duplicateFiles, validationErrors) =>
-    files.filter(
-      (file) => !duplicateFiles.includes(file) && !validationErrors[file.id].length
-    ) as UploadableFile[]
+  selectValidationErrorsMap,
+  (files, validationErrors) => files.filter((file) => !validationErrors[file.id].length)
 );

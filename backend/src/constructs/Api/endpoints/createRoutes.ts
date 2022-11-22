@@ -28,7 +28,7 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
     loginCallbackUrl: auth.loginCallbackUrl,
     logoutCallbackUrl: auth.logoutCallbackUrl,
     logoutCallbackLocalhostUrl: auth.logoutCallbackLocalhostUrl,
-    photosBucket: photos.bucket.bucketName,
+    photoBucket: photos.bucket.bucketName,
   };
 
   const callbacks: CreateRouteCallbacks = {

@@ -51,7 +51,7 @@ export const apiOptions = {
   '/generate-upload-urls': {
     methods: {
       POST: {
-        envVars: ['photosBucket'],
+        envVars: ['photoBucket'],
       },
     },
   },

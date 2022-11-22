@@ -8,4 +8,6 @@ export default {
       digest: vi.fn().mockReturnValue('dummyCryptoCreateHashUpdateDigest'),
     }),
   }),
+
+  randomUUID: vi.fn().mockReturnValue('dummyUUID'),
 };

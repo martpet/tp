@@ -5,10 +5,10 @@ import { PatchSettingsResponse, UserSettings } from '~/common/types';
 export const settingsApi = api.injectEndpoints({
   endpoints: (build) => ({
     updateSettings: build.mutation<PatchSettingsResponse, UserSettings>({
-      query: (body) => ({
+      query: (patch) => ({
         url: apiPaths.settings,
         method: 'PATCH',
-        body,
+        body: patch,
       }),
     }),
   }),
