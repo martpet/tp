@@ -22,8 +22,9 @@ export const createNodejsFunction = (
   };
 
   const defaultProps: NodejsFunctionProps = {
-    runtime: Runtime.NODEJS_16_X,
+    runtime: Runtime.NODEJS_18_X,
     bundling: {
+      externalModules: ['@aws-sdk/*'], // remove when https://github.com/aws/aws-cdk/pull/22989/commits
       minify: true,
       define: objectValuesToJson({
         ...defaultGlobalProps,
