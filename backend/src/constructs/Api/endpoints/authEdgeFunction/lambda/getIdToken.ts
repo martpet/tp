@@ -10,7 +10,6 @@ import { fetchNewIdToken } from './fetchNewIdToken';
 const ddbClient = new DynamoDBClient({ region });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-// [todo] Rename to `fetchIdToken`
 export const getIdToken = async (sessionId: string) => {
   const getCommand = new GetCommand({
     TableName: sessionsTableOptions.tableName,
@@ -37,12 +36,5 @@ export const getIdToken = async (sessionId: string) => {
     return fetchNewIdToken({ refreshToken, sessionId, clientId });
   }
 
-  /*
-  [todo] Instead, throw a specific error, catch it in authEdgeHandler,
-  return a specific response that is handled by a custom `baseQuery`,
-  that triggers the loggin popup, and retries request on successfull login:
-
-  https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#automatic-re-authorization-by-extending-fetchbasequery
-  */
   throw new Error('`id` and `refresh` tokens have expired');
 };

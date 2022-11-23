@@ -1,4 +1,3 @@
-import clone from 'clone';
 import { StatusCodes } from 'http-status-codes';
 
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
@@ -29,9 +28,8 @@ export const handler: LambdaEdgeViewerRequestHandler = async (event) => {
       throw new Error('invalid or missing `sessionId` cookie');
     }
 
+    const requestClone = structuredClone(request);
     // https://github.com/facebook/jest/issues/7950
-    // [todo] In Node 17 use `structuredClone`
-    const requestClone = clone(request);
 
     requestClone.headers.authorization = [{ value: await getIdToken(sessionId) }];
     return requestClone;
