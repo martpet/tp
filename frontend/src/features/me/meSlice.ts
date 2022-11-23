@@ -1,9 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { match401ApiResponse } from '~/app/store/actionMatchers';
 import { startAppListening } from '~/app/store/middleware';
 import { apiPaths, apiUrl } from '~/common/consts';
 import { RootState } from '~/common/types';
+import { loginWithPopup } from '~/features/me/utils';
+
+// Selectors
+
+export const selectIsSignedIn = (state: RootState) => state.me.isSignedIn;
+
+// Thunks
+
+export const login = createAsyncThunk('loginStatus', loginWithPopup);
+
+// Slice
 
 export type MeState = {
   isSignedIn: boolean;
@@ -17,30 +28,26 @@ export const meSlice = createSlice({
   name: 'me',
   initialState,
   reducers: {
-    signedIn: (state) => {
-      state.isSignedIn = true;
-    },
     signedOut: () => {},
   },
   extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state) => {
+      state.isSignedIn = true;
+    });
     builder.addMatcher(match401ApiResponse, () => {
       return initialState;
     });
   },
 });
 
-export const { signedIn, signedOut } = meSlice.actions;
+export const { signedOut } = meSlice.actions;
+
+// Listeners
 
 startAppListening({
   actionCreator: signedOut,
   effect: async () => {
-    // Clearing `isSignedIn` from localStorage prevents unneeded request to fetch user after
-    // page is reloaded on logout. If `isSignedIn` was cleared from reducer on `signedOut`
-    // then the UI would change before the page reload on logout, which looks ugly.
-    localStorage.removeItem('persist:me');
-
+    localStorage.removeItem(`persist:${meSlice.name}`);
     window.location.href = apiUrl + apiPaths.logout;
   },
 });
-
-export const selectIsSignedIn = (state: RootState) => state.me.isSignedIn;

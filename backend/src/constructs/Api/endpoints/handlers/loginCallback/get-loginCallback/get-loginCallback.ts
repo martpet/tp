@@ -1,11 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { StatusCodes } from 'http-status-codes';
 
-import {
-  ApiRouteQueryStrings,
-  HandlerEnv,
-  OauthTokens,
-} from '~/constructs/Api/types';
+import { ApiRouteQueryStrings, HandlerEnv, OauthTokens } from '~/constructs/Api/types';
 import { errorResponse } from '~/constructs/Api/utils';
 import { appEnvs } from '~/consts';
 
@@ -85,7 +81,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     statusCode: StatusCodes.OK,
     cookies: [sessionCookie],
     headers: { 'Content-Type': 'text/html' },
-    // Todo: add "Please wait..." text and <style>
-    body: `<script>${responseScript}</script>`,
+    body: `<script>${responseScript}</script>`, // [todo] Add "Please wait" visuals
   };
 };

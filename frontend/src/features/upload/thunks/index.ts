@@ -1,2 +1,2 @@
-export * from './addFiles/addFiles';
+export * from './addFiles';
 export * from './upload';

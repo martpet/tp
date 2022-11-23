@@ -6,6 +6,11 @@ import {
 } from '~/app/store/actionMatchers';
 import { RootState } from '~/common/types';
 
+// Selectors
+export const selectHasPendingQueriesWithLoader = (state: RootState) =>
+  state.app.pendingQueriesWithLoader > 0;
+
+// Slice
 export type AppState = {
   pendingQueriesWithLoader: number;
   browserLocale: string;
@@ -34,7 +39,5 @@ export const appSlice = createSlice({
   },
 });
 
+// Actions
 export const { browserLocaleChanged } = appSlice.actions;
-
-export const selectHasPendingQueriesWithLoader = (state: RootState) =>
-  state.app.pendingQueriesWithLoader > 0;

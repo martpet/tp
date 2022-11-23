@@ -2,9 +2,9 @@ import { Button, View } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
 import googleLogo from '~/assets/google-logo.svg';
+import { useAppDispatch } from '~/common/hooks';
 import { IdentityProvider } from '~/common/types';
-
-import { useLoginPopup } from '../useLoginPopup';
+import { login } from '~/features/me/meSlice';
 
 type Props = {
   provider: IdentityProvider;
@@ -12,14 +12,12 @@ type Props = {
 };
 
 export function LoginButton({ provider, onClick }: Props) {
-  const loginWithPopup = useLoginPopup();
+  const dispatch = useAppDispatch();
   const appleIcon = '';
 
   const handleClick = () => {
-    if (onClick) {
-      onClick();
-    }
-    loginWithPopup(provider);
+    dispatch(login(provider));
+    if (onClick) onClick();
   };
 
   return (
