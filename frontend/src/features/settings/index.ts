@@ -1,5 +1,4 @@
-export * from './Settings/Settings';
+export * from './components';
 export * from './settingsApi';
-export * from './SettingsDialog';
 export * from './settingsSlice';
 export * from './types';

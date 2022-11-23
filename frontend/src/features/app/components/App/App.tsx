@@ -1,4 +1,4 @@
-import { useDisableDragDrop } from '~/features/app/App/useDisableDragDrop';
+import { useDisableDragDrop } from '~/features/app/components/App/useDisableDragDrop';
 
 import { AppLoadingOverlay } from './AppLoadingOverlay';
 import { Layout } from './Layout/Layout';
