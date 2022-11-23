@@ -8,23 +8,6 @@ import { meApi } from '~/features/me';
 import { getSettingsToSync } from '~/features/me/utils';
 import { settingsApi, SettingsTabKey } from '~/features/settings';
 
-// Selectors
-
-export const selectActiveTab = (state: RootState) => state.settings.activeTab;
-
-export const selectLanguage = (state: RootState): Language => {
-  const { language } = state.settings.userSettings;
-  if (language) return language;
-  const browserLanguage = state.app.browserLocale.split('-')[0] as Language;
-  return languages.includes(browserLanguage) ? browserLanguage : defaultLanguage;
-};
-
-export const selectColorScheme = (state: RootState) =>
-  state.settings.userSettings.colorScheme || 'os';
-
-export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
-  state.settings.userSettings.toolbarPosition || 'top';
-
 // Actions
 
 export const settingsChanged =
@@ -77,7 +60,7 @@ startAppListening({
   effect: (action, listenerApi) => {
     // Sync settings -> db
     const state = listenerApi.getState();
-    if (state.me.isSignedIn) {
+    if (state.me.isLogedIn) {
       listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
     }
   },
@@ -100,3 +83,20 @@ startAppListening({
     }
   },
 });
+
+// Selectors
+
+export const selectActiveTab = (state: RootState) => state.settings.activeTab;
+
+export const selectLanguage = (state: RootState): Language => {
+  const { language } = state.settings.userSettings;
+  if (language) return language;
+  const browserLanguage = state.app.browserLocale.split('-')[0] as Language;
+  return languages.includes(browserLanguage) ? browserLanguage : defaultLanguage;
+};
+
+export const selectColorScheme = (state: RootState) =>
+  state.settings.userSettings.colorScheme || 'os';
+
+export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
+  state.settings.userSettings.toolbarPosition || 'top';

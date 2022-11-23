@@ -2,14 +2,14 @@ import { Button, useDialogContainer } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
 import { useAppSelector } from '~/common/hooks';
-import { selectFiles, selectUploadableFiles } from '~/features/upload';
+import { selectAddedFiles, selectUploadableFiles } from '~/features/upload';
 
 import { AddFilesButton } from '../AddFilesButton';
 import { UploadButton } from './UploadButton';
 
 export function UploadDialogButtons() {
   const { dismiss } = useDialogContainer();
-  const files = useAppSelector(selectFiles);
+  const files = useAppSelector(selectAddedFiles);
   const uploadableFiles = useAppSelector(selectUploadableFiles);
 
   return (

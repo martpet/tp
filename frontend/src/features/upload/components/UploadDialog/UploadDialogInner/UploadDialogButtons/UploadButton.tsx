@@ -15,7 +15,11 @@ export function UploadButton() {
   };
 
   return (
-    <Button variant="cta" onPress={handleClick} isDisabled={uploadStatus === 'pending'}>
+    <Button
+      variant="cta"
+      onPress={handleClick}
+      isDisabled={uploadStatus === 'inProgress'}
+    >
       <UploadIcon />
       <Text>
         <FormattedMessage

@@ -2,13 +2,13 @@ import { Button } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
 import { useAppDispatch } from '~/common/hooks';
-import { signedOut } from '~/features/me/meSlice';
+import { loggedOut } from '~/features/me/meSlice';
 
 export function LogoutButton() {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
-    dispatch(signedOut());
+    dispatch(loggedOut());
   };
 
   return (

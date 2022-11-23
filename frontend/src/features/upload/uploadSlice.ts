@@ -5,37 +5,10 @@ import { RootState } from '~/common/types';
 import { addFiles, upload } from '~/features/upload/thunks';
 import { FileMeta, FileValidationError } from '~/features/upload/types';
 
-// Selectors
-
-export const selectUploadStatus = (state: RootState) => state.upload.status;
-
-export const selectFiles = (state: RootState) => state.upload.files;
-
-export const selectValidationErrorsMap = createSelector(selectFiles, (files) => {
-  const hashes: string[] = [];
-  return Object.fromEntries(
-    files.map(({ id, size, exif, hash }) => {
-      const errors: FileValidationError[] = [];
-      if (size > maxPhotoUploadBytes) errors.push('maxSizeExceeded');
-      if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
-      if (!exif.dateTimeOriginal) errors.push('missingDate');
-      if (hashes.includes(hash)) errors.push('isDuplicate');
-      hashes.push(hash);
-      return [id, errors];
-    })
-  );
-});
-
-export const selectUploadableFiles = createSelector(
-  selectFiles,
-  selectValidationErrorsMap,
-  (files, validationErrors) => files.filter((file) => !validationErrors[file.id].length)
-);
-
 // Slice
 
 type UploadState = {
-  status: 'idle' | 'pending' | 'succeeded' | 'failed';
+  status: 'idle' | 'inProgress' | 'success' | 'error';
   files: FileMeta[];
 };
 
@@ -57,15 +30,42 @@ export const uploadSlice = createSlice({
       state.files = state.files.concat(action.payload);
     });
     builder.addCase(upload.pending, (state) => {
-      state.status = 'pending';
+      state.status = 'inProgress';
     });
     builder.addCase(upload.fulfilled, (state) => {
-      state.status = 'succeeded';
+      state.status = 'success';
     });
     builder.addCase(upload.rejected, (state) => {
-      state.status = 'failed';
+      state.status = 'error';
     });
   },
 });
 
 export const { fileRemoved } = uploadSlice.actions;
+
+// Selectors
+
+export const selectUploadStatus = (state: RootState) => state.upload.status;
+
+export const selectAddedFiles = (state: RootState) => state.upload.files;
+
+export const selectValidationErrorsMap = createSelector(selectAddedFiles, (files) => {
+  const hashes: string[] = [];
+  return Object.fromEntries(
+    files.map(({ id, size, exif, hash }) => {
+      const errors: FileValidationError[] = [];
+      if (size > maxPhotoUploadBytes) errors.push('maxSizeExceeded');
+      if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
+      if (!exif.dateTimeOriginal) errors.push('missingDate');
+      if (hashes.includes(hash)) errors.push('isDuplicate');
+      hashes.push(hash);
+      return [id, errors];
+    })
+  );
+});
+
+export const selectUploadableFiles = createSelector(
+  selectAddedFiles,
+  selectValidationErrorsMap,
+  (files, validationErrors) => files.filter((file) => !validationErrors[file.id].length)
+);

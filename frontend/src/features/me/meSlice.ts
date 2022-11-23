@@ -6,10 +6,6 @@ import { apiPaths, apiUrl } from '~/common/consts';
 import { RootState } from '~/common/types';
 import { loginWithPopup } from '~/features/me/utils';
 
-// Selectors
-
-export const selectIsSignedIn = (state: RootState) => state.me.isSignedIn;
-
 // Thunks
 
 export const login = createAsyncThunk('loginStatus', loginWithPopup);
@@ -17,22 +13,22 @@ export const login = createAsyncThunk('loginStatus', loginWithPopup);
 // Slice
 
 export type MeState = {
-  isSignedIn: boolean;
+  isLogedIn: boolean;
 };
 
 const initialState: MeState = {
-  isSignedIn: false,
+  isLogedIn: false,
 };
 
 export const meSlice = createSlice({
   name: 'me',
   initialState,
   reducers: {
-    signedOut: () => {},
+    loggedOut: () => {},
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state) => {
-      state.isSignedIn = true;
+      state.isLogedIn = true;
     });
     builder.addMatcher(match401ApiResponse, () => {
       return initialState;
@@ -40,14 +36,18 @@ export const meSlice = createSlice({
   },
 });
 
-export const { signedOut } = meSlice.actions;
+export const { loggedOut } = meSlice.actions;
 
 // Listeners
 
 startAppListening({
-  actionCreator: signedOut,
+  actionCreator: loggedOut,
   effect: async () => {
     localStorage.removeItem(`persist:${meSlice.name}`);
     window.location.href = apiUrl + apiPaths.logout;
   },
 });
+
+// Selectors
+
+export const selectIsSignedIn = (state: RootState) => state.me.isLogedIn;

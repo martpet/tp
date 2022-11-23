@@ -2,8 +2,6 @@ import { APIGatewayProxyResult } from 'aws-lambda';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { SetRequired } from 'type-fest';
 
-type ErrorResponseOptions = WithExposedError | WithoutExposedError;
-
 type BaseOptions = {
   description?: string;
   error?: unknown;
@@ -18,6 +16,8 @@ type WithoutExposedError = BaseOptions & {
   exposeError?: never | false;
 };
 
+type ErrorResponseOptions = WithExposedError | WithoutExposedError;
+
 export const errorResponse = (
   traceId: string,
   {
@@ -29,26 +29,26 @@ export const errorResponse = (
 ): APIGatewayProxyResult => {
   const { envName } = globalLambdaProps;
 
-  const errorObj: Record<string, unknown> = {
+  const errorObject: Record<string, unknown> = {
     statusCode,
-    message: getReasonPhrase(statusCode),
     traceId,
+    message: getReasonPhrase(statusCode),
   };
 
   if (description) {
-    errorObj.description = description;
+    errorObject.description = description;
   }
 
   if (error) {
     console.error(`[${traceId}]`, error);
 
     if (exposeError ?? envName !== 'production') {
-      errorObj.error = String(error);
+      errorObject.error = String(error);
     }
   }
 
   return {
     statusCode,
-    body: JSON.stringify({ error: errorObj }),
+    body: JSON.stringify({ error: errorObject }),
   };
 };
