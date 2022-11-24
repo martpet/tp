@@ -1,17 +1,7 @@
-import { useSelector } from 'react-redux';
-
-import { Login, selectMe } from '~/features/me';
-
 import { DropZone } from './DropZone';
 import { ThumbnailsList } from './ThumbnailsList/ThumbnailsList';
 
-export default function UploadDialoContent() {
-  const me = useSelector(selectMe);
-
-  if (!me) {
-    return <Login />;
-  }
-
+export default function UploadDialogContent() {
   return (
     <DropZone>
       <ThumbnailsList />

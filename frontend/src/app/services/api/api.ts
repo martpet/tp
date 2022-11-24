@@ -2,10 +2,10 @@ import { createApi } from '@reduxjs/toolkit/query';
 
 import { apiUrl } from '~/common/consts';
 
-import { baseQueryWithReauth } from './baseQueryWithReauth';
+import { createBaseQuery } from './baseQuery';
 
 export const api = createApi({
-  baseQuery: baseQueryWithReauth({
+  baseQuery: createBaseQuery({
     baseUrl: apiUrl,
     credentials: 'include',
   }),

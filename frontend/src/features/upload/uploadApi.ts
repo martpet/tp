@@ -9,7 +9,7 @@ export const uploadApi = api.injectEndpoints({
       query: (files) => ({
         url: apiPaths['generate-upload-urls'],
         method: 'POST',
-        body: files.length,
+        body: files.map(({ id, hash }) => ({ id, hash })),
       }),
     }),
   }),

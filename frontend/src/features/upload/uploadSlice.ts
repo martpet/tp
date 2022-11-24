@@ -1,5 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { startAppListening } from '~/app/store/middleware';
 import { maxPhotoUploadBytes } from '~/common/consts';
 import { RootState } from '~/common/types';
 import { addFiles, upload } from '~/features/upload/thunks';
@@ -8,12 +9,14 @@ import { FileMeta, FileValidationError } from '~/features/upload/types';
 // Slice
 
 type UploadState = {
-  status: 'idle' | 'inProgress' | 'success' | 'error';
+  status: 'idle' | 'pending' | 'success' | 'error';
+  isAddingFiles: boolean;
   files: FileMeta[];
 };
 
 const initialState: UploadState = {
   status: 'idle',
+  isAddingFiles: false,
   files: [],
 };
 
@@ -26,11 +29,15 @@ export const uploadSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    builder.addCase(addFiles.pending, (state) => {
+      state.isAddingFiles = true;
+    });
     builder.addCase(addFiles.fulfilled, (state, action) => {
       state.files = state.files.concat(action.payload);
+      state.isAddingFiles = false;
     });
     builder.addCase(upload.pending, (state) => {
-      state.status = 'inProgress';
+      state.status = 'pending';
     });
     builder.addCase(upload.fulfilled, (state) => {
       state.status = 'success';
@@ -43,10 +50,21 @@ export const uploadSlice = createSlice({
 
 export const { fileRemoved } = uploadSlice.actions;
 
+// Listeners
+
+startAppListening({
+  actionCreator: fileRemoved,
+  effect(action, listenerApi) {
+    const prevState = listenerApi.getOriginalState();
+    const removedFile = prevState.upload.files.find(({ id }) => id === action.payload);
+    if (removedFile) URL.revokeObjectURL(removedFile.objectURL);
+  },
+});
+
 // Selectors
 
 export const selectUploadStatus = (state: RootState) => state.upload.status;
-
+export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 export const selectAddedFiles = (state: RootState) => state.upload.files;
 
 export const selectValidationErrorsMap = createSelector(selectAddedFiles, (files) => {

@@ -1,25 +1,25 @@
 import { Grid, minmax, repeat } from '@adobe/react-spectrum';
-import { useEffect, useRef } from 'react';
+import { RefObject } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useAppSelector } from '~/common/hooks';
 import { selectAddedFiles } from '~/features/upload';
-import { FileMeta } from '~/features/upload/types';
 
 import { EmptyState } from './EmptyState';
 import { Thumbnail } from './Thumbnail/Thumbnail';
 
 export function ThumbnailsList() {
-  const files = useAppSelector(selectAddedFiles);
-  const lastThumbnailRef = useRef<HTMLDivElement>(null);
-  const prevFilesRef = useRef<FileMeta[]>([]);
-  const isNewFileAdded = files.length > prevFilesRef.current.length;
+  const files = useSelector(selectAddedFiles);
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      if (isNewFileAdded) lastThumbnailRef.current?.scrollIntoView(false);
-      prevFilesRef.current = files;
-    });
-  }, [files]);
+  const handleImageLoad = (fileId: string, ref: RefObject<HTMLDivElement>) => {
+    if (fileId === files.at(-1)?.id) {
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+        });
+      });
+    }
+  };
 
   if (!files.length) {
     return <EmptyState />;
@@ -32,10 +32,8 @@ export function ThumbnailsList() {
       rowGap="size-350"
       alignItems="start"
     >
-      {files.map((file, index) => (
-        <div key={file.id} {...(index === files.length - 1 && { ref: lastThumbnailRef })}>
-          <Thumbnail file={file} />
-        </div>
+      {files.map((file) => (
+        <Thumbnail key={file.id} file={file} onImgLoad={handleImageLoad} />
       ))}
     </Grid>
   );

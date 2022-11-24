@@ -5,6 +5,6 @@ export type FileMeta = {
   name: string;
   size: number;
   exif: Partial<PhotoExif>;
-  objectURL: string;
   hash: string;
+  objectURL: string;
 };

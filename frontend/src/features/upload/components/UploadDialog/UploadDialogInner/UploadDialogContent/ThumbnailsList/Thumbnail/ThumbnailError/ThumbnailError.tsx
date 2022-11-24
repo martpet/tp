@@ -129,7 +129,7 @@ export function ThumbnailError({ file }: Props) {
 
   if (errors.includes('isDuplicate')) {
     duplicateFileText = formatMessage({
-      defaultMessage: 'This file was already selected',
+      defaultMessage: 'This file has already been selected',
       description: 'upload thumbnail duplicate file message ',
     });
   }

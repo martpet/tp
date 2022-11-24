@@ -12,17 +12,19 @@ import { loggedOut, selectMe } from '~/features';
 import { loginWithPopup } from '~/features/me/utils';
 
 /*
- * If refresh token expired error - open login popup and on successful login retry the awaited request(s).
- * If 401 error and refresh token *not* expired: dispatch `loggedOut` action.
+ * When refresh token expires open login popup, wait for for login success, retry awaited requests.
+ * When 401 error, but refresh token not expired, dispatch `loggedOut`.
  *
  * https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#automatic-re-authorization-by-extending-fetchbasequery
  * https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#preventing-multiple-unauthorized-errors
  */
 
+const mutex = new Mutex();
+
 const checkIs401 = (error?: FetchBaseQueryError): error is FetchBaseQueryError =>
   error?.status === 401;
 
-const checkIsExpiredRefreshToken = (error?: FetchBaseQueryError) => {
+const checkIsExpiredRefreshTokenError = (error?: FetchBaseQueryError) => {
   try {
     return (
       JSON.parse(error?.data as string) as ApiErrorResponseBody
@@ -32,20 +34,19 @@ const checkIsExpiredRefreshToken = (error?: FetchBaseQueryError) => {
   }
 };
 
-export const baseQueryWithReauth = (
+export const createBaseQuery = (
   ...fetchBaseQueryArgs: Parameters<typeof fetchBaseQuery>
 ): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => {
   const baseQuery = fetchBaseQuery(...fetchBaseQueryArgs);
-  const mutex = new Mutex();
 
   return async (args, baseQueryApi, extraOptions) => {
     await mutex.waitForUnlock();
+
     let result = await baseQuery(args, baseQueryApi, extraOptions);
-
     const is401 = checkIs401(result.error);
-    const isExpiredRefreshToken = checkIsExpiredRefreshToken(result.error);
+    const isExpiredRefreshTokenError = checkIsExpiredRefreshTokenError(result.error);
 
-    if (is401 || isExpiredRefreshToken) {
+    if (is401 || isExpiredRefreshTokenError) {
       const { dispatch, getState } = baseQueryApi;
 
       if (mutex.isLocked()) {
@@ -57,7 +58,7 @@ export const baseQueryWithReauth = (
         const user = selectMe(state);
 
         try {
-          if (isExpiredRefreshToken && user) {
+          if (isExpiredRefreshTokenError && user) {
             await dispatch(loginWithPopup(user.providerName));
             result = await baseQuery(args, baseQueryApi, extraOptions);
           } else {

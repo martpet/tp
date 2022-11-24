@@ -23,7 +23,7 @@ export function ThumbnailRemoveButton({ file }: Props) {
     dispatch(fileRemoved(fileId));
   };
 
-  if (uploadStatus === 'inProgress') {
+  if (uploadStatus === 'pending') {
     return null;
   }
 

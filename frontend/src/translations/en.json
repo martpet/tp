@@ -19,10 +19,6 @@
     "defaultMessage": "Upload photos",
     "description": "upload dialog heading"
   },
-  "3fg+R4": {
-    "defaultMessage": "This file was already selected",
-    "description": "upload thumbnail duplicate file message "
-  },
   "4yg8Sf": {
     "defaultMessage": "Choose language",
     "description": "language picker label"
@@ -86,6 +82,10 @@
   "PH0Ug8": {
     "defaultMessage": "Cannot upload:",
     "description": "upload thumbnail error intro"
+  },
+  "PIokqZ": {
+    "defaultMessage": "This file has already been selected",
+    "description": "upload thumbnail duplicate file message "
   },
   "PLJPTc": {
     "defaultMessage": "Start upload",
