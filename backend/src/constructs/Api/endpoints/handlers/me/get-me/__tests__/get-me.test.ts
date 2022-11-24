@@ -33,7 +33,8 @@ beforeEach(() => {
       picture: 'dummyPicture',
       email: 'dummyEmail',
       settings: 'dummySettings',
-      randomProp: 'this should not be included in response',
+      providerName: 'dummyProviderName',
+      unknownProp: 'this should not be included in response',
     },
   });
 });

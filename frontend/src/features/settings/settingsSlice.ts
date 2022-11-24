@@ -37,11 +37,11 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    activeTabChanged: (state, action: PayloadAction<SettingsTabKey>) => {
+    activeTabChanged(state, action: PayloadAction<SettingsTabKey>) {
       state.activeTab = action.payload;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder.addMatcher(
       isAnyOf(settingsChanged, gotNewSettingsFromDb),
       (state, action) => {
@@ -57,10 +57,10 @@ export const { activeTabChanged } = settingsSlice.actions;
 
 startAppListening({
   actionCreator: settingsChanged,
-  effect: (action, listenerApi) => {
+  effect(action, listenerApi) {
     // Sync settings -> db
     const state = listenerApi.getState();
-    if (state.me.isLogedIn) {
+    if (state.me.isLoggedIn) {
       listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
     }
   },
@@ -68,7 +68,7 @@ startAppListening({
 
 startAppListening({
   matcher: meApi.endpoints.getMe.matchFulfilled,
-  effect: (action, listenerApi) => {
+  effect(action, listenerApi) {
     // Sync settings <--> db
     const state = listenerApi.getState();
     const { localPatch, remotePatch } = getSettingsToSync({

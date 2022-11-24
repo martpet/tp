@@ -21,11 +21,11 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    browserLocaleChanged: (state) => {
+    browserLocaleChanged(state) {
       state.browserLocale = window.navigator.language;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder.addMatcher(matchPendingQueryWithAppLoader, (state) => {
       state.pendingQueriesWithLoader++;
     });

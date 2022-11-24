@@ -2,7 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 
 import { getIdTokenPayload } from '~/constructs/Api/utils';
-import { region, sessionsTableOptions } from '~/consts';
+import { refreshTokenExpiredErrorMessage, region, sessionsTableOptions } from '~/consts';
 import { SessionsTableItem } from '~/types';
 
 import { fetchNewIdToken } from './fetchNewIdToken';
@@ -36,5 +36,5 @@ export const getIdToken = async (sessionId: string) => {
     return fetchNewIdToken({ refreshToken, sessionId, clientId });
   }
 
-  throw new Error('`id` and `refresh` tokens have expired');
+  throw new Error(refreshTokenExpiredErrorMessage);
 };

@@ -4,7 +4,8 @@ import { isWebKit } from '@react-aria/utils';
 import adobeCleanBold from '~/assets/fonts/AdobeClean-Bold.woff2';
 import googleLogo from '~/assets/google-logo.svg';
 import { Spinner } from '~/common/components';
-import { useMe } from '~/features/me';
+import { useAppSelector } from '~/common/hooks';
+import { selectIsLoadingMe } from '~/features/me/meSlice';
 
 import { LoginButton } from './LoginButton';
 
@@ -30,7 +31,7 @@ type Props = {
 };
 
 export default function LoginInner({ onLoginButtonClick }: Props) {
-  const { isLoading: isLoadingMe } = useMe();
+  const isLoadingMe = useAppSelector(selectIsLoadingMe);
 
   const handleButtonClick = () => {
     if (onLoginButtonClick) {

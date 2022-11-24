@@ -8,7 +8,7 @@ export function loginWithPopup(identityProvider: IdentityProvider) {
   const top = window.screenTop + window.innerHeight / 2 - height / 2;
   const popupWindowName = 'popupWindow';
 
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve) => {
     window.open(
       `${apiUrl}${apiPaths.login}?provider=${identityProvider}`,
       popupWindowName,
@@ -18,8 +18,7 @@ export function loginWithPopup(identityProvider: IdentityProvider) {
     const listener = (event: MessageEvent) => {
       const source = event.source as WindowProxy;
       if (event.origin !== apiUrl) return;
-      if (source.name !== popupWindowName) return;
-      if (event.data !== loginWindowSuccessMessage) reject();
+      if (event.data !== loginWindowSuccessMessage) return;
 
       resolve();
       source.close();

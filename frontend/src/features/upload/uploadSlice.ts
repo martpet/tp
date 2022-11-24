@@ -21,11 +21,11 @@ export const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
-    fileRemoved: (state, action: PayloadAction<string>) => {
+    fileRemoved(state, action: PayloadAction<string>) {
       state.files = state.files.filter(({ id }) => id !== action.payload);
     },
   },
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder.addCase(addFiles.fulfilled, (state, action) => {
       state.files = state.files.concat(action.payload);
     });

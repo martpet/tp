@@ -36,5 +36,6 @@ export const handler: APIGatewayProxyHandlerV2<GetMeResponse> = async ({ headers
     picture: user.picture,
     email: user.email,
     settings: user.settings,
+    providerName: user.providerName,
   };
 };

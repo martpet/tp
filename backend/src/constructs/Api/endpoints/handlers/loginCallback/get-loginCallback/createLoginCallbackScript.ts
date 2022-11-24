@@ -11,11 +11,8 @@ export const createLoginCallbackScript = ({
   envName,
   appDomain,
 }: CreateLoginCallbackScriptProps) => {
-  const postMessageTargetOrigin = envName === 'personal' ? '*' : `https://${appDomain}`;
-  const script = `opener.postMessage("${loginWindowSuccessMessage}", "${postMessageTargetOrigin}")`;
+  const targetOrigin = envName === 'personal' ? '*' : `https://${appDomain}`;
+  const script = `opener.postMessage("${loginWindowSuccessMessage}", "${targetOrigin}")`;
 
-  return {
-    script,
-    cspHash: createSha256CspHash(script),
-  };
+  return { script, cspHash: createSha256CspHash(script) };
 };

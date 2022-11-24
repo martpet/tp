@@ -12,5 +12,5 @@ export const settingsPersistConfig: PersistConfig<SettingsState> = {
 export const mePersistConfig: PersistConfig<MeState> = {
   key: meSlice.name,
   storage,
-  whitelist: <Array<keyof MeState>>['isLogedIn'],
+  whitelist: <Array<keyof MeState>>['isLoggedIn'],
 };

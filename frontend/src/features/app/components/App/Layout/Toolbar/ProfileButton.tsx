@@ -5,11 +5,13 @@ import ProfileIcon from '@spectrum-icons/workflow/RealTimeCustomerProfile';
 import { useIntl } from 'react-intl';
 
 import { Avatar, Spinner } from '~/common/components';
-import { LoginDialog, ProfileDialog, useMe } from '~/features/me';
+import { useAppSelector } from '~/common/hooks';
+import { LoginDialog, ProfileDialog, selectIsLoadingMe, selectMe } from '~/features/me';
 
 export function ProfileButton() {
   const { formatMessage } = useIntl();
-  const { me, isLoading } = useMe();
+  const me = useAppSelector(selectMe);
+  const isLoadingMe = useAppSelector(selectIsLoadingMe);
 
   const buttonAriaLabel = formatMessage({
     defaultMessage: 'Profile',
@@ -30,7 +32,7 @@ export function ProfileButton() {
   return (
     <DialogTrigger type="popover">
       <ActionButton isQuiet aria-label={buttonAriaLabel}>
-        {isLoading ? <Spinner size="S" /> : <ProfileIcon />}
+        {isLoadingMe ? <Spinner size="S" /> : <ProfileIcon />}
       </ActionButton>
       {(close) => <LoginDialog close={close} />}
     </DialogTrigger>

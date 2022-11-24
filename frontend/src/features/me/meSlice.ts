@@ -1,9 +1,11 @@
+// [todo] rename folder to `auth` (?)
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { match401ApiResponse } from '~/app/store/actionMatchers';
 import { startAppListening } from '~/app/store/middleware';
 import { apiPaths, apiUrl } from '~/common/consts';
-import { RootState } from '~/common/types';
+import { Me, RootState } from '~/common/types';
+import { meApi } from '~/features/me';
 import { loginWithPopup } from '~/features/me/utils';
 
 // Thunks
@@ -13,25 +15,27 @@ export const login = createAsyncThunk('loginStatus', loginWithPopup);
 // Slice
 
 export type MeState = {
-  isLogedIn: boolean;
+  isLoggedIn: boolean;
+  user?: Me;
 };
 
 const initialState: MeState = {
-  isLogedIn: false,
+  isLoggedIn: false,
+  user: undefined,
 };
 
 export const meSlice = createSlice({
   name: 'me',
   initialState,
   reducers: {
-    loggedOut: () => {},
+    loggedOut() {},
   },
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder.addCase(login.fulfilled, (state) => {
-      state.isLogedIn = true;
+      state.isLoggedIn = true;
     });
-    builder.addMatcher(match401ApiResponse, () => {
-      return initialState;
+    builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, { payload }) => {
+      state.user = payload;
     });
   },
 });
@@ -41,8 +45,18 @@ export const { loggedOut } = meSlice.actions;
 // Listeners
 
 startAppListening({
+  predicate(_, currentState, previousState) {
+    return currentState.me.isLoggedIn && !previousState.me.isLoggedIn;
+    // "actionCreator: login.fulfilled" won't work for rehydrated state from persistor
+  },
+  effect(_, listenerApi) {
+    listenerApi.dispatch(meApi.endpoints.getMe.initiate());
+  },
+});
+
+startAppListening({
   actionCreator: loggedOut,
-  effect: async () => {
+  effect() {
     localStorage.removeItem(`persist:${meSlice.name}`);
     window.location.href = apiUrl + apiPaths.logout;
   },
@@ -50,4 +64,7 @@ startAppListening({
 
 // Selectors
 
-export const selectIsSignedIn = (state: RootState) => state.me.isLogedIn;
+export const selectMe = (state: RootState) => state.me.user;
+
+export const selectIsLoadingMe = (state: RootState) =>
+  !state.me.user && state.me.isLoggedIn;

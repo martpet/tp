@@ -2,5 +2,5 @@ import { UsersTableItem } from './tableItems';
 
 export type Me = Pick<
   UsersTableItem,
-  'givenName' | 'familyName' | 'picture' | 'email' | 'settings'
+  'givenName' | 'familyName' | 'picture' | 'email' | 'settings' | 'providerName'
 >;
