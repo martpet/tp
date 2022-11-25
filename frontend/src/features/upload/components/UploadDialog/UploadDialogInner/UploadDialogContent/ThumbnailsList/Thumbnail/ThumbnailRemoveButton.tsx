@@ -1,12 +1,13 @@
-import { Button, useProvider } from '@adobe/react-spectrum';
+import { Button } from '@adobe/react-spectrum';
 import { isAppleDevice } from '@react-aria/utils';
 import { useIsMobileDevice } from '@react-spectrum/utils';
 import Close from '@spectrum-icons/workflow/Close';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
-import { useAppDispatch, useAppSelector } from '~/common/hooks';
+import { useAppDispatch } from '~/common/hooks';
+import { fileRemoved, selectUploadStatus } from '~/features/upload';
 import { FileMeta } from '~/features/upload/types';
-import { fileRemoved, selectUploadStatus } from '~/features/upload/uploadSlice';
 
 type Props = {
   file: FileMeta;
@@ -14,10 +15,10 @@ type Props = {
 
 export function ThumbnailRemoveButton({ file }: Props) {
   const { formatMessage } = useIntl();
-  const uploadStatus = useAppSelector(selectUploadStatus);
+  const uploadStatus = useSelector(selectUploadStatus);
   const dispatch = useAppDispatch();
-  const { colorScheme } = useProvider();
-  const isButtonOnLeft = isAppleDevice() && !useIsMobileDevice();
+  const isOnLeft = isAppleDevice() && !useIsMobileDevice();
+  const offset = 2;
 
   const handleClick = (fileId: string) => () => {
     dispatch(fileRemoved(fileId));
@@ -30,15 +31,14 @@ export function ThumbnailRemoveButton({ file }: Props) {
   return (
     <Button
       onPress={handleClick(file.id)}
-      variant={colorScheme === 'light' ? 'primary' : 'overBackground'}
+      variant="overBackground"
       style="fill"
       UNSAFE_style={{
-        transformOrigin: `top ${isButtonOnLeft ? 'left' : 'right'}`,
-        transform: `scale(0.7) translate(${isButtonOnLeft ? '-' : ''}24.5%, -24.5%)`,
         position: 'absolute',
-        left: isButtonOnLeft ? '0' : 'auto',
-        right: isButtonOnLeft ? 'auto' : '0',
-        top: '0',
+        top: offset,
+        right: isOnLeft ? 'auto' : offset,
+        left: isOnLeft ? offset : 'auto',
+        transform: 'scale(0.8)',
       }}
       aria-label={formatMessage({
         defaultMessage: 'Remove',
