@@ -1,4 +1,4 @@
-import { loginWindowSuccessMessage } from '~/consts';
+import { loginWindowSuccessData } from '~/consts';
 import { EnvName } from '~/types';
 import { createSha256CspHash } from '~/utils';
 
@@ -12,7 +12,7 @@ export const createLoginCallbackScript = ({
   appDomain,
 }: CreateLoginCallbackScriptProps) => {
   const targetOrigin = envName === 'personal' ? '*' : `https://${appDomain}`;
-  const script = `opener.postMessage("${loginWindowSuccessMessage}", "${targetOrigin}")`;
+  const script = `opener.postMessage("${loginWindowSuccessData}", "${targetOrigin}")`;
 
   return { script, cspHash: createSha256CspHash(script) };
 };

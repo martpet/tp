@@ -4,13 +4,16 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { startAppListening } from '~/app/store/middleware';
 import { apiPaths, apiUrl } from '~/common/consts';
-import { Me, RootState } from '~/common/types';
-import { meApi } from '~/features/me';
-import { loginWithPopup } from '~/features/me/utils';
+import { IdentityProvider, Me, RootState } from '~/common/types';
+import { meApi } from '~/features/me/meApi';
+import { loginInPopupWindow } from '~/features/me/utils';
 
 // Thunks
 
-export const login = createAsyncThunk('loginStatus', loginWithPopup);
+export const loginWithProvider = createAsyncThunk(
+  'loginWithProviderStatus',
+  (provider: IdentityProvider) => loginInPopupWindow(provider)
+);
 
 // Slice
 
@@ -31,7 +34,7 @@ export const meSlice = createSlice({
     loggedOut() {},
   },
   extraReducers(builder) {
-    builder.addCase(login.fulfilled, (state) => {
+    builder.addCase(loginWithProvider.fulfilled, (state) => {
       state.isLoggedIn = true;
     });
     builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, { payload }) => {
@@ -47,7 +50,6 @@ export const { loggedOut } = meSlice.actions;
 startAppListening({
   predicate(_, currentState, previousState) {
     return currentState.me.isLoggedIn && !previousState.me.isLoggedIn;
-    // "actionCreator: login.fulfilled" won't work for rehydrated state from persistor
   },
   effect(_, listenerApi) {
     listenerApi.dispatch(meApi.endpoints.getMe.initiate());

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import googleLogo from '~/assets/google-logo.svg';
 import { useAppDispatch } from '~/common/hooks';
 import { IdentityProvider } from '~/common/types';
-import { login } from '~/features/me/meSlice';
+import { loginWithProvider } from '~/features/me';
 
 type Props = {
   provider: IdentityProvider;
@@ -16,7 +16,7 @@ export function LoginButton({ provider, onClick }: Props) {
   const appleIcon = '';
 
   const handleClick = () => {
-    dispatch(login(provider));
+    dispatch(loginWithProvider(provider));
     if (onClick) onClick();
   };
 

@@ -8,15 +8,11 @@ import { Mutex } from 'async-mutex';
 
 import { refreshTokenExpiredErrorMessage } from '~/common/consts';
 import { ApiErrorResponseBody, RootState } from '~/common/types';
-import { loggedOut, selectMe } from '~/features';
-import { loginWithPopup } from '~/features/me/utils';
+import { loggedOut, loginWithProvider, selectMe } from '~/features/me';
 
 /*
- * When refresh token expires open login popup, wait for for login success, retry awaited requests.
- * When 401 error, but refresh token not expired, dispatch `loggedOut`.
- *
- * https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#automatic-re-authorization-by-extending-fetchbasequery
- * https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#preventing-multiple-unauthorized-errors
+ * When refresh token expires - open login popup, wait for login success, retry awaited requests.
+ * When 401, but refresh token has not expired - dispatch `loggedOut`.
  */
 
 const mutex = new Mutex();
@@ -47,28 +43,25 @@ export const createBaseQuery = (
     const isExpiredRefreshTokenError = checkIsExpiredRefreshTokenError(result.error);
 
     if (is401 || isExpiredRefreshTokenError) {
-      const { dispatch, getState } = baseQueryApi;
+      const { getState, dispatch } = baseQueryApi;
+      const state = getState() as RootState;
+      const user = selectMe(state);
 
       if (mutex.isLocked()) {
         await mutex.waitForUnlock();
         result = await baseQuery(args, baseQueryApi, extraOptions);
-      } else {
+      } else if (isExpiredRefreshTokenError && user) {
         const release = await mutex.acquire();
-        const state = getState() as RootState;
-        const user = selectMe(state);
-
         try {
-          if (isExpiredRefreshTokenError && user) {
-            await dispatch(loginWithPopup(user.providerName));
-            result = await baseQuery(args, baseQueryApi, extraOptions);
-          } else {
-            dispatch(loggedOut());
-          }
+          await dispatch(loginWithProvider(user.providerName));
+          result = await baseQuery(args, baseQueryApi, extraOptions);
         } catch (e) {
           dispatch(loggedOut());
         } finally {
           release();
         }
+      } else {
+        dispatch(loggedOut());
       }
     }
 

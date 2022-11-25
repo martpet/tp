@@ -1,2 +1,2 @@
 export * from './getSettingsToSync';
-export * from './loginWithPopup';
+export * from './loginInPopupWindow';
