@@ -1,5 +1,5 @@
 import { Grid, minmax, repeat } from '@adobe/react-spectrum';
-import { RefObject } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAddedFiles } from '~/features/upload';
@@ -9,17 +9,7 @@ import { Thumbnail } from './Thumbnail/Thumbnail';
 
 export function ThumbnailsList() {
   const files = useSelector(selectAddedFiles);
-
-  const handleImageLoad = (fileId: string, ref: RefObject<HTMLDivElement>) => {
-    if (fileId === files.at(-1)?.id) {
-      setTimeout(() => {
-        ref.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'end',
-        });
-      });
-    }
-  };
+  const initialFilesRef = useRef(files);
 
   if (!files.length) {
     return <EmptyState />;
@@ -33,7 +23,11 @@ export function ThumbnailsList() {
       alignItems="start"
     >
       {files.map((file) => (
-        <Thumbnail key={file.id} file={file} onImgLoad={handleImageLoad} />
+        <Thumbnail
+          key={file.id}
+          file={file}
+          didAddFilesSinceDialogOpen={files !== initialFilesRef.current}
+        />
       ))}
     </Grid>
   );

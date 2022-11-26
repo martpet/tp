@@ -10,14 +10,14 @@ import { FileMeta, FileValidationError } from '~/features/upload/types';
 
 type UploadState = {
   status: 'idle' | 'pending' | 'success' | 'error';
-  isAddingFiles: boolean;
   files: FileMeta[];
+  isAddingFiles: boolean;
 };
 
 const initialState: UploadState = {
   status: 'idle',
-  isAddingFiles: false,
   files: [],
+  isAddingFiles: false,
 };
 
 export const uploadSlice = createSlice({
