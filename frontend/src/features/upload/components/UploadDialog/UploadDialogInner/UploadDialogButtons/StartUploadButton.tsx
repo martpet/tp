@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { upload } from '~/features/upload/thunks';
 import { selectUploadStatus } from '~/features/upload/uploadSlice';
 
-export function UploadButton() {
+export function StartUploadButton() {
   const dispatch = useAppDispatch();
   const uploadStatus = useAppSelector(selectUploadStatus);
 
@@ -15,11 +15,7 @@ export function UploadButton() {
   };
 
   return (
-    <Button
-      variant="cta"
-      onPress={handleClick}
-      isDisabled={uploadStatus === 'pending'}
-    >
+    <Button variant="cta" onPress={handleClick} isDisabled={uploadStatus === 'pending'}>
       <UploadIcon />
       <Text>
         <FormattedMessage

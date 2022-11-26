@@ -9,7 +9,7 @@ import { Thumbnail } from './Thumbnail/Thumbnail';
 
 export function ThumbnailsList() {
   const files = useSelector(selectAddedFiles);
-  const initialFilesRef = useRef(files);
+  const initialFiles = useRef(files);
 
   if (!files.length) {
     return <EmptyState />;
@@ -26,7 +26,7 @@ export function ThumbnailsList() {
         <Thumbnail
           key={file.id}
           file={file}
-          didAddFilesSinceDialogOpen={files !== initialFilesRef.current}
+          didAddFilesSinceDialogOpen={files !== initialFiles.current}
         />
       ))}
     </Grid>

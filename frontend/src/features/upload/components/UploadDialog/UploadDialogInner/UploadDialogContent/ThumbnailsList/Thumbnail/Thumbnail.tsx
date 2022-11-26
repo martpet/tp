@@ -20,7 +20,7 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
   const files = useSelector(selectAddedFiles);
   const isLastFile = file === files.at(-1);
   const [isImageLoaded, setImageLoaded] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLDivElement>(null);
   const { formatDate } = useIntl();
 
   const formattedDate =
@@ -39,7 +39,7 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
 
     if (isLastFile && didAddFilesSinceDialogOpen) {
       requestAnimationFrame(() => {
-        containerRef.current?.scrollIntoView({
+        container.current?.scrollIntoView({
           block: 'end',
           behavior: 'smooth',
         });
@@ -48,7 +48,7 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
   };
 
   return (
-    <div ref={containerRef} style={{ visibility: isImageLoaded ? 'visible' : 'hidden' }}>
+    <div ref={container} style={{ visibility: isImageLoaded ? 'visible' : 'hidden' }}>
       <View position="relative">
         <img
           alt={file.name}

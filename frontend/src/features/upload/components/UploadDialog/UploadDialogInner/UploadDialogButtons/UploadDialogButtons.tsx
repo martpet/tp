@@ -5,7 +5,7 @@ import { useAppSelector } from '~/common/hooks';
 import { selectAddedFiles, selectUploadableFiles } from '~/features/upload';
 
 import { AddFilesButton } from '../AddFilesButton';
-import { UploadButton } from './UploadButton';
+import { StartUploadButton } from './StartUploadButton';
 
 export function UploadDialogButtons() {
   const { dismiss } = useDialogContainer();
@@ -14,7 +14,7 @@ export function UploadDialogButtons() {
 
   return (
     <>
-      {uploadableFiles.length > 0 && <UploadButton />}
+      {uploadableFiles.length > 0 && <StartUploadButton />}
       {files.length > 0 && <AddFilesButton variant="secondary" />}
       <Button variant="secondary" onPress={dismiss}>
         <FormattedMessage

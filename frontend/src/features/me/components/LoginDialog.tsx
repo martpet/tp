@@ -1,14 +1,18 @@
-import { Content, Dialog, Divider, Heading, View } from '@adobe/react-spectrum';
+import {
+  Content,
+  Dialog,
+  Divider,
+  Heading,
+  useDialogContainer,
+  View,
+} from '@adobe/react-spectrum';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Login } from '~/features/me';
 
-type Props = {
-  close: () => void;
-};
-
-export function LoginDialog({ close }: Props) {
+export function LoginDialog() {
   const { formatMessage } = useIntl();
+  const dialog = useDialogContainer();
 
   return (
     <Dialog
@@ -24,7 +28,7 @@ export function LoginDialog({ close }: Props) {
       <Divider />
       <Content>
         <View>
-          <Login onLoginButtonClick={close} />
+          <Login onLoginButtonClick={dialog.dismiss} />
         </View>
       </Content>
     </Dialog>

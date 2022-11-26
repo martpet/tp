@@ -3,10 +3,10 @@ import { Divider, Flex } from '@adobe/react-spectrum';
 import { Logo } from '~/common/components';
 import { sideSpace } from '~/common/consts';
 import { useToolbarPosition } from '~/common/hooks';
-import { UploadButton } from '~/features/app/components/App/Layout/Toolbar/UploadButton';
 
 import { ProfileButton } from './ProfileButton';
 import { SettingsButton } from './SettingsButton';
+import { UploadButton } from './UploadButton';
 
 export function Toolbar() {
   const { isToolbarOnTop } = useToolbarPosition();
