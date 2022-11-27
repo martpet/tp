@@ -5,8 +5,7 @@ import { startAppListening } from '~/app/store/middleware';
 import { defaultLanguage, languages } from '~/common/consts';
 import { Language, RootState, ToolbarPosition, UserSettings } from '~/common/types';
 import { meApi } from '~/features/me';
-import { getSettingsToSync } from '~/features/me/utils';
-import { settingsApi, SettingsTabKey } from '~/features/settings';
+import { getSettingsToSync, settingsApi, SettingsTabKey } from '~/features/settings';
 
 // Actions
 
@@ -53,37 +52,6 @@ export const settingsSlice = createSlice({
 
 export const { activeTabChanged } = settingsSlice.actions;
 
-// Listeners
-
-startAppListening({
-  actionCreator: settingsChanged,
-  effect(action, listenerApi) {
-    // Sync settings -> db
-    const state = listenerApi.getState();
-    if (state.me.isLoggedIn) {
-      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
-    }
-  },
-});
-
-startAppListening({
-  matcher: meApi.endpoints.getMe.matchFulfilled,
-  effect(action, listenerApi) {
-    // Sync settings <--> db
-    const state = listenerApi.getState();
-    const { localPatch, remotePatch } = getSettingsToSync({
-      localSettings: state.settings.userSettings,
-      remoteSettings: action.payload.settings,
-    });
-    if (localPatch) {
-      listenerApi.dispatch(gotNewSettingsFromDb(localPatch));
-    }
-    if (remotePatch) {
-      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(remotePatch));
-    }
-  },
-});
-
 // Selectors
 
 export const selectActiveTab = (state: RootState) => state.settings.activeTab;
@@ -100,3 +68,34 @@ export const selectColorScheme = (state: RootState) =>
 
 export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
   state.settings.userSettings.toolbarPosition || 'top';
+
+// Listeners
+
+startAppListening({
+  // Sync settings -> db
+  actionCreator: settingsChanged,
+  effect(action, listenerApi) {
+    const state = listenerApi.getState();
+    if (state.me.isLoggedIn) {
+      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
+    }
+  },
+});
+
+startAppListening({
+  // Sync settings <--> db
+  matcher: meApi.endpoints.getMe.matchFulfilled,
+  effect(action, listenerApi) {
+    const state = listenerApi.getState();
+    const { localPatch, remotePatch } = getSettingsToSync({
+      localSettings: state.settings.userSettings,
+      remoteSettings: action.payload.settings,
+    });
+    if (localPatch) {
+      listenerApi.dispatch(gotNewSettingsFromDb(localPatch));
+    }
+    if (remotePatch) {
+      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(remotePatch));
+    }
+  },
+});

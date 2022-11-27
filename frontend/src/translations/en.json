@@ -35,10 +35,6 @@
     "defaultMessage": "Profile",
     "description": "profile dialog aria-label"
   },
-  "7obuz/": {
-    "defaultMessage": "Login",
-    "description": "login dialog aria-label"
-  },
   "A6sLC1": {
     "defaultMessage": "Dark",
     "description": "color scheme picker item - dark"

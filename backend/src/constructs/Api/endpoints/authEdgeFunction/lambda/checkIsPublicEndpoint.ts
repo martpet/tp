@@ -1,8 +1,11 @@
 import { LambdaEdgeViewerEvent } from '~/constructs/Api/types';
-import { publicEndpoints } from '~/consts';
-import { ApiMethod, ApiPath } from '~/types';
+import { isPublicEndpoint } from '~/utils';
 
-export const checkIsPublicEndpoint = (event: LambdaEdgeViewerEvent) => {
-  const { uri, method } = event.Records[0].cf.request;
-  return Boolean(publicEndpoints[uri as ApiPath]?.includes(method as ApiMethod));
-};
+export function checkIsPublicEndpoint(edgeEvent: LambdaEdgeViewerEvent) {
+  const { uri, method } = edgeEvent.Records[0].cf.request;
+
+  return isPublicEndpoint({
+    path: uri,
+    method,
+  });
+}

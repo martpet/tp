@@ -34,7 +34,7 @@ export function ProfileButton() {
       <ActionButton isQuiet aria-label={buttonAriaLabel}>
         {isLoadingMe ? <Spinner size="S" /> : <ProfileIcon />}
       </ActionButton>
-      <LoginDialog />
+      <LoginDialog dismissOnLoginClick />
     </DialogTrigger>
   );
 }

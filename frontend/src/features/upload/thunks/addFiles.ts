@@ -4,7 +4,7 @@ import { FileMeta } from '~/features/upload/types';
 import { getExif, hashFile } from '~/features/upload/utils';
 
 export const addFiles = createAsyncThunk<FileMeta[], FileList>(
-  'upload/addFilesStatus',
+  'addFilesStatus',
   (fileList) =>
     Promise.all(
       Array.from(fileList).map(async (file) => ({

@@ -1,4 +1,4 @@
-import { ApiMethod, ApiPath, ApiOptions } from '../types';
+import { ApiMethod, ApiOptions, ApiPath } from '../types';
 
 export const getPublicEndpoints = (apiOptions: ApiOptions) => {
   const result: Partial<Record<ApiPath, ApiMethod[]>> = {};

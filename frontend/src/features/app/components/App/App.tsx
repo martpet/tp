@@ -1,8 +1,7 @@
-import { useDisableDragDrop } from '~/features/app/components/App/useDisableDragDrop';
-
 import { AppLoadingOverlay } from './AppLoadingOverlay';
+import { AppLoginDialog } from './AppLoginDialog';
+import { useDisableDragDrop, useThemeColorMetaTag } from './hooks';
 import { Layout } from './Layout/Layout';
-import { useThemeColorMetaTag } from './useThemeColorMetaTag';
 
 export function App() {
   useThemeColorMetaTag();
@@ -10,6 +9,7 @@ export function App() {
 
   return (
     <>
+      <AppLoginDialog />
       <AppLoadingOverlay />
       <Layout />
     </>
