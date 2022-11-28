@@ -3,7 +3,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
 import {
-  itGetsIdTokenPayload,
+  itGetsIdToken,
   itResolves,
   itResolvesWithError,
   itSendsDdbCommand,
@@ -40,10 +40,8 @@ beforeEach(() => {
 });
 
 describe('get-me', () => {
-  itGetsIdTokenPayload(handler, args);
-
+  itGetsIdToken(handler, args);
   itSendsDdbCommand(GetCommand, ddbMock, handler, args);
-
   itResolves(handler, args);
 
   describe('when "Item" is missing from "GetCommand" output', () => {

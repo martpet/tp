@@ -33,14 +33,14 @@ beforeEach(() => {
 });
 
 describe('crossRegionMetricAlarm.handler', () => {
+  itResolves(handler, args);
+
   it('sends "PutMetricAlarmCommand" to CloudWatch with correct args', async () => {
     await handler(...args);
     expect(
       cloudWatchMock.commandCalls(PutMetricAlarmCommand)[0].args[0].input
     ).toMatchSnapshot();
   });
-
-  itResolves(handler, args);
 
   describe('when "RequestType" is "Delete"', () => {
     const argsClone = structuredClone(args);

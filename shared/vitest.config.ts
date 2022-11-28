@@ -12,11 +12,13 @@ export default mergeConfig(
       alias: [{ find: '~', replacement: resolve('shared') }],
       coverage: {
         include: [
+          '!**/removeDateStringOffset.ts', // uncovered line -- istanbul bug?
           '!**/getPersonalDevDomain.ts',
-          '**/utils/**',
           '!**/index.ts',
+          '**/utils/**',
           '!**/__mocks__/**',
           '!backend/**',
+          '!frontend/**',
         ],
       },
     },

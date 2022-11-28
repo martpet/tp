@@ -11,10 +11,10 @@ vi.mock('../updateUserFromCognitoEvent');
 const args = [event] as unknown as Parameters<PostAuthenticationTriggerHandler>;
 
 describe('postAuthentication', () => {
+  itResolves(handler, args);
+
   it('calls "updateUserFromCognitoEvent" with correct args', async () => {
     await handler(...args);
     expect(updateUserFromCognitoEvent).toHaveBeenCalledWith(event);
   });
-
-  itResolves(handler, args);
 });

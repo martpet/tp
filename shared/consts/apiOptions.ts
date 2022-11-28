@@ -1,3 +1,5 @@
+import { ApiOptions } from '../types/ApiOptions';
+
 export const apiOptions = {
   '/login': {
     methods: {
@@ -55,4 +57,4 @@ export const apiOptions = {
       },
     },
   },
-} as const; // todo: use "as const satisfies ApiOptions" (typescript 4.9)
+} as const satisfies ApiOptions;

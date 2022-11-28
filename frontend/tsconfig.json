@@ -15,5 +15,5 @@
     "vite.config.ts",
     "vitest.config.ts",
     ".eslintrc.cjs"
-, "../shared/consts/languages.ts", "../shared/types/ToolbarPosition.ts"  ],
+, "../shared/consts/languages.ts", "../shared/types/ToolbarPosition.ts", "../shared/types/FileMeta.ts"  ],
 }

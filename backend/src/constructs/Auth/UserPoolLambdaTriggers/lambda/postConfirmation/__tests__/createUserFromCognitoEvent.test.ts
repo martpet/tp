@@ -22,6 +22,5 @@ beforeEach(() => {
 
 describe('createUserFromCognitoEvent', () => {
   itSendsDdbCommand(PutCommand, ddbMock, createUserFromCognitoEvent, args);
-
   itResolves(createUserFromCognitoEvent, args);
 });

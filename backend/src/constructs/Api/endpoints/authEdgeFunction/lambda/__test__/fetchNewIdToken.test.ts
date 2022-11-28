@@ -45,7 +45,6 @@ describe('fetchNewIdToken', () => {
         json: () => Promise.resolve({ error: 'dummyErrorMessage' }),
       } as Response);
     });
-
     itRejects(fetchNewIdToken, args);
   });
 });

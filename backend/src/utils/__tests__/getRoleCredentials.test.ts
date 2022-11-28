@@ -28,6 +28,8 @@ beforeEach(() => {
 });
 
 describe('getRoleCredentials', () => {
+  itResolves(getRoleCredentials, args);
+
   it('sends "AssumeRoleCommand" to STS with correct args', async () => {
     await getRoleCredentials(...args);
     expect(stsMock.commandCalls(AssumeRoleCommand)[0].args[0].input).toMatchSnapshot();
@@ -38,13 +40,10 @@ describe('getRoleCredentials', () => {
     expect(vi.mocked(camelcaseKeys).mock.calls).toMatchSnapshot();
   });
 
-  itResolves(getRoleCredentials, args);
-
   describe('when credentials are missing from "AssumeRoleCommand" output', () => {
     beforeEach(() => {
       stsMock.on(AssumeRoleCommand).resolves({});
     });
-
     itRejects(getRoleCredentials, args);
   });
 

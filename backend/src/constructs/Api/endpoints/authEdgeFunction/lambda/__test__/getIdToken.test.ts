@@ -44,14 +44,12 @@ beforeEach(() => {
 
 describe('getTokens', () => {
   itSendsDdbCommand(GetCommand, ddbMock, getIdToken, args);
-
   itResolves(getIdToken, args);
 
   describe('when "Item" prop is missing from "GetCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
-
     itRejects(getIdToken, args);
   });
 
@@ -80,7 +78,6 @@ describe('getTokens', () => {
     afterAll(() => {
       vi.setSystemTime(originalDate);
     });
-
     itRejects(getIdToken, args);
   });
 });

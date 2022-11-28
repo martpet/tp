@@ -6,21 +6,21 @@ import { StatusCodes } from 'http-status-codes';
 import { ApiRouteHeaders, HandlerEnv } from '~/constructs/Api/types';
 import { errorResponse, getIdTokenPayload } from '~/constructs/Api/utils';
 import { maxPhotoUploadBytes } from '~/consts';
-import { PostGenerateUploadUrlsResponse } from '~/types';
+import {
+  PostGenerateUploadUrlsRequestBody,
+  PostGenerateUploadUrlsResponseBody,
+} from '~/types';
 
 const s3Client = new S3Client({});
 
-export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> = async (
-  event
-) => {
+export const handler: APIGatewayProxyHandlerV2<
+  PostGenerateUploadUrlsResponseBody
+> = async (event) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   const { photoBucket } = process.env as HandlerEnv<'/generate-upload-urls', 'POST'>;
-  const itemsCount = Number(event.body);
-  const dateIso = new Date().toISOString();
+  const dateString = new Date().toISOString();
 
-  if (!event.body || typeof itemsCount !== 'number') {
-    return errorResponse('G-luuHqI0s', { statusCode: StatusCodes.BAD_REQUEST });
-  }
+  let items;
 
   if (!authorization) {
     return errorResponse('Vf5Ph6qN1S');
@@ -30,22 +30,29 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
     return errorResponse('1rQkj3kpp4');
   }
 
+  if (!event.body) {
+    return errorResponse('G-luuHqI0s', { statusCode: StatusCodes.BAD_REQUEST });
+  }
+
+  try {
+    items = JSON.parse(event.body) as PostGenerateUploadUrlsRequestBody;
+  } catch (error) {
+    return errorResponse('9210145fdf', { statusCode: StatusCodes.BAD_REQUEST, error });
+  }
+
   // check if photo item with same hash exists (global or only user ?)
 
   const { sub } = getIdTokenPayload(authorization);
 
-  const promises = [];
-
-  for (let step = 1; step <= itemsCount; step++) {
-    promises.push(
-      createPresignedPost(s3Client, {
+  return Promise.all(
+    items.map(async ({ id, hash }) => ({
+      id,
+      presignedPost: await createPresignedPost(s3Client, {
         Bucket: photoBucket,
-        Key: `${sub}/${dateIso}/${step}.jpg`,
+        Key: `${sub}/${dateString}/${hash}.jpg`,
         Expires: 60,
         Conditions: [['content-length-range', 0, maxPhotoUploadBytes]],
-      })
-    );
-  }
-
-  return Promise.all(promises);
+      }),
+    }))
+  );
 };

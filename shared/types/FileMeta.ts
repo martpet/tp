@@ -1,4 +1,4 @@
-import { PhotoExif } from '~/common/types';
+import { PhotoExif } from './PhotoExif';
 
 export type FileMeta = {
   id: string;

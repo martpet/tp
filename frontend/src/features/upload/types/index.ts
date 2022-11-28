@@ -1,2 +1,2 @@
-export * from './FileMeta';
+export * from '../../../../../shared/types/FileMeta';
 export * from './FileValidationError';

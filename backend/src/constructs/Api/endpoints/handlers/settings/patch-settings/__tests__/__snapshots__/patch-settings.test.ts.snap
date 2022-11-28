@@ -72,6 +72,7 @@ exports[`patch-settings > when "event.body" is not JSON > calls "errorResponse" 
   [
     "d6QTt6tKWK",
     {
+      "error": [SyntaxError: Unexpected token o in JSON at position 1],
       "statusCode": 400,
     },
   ],

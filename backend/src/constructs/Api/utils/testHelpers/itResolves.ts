@@ -1,9 +1,9 @@
 import { CallbackAndArgsTuple } from '~/types';
 
-export const itResolves = (...rest: CallbackAndArgsTuple) => {
-  const [callback, callbackArgs = []] = rest;
+export function itResolves(...rest: CallbackAndArgsTuple) {
+  const [handler, handlerArgs = []] = rest;
 
   it('resolves with a correct value', () => {
-    return expect(callback(...callbackArgs)).resolves.toMatchSnapshot();
+    return expect(handler(...handlerArgs)).resolves.toMatchSnapshot();
   });
-};
+}

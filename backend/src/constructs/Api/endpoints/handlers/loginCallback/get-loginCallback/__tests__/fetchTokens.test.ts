@@ -47,7 +47,6 @@ describe('fetchTokens', () => {
         json: () => Promise.resolve({ error: 'dummyErrorMessage' }),
       } as Response);
     });
-
     itRejects(fetchTokens, args);
   });
 });

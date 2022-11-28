@@ -28,14 +28,13 @@ beforeEach(() => {
 });
 
 describe('createSession', () => {
+  itSendsDdbCommand(PutCommand, ddbMock, createSession, args);
+  itResolves(createSession, args);
+
   it('calls "cookie.serialize" with correct args', async () => {
     await createSession(...args);
     expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
   });
-
-  itSendsDdbCommand(PutCommand, ddbMock, createSession, args);
-
-  itResolves(createSession, args);
 
   describe('when "globalLambdaProps.envName" is "personal"', () => {
     const initialEnvName = globalLambdaProps.envName;

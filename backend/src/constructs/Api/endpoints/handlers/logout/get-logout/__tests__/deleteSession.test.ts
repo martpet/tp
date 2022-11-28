@@ -19,14 +19,12 @@ beforeEach(() => {
 
 describe('deleteSession', () => {
   itSendsDdbCommand(DeleteCommand, ddbMock, deleteSession, args);
-
   itResolves(deleteSession, args);
 
   describe('when "Attributes" prop is missing from "DeleteCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(DeleteCommand).resolves({});
     });
-
     itRejects(deleteSession, args);
   });
 });

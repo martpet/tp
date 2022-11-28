@@ -26,6 +26,5 @@ beforeEach(() => {
 
 describe('updateSession', () => {
   itSendsDdbCommand(UpdateCommand, ddbMock, updateSession, args);
-
   itResolves(updateSession, args);
 });

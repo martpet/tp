@@ -9,6 +9,8 @@ vi.mock('util');
 const args = [128] as Parameters<typeof getRandomBase64UrlSafe>;
 
 describe('getRandomBase64UrlSafe', () => {
+  itResolves(getRandomBase64UrlSafe, args);
+
   it('calls "crypto.randomBytes" with correct args', async () => {
     await getRandomBase64UrlSafe(...args);
     expect(vi.mocked(crypto.randomBytes).mock.calls).toMatchSnapshot();
@@ -18,6 +20,4 @@ describe('getRandomBase64UrlSafe', () => {
     await getRandomBase64UrlSafe(...args);
     expect(vi.mocked(crypto.randomBytes(1).toString).mock.calls).toMatchSnapshot();
   });
-
-  itResolves(getRandomBase64UrlSafe, args);
 });

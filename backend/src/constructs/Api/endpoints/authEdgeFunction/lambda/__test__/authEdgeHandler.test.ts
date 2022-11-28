@@ -2,7 +2,7 @@ import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import {
   itResolves,
-  itResolvesWithLambdaEdgeError,
+  itResolvesWithEdgeError,
   parseLambdaEdgeEventCookies,
 } from '~/constructs/Api/utils';
 
@@ -23,6 +23,8 @@ vi.mocked(parseLambdaEdgeEventCookies).mockReturnValue({
 });
 
 describe('authEdgeHandler', () => {
+  itResolves(handler, args);
+
   it('calls "parseLambdaEdgeEventCookies" with correct args', async () => {
     await handler(...args);
     expect(vi.mocked(parseLambdaEdgeEventCookies).mock.calls).toMatchSnapshot();
@@ -37,8 +39,6 @@ describe('authEdgeHandler', () => {
     await handler(...args);
     expect(vi.mocked(getIdToken).mock.calls).toMatchSnapshot();
   });
-
-  itResolves(handler, args);
 
   describe('when the endpoint is public', () => {
     beforeEach(() => {
@@ -62,7 +62,7 @@ describe('authEdgeHandler', () => {
     beforeEach(() => {
       vi.mocked(parseLambdaEdgeEventCookies).mockReturnValueOnce({});
     });
-    itResolvesWithLambdaEdgeError(handler, args);
+    itResolvesWithEdgeError(handler, args);
   });
 
   describe('when "getIdToken" rejects', () => {
@@ -71,6 +71,6 @@ describe('authEdgeHandler', () => {
         new Error('dummy getIdToken error message')
       );
     });
-    itResolvesWithLambdaEdgeError(handler, args);
+    itResolvesWithEdgeError(handler, args);
   });
 });

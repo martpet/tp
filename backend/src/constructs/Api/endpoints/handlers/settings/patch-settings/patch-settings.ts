@@ -6,7 +6,12 @@ import { StatusCodes } from 'http-status-codes';
 import { ApiRouteHeaders } from '~/constructs/Api/types';
 import { errorResponse, getIdTokenPayload } from '~/constructs/Api/utils';
 import { usersTableOptions } from '~/consts';
-import { PatchSettingsResponse, UserSettings, UsersTableItem } from '~/types';
+import {
+  PatchSettingsRequestBody,
+  PatchSettingsResponseBody,
+  UserSettings,
+  UsersTableItem,
+} from '~/types';
 import { createDynamoUpdateExpression } from '~/utils';
 
 const ddbClient = new DynamoDBClient({});
@@ -20,9 +25,11 @@ const allowedSettingsKeys: Array<keyof UserSettings> = [
 
 const settingsAttrName: keyof UsersTableItem = 'settings';
 
-export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (event) => {
+export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponseBody> = async (
+  event
+) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
-  let settingsPatch;
+  let patch;
 
   if (!authorization) {
     return errorResponse('UMxOJy1cpJ');
@@ -33,12 +40,12 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (e
   }
 
   try {
-    settingsPatch = JSON.parse(event.body);
-  } catch (_err) {
-    return errorResponse('d6QTt6tKWK', { statusCode: StatusCodes.BAD_REQUEST });
+    patch = JSON.parse(event.body) as PatchSettingsRequestBody;
+  } catch (error) {
+    return errorResponse('d6QTt6tKWK', { statusCode: StatusCodes.BAD_REQUEST, error });
   }
 
-  const hasUnknownKeys = Object.keys(settingsPatch).some(
+  const hasUnknownKeys = Object.keys(patch).some(
     (key) => !allowedSettingsKeys.includes(key as keyof UserSettings)
   );
 
@@ -51,7 +58,7 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (e
   const updateCommand = new UpdateCommand({
     TableName: usersTableOptions.tableName,
     Key: { [usersTableOptions.partitionKey.name]: sub },
-    ...createDynamoUpdateExpression(settingsPatch, settingsAttrName),
+    ...createDynamoUpdateExpression(patch, settingsAttrName),
   });
 
   await ddbDocClient.send(updateCommand);

@@ -1,13 +1,13 @@
 import { errorResponse, itResolves } from '~/constructs/Api/utils';
 import { CallbackAndArgsTuple } from '~/types';
 
-export const itResolvesWithError = (...rest: CallbackAndArgsTuple) => {
-  const [callback, callbackArgs = []] = rest;
+export function itResolvesWithError(...rest: CallbackAndArgsTuple) {
+  const [handler, handlerArgs = []] = rest;
 
   it('calls "errorResponse" with correct args', async () => {
-    await callback(...callbackArgs);
+    await handler(...handlerArgs);
     expect(vi.mocked(errorResponse).mock.calls).toMatchSnapshot();
   });
 
-  itResolves(callback, callbackArgs);
-};
+  itResolves(handler, handlerArgs);
+}

@@ -37,12 +37,12 @@ beforeEach(() => {
 });
 
 describe('crossRegionSNSTopic.handler', () => {
+  itResolves(handler, args);
+
   it('sends "CreateTopicCommand" to SNS with correct args', async () => {
     await handler(...args);
     expect(snsMock.commandCalls(CreateTopicCommand)[0].args[0].input).toMatchSnapshot();
   });
-
-  itResolves(handler, args);
 
   describe('when "subscribeInputs" is provided', () => {
     const argsClone = structuredClone(args);

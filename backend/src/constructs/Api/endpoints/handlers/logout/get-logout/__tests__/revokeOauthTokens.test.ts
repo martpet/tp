@@ -19,12 +19,12 @@ beforeEach(() => {
 });
 
 describe('revokeOauthTokens', () => {
+  itResolves(revokeOauthTokens, args);
+
   it('calls "fetch" with correct args', async () => {
     await revokeOauthTokens(...args);
     expect(vi.mocked(fetch).mock.calls).toMatchSnapshot();
   });
-
-  itResolves(revokeOauthTokens, args);
 
   describe('when "fetch" response is not "ok"', () => {
     beforeEach(() => {
@@ -33,7 +33,6 @@ describe('revokeOauthTokens', () => {
         text: () => Promise.resolve('dummyFetchResponseText'),
       } as Response);
     });
-
     itRejects(revokeOauthTokens, args);
   });
 });

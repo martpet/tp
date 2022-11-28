@@ -48,7 +48,6 @@ describe('updateUserFromCognitoEvent', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
-
     itRejects(updateUserFromCognitoEvent, args);
   });
 
@@ -66,7 +65,6 @@ describe('updateUserFromCognitoEvent', () => {
     });
 
     itSendsDdbCommand(UpdateCommand, ddbMock, updateUserFromCognitoEvent, args);
-
     itResolves(updateUserFromCognitoEvent, args);
   });
 });

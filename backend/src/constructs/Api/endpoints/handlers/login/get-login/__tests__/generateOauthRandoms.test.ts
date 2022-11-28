@@ -16,6 +16,8 @@ beforeEach(() => {
 });
 
 describe('generateOauthRandoms', () => {
+  itResolves(generateOauthRandoms);
+
   it('calls "getRandomBase64UrlSafe" 3 times with correct values', async () => {
     await generateOauthRandoms();
     expect(vi.mocked(getRandomBase64UrlSafe).mock.calls).toMatchSnapshot();
@@ -37,6 +39,4 @@ describe('generateOauthRandoms', () => {
       vi.mocked(crypto.createHash('').update('').digest).mock.calls
     ).toMatchSnapshot();
   });
-
-  itResolves(generateOauthRandoms);
 });

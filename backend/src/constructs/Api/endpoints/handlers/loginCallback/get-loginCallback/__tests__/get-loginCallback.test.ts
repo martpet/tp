@@ -1,7 +1,12 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { OauthCookieProps } from '~/constructs/Api/types';
-import { itResolves, itResolvesWithError } from '~/constructs/Api/utils';
+import {
+  itHasEnvVars,
+  itHasQueryStrings,
+  itResolves,
+  itResolvesWithError,
+} from '~/constructs/Api/utils';
 import { capitalize } from '~/utils';
 
 import { dummyOauthTokens } from '../__mocks__/fetchTokens';
@@ -20,6 +25,11 @@ vi.mock('../parseOauthCookie');
 vi.mock('../createSession');
 vi.mock('../createLoginCallbackScript');
 
+process.env.authDomain = 'dummyAuthDomain';
+process.env.clientId = 'dummyClientId';
+process.env.loginCallbackUrl = 'dummyLoginCallbackUrl';
+process.env.envName = 'dummyEnvName';
+
 const args = [
   {
     cookies: 'dummyCookies',
@@ -31,14 +41,11 @@ const args = [
   },
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
 
-beforeEach(() => {
-  process.env.authDomain = 'dummyAuthDomain';
-  process.env.clientId = 'dummyClientId';
-  process.env.loginCallbackUrl = 'dummyLoginCallbackUrl';
-  process.env.envName = 'dummyEnvName';
-});
-
 describe('"get-loginCallback" handler', () => {
+  itHasQueryStrings(['code', 'state'], handler, args);
+  itHasEnvVars(['clientId', 'authDomain', 'loginCallbackUrl'], handler, args);
+  itResolves(handler, args);
+
   it('calls "parseOauthCookie" with correct args', async () => {
     await handler(...args);
     expect(vi.mocked(parseOauthCookie).mock.calls).toMatchSnapshot();
@@ -59,18 +66,6 @@ describe('"get-loginCallback" handler', () => {
     expect(vi.mocked(createLoginCallbackScript).mock.calls).toMatchSnapshot();
   });
 
-  itResolves(handler, args);
-
-  describe.each(['code', 'state'])(
-    'when "%s" query string parameter is missing',
-    (key) => {
-      const argsClone = structuredClone(args);
-      const { queryStringParameters } = argsClone[0] as Required<typeof argsClone[0]>;
-      delete queryStringParameters[key];
-      itResolvesWithError(handler, argsClone);
-    }
-  );
-
   describe.each(['error'])('when "%s" query string parameter is present', (key) => {
     const argsClone = structuredClone(args);
     (argsClone[0] as Required<typeof argsClone[0]>).queryStringParameters[
@@ -79,16 +74,6 @@ describe('"get-loginCallback" handler', () => {
 
     itResolvesWithError(handler, argsClone);
   });
-
-  describe.each(['clientId', 'authDomain', 'loginCallbackUrl'])(
-    'when "%s" env var is missing',
-    (key) => {
-      beforeEach(() => {
-        delete process.env[key];
-      });
-      itResolvesWithError(handler, args);
-    }
-  );
 
   describe.each(['stateNonce', 'idTokenNonce', 'codeVerifier'])(
     'when "oauth" cookie content is missing "%s" key',

@@ -64,8 +64,8 @@ startAppListening({
 // Selectors
 
 export const selectUploadStatus = (state: RootState) => state.upload.status;
-export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 export const selectAddedFiles = (state: RootState) => state.upload.files;
+export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 
 export const selectValidationErrorsMap = createSelector(selectAddedFiles, (files) => {
   const hashes: string[] = [];

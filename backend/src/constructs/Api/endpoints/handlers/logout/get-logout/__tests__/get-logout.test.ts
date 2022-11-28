@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import {
+  itHasEnvVars,
   itResolves,
   itResolvesWithError,
   parseEventCookies,
@@ -15,6 +16,11 @@ vi.mock('../revokeOauthTokens');
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/parseEventCookies');
 
+process.env.authDomain = 'dummyAuthDomain';
+process.env.clientId = 'dummyClientId';
+process.env.logoutCallbackUrl = 'dummyLogoutCallbackUrl';
+process.env.logoutCallbackLocalhostUrl = 'dummyLocalhostLogoutCallbackUrl';
+
 const args = [
   {
     cookies: 'dummyCookies',
@@ -24,20 +30,18 @@ const args = [
   },
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
 
-beforeEach(() => {
-  process.env.authDomain = 'dummyAuthDomain';
-  process.env.clientId = 'dummyClientId';
-  process.env.logoutCallbackUrl = 'dummyLogoutCallbackUrl';
-  process.env.logoutCallbackLocalhostUrl = 'dummyLocalhostLogoutCallbackUrl';
-});
-
 describe('"get-logout" handler', () => {
+  itHasEnvVars(
+    ['authDomain', 'clientId', 'logoutCallbackUrl', 'logoutCallbackLocalhostUrl'],
+    handler,
+    args
+  );
+  itResolves(handler, args);
+
   it('calls "parseEventCookies" with correct args', async () => {
     await handler(...args);
     expect(vi.mocked(parseEventCookies).mock.calls).toMatchSnapshot();
   });
-
-  itResolves(handler, args);
 
   describe('when "parseEventCookies" returns a "sessionId"', () => {
     beforeEach(() => {
@@ -96,17 +100,5 @@ describe('"get-logout" handler', () => {
       argsClone[0].headers.referer = 'http://localhost:3000/dummyPath';
       itResolves(handler, argsClone);
     });
-  });
-
-  describe.each([
-    'authDomain',
-    'clientId',
-    'logoutCallbackUrl',
-    'logoutCallbackLocalhostUrl',
-  ])('when "%s" env var is missing', (key) => {
-    beforeEach(() => {
-      delete process.env[key];
-    });
-    itResolvesWithError(handler, args);
   });
 });

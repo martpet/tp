@@ -62,7 +62,6 @@ describe('crossAccountSSM.handler', () => {
     beforeEach(() => {
       ssmMock.on(GetParametersCommand).resolves({});
     });
-
     itRejects(handler, args);
   });
 
@@ -72,7 +71,6 @@ describe('crossAccountSSM.handler', () => {
         Parameters: [{ Name: 'dummyName' }],
       });
     });
-
     itRejects(handler, args);
   });
 });

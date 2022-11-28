@@ -1,9 +1,9 @@
 import { CallbackAndArgsTuple } from '~/types';
 
-export const itRejects = (...rest: CallbackAndArgsTuple) => {
-  const [callback, callbackArgs = []] = rest;
+export function itRejects(...rest: CallbackAndArgsTuple) {
+  const [handler, handlerArgs = []] = rest;
 
   it('rejects with a correct value', () => {
-    return expect(callback(...callbackArgs)).rejects.toMatchSnapshot();
+    return expect(handler(...handlerArgs)).rejects.toMatchSnapshot();
   });
-};
+}
