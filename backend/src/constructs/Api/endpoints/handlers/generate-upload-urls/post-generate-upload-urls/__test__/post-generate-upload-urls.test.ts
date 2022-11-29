@@ -16,6 +16,8 @@ vi.mock('@aws-sdk/client-s3');
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
 
+process.env.photoBucket = 'dummyPhotoBucket';
+
 const args = [
   {
     headers: { authorization: 'dummyAuthorizationHeader' },
@@ -25,10 +27,6 @@ const args = [
     ]),
   },
 ] as unknown as Parameters<APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponseBody>>;
-
-beforeEach(() => {
-  process.env.photoBucket = 'dummyPhotoBucket';
-});
 
 describe('post-generate-upload-urls', () => {
   itHasJsonBody(handler, args);

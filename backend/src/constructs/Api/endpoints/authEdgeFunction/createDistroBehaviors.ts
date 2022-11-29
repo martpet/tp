@@ -26,12 +26,12 @@ import { Writable } from 'type-fest';
 
 import { Auth, Tables } from '~/constructs';
 import { authorizationHeader } from '~/constructs/Api/consts';
-import { getSecurityHeadersBehavior } from '~/constructs/Api/endpoints/createDistroBehaviors/getSecurityHeadersBehavior';
+import { getSecurityHeadersBehavior } from '~/constructs/Api/endpoints/getSecurityHeadersBehavior';
 import { apiOptions, appEnvs, publicEndpoints } from '~/consts';
 import { ApiOptions, ApiPath } from '~/types';
 import { getAllowedOrigins, getEnvName } from '~/utils';
 
-import { createAuthEdgeFunction } from '../authEdgeFunction';
+import { createAuthEdgeFunction } from '.';
 
 type Props = {
   scope: Construct;

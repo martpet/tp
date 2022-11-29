@@ -171,17 +171,17 @@ Copy the ARN of *DevAccountServiceRole* role to a variable named `devAccountServ
 
 ---
 
-# How to add developers to project
+# How to add developers to the project
 
-Developers need permissions to assume the *DevAccountServiceRole* from the *DevService* AWS account.
+Personal accounts need permissions to assume the *DevAccountServiceRole* from the *DevService* account.
 
 Choose one of the two options:
 
-* Add permissions for their own account to assume the *DevAccountServiceRole*.
-* Create a personal account in the *Dev* organizational unit.
+* Option 1: Add permissions for their own account to assume the *DevAccountServiceRole*.
+* Option 2: Create a personal account in the *Dev* organizational unit (permission are already set).
 
 <details>
-    <summary>Permissions for their own account to asssume DevAccountServiceRole</summary>
+    <summary>Option 1: Adding permissions for their own account</summary>
 
      {
         "Effect": "Allow",
@@ -192,13 +192,13 @@ Choose one of the two options:
     }
 </details>
 
-Also,
+For both options:
 
-Add in [Apple console](https://developer.apple.com/account):
-* `auth.<user name>.trip.pictures` to *Domains and Subdomains*.
-* `https://auth.<user name>.trip.pictures/oauth2/idpresponse` to *Return URLs*.
+In [Apple console](https://developer.apple.com/account):
+* Add `auth.<user name>.trip.pictures` to *Domains and Subdomains*.
+* Add `https://auth.<user name>.trip.pictures/oauth2/idpresponse` to *Return URLs*.
 
-Add in [Google console](https://console.cloud.google.com/apis/credentials):
-* `https://auth.<user name>.trip.pictures` to *Authorized JavaScript origins* .
-* `https://auth.<user name>.trip.pictures/oauth2/idpresponse` to *Authorized redirect URIs*.
+In [Google console](https://console.cloud.google.com/apis/credentials):
+* Add `https://auth.<user name>.trip.pictures` to *Authorized JavaScript origins* .
+* Add `https://auth.<user name>.trip.pictures/oauth2/idpresponse` to *Authorized redirect URIs*.
 

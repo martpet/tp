@@ -2,63 +2,63 @@
 
 This is a fullstack javascript project, a playground for [AWS CDK](https://aws.amazon.com/cdk), [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) and [React Spectrum](https://react-spectrum.adobe.com).
 
-## Setup development environment
+## Getting started
 
-### 1. Specify personal account
-Provide the administrator with:
-* your personal AWS account ID (or ask for an organizational account),
+### 1. Specify an AWS account for development
+Provide the administrator with
+* your own AWS account's ID (or ask for an organizational account),
 * a name for your dev subdomain (Ex: **johndoe**).
 
 (*Administrators: [How to add developers](README-prod-setup.md#how-to-add-developers-to-project)*)
 
-### 2. Bootstrap your personal account
+### 2. Bootstrap your AWS account
 
 `npx cdk bootstrap aws://<id>/<region> --profile <profile>`
 
-Also bootstrap the `us-east-1` region.
+Also, bootstrap the `us-east-1` region.
 
 ### 3. Set environment variables
 
 In the root project folder copy `.env.local.example` to `.env.local` and set own values.
 
-### 4. Install Node modules
+### 4. Install dependencies
 
-Check required Node version in `.nvmrc`
+Use the Node version specified in `.nvmrc`
 
 `npm install`
 
-### 5. Deploy personal stack
+### 5. Deploy to your AWS account
 
-See *Deploying* bellow.
+See *Personal stack* under *How to deploy* bellow.
 
 ## Developing
 
-### Start frontend server
+### Start the frontend server
 
 `npm start`
 
-Web server runs on localhost:3000 and calls your personal stack.
+The web server runs on `localhost:3000` and calls your personal stack.
 
-*Safari* users need to disable *Prevent cross-site tracking* in *Privacy Settings*, otherwise  `sessionId` cookie won't be sent from localhost to API backend.
+**Safari users** need to disable *Prevent cross-site tracking* in *Privacy Settings*, otherwise  `sessionId` cookie won't be sent from localhost to API backend.
 
-## Deploying
+## How to deploy
 
 ### Personal stack
 
 `npm run deploy -- --profile <aws profile name>`
 
-[localhost:3000](http://localhost:3000), *myname.dev.trip.pictures*
+Web url: [localhost:3000](http://localhost:3000), and *myname.dev.trip.pictures*
 
 
 ### Staging
 Deployment is triggered by pushing to branch `main`.
 
-[test.trip.pictures](http://test.trip.pictures)
+Web url: [test.trip.pictures](http://test.trip.pictures)
 
 ### Production
 Deployment is triggered by creating a new release.
 
-[trip.pictures](http://trip.pictures)
+Web url: [trip.pictures](http://trip.pictures)
 
 ----
 

@@ -18,7 +18,7 @@ type Props = {
 export const createAuthEdgeFunction = ({ scope, auth, tables }: Props) => {
   const edgeFunction = createEdgeFunction(scope, 'AuthEdge', {
     functionName: `AuthEdge`,
-    entry: `${__dirname}/lambda/authEdgeHandler.ts`,
+    entry: `${__dirname}/handler/authEdgeHandler.ts`,
     globalProps: {
       globalAuthEdgeFunctionProps: {
         authDomain: auth.authDomain,

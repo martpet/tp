@@ -4,9 +4,9 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { appEnvs, appName } from '~/consts';
 import { EnvName } from '~/types';
 
-import { RootStack } from '../RootStack';
+import { RootStack } from './RootStack';
 
-// Test is skipped until issues are fixed:
+// This test is skipped until issues are fixed:
 // https://github.com/aws/aws-cdk/issues/20873
 // https://github.com/vitest-dev/vitest/issues/1544
 describe('RootStack', () => {

@@ -9,7 +9,7 @@ import { PartialDeep } from 'type-fest';
 
 import { ApiPath, EnvName } from '~/types';
 
-import { createLoginCallbackScript } from '../handlers/loginCallback/get-loginCallback/createLoginCallbackScript';
+import { createLoginCallbackScript } from './handlers/loginCallback/get-loginCallback/createLoginCallbackScript';
 
 const defaultSecurityHeadersBehavior: ResponseSecurityHeadersBehavior = {
   contentSecurityPolicy: {
