@@ -1,15 +1,16 @@
-import { S3Client } from '@aws-sdk/client-s3';
-import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { StatusCodes } from 'http-status-codes';
-
-import { ApiRouteHeaders, HandlerEnv } from '~/constructs/Api/types';
-import { errorResponse, getIdTokenPayload } from '~/constructs/Api/utils';
-import { maxPhotoUploadBytes } from '~/consts';
 import {
+  APIGatewayProxyHandlerV2,
+  ApiRouteHeaders,
+  createPresignedPost,
+  errorResponse,
+  getIdTokenPayload,
+  HandlerEnv,
+  maxPhotoUploadBytes,
   PostGenerateUploadUrlsRequestBody,
   PostGenerateUploadUrlsResponseBody,
-} from '~/types';
+  S3Client,
+  StatusCodes,
+} from 'lambda-layer';
 
 const s3Client = new S3Client({});
 
@@ -42,7 +43,7 @@ export const handler: APIGatewayProxyHandlerV2<
 
   // check if photo item with same hash exists (global or only user ?)
 
-  const { sub } = getIdTokenPayload(authorization);
+  const { sub } = await getIdTokenPayload(authorization);
 
   return Promise.all(
     items.map(async ({ id, hash }) => ({

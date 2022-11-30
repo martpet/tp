@@ -1,7 +1,6 @@
 export * from './cookieName';
 export * from './errorResponse';
 export * from './getIdTokenPayload';
-export * from './handlerWrapper';
 export * from './lambdaEdgeErrorResponse';
 export * from './parseEventCookies';
 export * from './parseLambdaEdgeEventCookies';

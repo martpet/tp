@@ -1,6 +1,4 @@
-import { loginWindowSuccessData } from '~/consts';
-import { EnvName } from '~/types';
-import { createSha256CspHash } from '~/utils';
+import { createSha256CspHash, EnvName, loginWindowSuccessData } from 'lambda-layer';
 
 type CreateLoginCallbackScriptProps = {
   envName: EnvName;

@@ -1,10 +1,10 @@
 import {
+  CloudFormationCustomResourceEvent,
   CloudWatchClient,
   DeleteAlarmsCommand,
   PutMetricAlarmCommand,
   PutMetricAlarmCommandInput,
-} from '@aws-sdk/client-cloudwatch';
-import { CloudFormationCustomResourceEvent } from 'aws-lambda';
+} from 'lambda-layer';
 
 export type ResourceProps = {
   region: string;

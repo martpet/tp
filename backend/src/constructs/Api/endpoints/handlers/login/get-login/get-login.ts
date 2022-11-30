@@ -1,14 +1,15 @@
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import cookie from 'cookie';
-import { StatusCodes } from 'http-status-codes';
-
 import {
+  APIGatewayProxyHandlerV2,
+  apiPaths,
   ApiRouteQueryStrings,
+  authPaths,
+  cookie,
+  cookieName,
+  errorResponse,
   HandlerEnv,
   OauthCookieProps,
-} from '~/constructs/Api/types';
-import { cookieName, errorResponse } from '~/constructs/Api/utils';
-import { apiPaths, authPaths } from '~/consts';
+  StatusCodes,
+} from 'lambda-layer';
 
 import { generateOauthRandoms } from './generateOauthRandoms';
 

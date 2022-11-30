@@ -24,13 +24,23 @@ export const createEdgeFunction = (
     },
   };
 
+  // const mainLayer = getMainLayer(scope);
+
   return new experimental.EdgeFunction(scope, id, {
     handler: `${fileName}.handler`,
+    // todo: change to 18 when supported by Edge:
+    // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/edge-functions-restrictions.html#lambda-at-edge-runtime-restrictions
     runtime: Runtime.NODEJS_16_X,
+
+    // Cannot use layers. Edge stack needs `crossRegionReferences`:
+    // "Cross stack references are only supported for stacks deployed to the same environment or between nested stacks and their parent stack. Set crossRegionReferences=true to enable cross region references"
+    // layers: [mainLayer],
     ...props,
     code: new TypeScriptCode(entry, {
       buildOptions: {
+        // external: ['lambda-layer'],
         minify: true,
+        sourcemap: false,
         define: objectValuesToJson({
           ...defaultGlobalProps,
           ...globalProps,

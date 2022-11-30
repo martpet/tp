@@ -25,7 +25,7 @@ const args = ['dummySessionId'] as Parameters<typeof getIdToken>;
 
 vi.mocked(fetchNewIdToken).mockResolvedValue('newDummyIdToken');
 
-vi.mocked(getIdTokenPayload).mockReturnValue({
+vi.mocked(getIdTokenPayload).mockResolvedValue({
   exp: idTokenExpiresInMills / 1000,
   aud: 'dummyAud',
 } as IdTokenPayload);

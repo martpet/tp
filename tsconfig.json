@@ -11,6 +11,9 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
+      "lambda-layer": [
+        "./constructs/utils/lambdaLayers/code/main-layer"
+      ],
       "constructs": [
         "../../node_modules/constructs"
       ],

@@ -1,9 +1,12 @@
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { StatusCodes } from 'http-status-codes';
-
-import { ApiRouteQueryStrings, HandlerEnv, OauthTokens } from '~/constructs/Api/types';
-import { errorResponse } from '~/constructs/Api/utils';
-import { appEnvs } from '~/consts';
+import {
+  APIGatewayProxyHandlerV2,
+  ApiRouteQueryStrings,
+  appEnvs,
+  errorResponse,
+  HandlerEnv,
+  OauthTokens,
+  StatusCodes,
+} from 'lambda-layer';
 
 import { createLoginCallbackScript } from './createLoginCallbackScript';
 import { createSession } from './createSession';

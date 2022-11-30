@@ -1,9 +1,11 @@
 import camelcaseKeys from 'camelcase-keys';
+import {
+  authPaths,
+  FetchTokensResponse,
+  getIdTokenPayload,
+  OauthTokens,
+} from 'lambda-layer';
 import fetch from 'node-fetch';
-
-import { FetchTokensResponse, OauthTokens } from '~/constructs/Api/types';
-import { getIdTokenPayload } from '~/constructs/Api/utils';
-import { authPaths } from '~/consts';
 
 type FetchTokensProps = {
   code: string;
@@ -40,6 +42,6 @@ export const fetchTokens = async ({
 
   return {
     ...camelcaseKeys(data),
-    idTokenPayload: getIdTokenPayload(data.id_token),
+    idTokenPayload: await getIdTokenPayload(data.id_token),
   };
 };

@@ -24,7 +24,7 @@ export const getIdToken = async (sessionId: string) => {
   }
 
   const { idToken, refreshToken, refreshTokenExpires } = sessionsItem;
-  const { exp, aud: clientId } = getIdTokenPayload(idToken);
+  const { exp, aud: clientId } = await getIdTokenPayload(idToken);
 
   const idTokenExpires = (exp - 5) * 1000; // 'exp' is in seconds since epoch
 

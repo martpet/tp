@@ -1,10 +1,15 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { PostAuthenticationTriggerEvent } from 'aws-lambda';
-
-import { usersTableOptions } from '~/consts';
-import { UserPropsFromCognito, UsersTableItem } from '~/types';
-import { createDynamoUpdateExpression, filterChangedProps } from '~/utils';
+import {
+  createDynamoUpdateExpression,
+  DynamoDBClient,
+  DynamoDBDocumentClient,
+  filterChangedProps,
+  GetCommand,
+  PostAuthenticationTriggerEvent,
+  UpdateCommand,
+  UserPropsFromCognito,
+  UsersTableItem,
+  usersTableOptions,
+} from 'lambda-layer';
 
 import { getUserPropsFromCognitoEvent } from '../getUserPropsFromCognitoEvent';
 

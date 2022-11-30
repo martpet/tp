@@ -19,8 +19,8 @@ export class Zone extends NestedStack {
 
   public readonly hostedZone: HostedZone | IHostedZone;
 
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+  constructor(scope: Construct) {
+    super(scope, 'Zone');
 
     const route53Region = 'us-east-1';
     const {

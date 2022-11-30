@@ -1,18 +1,19 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { StatusCodes } from 'http-status-codes';
-
-import { ApiRouteHeaders } from '~/constructs/Api/types';
-import { errorResponse, getIdTokenPayload } from '~/constructs/Api/utils';
-import { usersTableOptions } from '~/consts';
 import {
+  APIGatewayProxyHandlerV2,
+  ApiRouteHeaders,
+  createDynamoUpdateExpression,
+  DynamoDBClient,
+  DynamoDBDocumentClient,
+  errorResponse,
+  getIdTokenPayload,
   PatchSettingsRequestBody,
   PatchSettingsResponseBody,
+  StatusCodes,
+  UpdateCommand,
   UserSettings,
   UsersTableItem,
-} from '~/types';
-import { createDynamoUpdateExpression } from '~/utils';
+  usersTableOptions,
+} from 'lambda-layer';
 
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -53,7 +54,7 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponseBody> = asyn
     return errorResponse('IUKROTi0UF', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
-  const { sub } = getIdTokenPayload(authorization);
+  const { sub } = await getIdTokenPayload(authorization);
 
   const updateCommand = new UpdateCommand({
     TableName: usersTableOptions.tableName,

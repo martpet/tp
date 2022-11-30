@@ -1,4 +1,4 @@
-import { PostAuthenticationTriggerHandler } from 'aws-lambda';
+import { PostAuthenticationTriggerHandler } from 'lambda-layer';
 
 import { updateUserFromCognitoEvent } from './updateUserFromCognitoEvent';
 

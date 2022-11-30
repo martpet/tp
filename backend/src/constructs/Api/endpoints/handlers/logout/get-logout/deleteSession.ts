@@ -1,8 +1,10 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DeleteCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-
-import { sessionsTableOptions } from '~/consts';
-import { SessionsTableItem } from '~/types';
+import {
+  DeleteCommand,
+  DynamoDBClient,
+  DynamoDBDocumentClient,
+  SessionsTableItem,
+  sessionsTableOptions,
+} from 'lambda-layer';
 
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);

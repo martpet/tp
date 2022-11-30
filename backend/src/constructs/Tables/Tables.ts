@@ -11,8 +11,8 @@ export class Tables extends NestedStack {
 
   public readonly sessionsTable: Table;
 
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+  constructor(scope: Construct) {
+    super(scope, 'Tables');
 
     this.usersTable = createTable(this, usersTableOptions);
     this.sessionsTable = createTable(this, sessionsTableOptions);

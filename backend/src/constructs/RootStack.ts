@@ -6,11 +6,11 @@ export class RootStack extends Stack {
   constructor(scope: App, id: string, props: StackProps) {
     super(scope, id, props);
 
-    const zone = new Zone(this, 'Zone');
-    const web = new Web(this, 'Web', { zone });
-    const tables = new Tables(this, 'Tables');
-    const photos = new Photos(this, 'Photos');
-    const auth = new Auth(this, 'Auth', { zone, web, tables });
-    new Api(this, 'Api', { auth, zone, tables, photos });
+    const zone = new Zone(this);
+    const web = new Web(this, { zone });
+    const tables = new Tables(this);
+    const photos = new Photos(this);
+    const auth = new Auth(this, { zone, web, tables });
+    new Api(this, { auth, zone, tables, photos });
   }
 }

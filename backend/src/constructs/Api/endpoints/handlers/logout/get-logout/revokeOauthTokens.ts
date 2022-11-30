@@ -1,6 +1,5 @@
+import { authPaths } from 'lambda-layer';
 import fetch from 'node-fetch';
-
-import { authPaths } from '~/consts';
 
 type RevokeTokensProps = {
   authDomain: string;

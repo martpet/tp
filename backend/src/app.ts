@@ -9,4 +9,5 @@ const envName = getEnvName(app);
 const { env } = appEnvs[envName];
 
 checkLocalEnvVars(envName);
+
 new RootStack(app, appName, { env });

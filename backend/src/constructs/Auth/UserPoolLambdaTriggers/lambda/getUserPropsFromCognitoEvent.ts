@@ -1,6 +1,10 @@
-import { PostAuthenticationTriggerEvent, PostConfirmationTriggerEvent } from 'aws-lambda';
-
-import { CognitoIdentity, IdentityProvider, UserPropsFromCognito } from '~/types';
+import {
+  CognitoIdentity,
+  IdentityProvider,
+  PostAuthenticationTriggerEvent,
+  PostConfirmationTriggerEvent,
+  UserPropsFromCognito,
+} from 'lambda-layer';
 
 type TriggerEvent = PostConfirmationTriggerEvent | PostAuthenticationTriggerEvent;
 

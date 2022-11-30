@@ -1,10 +1,15 @@
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import cookie from 'cookie';
-import { StatusCodes } from 'http-status-codes';
-
-import { ApiRouteHeaders, HandlerEnv } from '~/constructs/Api/types';
-import { cookieName, errorResponse, parseEventCookies } from '~/constructs/Api/utils';
-import { authPaths, localhostUrl } from '~/consts';
+import {
+  APIGatewayProxyHandlerV2,
+  ApiRouteHeaders,
+  authPaths,
+  cookie,
+  cookieName,
+  errorResponse,
+  HandlerEnv,
+  localhostUrl,
+  parseEventCookies,
+  StatusCodes,
+} from 'lambda-layer';
 
 import { deleteSession } from './deleteSession';
 import { revokeOauthTokens } from './revokeOauthTokens';

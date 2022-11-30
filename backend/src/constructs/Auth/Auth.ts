@@ -42,8 +42,8 @@ export class Auth extends NestedStack {
 
   public readonly logoutCallbackLocalhostUrl: string;
 
-  constructor(scope: Construct, id: string, { zone, tables, web }: Props) {
-    super(scope, id);
+  constructor(scope: Construct, { zone, tables, web }: Props) {
+    super(scope, 'Auth');
 
     const envName = getEnvName(this);
     const { appDomain } = appEnvs[envName];

@@ -1,6 +1,4 @@
-import crypto from 'crypto';
-
-import { getRandomBase64UrlSafe } from '~/utils';
+import { crypto, getRandomBase64UrlSafe } from 'lambda-layer';
 
 export async function generateOauthRandoms() {
   const idTokenNonce = await getRandomBase64UrlSafe(128);

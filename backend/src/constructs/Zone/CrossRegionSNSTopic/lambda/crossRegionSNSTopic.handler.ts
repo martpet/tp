@@ -1,12 +1,12 @@
 import {
+  CloudFormationCustomResourceEvent,
   CreateTopicCommand,
   CreateTopicCommandInput,
   DeleteTopicCommand,
   SNSClient,
   SubscribeCommand,
   SubscribeCommandInput,
-} from '@aws-sdk/client-sns';
-import { CloudFormationCustomResourceEvent } from 'aws-lambda';
+} from 'lambda-layer';
 
 export type ResourceProps = {
   region: string;

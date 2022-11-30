@@ -21,8 +21,8 @@ type Props = {
 };
 
 export class Api extends NestedStack {
-  constructor(scope: Construct, id: string, { zone, tables, auth, photos }: Props) {
-    super(scope, id);
+  constructor(scope: Construct, { zone, tables, auth, photos }: Props) {
+    super(scope, 'Api');
 
     const envName = getEnvName(this);
     const { appDomain } = appEnvs[envName];

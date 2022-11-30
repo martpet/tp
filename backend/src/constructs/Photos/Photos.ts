@@ -7,8 +7,8 @@ import { getAllowedOrigins, getEnvName } from '~/utils';
 export class Photos extends NestedStack {
   public readonly bucket: Bucket;
 
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+  constructor(scope: Construct) {
+    super(scope, 'Photos');
 
     const envName = getEnvName(this);
 

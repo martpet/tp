@@ -1,7 +1,8 @@
-import { APIGatewayProxyEventV2 } from 'aws-lambda';
-
-import { OauthCookieProps } from '~/constructs/Api/types';
-import { parseEventCookies } from '~/constructs/Api/utils';
+import {
+  APIGatewayProxyEventV2,
+  OauthCookieProps,
+  parseEventCookies,
+} from 'lambda-layer';
 
 export const parseOauthCookie = (event: APIGatewayProxyEventV2) => {
   try {

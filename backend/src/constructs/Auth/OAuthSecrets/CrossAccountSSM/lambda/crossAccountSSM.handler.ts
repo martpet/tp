@@ -1,13 +1,12 @@
 import {
+  CloudFormationCustomResourceEvent,
   GetParametersCommand,
   GetParametersCommandInput,
+  getRoleCredentials,
   Parameter,
+  SetRequired,
   SSMClient,
-} from '@aws-sdk/client-ssm';
-import { CloudFormationCustomResourceEvent } from 'aws-lambda';
-import { SetRequired } from 'type-fest';
-
-import { getRoleCredentials } from '~/utils';
+} from 'lambda-layer';
 
 export type ResourceProps = {
   roleArn: string;

@@ -1,4 +1,4 @@
-import { PostConfirmationTriggerHandler } from 'aws-lambda';
+import { PostConfirmationTriggerHandler } from 'lambda-layer';
 
 import { createUserFromCognitoEvent } from './createUserFromCognitoEvent';
 

@@ -1,13 +1,16 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import cookie from 'cookie';
-import crypto from 'crypto';
-import millis from 'milliseconds';
-
-import { OauthTokens } from '~/constructs/Api/types';
-import { cookieName } from '~/constructs/Api/utils';
-import { refreshTokenValidityInDays, sessionsTableOptions } from '~/consts';
-import { SessionsTableItem } from '~/types';
+import {
+  cookie,
+  cookieName,
+  crypto,
+  DynamoDBClient,
+  DynamoDBDocumentClient,
+  millis,
+  OauthTokens,
+  PutCommand,
+  refreshTokenValidityInDays,
+  SessionsTableItem,
+  sessionsTableOptions,
+} from 'lambda-layer';
 
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);

@@ -10,7 +10,18 @@ export default mergeConfig(
     test: {
       root: 'backend',
       include: ['backend/**/*.test.ts'],
-      alias: [{ find: '~', replacement: resolve('backend/src') }],
+      alias: [
+        {
+          find: 'lambda-layer',
+          replacement: resolve(
+            'backend/src/constructs/utils/lambdaLayers/code/main-layer'
+          ),
+        },
+        {
+          find: '~',
+          replacement: resolve('backend/src'),
+        },
+      ],
       coverage: {
         include: [
           'backend/**constructs**',

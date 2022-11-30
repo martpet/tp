@@ -21,7 +21,7 @@ export const createAuthEdgeFunction = ({ scope, auth, tables }: Props) => {
     entry: `${__dirname}/handler/authEdgeHandler.ts`,
     globalProps: {
       globalAuthEdgeFunctionProps: {
-        authDomain: auth.authDomain,
+        authDomain: auth.authDomain, // todo: add global variables via the lambda layer
       },
     },
   });

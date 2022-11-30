@@ -1,9 +1,11 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { PostConfirmationTriggerEvent } from 'aws-lambda';
-
-import { usersTableOptions } from '~/consts';
-import { UsersTableItem } from '~/types';
+import {
+  DynamoDBClient,
+  DynamoDBDocumentClient,
+  PutCommand,
+  UsersTableItem,
+  usersTableOptions,
+} from 'lambda-layer';
 
 import { getUserPropsFromCognitoEvent } from '../getUserPropsFromCognitoEvent';
 

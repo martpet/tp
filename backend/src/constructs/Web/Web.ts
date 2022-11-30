@@ -21,8 +21,8 @@ type Props = {
 };
 
 export class Web extends NestedStack {
-  constructor(scope: Construct, id: string, { zone }: Props) {
-    super(scope, id);
+  constructor(scope: Construct, { zone }: Props) {
+    super(scope, 'Web');
 
     const envName = getEnvName(this);
     const { appDomain } = appEnvs[envName];
