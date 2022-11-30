@@ -41,7 +41,7 @@ export function ThumbnailError({ file }: Props) {
 
   if (isMaybeIPhoneHighEfficiencyProblem) {
     iPhoneHighEfficiencyHelp = (
-      <ContextualHelp variant="info" UNSAFE_className={classNames.contextualHelp}>
+      <ContextualHelp variant="help" UNSAFE_className={classNames.contextualHelp}>
         <Heading>
           <FormattedMessage
             defaultMessage="iPhone users"
@@ -76,7 +76,7 @@ export function ThumbnailError({ file }: Props) {
     .filter((key) => errors.includes(key as FileMissingMetaDataError))
     .map((error) => missingMetaDataErrorMap[error as FileMissingMetaDataError]);
 
-  const cannotUploadIntro = (
+  const cannotUploadIntroText = (
     <>
       <FormattedMessage
         defaultMessage="Cannot upload:"
@@ -89,7 +89,7 @@ export function ThumbnailError({ file }: Props) {
   if (missingMetaDataMessages.length) {
     missingMetaDataText = (
       <>
-        {cannotUploadIntro}
+        {cannotUploadIntroText}
         <FormattedMessage
           defaultMessage="Missing {items}"
           description="file missing meta data error"
@@ -106,7 +106,7 @@ export function ThumbnailError({ file }: Props) {
   if (errors.includes('maxSizeExceeded')) {
     fileTooBigText = (
       <>
-        {cannotUploadIntro}
+        {cannotUploadIntroText}
         <FormattedMessage
           defaultMessage="File size is {this_size} but maximum allowed is {max_size}"
           description="upload thumbnail file size error"
