@@ -1,6 +1,6 @@
 import { localhostPort } from '~/../../shared/consts';
 
-export const appName = 'TripPics';
+export const appName = 'TP';
 export const authSubdomain = 'auth';
 export const localhostUrl = `http://localhost:${localhostPort}`;
 export const region = 'eu-central-1';
@@ -8,7 +8,7 @@ export const healthCheckAlarmEmails = ['martin_petrov@me.com'];
 export const prodAccountId = '766373560006';
 export const stagingAccountId = '204115048155';
 export const rootHostedZoneId = 'Z0207937145S41OBP9QS3';
-export const stagingHostedZoneId = 'Z07583591GEL15ZQ6W30U';
+export const stagingHostedZoneId = 'Z01791432G9JNVDM92SAJ';
 export const devHostedZoneId = 'Z01228832S4EGTRIOWEIT';
 export const devAccountServiceRoleArn = 'arn:aws:iam::020463219829:role/DevAccountServiceRole';
 export const googleClientSecretParamName = '/oauth/google/client-secret';

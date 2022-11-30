@@ -12,7 +12,8 @@ export class Photos extends NestedStack {
 
     const envName = getEnvName(this);
 
-    this.bucket = new Bucket(scope, 'PhotoBucket', {
+    this.bucket = new Bucket(scope, 'photos-upload-bucket', {
+      bucketName: 'tp-photo-uploads',
       cors: [
         {
           allowedMethods: [HttpMethods.POST],
@@ -20,9 +21,9 @@ export class Photos extends NestedStack {
         },
       ],
       encryption: BucketEncryption.S3_MANAGED,
-      autoDeleteObjects: envName === 'personal',
       removalPolicy:
         envName === 'personal' ? RemovalPolicy.DESTROY : RemovalPolicy.RETAIN,
+      autoDeleteObjects: envName === 'personal',
     });
   }
 }

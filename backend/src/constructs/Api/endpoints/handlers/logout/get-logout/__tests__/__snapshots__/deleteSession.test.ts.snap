@@ -8,7 +8,7 @@ exports[`deleteSession > sends "DeleteCommand" to DynamoDB with correct args 1`]
     "id": "dummySessionId",
   },
   "ReturnValues": "ALL_OLD",
-  "TableName": "TripPics-Sessions",
+  "TableName": "TP-sessions",
 }
 `;
 

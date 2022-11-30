@@ -7,7 +7,7 @@ exports[`"get-login" handler > calls "cookie.serialize" with correct args 1`] = 
     "{\\"stateNonce\\":\\"dummyStateNonce\\",\\"codeVerifier\\":\\"dummyCodeVerifier\\"}",
     {
       "httpOnly": true,
-      "path": "/loginCallback",
+      "path": "/login-callback",
       "sameSite": "lax",
       "secure": true,
     },

@@ -26,7 +26,7 @@ exports[`patch-settings > sends "UpdateCommand" to DynamoDB with correct args 1`
   "Key": {
     "id": "dummySub",
   },
-  "TableName": "TripPics-Users",
+  "TableName": "TP-users",
   "UpdateExpression": "set #settings.#language = :language",
 }
 `;

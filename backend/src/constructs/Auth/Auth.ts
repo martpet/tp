@@ -13,6 +13,7 @@ import {
   apiPaths,
   apiSubdomain,
   appEnvs,
+  appName,
   authSubdomain,
   idTokenValidityInDays,
   localhostUrl,
@@ -49,23 +50,32 @@ export class Auth extends NestedStack {
     const { appDomain } = appEnvs[envName];
     this.authDomain = `${authSubdomain}.${appDomain}`;
     const apiDomain = `${apiSubdomain}.${appDomain}`;
-    this.loginCallbackUrl = `https://${apiDomain}${apiPaths.loginCallback}`;
+    this.loginCallbackUrl = `https://${apiDomain}${apiPaths['login-callback']}`;
     this.logoutCallbackUrl = `https://${appDomain}`;
     this.logoutCallbackLocalhostUrl = localhostUrl;
 
-    const { lambdaTriggers } = new UserPoolLambdaTriggers(this, 'LambdaTriggers', {
-      triggers: ['postConfirmation', 'postAuthentication'],
-      tables,
-    });
+    const { lambdaTriggers } = new UserPoolLambdaTriggers(
+      this,
+      'user-pool-lambda-triggers',
+      {
+        triggers: ['postConfirmation', 'postAuthentication'],
+        tables,
+      }
+    );
 
-    this.userPool = new UserPool(this, 'UserPool', {
+    this.userPool = new UserPool(this, 'user-pool', {
       lambdaTriggers,
       removalPolicy: RemovalPolicy.DESTROY,
+      userPoolName: appName,
     });
 
-    const identityProvidres = new IdentityProviders(this, 'Providers', {
-      userPool: this.userPool,
-    });
+    const identityProvidres = new IdentityProviders(
+      this,
+      'user-pool-identity-providers',
+      {
+        userPool: this.userPool,
+      }
+    );
 
     const logoutUrls = [this.logoutCallbackUrl];
 
@@ -73,7 +83,7 @@ export class Auth extends NestedStack {
       logoutUrls.push(this.logoutCallbackLocalhostUrl);
     }
 
-    this.userPoolClient = new UserPoolClient(this, 'Client', {
+    this.userPoolClient = new UserPoolClient(this, 'user-pool-client', {
       userPool: this.userPool,
       supportedIdentityProviders: [
         UserPoolClientIdentityProvider.APPLE,
@@ -92,7 +102,7 @@ export class Auth extends NestedStack {
 
     this.userPoolClient.node.addDependency(identityProvidres);
 
-    const userPoolDomain = this.userPool.addDomain('UserPoolDomain', {
+    const userPoolDomain = this.userPool.addDomain('user-pool-domain', {
       customDomain: {
         domainName: this.authDomain,
         certificate: zone.certificate,
@@ -101,7 +111,7 @@ export class Auth extends NestedStack {
 
     userPoolDomain.node.addDependency(web);
 
-    new ARecord(this, 'UserPoolDomainRecord', {
+    new ARecord(this, 'auth-a-record', {
       zone: zone.hostedZone,
       recordName: authSubdomain,
       target: RecordTarget.fromAlias(new UserPoolDomainTarget(userPoolDomain)),

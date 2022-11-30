@@ -10,7 +10,7 @@ export class RootStack extends Stack {
     const web = new Web(this, { zone });
     const tables = new Tables(this);
     const photos = new Photos(this);
-    const auth = new Auth(this, { zone, web, tables });
+    const auth = new Auth(this, { zone, tables, web });
     new Api(this, { auth, zone, tables, photos });
   }
 }

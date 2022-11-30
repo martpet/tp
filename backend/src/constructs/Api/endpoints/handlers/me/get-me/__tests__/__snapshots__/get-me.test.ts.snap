@@ -24,7 +24,7 @@ exports[`get-me > sends "GetCommand" to DynamoDB with correct args 1`] = `
   "Key": {
     "id": "dummySub",
   },
-  "TableName": "TripPics-Users",
+  "TableName": "TP-users",
 }
 `;
 

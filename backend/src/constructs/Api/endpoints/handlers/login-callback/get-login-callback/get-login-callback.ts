@@ -23,10 +23,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     code,
     error: queryStringError,
     error_description: queryStringErrorDescrption,
-  } = Object(event.queryStringParameters) as ApiRouteQueryStrings<'/loginCallback'>;
+  } = Object(event.queryStringParameters) as ApiRouteQueryStrings<'/login-callback'>;
 
   const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnv<
-    '/loginCallback',
+    '/login-callback',
     'GET'
   >;
 

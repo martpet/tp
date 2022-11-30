@@ -18,6 +18,7 @@ export class CrossRegionMetricAlarm extends Construct {
 
     const onEventHandler = createNodejsFunction(this, 'handler', {
       entry: `${__dirname}/lambda/crossRegionMetricAlarm.handler.ts`,
+      functionName: `custom-resource-handler--cross-region-metric-alarm`,
     });
 
     const policy = new PolicyStatement({
@@ -27,9 +28,9 @@ export class CrossRegionMetricAlarm extends Construct {
 
     onEventHandler.addToRolePolicy(policy);
 
-    const { serviceToken } = new Provider(this, 'Provider', { onEventHandler });
+    const { serviceToken } = new Provider(this, 'provider', { onEventHandler });
 
-    new CustomResource(this, 'CrossRegionAlarm', {
+    new CustomResource(this, 'custom-resource', {
       serviceToken,
       properties,
     });

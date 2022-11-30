@@ -19,6 +19,7 @@ export class CrossAccountSSM extends Construct {
 
     const onEventHandler = createNodejsFunction(this, 'handler', {
       entry: `${__dirname}/lambda/crossAccountSSM.handler.ts`,
+      functionName: `custom-resource-handler--cross-account-ssm`,
     });
 
     const policy = new PolicyStatement({
@@ -28,9 +29,9 @@ export class CrossAccountSSM extends Construct {
 
     onEventHandler.addToRolePolicy(policy);
 
-    const { serviceToken } = new Provider(this, 'Provider', { onEventHandler });
+    const { serviceToken } = new Provider(this, 'provider', { onEventHandler });
 
-    const customResource = new CustomResource(this, 'CrossAccountSSM', {
+    const customResource = new CustomResource(this, 'custom-resource', {
       serviceToken,
       properties,
     });

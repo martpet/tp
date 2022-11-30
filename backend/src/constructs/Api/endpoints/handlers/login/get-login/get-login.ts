@@ -60,7 +60,7 @@ export const handler: APIGatewayProxyHandlerV2 = async ({ queryStringParameters 
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
-      path: apiPaths.loginCallback,
+      path: apiPaths['login-callback'],
     }
   );
 

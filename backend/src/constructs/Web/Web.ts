@@ -28,16 +28,23 @@ export class Web extends NestedStack {
     const { appDomain } = appEnvs[envName];
     const { certificate, hostedZone } = zone;
 
-    const destinationBucket = new Bucket(this, 'Bucket', {
+    const destinationBucket = new Bucket(this, 'frontend-bucket', {
+      bucketName: 'tp-frontend-assets',
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });
 
-    const distribution = new Distribution(this, 'Distro', {
+    const logBucket = new Bucket(this, 'web-distro-log-bucket', {
+      bucketName: 'tp-web-distro-logs',
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+
+    const distribution = new Distribution(this, 'web-distribution', {
       defaultBehavior: {
         origin: new S3Origin(destinationBucket),
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        cachePolicy: new CachePolicy(this, 'CachePolicy', {
+        cachePolicy: new CachePolicy(this, 'web-distro-cache-poicy', {
           minTtl: Duration.days(365),
           enableAcceptEncodingBrotli: true,
           enableAcceptEncodingGzip: true,
@@ -55,15 +62,16 @@ export class Web extends NestedStack {
       ],
       enableLogging: true,
       logIncludesCookies: true,
+      logBucket,
     });
 
-    new BucketDeployment(this, 'BucketDeployment', {
+    new BucketDeployment(this, 'web-deployment', {
       sources: [Source.asset(resolve('frontend/dist'))],
       destinationBucket,
       distribution,
     });
 
-    new ARecord(this, 'Alias', {
+    new ARecord(this, 'web-a-record', {
       zone: hostedZone,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     });

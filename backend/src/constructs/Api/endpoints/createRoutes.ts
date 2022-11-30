@@ -9,7 +9,6 @@ import { ApiEnvVars } from '~/constructs/Api/types';
 import { createNodejsFunction } from '~/constructs/utils';
 import { apiOptions } from '~/consts';
 import { ApiMethodOptions, ApiPath } from '~/types';
-import { capitalize } from '~/utils';
 
 type CreateRouteCallbacks = Partial<Record<ApiPath, (fn: NodejsFunction) => void>>;
 
@@ -32,16 +31,20 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
   };
 
   const callbacks: CreateRouteCallbacks = {
-    '/loginCallback': (f) => tables.sessionsTable.grantWriteData(f),
+    '/login-callback': (f) => tables.sessionsTable.grantWriteData(f),
     '/logout': (f) => tables.sessionsTable.grantWriteData(f),
     '/me': (f) => tables.usersTable.grantReadData(f),
     '/settings': (f) => tables.usersTable.grantWriteData(f),
     '/generate-upload-urls': (f) => photos.bucket.grantPut(f),
   };
 
-  const userPoolAuthorizer = new HttpUserPoolAuthorizer('Authorizer', auth.userPool, {
-    userPoolClients: [auth.userPoolClient],
-  });
+  const userPoolAuthorizer = new HttpUserPoolAuthorizer(
+    'user-pool-authorizer',
+    auth.userPool,
+    {
+      userPoolClients: [auth.userPoolClient],
+    }
+  );
 
   Object.entries(apiOptions).forEach(([path, { methods }]) => {
     Object.entries(methods).forEach(([method, methodOptions]) => {
@@ -76,10 +79,10 @@ function createRoute({
   envVarsMap: ApiEnvVars;
   callbacks: CreateRouteCallbacks;
 }) {
-  const formattedPathName = path.replace('/', '');
+  const formattedPathName = path.replace('/', '').toLowerCase();
   const formattedMethodName = method.toLowerCase();
   const fileName = `${formattedMethodName}-${formattedPathName}`;
-  const handlerId = `${capitalize(formattedPathName)}${capitalize(formattedMethodName)}`;
+  const handlerId = `${formattedMethodName}-${formattedPathName}`;
   const handlerEnvironment: Record<string, string> = {};
   const createRouteCallback = callbacks[path as ApiPath];
   const { isPublic, envVars = [] } = methodOptions;
@@ -88,15 +91,16 @@ function createRoute({
     handlerEnvironment[key] = envVarsMap[key as keyof ApiEnvVars];
   });
 
-  const handler = createNodejsFunction(scope, `Handler${handlerId}`, {
+  const handler = createNodejsFunction(scope, `api-handler-${handlerId}`, {
     entry: `${__dirname}/handlers/${formattedPathName}/${fileName}/${fileName}.ts`,
     environment: handlerEnvironment,
+    functionName: `api-handler--${formattedPathName.toLowerCase()}-${formattedMethodName.toUpperCase()}`,
   });
 
   api.addRoutes({
     path,
     methods: [method as HttpMethod],
-    integration: new HttpLambdaIntegration(`${handlerId}Integration`, handler),
+    integration: new HttpLambdaIntegration(`http-integration-${handlerId}`, handler),
     authorizer: isPublic ? undefined : userPoolAuthorizer,
   });
 

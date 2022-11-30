@@ -47,18 +47,12 @@ The web server runs on `localhost:3000` and calls your personal stack.
 
 `npm run deploy -- --profile <aws profile name>`
 
-Web url: [localhost:3000](http://localhost:3000), and *myname.dev.trip.pictures*
-
 
 ### Staging
 Deployment is triggered by pushing to branch `main`.
 
-Web url: [test.trip.pictures](http://test.trip.pictures)
-
 ### Production
 Deployment is triggered by creating a new release.
-
-Web url: [trip.pictures](http://trip.pictures)
 
 ----
 

@@ -12,7 +12,7 @@ export const apiOptions = {
     queryStrings: ['provider'],
   },
 
-  '/loginCallback': {
+  '/login-callback': {
     methods: {
       GET: {
         isPublic: true,

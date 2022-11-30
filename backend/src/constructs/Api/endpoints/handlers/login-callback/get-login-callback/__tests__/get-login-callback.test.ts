@@ -14,7 +14,7 @@ import { dummyOauthCookieProps } from '../__mocks__/parseOauthCookie';
 import { createLoginCallbackScript } from '../createLoginCallbackScript';
 import { createSession } from '../createSession';
 import { fetchTokens } from '../fetchTokens';
-import { handler } from '../get-loginCallback';
+import { handler } from '../get-login-callback';
 import { parseOauthCookie } from '../parseOauthCookie';
 
 vi.importMock('../createSession');
@@ -41,7 +41,7 @@ const args = [
   },
 ] as unknown as Parameters<APIGatewayProxyHandlerV2>;
 
-describe('"get-loginCallback" handler', () => {
+describe('"get-login-callback" handler', () => {
   itHasQueryStrings(['code', 'state'], handler, args);
   itHasEnvVars(['clientId', 'authDomain', 'loginCallbackUrl'], handler, args);
   itResolves(handler, args);

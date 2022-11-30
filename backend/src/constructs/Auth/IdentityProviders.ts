@@ -27,7 +27,7 @@ export class IdentityProviders extends Construct {
     const { appleClientId, appleKeyId, googleClientId, oauthSecretsRoleArn } =
       appEnvs[getEnvName(this)];
 
-    const { googleSecret, appleSecret } = new OAuthSecrets(this, 'OauthSecrets', {
+    const { googleSecret, appleSecret } = new OAuthSecrets(this, 'oauth-secrets', {
       roleArn: oauthSecretsRoleArn,
       ssmParamsNames: {
         apple: applePrivateKeyParamName,
@@ -35,7 +35,7 @@ export class IdentityProviders extends Construct {
       },
     });
 
-    new UserPoolIdentityProviderApple(this, 'AppleIdentityProvider', {
+    new UserPoolIdentityProviderApple(this, 'apple-identity-provider', {
       userPool,
       teamId: appleTeamId,
       clientId: appleClientId,
@@ -49,7 +49,7 @@ export class IdentityProviders extends Construct {
       },
     });
 
-    new UserPoolIdentityProviderGoogle(this, 'GoogleIdentityProvider', {
+    new UserPoolIdentityProviderGoogle(this, 'google-identity-provider', {
       userPool,
       clientId: googleClientId,
       clientSecret: googleSecret,

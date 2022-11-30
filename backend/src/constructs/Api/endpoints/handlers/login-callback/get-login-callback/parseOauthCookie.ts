@@ -6,7 +6,7 @@ import {
 
 export const parseOauthCookie = (event: APIGatewayProxyEventV2) => {
   try {
-    const { oauth } = parseEventCookies<'/loginCallback'>(event);
+    const { oauth } = parseEventCookies<'/login-callback'>(event);
     if (!oauth) throw new Error();
     return JSON.parse(oauth) as Partial<OauthCookieProps>;
   } catch (e) {

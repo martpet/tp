@@ -25,7 +25,7 @@ export class OAuthSecrets extends Construct {
     super(scope, id);
 
     if (roleArn) {
-      const { values } = new CrossAccountSSM(scope, 'CrossAccount', {
+      const { values } = new CrossAccountSSM(scope, 'cross-account-ssm', {
         roleArn,
         getParametersInput: {
           Names: [ssmParamsNames.apple, ssmParamsNames.google],
@@ -36,13 +36,13 @@ export class OAuthSecrets extends Construct {
     } else {
       this.appleSecret = StringParameter.fromStringParameterAttributes(
         scope,
-        'AppleSecret',
+        'apple-secret',
         { parameterName: ssmParamsNames.apple }
       ).stringValue;
 
       this.googleSecret = StringParameter.fromStringParameterAttributes(
         scope,
-        'GoogleSecret',
+        'google-secret',
         { parameterName: ssmParamsNames.google }
       ).stringValue;
     }

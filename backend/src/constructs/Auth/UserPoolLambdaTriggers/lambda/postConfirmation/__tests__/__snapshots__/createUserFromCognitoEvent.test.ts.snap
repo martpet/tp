@@ -15,6 +15,6 @@ exports[`createUserFromCognitoEvent > sends "PutCommand" to DynamoDB with correc
     "id": "dummyId",
     "settings": {},
   },
-  "TableName": "TripPics-Users",
+  "TableName": "TP-users",
 }
 `;

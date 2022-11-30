@@ -52,7 +52,7 @@ exports[`updateUserFromCognitoEvent > sends "GetCommand" to DynamoDB with correc
   "Key": {
     "id": "dummyId",
   },
-  "TableName": "TripPics-Users",
+  "TableName": "TP-users",
 }
 `;
 
@@ -83,7 +83,7 @@ exports[`updateUserFromCognitoEvent > when user props in event are changed > sen
   "Key": {
     "id": "dummyId",
   },
-  "TableName": "TripPics-Users",
+  "TableName": "TP-users",
   "UpdateExpression": "dummyUpdateExpression",
 }
 `;

@@ -27,6 +27,7 @@ export class UserPoolLambdaTriggers extends Construct {
     triggers.forEach((triggerName) => {
       const fn = createNodejsFunction(this, capitalize(triggerName), {
         entry: `${__dirname}/lambda/${triggerName}/${triggerName}.ts`,
+        functionName: `user-pool-event--${triggerName.toLowerCase()}`,
       });
 
       this.lambdaTriggers[triggerName] = fn;

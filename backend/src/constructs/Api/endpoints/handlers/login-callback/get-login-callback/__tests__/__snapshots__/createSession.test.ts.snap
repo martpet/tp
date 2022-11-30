@@ -27,7 +27,7 @@ exports[`createSession > sends "PutCommand" to DynamoDB with correct args 1`] = 
     "refreshTokenExpires": 1672531200000,
     "userId": "dummySub ",
   },
-  "TableName": "TripPics-Sessions",
+  "TableName": "TP-sessions",
 }
 `;
 

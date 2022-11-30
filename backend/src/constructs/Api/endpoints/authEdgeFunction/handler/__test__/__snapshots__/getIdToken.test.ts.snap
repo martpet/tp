@@ -7,7 +7,7 @@ exports[`getTokens > sends "GetCommand" to DynamoDB with correct args 1`] = `
   "Key": {
     "id": "dummySessionId",
   },
-  "TableName": "TripPics-Sessions",
+  "TableName": "TP-sessions",
 }
 `;
 

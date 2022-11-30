@@ -6,7 +6,7 @@ let mainLayer: ILayerVersion | undefined;
 
 export const getMainLayer = (scope: Construct) => {
   if (!mainLayer) {
-    mainLayer = new LayerVersion(scope, 'MainLambdaLayer', {
+    mainLayer = new LayerVersion(scope, 'main-lambda-layer', {
       layerVersionName: 'main-layer',
       compatibleRuntimes: [Runtime.NODEJS_18_X],
       code: new TypeScriptCode(`${__dirname}/code/main-layer.ts`, {

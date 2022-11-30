@@ -20,6 +20,7 @@ export class CrossRegionSNSTopic extends Construct {
 
     const onEventHandler = createNodejsFunction(this, 'handler', {
       entry: `${__dirname}/lambda/crossRegionSNSTopic.handler.ts`,
+      functionName: `custom-resource-handler--cross-region-sns-topic`,
     });
 
     const policy = new PolicyStatement({
@@ -29,9 +30,9 @@ export class CrossRegionSNSTopic extends Construct {
 
     onEventHandler.addToRolePolicy(policy);
 
-    const provider = new Provider(this, 'Provider', { onEventHandler });
+    const provider = new Provider(this, 'provider', { onEventHandler });
 
-    const customResource = new CustomResource(this, 'CrossRegionSNSTopic', {
+    const customResource = new CustomResource(this, 'custom-resource', {
       serviceToken: provider.serviceToken,
       properties,
     });

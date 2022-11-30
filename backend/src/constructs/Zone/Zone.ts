@@ -32,22 +32,28 @@ export class Zone extends NestedStack {
     } = appEnvs[getEnvName(this)];
 
     if (hostedZoneId) {
-      this.hostedZone = PublicHostedZone.fromHostedZoneAttributes(this, 'Zone', {
-        zoneName: appDomain,
-        hostedZoneId,
-      });
+      this.hostedZone = PublicHostedZone.fromHostedZoneAttributes(
+        this,
+        'app-hosted-zone',
+        {
+          zoneName: appDomain,
+          hostedZoneId,
+        }
+      );
     } else {
-      this.hostedZone = new PublicHostedZone(this, 'Zone', { zoneName: appDomain });
+      this.hostedZone = new PublicHostedZone(this, 'app-hosted-zone', {
+        zoneName: appDomain,
+      });
     }
 
     if (parentHostedZoneId && parentHostedZoneRoleArn) {
       const delegationRole = Role.fromRoleArn(
         this,
-        'delegationRole',
+        'delegation-role',
         parentHostedZoneRoleArn
       );
 
-      new CrossAccountZoneDelegationRecord(this, 'ZoneDelegationRecord', {
+      new CrossAccountZoneDelegationRecord(this, 'zone-delegation-record', {
         delegationRole,
         parentHostedZoneId,
         delegatedZone: this.hostedZone,
@@ -55,7 +61,7 @@ export class Zone extends NestedStack {
       });
     }
 
-    this.certificate = new DnsValidatedCertificate(this, 'Certificate', {
+    this.certificate = new DnsValidatedCertificate(this, 'zone-certificate', {
       hostedZone: this.hostedZone,
       domainName: appDomain,
       subjectAlternativeNames: [`*.${appDomain}`],
@@ -63,7 +69,7 @@ export class Zone extends NestedStack {
       cleanupRoute53Records: true,
     });
 
-    const healthCheck = new CfnHealthCheck(this, 'HealthCheck', {
+    const healthCheck = new CfnHealthCheck(this, 'zone-health-check', {
       healthCheckConfig: {
         type: 'HTTPS',
         fullyQualifiedDomainName: appDomain,
@@ -74,10 +80,10 @@ export class Zone extends NestedStack {
 
     const healthCheckAlarmSnsTopic = new CrossRegionSNSTopic(
       this,
-      'route53HealthCheckTopic',
+      'zone-health-check-topic',
       {
         region: route53Region,
-        createTopicInput: { Name: 'Route53HealthCheck' },
+        createTopicInput: { Name: 'route53-health-check' },
         subscribeInputs: healthCheckAlarmEmails?.map((Endpoint) => ({
           Endpoint,
           Protocol: 'email',
@@ -85,10 +91,10 @@ export class Zone extends NestedStack {
       }
     );
 
-    new CrossRegionMetricAlarm(this, `HealthCheckAlarm`, {
+    new CrossRegionMetricAlarm(this, `zone-cross-region-metric-alarm`, {
       region: route53Region,
       putMetricAlarmInput: {
-        AlarmName: 'route53HealthCheck',
+        AlarmName: 'route53-health-check',
         Namespace: 'AWS/Route53',
         MetricName: 'HealthCheckStatus',
         Statistic: 'Minimum',

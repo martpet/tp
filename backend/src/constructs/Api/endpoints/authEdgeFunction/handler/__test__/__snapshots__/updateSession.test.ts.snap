@@ -19,7 +19,7 @@ exports[`updateSession > sends "UpdateCommand" to DynamoDB with correct args 1`]
   "Key": {
     "id": "dummySessoinid",
   },
-  "TableName": "TripPics-Sessions",
+  "TableName": "TP-sessions",
   "UpdateExpression": "set #idToken = :idToken",
 }
 `;

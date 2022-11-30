@@ -5,7 +5,7 @@ import { SessionsTableItem, UsersTableItem } from '~/types';
 import { createTableOptions } from '../constructs/Tables/createTableOptions';
 
 export const usersTableOptions = createTableOptions<UsersTableItem>({
-  tableName: 'Users',
+  tableName: 'users',
   partitionKey: {
     name: 'id',
     type: AttributeType.STRING,
@@ -13,7 +13,7 @@ export const usersTableOptions = createTableOptions<UsersTableItem>({
 });
 
 export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
-  tableName: 'Sessions',
+  tableName: 'sessions',
   timeToLiveAttribute: 'refreshTokenExpires',
   partitionKey: {
     name: 'id',
@@ -21,7 +21,7 @@ export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
   },
   globalSecondaryIndexes: [
     {
-      indexName: 'UserSessions',
+      indexName: 'user-sessions',
       partitionKey: {
         name: 'userId',
         type: AttributeType.STRING,
