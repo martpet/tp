@@ -1,4 +1,4 @@
 import { UserSettings } from '../UserSettings';
 
-export type PatchSettingsRequestBody = UserSettings;
-export type PatchSettingsResponseBody = void;
+export type PatchSettingsRequest = UserSettings;
+export type PatchSettingsResponse = void;

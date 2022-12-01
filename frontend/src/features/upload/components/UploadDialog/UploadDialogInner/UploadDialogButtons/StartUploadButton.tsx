@@ -3,14 +3,14 @@ import UploadIcon from '@spectrum-icons/workflow/UploadToCloud';
 import { FormattedMessage } from 'react-intl';
 
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
-import { selectUploadStatus, upload } from '~/features/upload';
+import { selectUploadStatus, uploadStarted } from '~/features/upload';
 
 export function StartUploadButton() {
   const dispatch = useAppDispatch();
   const uploadStatus = useAppSelector(selectUploadStatus);
 
   const handleClick = () => {
-    dispatch(upload());
+    dispatch(uploadStarted());
   };
 
   return (

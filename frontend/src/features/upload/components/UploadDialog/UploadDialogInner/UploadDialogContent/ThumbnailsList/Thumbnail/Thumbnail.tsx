@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { removeDateStringOffset } from '~/common/utils';
-import { selectAddedFiles } from '~/features/upload';
+import { selectFiles } from '~/features/upload';
 import { FileMeta } from '~/features/upload/types';
 
 import { ThumbnailError } from './ThumbnailError/ThumbnailError';
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
-  const files = useSelector(selectAddedFiles);
+  const files = useSelector(selectFiles);
   const isLastFile = file === files.at(-1);
   const [isImageLoaded, setImageLoaded] = useState(false);
   const container = useRef<HTMLDivElement>(null);

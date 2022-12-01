@@ -1,6 +1,3 @@
-export type FileValidationError =
-  | FileMissingMetaDataError
-  | 'maxSizeExceeded'
-  | 'isDuplicate';
+export type FileValidationError = FileMissingMetaDataError | 'maxSizeExceeded';
 
 export type FileMissingMetaDataError = 'missingLocation' | 'missingDate';

@@ -4,15 +4,15 @@ import { RequireAtLeastOne } from 'type-fest';
 import { startAppListening } from '~/app/store/middleware';
 import { defaultLanguage, languages } from '~/common/consts';
 import { Language, RootState, ToolbarPosition, UserSettings } from '~/common/types';
-import { meApi } from '~/features/me';
-import { getSettingsToSync, settingsApi, SettingsTabKey } from '~/features/settings';
+import { getMe, selectIsLoggedIn } from '~/features/me';
+import { getSettingsToSync, SettingsTabKey, updateSettings } from '~/features/settings';
 
 // Actions
 
 export const settingsChanged =
   createAction<RequireAtLeastOne<UserSettings>>('settings/changed');
 
-export const gotNewSettingsFromDb = createAction<RequireAtLeastOne<UserSettings>>(
+export const gotNewSettingsFromRemote = createAction<RequireAtLeastOne<UserSettings>>(
   'settings/changedFromDb'
 );
 
@@ -42,7 +42,7 @@ export const settingsSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addMatcher(
-      isAnyOf(settingsChanged, gotNewSettingsFromDb),
+      isAnyOf(settingsChanged, gotNewSettingsFromRemote),
       (state, action) => {
         Object.assign(state.userSettings, action.payload);
       }
@@ -53,6 +53,8 @@ export const settingsSlice = createSlice({
 export const { activeTabChanged } = settingsSlice.actions;
 
 // Selectors
+
+const selectSettings = (state: RootState) => state.settings.userSettings;
 
 export const selectActiveTab = (state: RootState) => state.settings.activeTab;
 
@@ -72,30 +74,27 @@ export const selectToolbarPosition = (state: RootState): ToolbarPosition =>
 // Listeners
 
 startAppListening({
-  // Sync settings -> db
   actionCreator: settingsChanged,
-  effect(action, listenerApi) {
-    const state = listenerApi.getState();
-    if (state.me.isLoggedIn) {
-      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(action.payload));
+  effect({ payload }, { dispatch, getState }) {
+    const isLoggedIn = selectIsLoggedIn(getState());
+    if (isLoggedIn) {
+      dispatch(updateSettings.initiate(payload));
     }
   },
 });
 
 startAppListening({
-  // Sync settings <--> db
-  matcher: meApi.endpoints.getMe.matchFulfilled,
-  effect(action, listenerApi) {
-    const state = listenerApi.getState();
+  matcher: getMe.matchFulfilled,
+  effect({ payload }, { dispatch, getState }) {
     const { localPatch, remotePatch } = getSettingsToSync({
-      localSettings: state.settings.userSettings,
-      remoteSettings: action.payload.settings,
+      localSettings: selectSettings(getState()),
+      remoteSettings: payload.settings,
     });
     if (localPatch) {
-      listenerApi.dispatch(gotNewSettingsFromDb(localPatch));
+      dispatch(gotNewSettingsFromRemote(localPatch));
     }
     if (remotePatch) {
-      listenerApi.dispatch(settingsApi.endpoints.updateSettings.initiate(remotePatch));
+      dispatch(updateSettings.initiate(remotePatch));
     }
   },
 });

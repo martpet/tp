@@ -1,22 +1,23 @@
 import { api } from '~/app/services';
 import { apiPaths } from '~/common/consts';
 import {
-  PostGenerateUploadUrlsRequestBody,
-  PostGenerateUploadUrlsResponseBody,
+  PostGenerateUploadUrlsRequest,
+  PostGenerateUploadUrlsResponse,
 } from '~/common/types';
-import { FileMeta } from '~/features/upload/types';
 
-export const uploadApi = api.injectEndpoints({
+const uploadApi = api.injectEndpoints({
   endpoints: (build) => ({
-    generateUploadUrls: build.mutation<PostGenerateUploadUrlsResponseBody, FileMeta[]>({
-      query: (files) => ({
+    generateUploadUrls: build.mutation<
+      PostGenerateUploadUrlsResponse,
+      PostGenerateUploadUrlsRequest
+    >({
+      query: (body) => ({
         url: apiPaths['generate-upload-urls'],
         method: 'POST',
-        body: files.map(({ id, hash }) => ({
-          id,
-          hash,
-        })) as PostGenerateUploadUrlsRequestBody,
+        body,
       }),
     }),
   }),
 });
+
+export const { generateUploadUrls } = uploadApi.endpoints;

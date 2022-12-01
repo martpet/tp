@@ -1,10 +1,10 @@
 import { api } from '~/app/services';
 import { apiPaths } from '~/common/consts';
-import { PatchSettingsRequestBody, PatchSettingsResponseBody } from '~/common/types';
+import { PatchSettingsRequest, PatchSettingsResponse } from '~/common/types';
 
-export const settingsApi = api.injectEndpoints({
+const settingsApi = api.injectEndpoints({
   endpoints: (build) => ({
-    updateSettings: build.mutation<PatchSettingsResponseBody, PatchSettingsRequestBody>({
+    updateSettings: build.mutation<PatchSettingsResponse, PatchSettingsRequest>({
       query: (body) => ({
         url: apiPaths.settings,
         method: 'PATCH',
@@ -13,3 +13,5 @@ export const settingsApi = api.injectEndpoints({
     }),
   }),
 });
+
+export const { updateSettings } = settingsApi.endpoints;

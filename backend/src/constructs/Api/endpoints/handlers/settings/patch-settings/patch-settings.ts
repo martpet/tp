@@ -6,8 +6,8 @@ import {
   DynamoDBDocumentClient,
   errorResponse,
   getIdTokenPayload,
-  PatchSettingsRequestBody,
-  PatchSettingsResponseBody,
+  PatchSettingsRequest,
+  PatchSettingsResponse,
   StatusCodes,
   UpdateCommand,
   UserSettings,
@@ -26,7 +26,7 @@ const allowedSettingsKeys: Array<keyof UserSettings> = [
 
 const settingsAttrName: keyof UsersTableItem = 'settings';
 
-export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponseBody> = async (
+export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (
   event
 ) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
@@ -41,7 +41,7 @@ export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponseBody> = asyn
   }
 
   try {
-    patch = JSON.parse(event.body) as PatchSettingsRequestBody;
+    patch = JSON.parse(event.body) as PatchSettingsRequest;
   } catch (error) {
     return errorResponse('d6QTt6tKWK', { statusCode: StatusCodes.BAD_REQUEST, error });
   }

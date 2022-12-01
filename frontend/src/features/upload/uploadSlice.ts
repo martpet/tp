@@ -1,9 +1,10 @@
+import { PresignedPost } from '@aws-sdk/s3-presigned-post';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { startAppListening } from '~/app/store/middleware';
-import { maxPhotoUploadBytes } from '~/common/consts';
+import { maxPhotoUploadSize } from '~/common/consts';
 import { RootState } from '~/common/types';
-import { addFiles, upload } from '~/features/upload/thunks';
+import { addFiles, generateUploadUrls } from '~/features/upload';
 import { FileMeta, FileValidationError } from '~/features/upload/types';
 
 // Slice
@@ -12,12 +13,16 @@ type UploadState = {
   status: 'idle' | 'pending' | 'success' | 'error';
   files: FileMeta[];
   isAddingFiles: boolean;
+  uploadUrls: Record<string, PresignedPost>;
+  existingItemsInDb: string[];
 };
 
 const initialState: UploadState = {
   status: 'idle',
   files: [],
   isAddingFiles: false,
+  uploadUrls: {},
+  existingItemsInDb: [],
 };
 
 export const uploadSlice = createSlice({
@@ -27,63 +32,74 @@ export const uploadSlice = createSlice({
     fileRemoved(state, action: PayloadAction<string>) {
       state.files = state.files.filter(({ id }) => id !== action.payload);
     },
+    uploadStarted(state) {
+      state.status = 'pending';
+    },
   },
   extraReducers(builder) {
     builder.addCase(addFiles.pending, (state) => {
       state.isAddingFiles = true;
     });
-    builder.addCase(addFiles.fulfilled, (state, action) => {
-      state.files = state.files.concat(action.payload);
+    builder.addCase(addFiles.fulfilled, (state, { payload }) => {
+      state.files = state.files.concat(payload);
       state.isAddingFiles = false;
     });
-    builder.addCase(upload.pending, (state) => {
-      state.status = 'pending';
+    builder.addMatcher(generateUploadUrls.matchFulfilled, (state, { payload }) => {
+      state.uploadUrls = payload.uploadUrls;
+      state.existingItemsInDb = payload.existingItemsInDb;
     });
-    builder.addCase(upload.fulfilled, (state) => {
-      state.status = 'success';
-    });
-    builder.addCase(upload.rejected, (state) => {
+    builder.addMatcher(generateUploadUrls.matchRejected, (state) => {
       state.status = 'error';
     });
   },
 });
 
-export const { fileRemoved } = uploadSlice.actions;
-
-// Listeners
-
-startAppListening({
-  actionCreator: fileRemoved,
-  effect(action, listenerApi) {
-    const prevState = listenerApi.getOriginalState();
-    const removedFile = prevState.upload.files.find(({ id }) => id === action.payload);
-    if (removedFile) URL.revokeObjectURL(removedFile.objectURL);
-  },
-});
+export const { fileRemoved, uploadStarted } = uploadSlice.actions;
 
 // Selectors
 
 export const selectUploadStatus = (state: RootState) => state.upload.status;
-export const selectAddedFiles = (state: RootState) => state.upload.files;
+export const selectFiles = (state: RootState) => state.upload.files;
 export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 
-export const selectValidationErrorsMap = createSelector(selectAddedFiles, (files) => {
-  const hashes: string[] = [];
+export const selectValidationErrorsMap = createSelector(selectFiles, (files) => {
   return Object.fromEntries(
-    files.map(({ id, size, exif, hash }) => {
+    files.map(({ id, size, exif }) => {
+      const { gpsLatitude, gpsLongitude, dateTimeOriginal } = exif;
       const errors: FileValidationError[] = [];
-      if (size > maxPhotoUploadBytes) errors.push('maxSizeExceeded');
-      if (!exif.gpsLatitude || !exif.gpsLongitude) errors.push('missingLocation');
-      if (!exif.dateTimeOriginal) errors.push('missingDate');
-      if (hashes.includes(hash)) errors.push('isDuplicate');
-      hashes.push(hash);
+
+      if (size > maxPhotoUploadSize) errors.push('maxSizeExceeded');
+      if (!gpsLatitude || !gpsLongitude) errors.push('missingLocation');
+      if (!dateTimeOriginal) errors.push('missingDate');
+
       return [id, errors];
     })
   );
 });
 
 export const selectUploadableFiles = createSelector(
-  selectAddedFiles,
+  selectFiles,
   selectValidationErrorsMap,
   (files, validationErrors) => files.filter((file) => !validationErrors[file.id].length)
 );
+
+// Listeners
+
+startAppListening({
+  actionCreator: fileRemoved,
+  effect({ payload }, { getOriginalState }) {
+    const prevFiles = selectFiles(getOriginalState());
+    const removedFile = prevFiles.find(({ id }) => id === payload);
+    if (removedFile) URL.revokeObjectURL(removedFile.objectURL);
+  },
+});
+
+startAppListening({
+  actionCreator: uploadStarted,
+  effect(action, { dispatch, getState }) {
+    const files = selectUploadableFiles(getState());
+    const hashes = files.map(({ hash }) => hash);
+    const uniqueHashes = [...new Set(hashes)];
+    dispatch(generateUploadUrls.initiate(uniqueHashes));
+  },
+});

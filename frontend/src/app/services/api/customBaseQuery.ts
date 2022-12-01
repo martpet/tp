@@ -11,7 +11,7 @@ import { ApiErrorResponseBody, RootState } from '~/common/types';
 import { isPublicEndpoint } from '~/common/utils';
 import {
   loggedOut,
-  login,
+  loginFlow,
   loginWithProvider,
   selectIsLoggedIn,
   selectMe,
@@ -29,44 +29,43 @@ export function customBaseQuery(
   const baseQuery = fetchBaseQuery(...fetchBaseQueryArgs);
   const mutex = new Mutex();
 
-  return async (args, api, extraOptions) => {
+  return async (args, baseQueryApi, extraOptions) => {
     await mutex.waitForUnlock();
 
-    let state = api.getState() as RootState;
-    const isLoggedIn = selectIsLoggedIn(state);
+    const { dispatch, abort, getState } = baseQueryApi;
+    const isLoggedIn = selectIsLoggedIn(getState() as RootState);
 
     if (matchPrivateEndpoint(args) && !isLoggedIn) {
       const release = await mutex.acquire();
       try {
-        await api.dispatch(login()).unwrap();
+        await dispatch(loginFlow()).unwrap();
       } catch (err) {
-        api.abort(`Login failed: ${(err as Error).message}`);
+        abort(`Login failed: ${(err as Error).message}`);
       } finally {
         release();
       }
     }
 
-    let result = await baseQuery(args, api, extraOptions);
+    let result = await baseQuery(args, baseQueryApi, extraOptions);
     const isRefreshTokenError = matchRefreshTokenExpiredError(result.error);
 
     if (isRefreshTokenError || match401Error(result.error)) {
-      state = api.getState() as RootState;
-      const user = selectMe(state);
+      const user = selectMe(getState() as RootState);
       if (mutex.isLocked()) {
         await mutex.waitForUnlock();
-        result = await baseQuery(args, api, extraOptions);
+        result = await baseQuery(args, baseQueryApi, extraOptions);
       } else if (isRefreshTokenError && user) {
         const release = await mutex.acquire();
         try {
-          await api.dispatch(loginWithProvider(user.providerName)).unwrap();
-          result = await baseQuery(args, api, extraOptions);
+          await dispatch(loginWithProvider(user.providerName)).unwrap();
+          result = await baseQuery(args, baseQueryApi, extraOptions);
         } catch (e) {
-          api.dispatch(loggedOut());
+          dispatch(loggedOut());
         } finally {
           release();
         }
       } else {
-        api.dispatch(loggedOut());
+        dispatch(loggedOut());
       }
     }
 

@@ -3,7 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { startAppListening } from '~/app/store/middleware';
 import { apiPaths, apiUrl } from '~/common/consts';
 import { Me, RootState } from '~/common/types';
-import { appLoginDialogDismissed, login, loginWithProvider, meApi } from '~/features/me';
+import {
+  appLoginDialogDismissed,
+  getMe,
+  loginFlow,
+  loginWithProvider,
+} from '~/features/me';
 
 // Slice
 
@@ -31,23 +36,23 @@ export const meSlice = createSlice({
     builder.addCase(loginWithProvider.fulfilled, (state) => {
       state.isLoggedIn = true;
     });
-    builder.addCase(login.pending, (state) => {
+    builder.addCase(loginFlow.pending, (state) => {
       state.isAppLoginDialogOpen = true;
     });
-    builder.addCase(login.fulfilled, (state) => {
+    builder.addCase(loginFlow.fulfilled, (state) => {
       state.isAppLoginDialogOpen = false;
     });
     builder.addCase(appLoginDialogDismissed, (state) => {
       state.isAppLoginDialogOpen = false;
     });
-    builder.addMatcher(meApi.endpoints.getMe.matchPending, (state) => {
+    builder.addMatcher(getMe.matchPending, (state) => {
       state.isFetchingUser = true;
     });
-    builder.addMatcher(meApi.endpoints.getMe.matchFulfilled, (state, { payload }) => {
+    builder.addMatcher(getMe.matchFulfilled, (state, { payload }) => {
       state.user = payload;
       state.isFetchingUser = false;
     });
-    builder.addMatcher(meApi.endpoints.getMe.matchRejected, (state) => {
+    builder.addMatcher(getMe.matchRejected, (state) => {
       state.isFetchingUser = false;
     });
   },
@@ -67,11 +72,13 @@ export const selectIsAppLoginDialogOpen = (state: RootState) =>
 // Listeners
 
 startAppListening({
-  predicate(action, currentState, previousState) {
-    return currentState.me.isLoggedIn && !previousState.me.isLoggedIn;
+  predicate(action, currentState, prevState) {
+    const isLoggedIn = selectIsLoggedIn(currentState);
+    const wasLoggedIn = selectIsLoggedIn(prevState);
+    return isLoggedIn && !wasLoggedIn;
   },
-  effect(action, listenerApi) {
-    listenerApi.dispatch(meApi.endpoints.getMe.initiate());
+  effect(action, { dispatch }) {
+    dispatch(getMe.initiate());
   },
 });
 

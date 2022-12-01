@@ -1,8 +1,7 @@
 import { AttributeType } from 'aws-cdk-lib/aws-dynamodb';
 
-import { SessionsTableItem, UsersTableItem } from '~/types';
-
-import { makeTableOptions } from '../constructs/Tables/makeTableOptions';
+import { makeTableOptions } from '~/constructs/Tables/makeTableOptions';
+import { PhotosTableItem, SessionsTableItem, UsersTableItem } from '~/types';
 
 export const usersTableOptions = makeTableOptions<UsersTableItem>({
   tableName: 'users',
@@ -32,4 +31,12 @@ export const sessionsTableOptions = makeTableOptions<SessionsTableItem>({
       },
     },
   ],
+});
+
+export const photosTableOptions = makeTableOptions<PhotosTableItem>({
+  tableName: 'photos',
+  partitionKey: {
+    name: 'hash',
+    type: AttributeType.STRING,
+  },
 });

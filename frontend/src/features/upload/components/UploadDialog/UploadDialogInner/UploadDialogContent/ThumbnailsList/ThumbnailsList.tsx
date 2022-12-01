@@ -2,13 +2,13 @@ import { Grid, minmax, repeat } from '@adobe/react-spectrum';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectAddedFiles } from '~/features/upload';
+import { selectFiles } from '~/features/upload';
 
 import { EmptyState } from './EmptyState';
 import { Thumbnail } from './Thumbnail/Thumbnail';
 
 export function ThumbnailsList() {
-  const files = useSelector(selectAddedFiles);
+  const files = useSelector(selectFiles);
   const initialFiles = useRef(files);
 
   if (!files.length) {

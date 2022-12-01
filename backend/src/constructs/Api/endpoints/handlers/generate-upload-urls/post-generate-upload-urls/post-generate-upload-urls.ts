@@ -5,23 +5,24 @@ import {
   errorResponse,
   getIdTokenPayload,
   HandlerEnv,
-  maxPhotoUploadBytes,
-  PostGenerateUploadUrlsRequestBody,
-  PostGenerateUploadUrlsResponseBody,
+  maxPhotoUploadSize,
+  PostGenerateUploadUrlsRequest,
+  PostGenerateUploadUrlsResponse,
   S3Client,
   StatusCodes,
 } from 'lambda-layer';
 
+import { findExistingItems } from './findExistingItems';
+
 const s3Client = new S3Client({});
 
-export const handler: APIGatewayProxyHandlerV2<
-  PostGenerateUploadUrlsResponseBody
-> = async (event) => {
+export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> = async (
+  event
+) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   const { photoBucket } = process.env as HandlerEnv<'/generate-upload-urls', 'POST'>;
   const dateString = new Date().toISOString();
-
-  let items;
+  let hashes;
 
   if (!authorization) {
     return errorResponse('Vf5Ph6qN1S');
@@ -36,24 +37,29 @@ export const handler: APIGatewayProxyHandlerV2<
   }
 
   try {
-    items = JSON.parse(event.body) as PostGenerateUploadUrlsRequestBody;
+    hashes = JSON.parse(event.body) as PostGenerateUploadUrlsRequest;
   } catch (error) {
     return errorResponse('9210145fdf', { statusCode: StatusCodes.BAD_REQUEST, error });
   }
 
-  // check if photo item with same hash exists (global or only user ?)
-
+  const existingItemsInDb = await findExistingItems(hashes);
+  const newItems = hashes.filter((hash) => !existingItemsInDb.includes(hash));
   const { sub } = await getIdTokenPayload(authorization);
 
-  return Promise.all(
-    items.map(async ({ id, hash }) => ({
-      id,
-      presignedPost: await createPresignedPost(s3Client, {
+  const uploadUrlsEntries = await Promise.all(
+    newItems.map(async (hash) => {
+      const foo = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
         Key: `${sub}/${dateString}/${hash}.jpg`,
         Expires: 60,
-        Conditions: [['content-length-range', 0, maxPhotoUploadBytes]],
-      }),
-    }))
+        Conditions: [['content-length-range', 0, maxPhotoUploadSize]],
+      });
+      return [hash, foo];
+    })
   );
+
+  return {
+    uploadUrls: Object.fromEntries(uploadUrlsEntries),
+    existingItemsInDb,
+  };
 };

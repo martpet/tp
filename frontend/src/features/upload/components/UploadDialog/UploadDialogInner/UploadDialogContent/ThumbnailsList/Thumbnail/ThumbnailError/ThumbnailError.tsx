@@ -10,10 +10,10 @@ import { isIPhone } from '@react-aria/utils';
 import IconAlert from '@spectrum-icons/workflow/Alert';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { maxPhotoUploadBytes } from '~/common/consts';
+import { maxPhotoUploadSize } from '~/common/consts';
 import { useAppSelector } from '~/common/hooks';
+import { selectValidationErrorsMap } from '~/features/upload';
 import { FileMeta, FileMissingMetaDataError } from '~/features/upload/types';
-import { selectValidationErrorsMap } from '~/features/upload/uploadSlice';
 
 import classNames from './ThumbnailError.module.css';
 
@@ -27,38 +27,11 @@ export function ThumbnailError({ file }: Props) {
   const errors = validationErrors;
   const { formatMessage, formatList, formatNumber } = useIntl();
 
-  let iPhoneHighEfficiencyHelp;
-  let duplicateFileText;
   let missingMetaDataText;
   let fileTooBigText;
 
   if (!errors.length) {
     return null;
-  }
-
-  const isMaybeIPhoneHighEfficiencyProblem =
-    isIPhone() && errors.includes('missingDate') && errors.includes('missingLocation');
-
-  if (isMaybeIPhoneHighEfficiencyProblem) {
-    iPhoneHighEfficiencyHelp = (
-      <ContextualHelp variant="help" UNSAFE_className={classNames.contextualHelp}>
-        <Heading>
-          <FormattedMessage
-            defaultMessage="iPhone users"
-            description="thumbnail error iphone high efficiency help heading"
-          />
-        </Heading>
-        <Content>
-          <Text>
-            <FormattedMessage
-              defaultMessage='Photos taken with <em>"High Efficiency"</em> (<em>Settings → Camera → Formats</em>) cannot be uploaded from an iPhone. You can upload this photo from a Mac.'
-              description="thumbnail error iphone high efficiency help content"
-              values={{ em: (str) => <em>{str}</em> }}
-            />
-          </Text>
-        </Content>
-      </ContextualHelp>
-    );
   }
 
   const missingMetaDataErrorMap: Record<FileMissingMetaDataError, string> = {
@@ -86,6 +59,29 @@ export function ThumbnailError({ file }: Props) {
     </>
   );
 
+  const isMaybeIPhoneHighEfficiencyProblem =
+    isIPhone() && errors.includes('missingDate') && errors.includes('missingLocation');
+
+  const iPhoneHighEfficiencyHelp = (
+    <ContextualHelp variant="help" UNSAFE_className={classNames.contextualHelp}>
+      <Heading>
+        <FormattedMessage
+          defaultMessage="iPhone users"
+          description="thumbnail error iphone high efficiency help heading"
+        />
+      </Heading>
+      <Content>
+        <Text>
+          <FormattedMessage
+            defaultMessage='Photos taken with <em>"High Efficiency"</em> (<em>Settings → Camera → Formats</em>) cannot be uploaded from an iPhone. You can upload this photo from a Mac.'
+            description="thumbnail error iphone high efficiency help content"
+            values={{ em: (str) => <em>{str}</em> }}
+          />
+        </Text>
+      </Content>
+    </ContextualHelp>
+  );
+
   if (missingMetaDataMessages.length) {
     missingMetaDataText = (
       <>
@@ -98,7 +94,7 @@ export function ThumbnailError({ file }: Props) {
             items: formatList(missingMetaDataMessages),
           }}
         />
-        {iPhoneHighEfficiencyHelp}
+        {isMaybeIPhoneHighEfficiencyProblem && iPhoneHighEfficiencyHelp}
       </>
     );
   }
@@ -116,7 +112,7 @@ export function ThumbnailError({ file }: Props) {
               unit: 'megabyte',
               unitDisplay: 'narrow',
             }),
-            max_size: formatNumber(maxPhotoUploadBytes / 1024 / 1024, {
+            max_size: formatNumber(maxPhotoUploadSize / 1024 / 1024, {
               style: 'unit',
               unit: 'megabyte',
               unitDisplay: 'narrow',
@@ -125,13 +121,6 @@ export function ThumbnailError({ file }: Props) {
         />
       </>
     );
-  }
-
-  if (errors.includes('isDuplicate')) {
-    duplicateFileText = formatMessage({
-      defaultMessage: 'This file has already been selected',
-      description: 'upload thumbnail duplicate file message ',
-    });
   }
 
   return (
@@ -144,7 +133,7 @@ export function ThumbnailError({ file }: Props) {
     >
       <Flex gap="size-75">
         <IconAlert size="S" />
-        {duplicateFileText || fileTooBigText || missingMetaDataText}
+        {fileTooBigText || missingMetaDataText}
       </Flex>
     </View>
   );

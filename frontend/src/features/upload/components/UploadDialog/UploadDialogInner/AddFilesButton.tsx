@@ -10,7 +10,7 @@ import { useAppDispatch } from '~/common/hooks';
 import { acceptedUploadFileTypes } from '~/features/upload/consts';
 import { addFiles } from '~/features/upload/thunks';
 import {
-  selectAddedFiles,
+  selectFiles,
   selectIsAddingFiles,
   selectUploadStatus,
 } from '~/features/upload/uploadSlice';
@@ -18,7 +18,7 @@ import {
 type Props = SetOptional<SpectrumButtonProps, 'variant'>;
 
 export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
-  const files = useSelector(selectAddedFiles);
+  const files = useSelector(selectFiles);
   const isAddingFiles = useSelector(selectIsAddingFiles);
   const uploadStatus = useSelector(selectUploadStatus);
   const dispatch = useAppDispatch();

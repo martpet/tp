@@ -3,8 +3,8 @@ import { createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import { addAppListener } from '~/app/store/middleware';
 import { appLoginDialogDismissed, loginWithProvider } from '~/features/me';
 
-export const login = createAsyncThunk(
-  'loginStatus',
+export const loginFlow = createAsyncThunk(
+  'loginFlowStatus',
   (thunkArg, { dispatch }) =>
     new Promise<void>((resolve, reject) => {
       dispatch(

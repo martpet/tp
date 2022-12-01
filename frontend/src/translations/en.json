@@ -79,10 +79,6 @@
     "defaultMessage": "Cannot upload:",
     "description": "upload thumbnail error intro"
   },
-  "PIokqZ": {
-    "defaultMessage": "This file has already been selected",
-    "description": "upload thumbnail duplicate file message "
-  },
   "PLJPTc": {
     "defaultMessage": "Start upload",
     "description": "upload dialog upload button"

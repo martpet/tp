@@ -25,35 +25,30 @@ exports[`post-generate-upload-urls > calls \`createPresignedPost\` with correct 
       "Key": "dummySub/2022-01-01T00:00:00.000Z/dummyHash1.jpg",
     },
   ],
+]
+`;
+
+exports[`post-generate-upload-urls > calls \`findExistingItems\` with correct args 1`] = `
+[
   [
-    DummyS3Client {},
-    {
-      "Bucket": "dummyPhotoBucket",
-      "Conditions": [
-        [
-          "content-length-range",
-          0,
-          31457280,
-        ],
-      ],
-      "Expires": 60,
-      "Key": "dummySub/2022-01-01T00:00:00.000Z/dummyHash2.jpg",
-    },
+    [
+      "dummyHash1",
+      "dummyHash2",
+    ],
   ],
 ]
 `;
 
 exports[`post-generate-upload-urls > resolves with a correct value 1`] = `
-[
-  {
-    "id": "dummyId1",
-    "presignedPost": "dummyPresignedPost",
+{
+  "existingItemsInDb": [
+    "dummyHash2",
+    "dummyHash3",
+  ],
+  "uploadUrls": {
+    "dummyHash1": "dummyPresignedPost",
   },
-  {
-    "id": "dummyId2",
-    "presignedPost": "dummyPresignedPost",
-  },
-]
+}
 `;
 
 exports[`post-generate-upload-urls > when "authorization" header is missing > calls "errorResponse" with correct args 1`] = `

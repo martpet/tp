@@ -7,26 +7,25 @@ import {
   itHasJsonBody,
   itResolves,
 } from '~/constructs/Api/utils';
-import { PostGenerateUploadUrlsResponseBody } from '~/types';
+import { PostGenerateUploadUrlsResponse } from '~/types';
 
+import { findExistingItems } from '../findExistingItems';
 import { handler } from '../post-generate-upload-urls';
 
 vi.mock('@aws-sdk/s3-presigned-post');
 vi.mock('@aws-sdk/client-s3');
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
+vi.mock('../findExistingItems');
 
 process.env.photoBucket = 'dummyPhotoBucket';
 
 const args = [
   {
     headers: { authorization: 'dummyAuthorizationHeader' },
-    body: JSON.stringify([
-      { id: 'dummyId1', hash: 'dummyHash1' },
-      { id: 'dummyId2', hash: 'dummyHash2' },
-    ]),
+    body: JSON.stringify(['dummyHash1', 'dummyHash2']),
   },
-] as unknown as Parameters<APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponseBody>>;
+] as unknown as Parameters<APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse>>;
 
 describe('post-generate-upload-urls', () => {
   itHasJsonBody(handler, args);
@@ -37,5 +36,10 @@ describe('post-generate-upload-urls', () => {
   it('calls `createPresignedPost` with correct args', async () => {
     await handler(...args);
     expect(vi.mocked(createPresignedPost).mock.calls).toMatchSnapshot();
+  });
+
+  it('calls `findExistingItems` with correct args', async () => {
+    await handler(...args);
+    expect(vi.mocked(findExistingItems).mock.calls).toMatchSnapshot();
   });
 });

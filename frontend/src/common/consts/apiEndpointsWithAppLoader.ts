@@ -1,7 +1,7 @@
 import { ApiEndpointQuery } from '@reduxjs/toolkit/dist/query/core/module';
 
-// import { meApi } from '~/features/me/meApi';
+// import { getMe } from '~/features/me';
 
 export const apiEndpointsWithAppLoader: ApiEndpointQuery<any, any>[] = [
-  // meApi.endpoints.getMe,
+  // getMe,
 ];
