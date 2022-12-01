@@ -43,17 +43,19 @@ export const errorResponse = (
     errObj.description = description;
   }
 
-  if (error) {
-    console.error(`[${traceId}]`, error);
-
-    if (exposeError ?? envName !== 'production') {
-      errObj.error = String(error);
-    }
+  if (error && (exposeError ?? envName !== 'production')) {
+    errObj.error = String(error);
   }
 
   const errorResponseBody: ApiErrorResponseBody = {
     error: errObj,
   };
+
+  if (error) {
+    console.error(traceId, error);
+  } else {
+    console.error(traceId);
+  }
 
   return {
     statusCode,

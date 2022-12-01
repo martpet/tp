@@ -1,5 +1,13 @@
 // Vitest Snapshot v1
 
+exports[`errorResponse > calls "console.error" with correct args 1`] = `
+[
+  [
+    "dummyTraceId",
+  ],
+]
+`;
+
 exports[`errorResponse > returns a correct value 1`] = `
 {
   "body": "{\\"error\\":{\\"statusCode\\":500,\\"message\\":\\"Internal Server Error\\",\\"traceId\\":\\"dummyTraceId\\"}}",
@@ -17,7 +25,7 @@ exports[`errorResponse > when "description" is provided > returns a correct valu
 exports[`errorResponse > when "error" is provided > calls "console.error" with correct args 1`] = `
 [
   [
-    "[dummyTraceId]",
+    "dummyTraceId",
     [Error: dummyErrorMessage],
   ],
 ]

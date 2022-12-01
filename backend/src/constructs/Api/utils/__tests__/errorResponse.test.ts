@@ -10,6 +10,11 @@ describe('errorResponse', () => {
     expect(errorResponse(...args)).toMatchSnapshot();
   });
 
+  it('calls "console.error" with correct args', () => {
+    errorResponse(...args);
+    expect(vi.mocked(console.error).mock.calls).toMatchSnapshot();
+  });
+
   describe('when "statusCode" is provided', () => {
     const argsClone = structuredClone(args);
     argsClone.push({ statusCode: StatusCodes.IM_A_TEAPOT });
