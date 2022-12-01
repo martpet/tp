@@ -2,9 +2,9 @@ import { AttributeType } from 'aws-cdk-lib/aws-dynamodb';
 
 import { SessionsTableItem, UsersTableItem } from '~/types';
 
-import { createTableOptions } from '../constructs/Tables/createTableOptions';
+import { makeTableOptions } from '../constructs/Tables/makeTableOptions';
 
-export const usersTableOptions = createTableOptions<UsersTableItem>({
+export const usersTableOptions = makeTableOptions<UsersTableItem>({
   tableName: 'users',
   partitionKey: {
     name: 'id',
@@ -12,7 +12,7 @@ export const usersTableOptions = createTableOptions<UsersTableItem>({
   },
 });
 
-export const sessionsTableOptions = createTableOptions<SessionsTableItem>({
+export const sessionsTableOptions = makeTableOptions<SessionsTableItem>({
   tableName: 'sessions',
   timeToLiveAttribute: 'refreshTokenExpires',
   partitionKey: {

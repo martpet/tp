@@ -2,7 +2,7 @@ import { RemovalPolicy } from 'aws-cdk-lib';
 import { BillingMode, GlobalSecondaryIndexProps, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
-import { createTableOptions } from './createTableOptions';
+import { createTableOptions } from './makeTableOptions';
 
 export const createTable = (
   scope: Construct,

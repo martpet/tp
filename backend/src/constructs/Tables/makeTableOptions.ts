@@ -32,7 +32,7 @@ type Props<T> = SetRequired<TableProps, 'tableName'> & {
   >;
 };
 
-export const createTableOptions = <T extends Record<string, any>>(
+export const makeTableOptions = <T extends Record<string, any>>(
   props: Props<T>
 ): Props<T> => {
   return {
