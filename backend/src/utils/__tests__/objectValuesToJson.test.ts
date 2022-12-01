@@ -1,3 +1,5 @@
+import { itReturns } from 'lambda-layer';
+
 import { objectValuesToJson } from '../objectValuesToJson';
 
 const args = [
@@ -10,7 +12,5 @@ const args = [
 ] as Parameters<typeof objectValuesToJson>;
 
 describe('objectValuesToJson', () => {
-  it('returns a correct value', () => {
-    expect(objectValuesToJson(...args)).toMatchSnapshot();
-  });
+  itReturns(objectValuesToJson, args);
 });

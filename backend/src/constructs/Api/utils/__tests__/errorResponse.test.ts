@@ -1,14 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { errorResponse } from '~/constructs/Api/utils';
+import { errorResponse, itReturns } from '~/constructs/Api/utils';
 import { EnvName } from '~/types';
 
 const args: Parameters<typeof errorResponse> = ['dummyTraceId'];
 
 describe('errorResponse', () => {
-  it('returns a correct value', () => {
-    expect(errorResponse(...args)).toMatchSnapshot();
-  });
+  itReturns(errorResponse, args);
 
   it('calls "console.error" with correct args', () => {
     errorResponse(...args);
@@ -18,19 +16,13 @@ describe('errorResponse', () => {
   describe('when "statusCode" is provided', () => {
     const argsClone = structuredClone(args);
     argsClone.push({ statusCode: StatusCodes.IM_A_TEAPOT });
-
-    it('returns a correct value', () => {
-      expect(errorResponse(...argsClone)).toMatchSnapshot();
-    });
+    itReturns(errorResponse, argsClone);
   });
 
   describe('when "description" is provided', () => {
     const argsClone = structuredClone(args);
     argsClone.push({ description: 'dummDescription' });
-
-    it('returns a correct value', () => {
-      expect(errorResponse(...argsClone)).toMatchSnapshot();
-    });
+    itReturns(errorResponse, argsClone);
   });
 
   describe('when "error" is provided', () => {
@@ -45,10 +37,7 @@ describe('errorResponse', () => {
     describe('when "exposeError" is true', () => {
       const argsWithExposedError = structuredClone(argsWithError);
       argsWithExposedError[1].exposeError = true;
-
-      it('returns a correct value', () => {
-        expect(errorResponse(...argsWithExposedError)).toMatchSnapshot();
-      });
+      itReturns(errorResponse, argsWithExposedError);
     });
 
     describe.each(['personal', 'staging'])(
@@ -60,10 +49,7 @@ describe('errorResponse', () => {
         afterEach(() => {
           globalLambdaProps.envName = 'production';
         });
-
-        it('returns a correct value', () => {
-          expect(errorResponse(...argsWithError)).toMatchSnapshot();
-        });
+        itReturns(errorResponse, argsWithError);
       }
     );
   });

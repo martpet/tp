@@ -36,6 +36,6 @@ exports[`fetchNewIdToken > calls "updateSession" with correct args 1`] = `
 ]
 `;
 
-exports[`fetchNewIdToken > returns a correct value 1`] = `"dummyIdToken"`;
+exports[`fetchNewIdToken > resolves with a correct value 1`] = `"dummyIdToken"`;
 
 exports[`fetchNewIdToken > when "fetch" response contains an "error" prop > rejects with a correct value 1`] = `[Error: dummyErrorMessage]`;

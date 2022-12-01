@@ -1,20 +1,22 @@
+import { itReturns } from 'lambda-layer';
+
 import { createDynamoUpdateExpression } from '~/utils/createDynamoUpdateExpression';
 
-const args = [
+const args: Parameters<typeof createDynamoUpdateExpression> = [
   {
     param1: 'param1Value',
     param2: 'param2Value',
   },
-] as const;
+];
 
-const argsWithParentKey = [...args, 'dummyParentKey'] as const;
+const argsWithParentKey = [...args, 'dummyParentKey'] as unknown as Parameters<
+  typeof createDynamoUpdateExpression
+>;
 
 describe('createDynamoUpdateExpression', () => {
-  it('returns a correct value', () => {
-    expect(createDynamoUpdateExpression(...args)).toMatchSnapshot();
-  });
+  itReturns(createDynamoUpdateExpression, args);
 
-  it('returns a correct value when parent key is provided', () => {
-    expect(createDynamoUpdateExpression(...argsWithParentKey)).toMatchSnapshot();
+  describe('when parent key is provided', () => {
+    itReturns(createDynamoUpdateExpression, argsWithParentKey);
   });
 });

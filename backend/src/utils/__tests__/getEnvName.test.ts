@@ -1,3 +1,5 @@
+import { itReturns } from 'lambda-layer';
+
 import { getEnvName } from '~/utils/getEnvName';
 
 const tryGetContext = vi.fn().mockReturnValue('dummyEnvName');
@@ -9,13 +11,11 @@ const args = [
 ] as unknown as Parameters<typeof getEnvName>;
 
 describe('getEnvName', () => {
+  itReturns(getEnvName, args);
+
   it('calls "tryGetContext" with correct args', () => {
     getEnvName(...args);
     expect(tryGetContext.mock.calls).toMatchSnapshot();
-  });
-
-  it('returns a correct value', () => {
-    expect(getEnvName(...args)).toMatchSnapshot();
   });
 
   describe('when "envName" is missing from cdk context', () => {

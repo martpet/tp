@@ -6,4 +6,5 @@ export * from './itRejects';
 export * from './itResolves';
 export * from './itResolvesWithEdgeError';
 export * from './itResolvesWithError';
+export * from './itReturns';
 export * from './itSendsDdbCommand';

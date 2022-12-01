@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`getIdTokenPayload > returns a correct value 1`] = `
+exports[`getIdTokenPayload > resolves with a correct value 1`] = `
 {
   "dummyIdtokenKey": "dymmy_idtoken_val",
 }

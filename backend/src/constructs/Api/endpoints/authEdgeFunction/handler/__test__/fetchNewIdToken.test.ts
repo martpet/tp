@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 
-import { itRejects } from '~/constructs/Api/utils';
+import { itRejects, itResolves } from '~/constructs/Api/utils';
 
 import { fetchNewIdToken } from '../fetchNewIdToken';
 import { updateSession } from '../updateSession';
@@ -25,6 +25,8 @@ global.globalAuthEdgeFunctionProps = {
 } as typeof globalAuthEdgeFunctionProps;
 
 describe('fetchNewIdToken', () => {
+  itResolves(fetchNewIdToken, args);
+
   it('calls "fetch" with correct args', async () => {
     await fetchNewIdToken(...args);
     expect(vi.mocked(fetch).mock.calls).toMatchSnapshot();
@@ -33,10 +35,6 @@ describe('fetchNewIdToken', () => {
   it('calls "updateSession" with correct args', async () => {
     await fetchNewIdToken(...args);
     expect(vi.mocked(updateSession).mock.calls).toMatchSnapshot();
-  });
-
-  it('returns a correct value', () => {
-    return expect(fetchNewIdToken(...args)).resolves.toMatchSnapshot();
   });
 
   describe('when "fetch" response contains an "error" prop', () => {

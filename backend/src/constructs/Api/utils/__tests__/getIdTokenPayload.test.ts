@@ -1,9 +1,11 @@
+import { itResolves } from 'lambda-layer';
+
 import { getIdTokenPayload } from '~/constructs/Api/utils/getIdTokenPayload';
 
-const args = ['.eyJkdW1teV9pZHRva2VuX2tleSI6ImR5bW15X2lkdG9rZW5fdmFsIn0=.'] as const;
+const args = [
+  '.eyJkdW1teV9pZHRva2VuX2tleSI6ImR5bW15X2lkdG9rZW5fdmFsIn0=.',
+] as unknown as Parameters<typeof getIdTokenPayload>;
 
 describe('getIdTokenPayload', () => {
-  it('returns a correct value', () => {
-    return expect(getIdTokenPayload(...args)).resolves.toMatchSnapshot();
-  });
+  itResolves(getIdTokenPayload, args);
 });

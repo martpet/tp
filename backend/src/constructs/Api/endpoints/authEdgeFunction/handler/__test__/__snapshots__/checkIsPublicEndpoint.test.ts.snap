@@ -1,0 +1,7 @@
+// Vitest Snapshot v1
+
+exports[`checkIsPublicEndpoint > returns a correct value 1`] = `true`;
+
+exports[`checkIsPublicEndpoint > when the endpoint path is not in "publicEndpoints" > returns a correct value 1`] = `false`;
+
+exports[`checkIsPublicEndpoint > when the endpont method is not public > returns a correct value 1`] = `false`;

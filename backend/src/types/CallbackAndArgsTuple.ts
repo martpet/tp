@@ -1,5 +1,5 @@
-type Callback = () => void | Promise<unknown>;
-type CallbackWithArgs = (...params: any[]) => void | Promise<unknown>;
+type Callback = () => unknown | Promise<unknown>;
+type CallbackWithArgs = (...params: any[]) => unknown | Promise<unknown>;
 
 export type CallbackAndArgsTuple =
   | [Callback]

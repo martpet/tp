@@ -14,7 +14,7 @@ exports[`createDynamoUpdateExpression > returns a correct value 1`] = `
 }
 `;
 
-exports[`createDynamoUpdateExpression > returns a correct value when parent key is provided 1`] = `
+exports[`createDynamoUpdateExpression > when parent key is provided > returns a correct value 1`] = `
 {
   "ExpressionAttributeNames": {
     "#dummyParentKey": "dummyParentKey",

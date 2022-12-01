@@ -1,4 +1,4 @@
-import { parseEventCookies } from '~/constructs/Api/utils';
+import { itReturns, parseEventCookies } from '~/constructs/Api/utils';
 
 import { parseOauthCookie } from '../parseOauthCookie';
 
@@ -15,22 +15,18 @@ vi.mocked(parseEventCookies).mockReturnValue({
 });
 
 describe('parseOauthCookie', () => {
+  itReturns(parseOauthCookie, args);
+
   it('calls "parseEventCookies" with correct args', () => {
     parseOauthCookie(...args);
     expect(vi.mocked(parseEventCookies).mock.calls).toMatchSnapshot();
-  });
-
-  it('returns a correct value', () => {
-    expect(parseOauthCookie(...args)).toMatchSnapshot();
   });
 
   describe('when "oauth" cookie is missing', () => {
     beforeEach(() => {
       vi.mocked(parseEventCookies).mockReturnValueOnce({});
     });
-    it('returns a correct value', () => {
-      expect(parseOauthCookie(...args)).toMatchSnapshot();
-    });
+    itReturns(parseOauthCookie, args);
   });
 
   describe('when "oauth" cookie value is not json-parsable', () => {
@@ -39,8 +35,6 @@ describe('parseOauthCookie', () => {
         oauth: 'non json value',
       });
     });
-    it('returns a correct value', () => {
-      expect(parseOauthCookie(...args)).toMatchSnapshot();
-    });
+    itReturns(parseOauthCookie, args);
   });
 });

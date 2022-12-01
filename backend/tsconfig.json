@@ -7,7 +7,7 @@
   "include": [
     "src",
     "vitest.config.ts",
-    ".eslintrc.cjs",
+    ".eslintrc.cjs", "src/constructs/Api/utils/testHelpers",
   ],
   "ts-node": {
     "dotenv-flow-path": "../",
