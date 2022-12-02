@@ -1,7 +1,7 @@
 import { DeleteCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itRejects, itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
+import { itRejectsCorrectly, itResolvesCorrectly, itSendsDdbCommand } from '~/constructs/Api/utils';
 
 import { deleteSession } from '../deleteSession';
 
@@ -19,12 +19,12 @@ beforeEach(() => {
 
 describe('deleteSession', () => {
   itSendsDdbCommand(DeleteCommand, ddbMock, deleteSession, args);
-  itResolves(deleteSession, args);
+  itResolvesCorrectly(deleteSession, args);
 
   describe('when "Attributes" prop is missing from "DeleteCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(DeleteCommand).resolves({});
     });
-    itRejects(deleteSession, args);
+    itRejectsCorrectly(deleteSession, args);
   });
 });

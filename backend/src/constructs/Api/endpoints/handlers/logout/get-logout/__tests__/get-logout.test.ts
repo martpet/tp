@@ -2,7 +2,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import {
   itHasEnvVars,
-  itResolves,
+  itResolvesCorrectly,
   itResolvesWithError,
   parseEventCookies,
 } from '~/constructs/Api/utils';
@@ -36,7 +36,7 @@ describe('"get-logout" handler', () => {
     handler,
     args
   );
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('calls "parseEventCookies" with correct args', async () => {
     await handler(...args);
@@ -98,7 +98,7 @@ describe('"get-logout" handler', () => {
     describe('when "referer" is from localhost', () => {
       const argsClone = structuredClone(args);
       argsClone[0].headers.referer = 'http://localhost:3000/dummyPath';
-      itResolves(handler, argsClone);
+      itResolvesCorrectly(handler, argsClone);
     });
   });
 });

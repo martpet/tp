@@ -4,7 +4,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 
 import {
   itGetsIdToken,
-  itResolves,
+  itResolvesCorrectly,
   itResolvesWithError,
   itSendsDdbCommand,
 } from '~/constructs/Api/utils';
@@ -42,7 +42,7 @@ beforeEach(() => {
 describe('get-me', () => {
   itGetsIdToken(handler, args);
   itSendsDdbCommand(GetCommand, ddbMock, handler, args);
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   describe('when "Item" is missing from "GetCommand" output', () => {
     beforeEach(() => {

@@ -1,4 +1,4 @@
-import { itResolves } from 'lambda-layer';
+import { itResolvesCorrectly } from 'lambda-layer';
 
 import { getIdTokenPayload } from '~/constructs/Api/utils/getIdTokenPayload';
 
@@ -7,5 +7,5 @@ const args = [
 ] as unknown as Parameters<typeof getIdTokenPayload>;
 
 describe('getIdTokenPayload', () => {
-  itResolves(getIdTokenPayload, args);
+  itResolvesCorrectly(getIdTokenPayload, args);
 });

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { itResolves } from '~/constructs/Api/utils';
+import { itResolvesCorrectly } from '~/constructs/Api/utils';
 import { getRandomBase64UrlSafe } from '~/utils';
 
 vi.mock('crypto');
@@ -9,7 +9,7 @@ vi.mock('util');
 const args = [128] as Parameters<typeof getRandomBase64UrlSafe>;
 
 describe('getRandomBase64UrlSafe', () => {
-  itResolves(getRandomBase64UrlSafe, args);
+  itResolvesCorrectly(getRandomBase64UrlSafe, args);
 
   it('calls "crypto.randomBytes" with correct args', async () => {
     await getRandomBase64UrlSafe(...args);

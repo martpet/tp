@@ -1,12 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { errorResponse, itReturns } from '~/constructs/Api/utils';
+import { errorResponse, itReturnsCorrectly } from '~/constructs/Api/utils';
 import { EnvName } from '~/types';
 
 const args: Parameters<typeof errorResponse> = ['dummyTraceId'];
 
 describe('errorResponse', () => {
-  itReturns(errorResponse, args);
+  itReturnsCorrectly(errorResponse, args);
 
   it('calls "console.error" with correct args', () => {
     errorResponse(...args);
@@ -16,13 +16,13 @@ describe('errorResponse', () => {
   describe('when "statusCode" is provided', () => {
     const argsClone = structuredClone(args);
     argsClone.push({ statusCode: StatusCodes.IM_A_TEAPOT });
-    itReturns(errorResponse, argsClone);
+    itReturnsCorrectly(errorResponse, argsClone);
   });
 
   describe('when "description" is provided', () => {
     const argsClone = structuredClone(args);
     argsClone.push({ description: 'dummDescription' });
-    itReturns(errorResponse, argsClone);
+    itReturnsCorrectly(errorResponse, argsClone);
   });
 
   describe('when "error" is provided', () => {
@@ -37,7 +37,7 @@ describe('errorResponse', () => {
     describe('when "exposeError" is true', () => {
       const argsWithExposedError = structuredClone(argsWithError);
       argsWithExposedError[1].exposeError = true;
-      itReturns(errorResponse, argsWithExposedError);
+      itReturnsCorrectly(errorResponse, argsWithExposedError);
     });
 
     describe.each(['personal', 'staging'])(
@@ -49,7 +49,7 @@ describe('errorResponse', () => {
         afterEach(() => {
           globalLambdaProps.envName = 'production';
         });
-        itReturns(errorResponse, argsWithError);
+        itReturnsCorrectly(errorResponse, argsWithError);
       }
     );
   });

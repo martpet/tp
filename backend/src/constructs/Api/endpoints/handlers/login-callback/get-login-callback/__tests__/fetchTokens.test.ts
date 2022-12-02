@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import fetch, { Response } from 'node-fetch';
 
-import { getIdTokenPayload, itRejects, itResolves } from '~/constructs/Api/utils';
+import { getIdTokenPayload, itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { fetchTokens } from '../fetchTokens';
 
@@ -39,7 +39,7 @@ describe('fetchTokens', () => {
     expect(vi.mocked(getIdTokenPayload).mock.calls).toMatchSnapshot();
   });
 
-  itResolves(fetchTokens, args);
+  itResolvesCorrectly(fetchTokens, args);
 
   describe('when "fetch" response contains an "error" prop', () => {
     beforeEach(() => {
@@ -47,6 +47,6 @@ describe('fetchTokens', () => {
         json: () => Promise.resolve({ error: 'dummyErrorMessage' }),
       } as Response);
     });
-    itRejects(fetchTokens, args);
+    itRejectsCorrectly(fetchTokens, args);
   });
 });

@@ -1,7 +1,7 @@
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itRejects, itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
+import { itRejectsCorrectly, itResolvesCorrectly, itSendsDdbCommand } from '~/constructs/Api/utils';
 import { createDynamoUpdateExpression, filterChangedProps } from '~/utils';
 
 import { getUserPropsFromCognitoEvent } from '../../getUserPropsFromCognitoEvent';
@@ -48,14 +48,14 @@ describe('updateUserFromCognitoEvent', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
-    itRejects(updateUserFromCognitoEvent, args);
+    itRejectsCorrectly(updateUserFromCognitoEvent, args);
   });
 
   describe('when user props in event are not changed', () => {
     beforeEach(() => {
       vi.mocked(filterChangedProps).mockImplementationOnce(() => undefined);
     });
-    itResolves(updateUserFromCognitoEvent, args);
+    itResolvesCorrectly(updateUserFromCognitoEvent, args);
   });
 
   describe('when user props in event are changed', () => {
@@ -65,6 +65,6 @@ describe('updateUserFromCognitoEvent', () => {
     });
 
     itSendsDdbCommand(UpdateCommand, ddbMock, updateUserFromCognitoEvent, args);
-    itResolves(updateUserFromCognitoEvent, args);
+    itResolvesCorrectly(updateUserFromCognitoEvent, args);
   });
 });

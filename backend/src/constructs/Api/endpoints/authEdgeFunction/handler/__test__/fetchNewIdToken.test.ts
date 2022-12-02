@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 
-import { itRejects, itResolves } from '~/constructs/Api/utils';
+import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { fetchNewIdToken } from '../fetchNewIdToken';
 import { updateSession } from '../updateSession';
@@ -25,7 +25,7 @@ global.globalAuthEdgeFunctionProps = {
 } as typeof globalAuthEdgeFunctionProps;
 
 describe('fetchNewIdToken', () => {
-  itResolves(fetchNewIdToken, args);
+  itResolvesCorrectly(fetchNewIdToken, args);
 
   it('calls "fetch" with correct args', async () => {
     await fetchNewIdToken(...args);
@@ -43,6 +43,6 @@ describe('fetchNewIdToken', () => {
         json: () => Promise.resolve({ error: 'dummyErrorMessage' }),
       } as Response);
     });
-    itRejects(fetchNewIdToken, args);
+    itRejectsCorrectly(fetchNewIdToken, args);
   });
 });

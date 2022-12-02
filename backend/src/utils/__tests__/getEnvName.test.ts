@@ -1,4 +1,4 @@
-import { itReturns } from 'lambda-layer';
+import { itReturnsCorrectly } from 'lambda-layer';
 
 import { getEnvName } from '~/utils/getEnvName';
 
@@ -11,7 +11,7 @@ const args = [
 ] as unknown as Parameters<typeof getEnvName>;
 
 describe('getEnvName', () => {
-  itReturns(getEnvName, args);
+  itReturnsCorrectly(getEnvName, args);
 
   it('calls "tryGetContext" with correct args', () => {
     getEnvName(...args);

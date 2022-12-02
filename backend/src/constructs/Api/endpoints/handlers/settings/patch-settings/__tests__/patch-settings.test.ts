@@ -5,7 +5,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import {
   itGetsIdToken,
   itHasJsonBody,
-  itResolves,
+  itResolvesCorrectly,
   itResolvesWithError,
   itSendsDdbCommand,
 } from '~/constructs/Api/utils';
@@ -33,7 +33,7 @@ describe('patch-settings', () => {
   itHasJsonBody(handler, args);
   itGetsIdToken(handler, args);
   itSendsDdbCommand(UpdateCommand, ddbMock, handler, args);
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   describe('when "event.body" has unallowed keys', () => {
     const argsClone = structuredClone(args);

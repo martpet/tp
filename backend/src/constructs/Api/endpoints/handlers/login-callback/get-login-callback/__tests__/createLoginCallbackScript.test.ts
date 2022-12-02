@@ -1,4 +1,4 @@
-import { itReturns } from 'lambda-layer';
+import { itReturnsCorrectly } from 'lambda-layer';
 
 import { createSha256CspHash } from '~/utils/createSha256CspHash';
 
@@ -14,7 +14,7 @@ const args = [
 ] as Parameters<typeof createLoginCallbackScript>;
 
 describe('createLoginCallbackScript', () => {
-  itReturns(createLoginCallbackScript, args);
+  itReturnsCorrectly(createLoginCallbackScript, args);
 
   it('calls "createSha256CspHash" with corrects args', () => {
     createLoginCallbackScript(...args);
@@ -24,6 +24,6 @@ describe('createLoginCallbackScript', () => {
   describe('when "envName" is "personal"', () => {
     const argsClone = structuredClone(args);
     argsClone[0].envName = 'personal';
-    itReturns(createLoginCallbackScript, argsClone);
+    itReturnsCorrectly(createLoginCallbackScript, argsClone);
   });
 });

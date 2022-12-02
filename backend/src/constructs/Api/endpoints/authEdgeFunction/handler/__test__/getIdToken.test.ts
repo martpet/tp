@@ -5,8 +5,8 @@ import millis from 'milliseconds';
 import { IdTokenPayload } from '~/constructs/Api/types';
 import {
   getIdTokenPayload,
-  itRejects,
-  itResolves,
+  itRejectsCorrectly,
+  itResolvesCorrectly,
   itSendsDdbCommand,
 } from '~/constructs/Api/utils';
 
@@ -44,13 +44,13 @@ beforeEach(() => {
 
 describe('getTokens', () => {
   itSendsDdbCommand(GetCommand, ddbMock, getIdToken, args);
-  itResolves(getIdToken, args);
+  itResolvesCorrectly(getIdToken, args);
 
   describe('when "Item" prop is missing from "GetCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
-    itRejects(getIdToken, args);
+    itRejectsCorrectly(getIdToken, args);
   });
 
   describe('when "idToken" has expired', () => {
@@ -67,7 +67,7 @@ describe('getTokens', () => {
       expect(vi.mocked(fetchNewIdToken).mock.calls).toMatchSnapshot();
     });
 
-    itResolves(getIdToken, args);
+    itResolvesCorrectly(getIdToken, args);
   });
 
   describe('when "refreshToken" has expired', () => {
@@ -78,6 +78,6 @@ describe('getTokens', () => {
     afterAll(() => {
       vi.setSystemTime(originalDate);
     });
-    itRejects(getIdToken, args);
+    itRejectsCorrectly(getIdToken, args);
   });
 });

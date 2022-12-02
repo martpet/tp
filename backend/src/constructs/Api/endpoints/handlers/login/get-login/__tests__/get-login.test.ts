@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import cookie from 'cookie';
 
-import { itHasEnvVars, itHasQueryStrings, itResolves } from '~/constructs/Api/utils';
+import { itHasEnvVars, itHasQueryStrings, itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { handler } from '../get-login';
 
@@ -24,7 +24,7 @@ const args = [
 describe('"get-login" handler', () => {
   itHasQueryStrings(['provider'], handler, args);
   itHasEnvVars(['authDomain', 'loginCallbackUrl', 'clientId'], handler, args);
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('calls "cookie.serialize" with correct args', async () => {
     await handler(...args);

@@ -1,7 +1,7 @@
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
+import { itResolvesCorrectly, itSendsDdbCommand } from '~/constructs/Api/utils';
 
 import { updateSession } from '../updateSession';
 
@@ -26,5 +26,5 @@ beforeEach(() => {
 
 describe('updateSession', () => {
   itSendsDdbCommand(UpdateCommand, ddbMock, updateSession, args);
-  itResolves(updateSession, args);
+  itResolvesCorrectly(updateSession, args);
 });

@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 
-import { itReturns, parseEventCookies } from '~/constructs/Api/utils';
+import { itReturnsCorrectly, parseEventCookies } from '~/constructs/Api/utils';
 
 vi.mock('cookie');
 
@@ -13,7 +13,7 @@ const args = [
 vi.mocked(cookie.parse).mockReturnValue({ sessionId: 'dummySessionId' });
 
 describe('parseEventCookies', () => {
-  itReturns(parseEventCookies, args);
+  itReturnsCorrectly(parseEventCookies, args);
 
   it('calls "cookie.parse" with correct args', () => {
     parseEventCookies(...args);
@@ -23,6 +23,6 @@ describe('parseEventCookies', () => {
   describe('when "cookies" event prop is missing', () => {
     const argsClone = structuredClone(args);
     argsClone[0].cookies = undefined;
-    itReturns(parseEventCookies, argsClone);
+    itReturnsCorrectly(parseEventCookies, argsClone);
   });
 });

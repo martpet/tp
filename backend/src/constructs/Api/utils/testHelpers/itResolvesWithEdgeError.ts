@@ -1,4 +1,4 @@
-import { itResolves, lambdaEdgeErrorResponse } from '~/constructs/Api/utils';
+import { itResolvesCorrectly, lambdaEdgeErrorResponse } from '~/constructs/Api/utils';
 import { CallbackAndArgsTuple } from '~/types';
 
 export function itResolvesWithEdgeError(...rest: CallbackAndArgsTuple) {
@@ -9,5 +9,5 @@ export function itResolvesWithEdgeError(...rest: CallbackAndArgsTuple) {
     expect(vi.mocked(lambdaEdgeErrorResponse).mock.calls).toMatchSnapshot();
   });
 
-  itResolves(handler, handlerArgs);
+  itResolvesCorrectly(handler, handlerArgs);
 }

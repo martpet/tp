@@ -2,7 +2,7 @@ import { GetParametersCommand, SSMClient } from '@aws-sdk/client-ssm';
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itRejects, itResolves } from '~/constructs/Api/utils';
+import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
 import { getRoleCredentials } from '~/utils';
 
 import { handler } from '../crossAccountSSM.handler';
@@ -50,19 +50,19 @@ describe('crossAccountSSM.handler', () => {
     expect(ssmMock.commandCalls(GetParametersCommand)[0].args[0].input).toMatchSnapshot();
   });
 
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   describe('when "getParametersInput.Names" is missing', () => {
     const argsClone = structuredClone(args);
     delete argsClone[0].ResourceProperties.getParametersInput.Names;
-    itRejects(handler, argsClone);
+    itRejectsCorrectly(handler, argsClone);
   });
 
   describe('when "Parameters" is missing from "GetParametersCommand" output', () => {
     beforeEach(() => {
       ssmMock.on(GetParametersCommand).resolves({});
     });
-    itRejects(handler, args);
+    itRejectsCorrectly(handler, args);
   });
 
   describe('when "Parameters" are missing required values', () => {
@@ -71,6 +71,6 @@ describe('crossAccountSSM.handler', () => {
         Parameters: [{ Name: 'dummyName' }],
       });
     });
-    itRejects(handler, args);
+    itRejectsCorrectly(handler, args);
   });
 });

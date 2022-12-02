@@ -1,6 +1,6 @@
 import { CallbackAndArgsTuple } from '~/types';
 
-export function itRejects(...rest: CallbackAndArgsTuple) {
+export function itRejectsCorrectly(...rest: CallbackAndArgsTuple) {
   const [handler, handlerArgs = []] = rest;
 
   it('rejects with a correct value', () => {

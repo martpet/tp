@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { itResolves } from '~/constructs/Api/utils';
+import { itResolvesCorrectly } from '~/constructs/Api/utils';
 import { getRandomBase64UrlSafe } from '~/utils';
 
 import { generateOauthRandoms } from '../generateOauthRandoms';
@@ -16,7 +16,7 @@ beforeEach(() => {
 });
 
 describe('generateOauthRandoms', () => {
-  itResolves(generateOauthRandoms);
+  itResolvesCorrectly(generateOauthRandoms);
 
   it('calls "getRandomBase64UrlSafe" 3 times with correct values', async () => {
     await generateOauthRandoms();

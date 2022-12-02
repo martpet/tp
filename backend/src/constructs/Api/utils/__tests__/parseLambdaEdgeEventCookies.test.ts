@@ -1,7 +1,7 @@
 import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import {
-  itReturns,
+  itReturnsCorrectly,
   parseEventCookies,
   parseLambdaEdgeEventCookies,
 } from '~/constructs/Api/utils';
@@ -15,5 +15,5 @@ describe('parseLambdaEdgeEventCookies', () => {
     parseLambdaEdgeEventCookies(...args);
     expect(vi.mocked(parseEventCookies).mock.calls).toMatchSnapshot();
   });
-  itReturns(parseLambdaEdgeEventCookies, args);
+  itReturnsCorrectly(parseLambdaEdgeEventCookies, args);
 });

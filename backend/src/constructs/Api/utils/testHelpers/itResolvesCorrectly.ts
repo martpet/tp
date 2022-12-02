@@ -1,6 +1,6 @@
 import { CallbackAndArgsTuple } from '~/types';
 
-export function itResolves(...rest: CallbackAndArgsTuple) {
+export function itResolvesCorrectly(...rest: CallbackAndArgsTuple) {
   const [callback, callbackArgs = []] = rest;
 
   it('resolves with a correct value', () => {

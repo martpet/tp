@@ -3,7 +3,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import cookie from 'cookie';
 
 import { OauthTokens } from '~/constructs/Api/types';
-import { itResolves, itSendsDdbCommand } from '~/constructs/Api/utils';
+import { itResolvesCorrectly, itSendsDdbCommand } from '~/constructs/Api/utils';
 
 import { createSession } from '../createSession';
 
@@ -29,7 +29,7 @@ beforeEach(() => {
 
 describe('createSession', () => {
   itSendsDdbCommand(PutCommand, ddbMock, createSession, args);
-  itResolves(createSession, args);
+  itResolvesCorrectly(createSession, args);
 
   it('calls "cookie.serialize" with correct args', async () => {
     await createSession(...args);

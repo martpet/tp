@@ -4,7 +4,7 @@ import { OauthCookieProps } from '~/constructs/Api/types';
 import {
   itHasEnvVars,
   itHasQueryStrings,
-  itResolves,
+  itResolvesCorrectly,
   itResolvesWithError,
 } from '~/constructs/Api/utils';
 import { capitalize } from '~/utils';
@@ -44,7 +44,7 @@ const args = [
 describe('"get-login-callback" handler', () => {
   itHasQueryStrings(['code', 'state'], handler, args);
   itHasEnvVars(['clientId', 'authDomain', 'loginCallbackUrl'], handler, args);
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('calls "parseOauthCookie" with correct args', async () => {
     await handler(...args);

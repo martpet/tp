@@ -1,4 +1,4 @@
-import { itReturns } from 'lambda-layer';
+import { itReturnsCorrectly } from 'lambda-layer';
 
 import { createDynamoUpdateExpression } from '~/utils/createDynamoUpdateExpression';
 
@@ -14,9 +14,9 @@ const argsWithParentKey = [...args, 'dummyParentKey'] as unknown as Parameters<
 >;
 
 describe('createDynamoUpdateExpression', () => {
-  itReturns(createDynamoUpdateExpression, args);
+  itReturnsCorrectly(createDynamoUpdateExpression, args);
 
   describe('when parent key is provided', () => {
-    itReturns(createDynamoUpdateExpression, argsWithParentKey);
+    itReturnsCorrectly(createDynamoUpdateExpression, argsWithParentKey);
   });
 });

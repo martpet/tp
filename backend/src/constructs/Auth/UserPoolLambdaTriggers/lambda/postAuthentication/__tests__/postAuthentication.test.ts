@@ -1,6 +1,6 @@
 import { PostAuthenticationTriggerHandler } from 'aws-lambda';
 
-import { itResolves } from '~/constructs/Api/utils';
+import { itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { handler } from '../postAuthentication';
 import { updateUserFromCognitoEvent } from '../updateUserFromCognitoEvent';
@@ -11,7 +11,7 @@ vi.mock('../updateUserFromCognitoEvent');
 const args = [event] as unknown as Parameters<PostAuthenticationTriggerHandler>;
 
 describe('postAuthentication', () => {
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('calls "updateUserFromCognitoEvent" with correct args', async () => {
     await handler(...args);

@@ -8,7 +8,7 @@ import {
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itResolves } from '~/constructs/Api/utils';
+import { itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { handler } from '../crossRegionSNSTopic.handler';
 
@@ -37,7 +37,7 @@ beforeEach(() => {
 });
 
 describe('crossRegionSNSTopic.handler', () => {
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('sends "CreateTopicCommand" to SNS with correct args', async () => {
     await handler(...args);
@@ -72,6 +72,6 @@ describe('crossRegionSNSTopic.handler', () => {
       expect(snsMock.commandCalls(DeleteTopicCommand)[0].args[0].input).toMatchSnapshot();
     });
 
-    itResolves(handler, argsClone);
+    itResolvesCorrectly(handler, argsClone);
   });
 });

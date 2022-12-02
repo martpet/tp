@@ -1,4 +1,4 @@
-import { errorResponse, itResolves } from '~/constructs/Api/utils';
+import { errorResponse, itResolvesCorrectly } from '~/constructs/Api/utils';
 import { CallbackAndArgsTuple } from '~/types';
 
 export function itResolvesWithError(...rest: CallbackAndArgsTuple) {
@@ -9,5 +9,5 @@ export function itResolvesWithError(...rest: CallbackAndArgsTuple) {
     expect(vi.mocked(errorResponse).mock.calls).toMatchSnapshot();
   });
 
-  itResolves(handler, handlerArgs);
+  itResolvesCorrectly(handler, handlerArgs);
 }

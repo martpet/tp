@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 
-import { itRejects, itResolves } from '~/constructs/Api/utils';
+import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { revokeOauthTokens } from '../revokeOauthTokens';
 
@@ -19,7 +19,7 @@ beforeEach(() => {
 });
 
 describe('revokeOauthTokens', () => {
-  itResolves(revokeOauthTokens, args);
+  itResolvesCorrectly(revokeOauthTokens, args);
 
   it('calls "fetch" with correct args', async () => {
     await revokeOauthTokens(...args);
@@ -33,6 +33,6 @@ describe('revokeOauthTokens', () => {
         text: () => Promise.resolve('dummyFetchResponseText'),
       } as Response);
     });
-    itRejects(revokeOauthTokens, args);
+    itRejectsCorrectly(revokeOauthTokens, args);
   });
 });

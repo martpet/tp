@@ -1,6 +1,6 @@
 import { PostConfirmationTriggerHandler } from 'aws-lambda';
 
-import { itResolves } from '~/constructs/Api/utils';
+import { itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { createUserFromCognitoEvent } from '../createUserFromCognitoEvent';
 import { handler } from '../postConfirmation';
@@ -16,5 +16,5 @@ describe('postConfirmation', () => {
     expect(createUserFromCognitoEvent).toHaveBeenCalledWith(event);
   });
 
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 });

@@ -1,7 +1,7 @@
 import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import {
-  itResolves,
+  itResolvesCorrectly,
   itResolvesWithEdgeError,
   parseLambdaEdgeEventCookies,
 } from '~/constructs/Api/utils';
@@ -23,7 +23,7 @@ vi.mocked(parseLambdaEdgeEventCookies).mockReturnValue({
 });
 
 describe('authEdgeHandler', () => {
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('calls "parseLambdaEdgeEventCookies" with correct args', async () => {
     await handler(...args);

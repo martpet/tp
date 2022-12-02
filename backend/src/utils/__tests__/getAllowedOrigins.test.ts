@@ -1,4 +1,4 @@
-import { itReturns } from 'lambda-layer';
+import { itReturnsCorrectly } from 'lambda-layer';
 
 import { getAllowedOrigins } from '~/utils/getAllowedOrigins';
 import { getEnvName } from '~/utils/getEnvName';
@@ -8,7 +8,7 @@ vi.mock('../getEnvName');
 const args = ['dummyScope'] as unknown as Parameters<typeof getAllowedOrigins>;
 
 describe('getAllowedOrigins', () => {
-  itReturns(getAllowedOrigins, args);
+  itReturnsCorrectly(getAllowedOrigins, args);
 
   it('calls "getEnvName" with corrects args', () => {
     getAllowedOrigins(...args);
@@ -19,6 +19,6 @@ describe('getAllowedOrigins', () => {
     beforeEach(() => {
       vi.mocked(getEnvName).mockReturnValueOnce('personal');
     });
-    itReturns(getAllowedOrigins, args);
+    itReturnsCorrectly(getAllowedOrigins, args);
   });
 });

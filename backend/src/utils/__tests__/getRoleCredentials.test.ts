@@ -2,7 +2,7 @@ import { AssumeRoleCommand, Credentials, STSClient } from '@aws-sdk/client-sts';
 import { mockClient } from 'aws-sdk-client-mock';
 import camelcaseKeys from 'camelcase-keys';
 
-import { itRejects, itResolves } from '~/constructs/Api/utils';
+import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
 import { getRoleCredentials } from '~/utils';
 
 const stsMock = mockClient(STSClient);
@@ -28,7 +28,7 @@ beforeEach(() => {
 });
 
 describe('getRoleCredentials', () => {
-  itResolves(getRoleCredentials, args);
+  itResolvesCorrectly(getRoleCredentials, args);
 
   it('sends "AssumeRoleCommand" to STS with correct args', async () => {
     await getRoleCredentials(...args);
@@ -44,7 +44,7 @@ describe('getRoleCredentials', () => {
     beforeEach(() => {
       stsMock.on(AssumeRoleCommand).resolves({});
     });
-    itRejects(getRoleCredentials, args);
+    itRejectsCorrectly(getRoleCredentials, args);
   });
 
   describe.each(['AccessKeyId', 'SecretAccessKey'])(

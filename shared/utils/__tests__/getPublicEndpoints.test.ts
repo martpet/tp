@@ -1,4 +1,4 @@
-import { itReturns } from '~/constructs/Api/utils';
+import { itReturnsCorrectly } from '~/constructs/Api/utils';
 
 import { getPublicEndpoints } from '../getPublicEndpoints';
 
@@ -24,5 +24,5 @@ const args = [
 ] as unknown as Parameters<typeof getPublicEndpoints>;
 
 describe('getPublicEndpoints', () => {
-  itReturns(getPublicEndpoints, args);
+  itReturnsCorrectly(getPublicEndpoints, args);
 });

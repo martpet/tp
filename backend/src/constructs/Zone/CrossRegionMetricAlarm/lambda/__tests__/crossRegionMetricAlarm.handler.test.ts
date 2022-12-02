@@ -7,7 +7,7 @@ import {
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itResolves } from '~/constructs/Api/utils';
+import { itResolvesCorrectly } from '~/constructs/Api/utils';
 
 import { handler } from '../crossRegionMetricAlarm.handler';
 
@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 describe('crossRegionMetricAlarm.handler', () => {
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('sends "PutMetricAlarmCommand" to CloudWatch with correct args', async () => {
     await handler(...args);

@@ -5,7 +5,7 @@ import {
   itGetsIdToken,
   itHasEnvVars,
   itHasJsonBody,
-  itResolves,
+  itResolvesCorrectly,
 } from '~/constructs/Api/utils';
 import { PostGenerateUploadUrlsResponse } from '~/types';
 
@@ -31,7 +31,7 @@ describe('post-generate-upload-urls', () => {
   itHasJsonBody(handler, args);
   itHasEnvVars(['photoBucket'], handler, args);
   itGetsIdToken(handler, args);
-  itResolves(handler, args);
+  itResolvesCorrectly(handler, args);
 
   it('calls `createPresignedPost` with correct args', async () => {
     await handler(...args);
