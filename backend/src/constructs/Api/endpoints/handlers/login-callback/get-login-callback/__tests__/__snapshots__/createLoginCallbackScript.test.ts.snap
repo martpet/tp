@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`createLoginCallbackScript > calls "createSha256CspHash" with corrects args 1`] = `
+exports[`createLoginCallbackScript > calls "createSha256CspHash" with correct args 1`] = `
 [
   [
     "opener.postMessage(\\"login-success\\", \\"https://dummyAppDomain\\")",

@@ -1,4 +1,4 @@
-import { itReturnsCorrectly } from 'lambda-layer';
+import { itReturns } from '~/constructs/Api/utils';
 
 import { objectValuesToJson } from '../objectValuesToJson';
 
@@ -12,5 +12,5 @@ const args = [
 ] as Parameters<typeof objectValuesToJson>;
 
 describe('objectValuesToJson', () => {
-  itReturnsCorrectly(objectValuesToJson, args);
+  itReturns(objectValuesToJson, args);
 });

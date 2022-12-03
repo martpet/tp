@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { itResolvesCorrectly } from '~/constructs/Api/utils';
+import { itCalls, itResolves } from '~/constructs/Api/utils';
 import { getRandomBase64UrlSafe } from '~/utils';
 
 import { generateOauthRandoms } from '../generateOauthRandoms';
@@ -16,27 +16,9 @@ beforeEach(() => {
 });
 
 describe('generateOauthRandoms', () => {
-  itResolvesCorrectly(generateOauthRandoms);
-
-  it('calls "getRandomBase64UrlSafe" 3 times with correct values', async () => {
-    await generateOauthRandoms();
-    expect(vi.mocked(getRandomBase64UrlSafe).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "createHash" with a correct value', async () => {
-    await generateOauthRandoms();
-    expect(vi.mocked(crypto.createHash).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "update" on the return value of "createHash" with a correct value', async () => {
-    await generateOauthRandoms();
-    expect(vi.mocked(crypto.createHash('').update).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "digest" on the return value of "update" with a correct value', async () => {
-    await generateOauthRandoms();
-    expect(
-      vi.mocked(crypto.createHash('').update('').digest).mock.calls
-    ).toMatchSnapshot();
-  });
+  itResolves(generateOauthRandoms);
+  itCalls(getRandomBase64UrlSafe, generateOauthRandoms);
+  itCalls(crypto.createHash, generateOauthRandoms);
+  itCalls(crypto.createHash('').update, generateOauthRandoms);
+  itCalls(crypto.createHash('').update('').digest, generateOauthRandoms);
 });

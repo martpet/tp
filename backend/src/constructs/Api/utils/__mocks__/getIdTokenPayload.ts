@@ -1,4 +1,4 @@
-export const getIdTokenPayload = vi.fn().mockResolvedValue({
+export const getIdTokenPayload = vi.fn().mockName('getIdTokenPayload').mockResolvedValue({
   sub: 'dummySub',
   nonce: 'dummyNonce',
   aud: 'dummyAud',

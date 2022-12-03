@@ -39,7 +39,7 @@
     "@aws-sdk/client-sts": "^3.215.0",
     "@aws-sdk/lib-dynamodb": "^3.215.0",
     "@aws-sdk/s3-presigned-post": "^3.215.0",
-    "@aws-sdk/util-dynamodb": "^3.215.0",
+    "@aws-sdk/util-dynamodb": "^3.222.0",
     "@formatjs/intl": "^2.5.1",
     "@mrgrain/cdk-esbuild": "^3.11.4",
     "@react-spectrum/avatar": "^3.0.0-alpha.11",

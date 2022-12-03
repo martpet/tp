@@ -1,6 +1,7 @@
 import {
   errorResponse,
-  itReturnsCorrectly,
+  itCalls,
+  itReturns,
   lambdaEdgeErrorResponse,
 } from '~/constructs/Api/utils';
 
@@ -16,9 +17,6 @@ vi.mocked(errorResponse).mockReturnValue({
 });
 
 describe('lambdaEdgeErrorResponse', () => {
-  it('calls "errorResponse" with correct args', () => {
-    lambdaEdgeErrorResponse(...args);
-    expect(vi.mocked(errorResponse).mock.calls).toMatchSnapshot();
-  });
-  itReturnsCorrectly(lambdaEdgeErrorResponse, args);
+  itCalls(errorResponse, lambdaEdgeErrorResponse, args);
+  itReturns(lambdaEdgeErrorResponse, args);
 });

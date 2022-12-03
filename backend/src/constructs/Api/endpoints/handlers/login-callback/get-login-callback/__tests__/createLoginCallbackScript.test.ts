@@ -1,4 +1,4 @@
-import { itReturnsCorrectly } from 'lambda-layer';
+import { itCalls, itReturns } from 'lambda-layer';
 
 import { createSha256CspHash } from '~/utils/createSha256CspHash';
 
@@ -14,16 +14,12 @@ const args = [
 ] as Parameters<typeof createLoginCallbackScript>;
 
 describe('createLoginCallbackScript', () => {
-  itReturnsCorrectly(createLoginCallbackScript, args);
-
-  it('calls "createSha256CspHash" with corrects args', () => {
-    createLoginCallbackScript(...args);
-    expect(vi.mocked(createSha256CspHash).mock.calls).toMatchSnapshot();
-  });
+  itCalls(createSha256CspHash, createLoginCallbackScript, args);
+  itReturns(createLoginCallbackScript, args);
 
   describe('when "envName" is "personal"', () => {
     const argsClone = structuredClone(args);
     argsClone[0].envName = 'personal';
-    itReturnsCorrectly(createLoginCallbackScript, argsClone);
+    itReturns(createLoginCallbackScript, argsClone);
   });
 });

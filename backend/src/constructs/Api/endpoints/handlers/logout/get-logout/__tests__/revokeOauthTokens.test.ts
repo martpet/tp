@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 
-import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
+import { itCalls, itRejects, itResolves } from '~/constructs/Api/utils';
 
 import { revokeOauthTokens } from '../revokeOauthTokens';
 
@@ -19,20 +19,17 @@ beforeEach(() => {
 });
 
 describe('revokeOauthTokens', () => {
-  itResolvesCorrectly(revokeOauthTokens, args);
-
-  it('calls "fetch" with correct args', async () => {
-    await revokeOauthTokens(...args);
-    expect(vi.mocked(fetch).mock.calls).toMatchSnapshot();
-  });
+  itCalls(fetch, revokeOauthTokens, args);
+  itResolves(revokeOauthTokens, args);
 
   describe('when "fetch" response is not "ok"', () => {
     beforeEach(() => {
-      vi.mocked(fetch).mockResolvedValue({
+      const response = {
         ok: false,
         text: () => Promise.resolve('dummyFetchResponseText'),
-      } as Response);
+      } as Response;
+      vi.mocked(fetch).mockResolvedValue(response);
     });
-    itRejectsCorrectly(revokeOauthTokens, args);
+    itRejects(revokeOauthTokens, args);
   });
 });

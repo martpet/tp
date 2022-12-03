@@ -22,7 +22,8 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   const { photoBucket } = process.env as HandlerEnv<'/generate-upload-urls', 'POST'>;
   const dateString = new Date().toISOString();
-  let hashes;
+  let items;
+  let existingItemsInDb: string[];
 
   if (!authorization) {
     return errorResponse('Vf5Ph6qN1S');
@@ -37,24 +38,29 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
   }
 
   try {
-    hashes = JSON.parse(event.body) as PostGenerateUploadUrlsRequest;
+    items = JSON.parse(event.body) as PostGenerateUploadUrlsRequest;
   } catch (error) {
     return errorResponse('9210145fdf', { statusCode: StatusCodes.BAD_REQUEST, error });
   }
 
-  const existingItemsInDb = await findExistingItems(hashes);
-  const newItems = hashes.filter((hash) => !existingItemsInDb.includes(hash));
+  try {
+    existingItemsInDb = await findExistingItems(items);
+  } catch (error) {
+    return errorResponse('9fb96f4182', { error });
+  }
+
+  const newItems = items.filter((hash) => !existingItemsInDb.includes(hash));
   const { sub } = await getIdTokenPayload(authorization);
 
   const uploadUrlsEntries = await Promise.all(
     newItems.map(async (hash) => {
-      const foo = await createPresignedPost(s3Client, {
+      const presignedPost = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
         Key: `${sub}/${dateString}/${hash}.jpg`,
         Expires: 60,
         Conditions: [['content-length-range', 0, maxPhotoUploadSize]],
       });
-      return [hash, foo];
+      return [hash, presignedPost];
     })
   );
 

@@ -1,1 +1,4 @@
-export const createPresignedPost = vi.fn().mockResolvedValue('dummyPresignedPost');
+export const createPresignedPost = vi
+  .fn()
+  .mockName('createPresignedPost')
+  .mockResolvedValue('dummyPresignedPost');

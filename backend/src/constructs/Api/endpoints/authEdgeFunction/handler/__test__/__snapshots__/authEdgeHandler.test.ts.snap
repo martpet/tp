@@ -182,7 +182,7 @@ exports[`authEdgeHandler > when "sessionId" is missing > calls "lambdaEdgeErrorR
 
 exports[`authEdgeHandler > when "sessionId" is missing > resolves with a correct value 1`] = `"dummyLambdaEdgeErrorResponse"`;
 
-exports[`authEdgeHandler > when the endpoint is public > resolved with a correct value 1`] = `
+exports[`authEdgeHandler > when the endpoint is public > resolves with a correct value 1`] = `
 {
   "clientIp": "203.0.113.178",
   "headers": {
@@ -217,7 +217,7 @@ exports[`authEdgeHandler > when the endpoint is public > resolved with a correct
 }
 `;
 
-exports[`authEdgeHandler > when the request method is "OPTIONS" > resolved with a correct value 1`] = `
+exports[`authEdgeHandler > when the request method is "OPTIONS" > resolves with a correct value 1`] = `
 {
   "status": 204,
 }

@@ -8,7 +8,7 @@ import {
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itResolvesCorrectly } from '~/constructs/Api/utils';
+import { itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
 
 import { handler } from '../crossRegionSNSTopic.handler';
 
@@ -37,22 +37,14 @@ beforeEach(() => {
 });
 
 describe('crossRegionSNSTopic.handler', () => {
-  itResolvesCorrectly(handler, args);
-
-  it('sends "CreateTopicCommand" to SNS with correct args', async () => {
-    await handler(...args);
-    expect(snsMock.commandCalls(CreateTopicCommand)[0].args[0].input).toMatchSnapshot();
-  });
+  itSendsAwsCommand(CreateTopicCommand, snsMock, handler, args);
+  itResolves(handler, args);
 
   describe('when "subscribeInputs" is provided', () => {
     const argsClone = structuredClone(args);
     argsClone[0].ResourceProperties.subscribeInputs = [
-      {
-        subscribeKey1: 'subscribeValue1',
-      },
-      {
-        subscribeKey2: 'subscribeValue2',
-      },
+      { subscribeKey1: 'subscribeValue1' },
+      { subscribeKey2: 'subscribeValue2' },
     ];
 
     it('sends "SubscribeCommand" to SNS for each "subscribeInputs" item', async () => {
@@ -66,12 +58,7 @@ describe('crossRegionSNSTopic.handler', () => {
   describe('when "RequestType" is "Delete"', () => {
     const argsClone = structuredClone(args);
     argsClone[0].RequestType = 'Delete';
-
-    it('sends "DeleteTopicCommand" to SNS with correct args', async () => {
-      await handler(...argsClone);
-      expect(snsMock.commandCalls(DeleteTopicCommand)[0].args[0].input).toMatchSnapshot();
-    });
-
-    itResolvesCorrectly(handler, argsClone);
+    itSendsAwsCommand(DeleteTopicCommand, snsMock, handler, argsClone);
+    itResolves(handler, argsClone);
   });
 });

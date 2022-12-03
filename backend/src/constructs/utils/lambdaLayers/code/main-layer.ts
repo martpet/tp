@@ -20,15 +20,9 @@ export {
   Parameter,
   SSMClient,
 } from '@aws-sdk/client-ssm';
-export {
-  DeleteCommand,
-  DynamoDBDocumentClient,
-  GetCommand,
-  PutCommand,
-  UpdateCommand,
-} from '@aws-sdk/lib-dynamodb';
-export { createPresignedPost } from '@aws-sdk/s3-presigned-post';
-export { FetchTokensResponse, OauthTokens } from '~/constructs/Api/types';
+export * from '@aws-sdk/lib-dynamodb';
+export * from '@aws-sdk/s3-presigned-post';
+export { unmarshall } from '@aws-sdk/util-dynamodb';
 export * from '~/constructs/Api/types';
 export * from '~/constructs/Api/utils';
 export * from '~/consts';
@@ -48,6 +42,5 @@ export { default as clone } from 'clone';
 export { default as cookie } from 'cookie';
 export { default as crypto } from 'crypto';
 export * from 'http-status-codes';
-export { StatusCodes } from 'http-status-codes';
 export { default as millis } from 'milliseconds';
 export type { SetRequired } from 'type-fest';

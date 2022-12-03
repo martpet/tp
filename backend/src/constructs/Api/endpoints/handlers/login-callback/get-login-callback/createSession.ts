@@ -26,18 +26,16 @@ export const createSession = async ({ tokens }: CreateSessionProps) => {
   const created = Date.now();
   const refreshTokenExpires = created + millis.days(refreshTokenValidityInDays);
 
-  const putCommandItem: SessionsTableItem = {
-    id: sessionId,
-    userId: idTokenPayload.sub,
-    created,
-    refreshToken,
-    refreshTokenExpires,
-    idToken,
-  };
-
   const putCommand = new PutCommand({
     TableName: sessionsTableOptions.tableName,
-    Item: putCommandItem,
+    Item: {
+      id: sessionId,
+      userId: idTokenPayload.sub,
+      created,
+      refreshToken,
+      refreshTokenExpires,
+      idToken,
+    } satisfies SessionsTableItem,
   });
 
   await ddbDocClient.send(putCommand);

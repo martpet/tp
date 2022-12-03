@@ -1,1 +1,4 @@
-export const errorResponse = vi.fn().mockReturnValue('dummyErrorResponse');
+export const errorResponse = vi
+  .fn()
+  .mockName('errorResponse')
+  .mockReturnValue('dummyErrorResponse');

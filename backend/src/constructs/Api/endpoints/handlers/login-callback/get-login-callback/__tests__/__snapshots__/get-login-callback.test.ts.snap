@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`"get-login-callback" handler > calls "createLoginCallbackScript" with corrects args 1`] = `
+exports[`"get-login-callback" handler > calls "createLoginCallbackScript" with correct args 1`] = `
 [
   [
     {
@@ -11,7 +11,7 @@ exports[`"get-login-callback" handler > calls "createLoginCallbackScript" with c
 ]
 `;
 
-exports[`"get-login-callback" handler > calls "createSession" with corrects args 1`] = `
+exports[`"get-login-callback" handler > calls "createSession" with correct args 1`] = `
 [
   [
     {

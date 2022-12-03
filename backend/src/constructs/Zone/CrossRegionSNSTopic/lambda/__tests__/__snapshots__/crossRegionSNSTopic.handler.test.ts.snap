@@ -9,11 +9,11 @@ exports[`crossRegionSNSTopic.handler > resolves with a correct value 1`] = `
 }
 `;
 
-exports[`crossRegionSNSTopic.handler > sends "CreateTopicCommand" to SNS with correct args 1`] = `"dummyCreateTopicInput"`;
+exports[`crossRegionSNSTopic.handler > sends "CreateTopicCommand" from "SNSClient" with correct args 1`] = `"dummyCreateTopicInput"`;
 
 exports[`crossRegionSNSTopic.handler > when "RequestType" is "Delete" > resolves with a correct value 1`] = `"dummyDeleteTopicCommandOutput"`;
 
-exports[`crossRegionSNSTopic.handler > when "RequestType" is "Delete" > sends "DeleteTopicCommand" to SNS with correct args 1`] = `
+exports[`crossRegionSNSTopic.handler > when "RequestType" is "Delete" > sends "DeleteTopicCommand" from "SNSClient" with correct args 1`] = `
 {
   "TopicArn": "dummyPhysicalResourceId",
 }

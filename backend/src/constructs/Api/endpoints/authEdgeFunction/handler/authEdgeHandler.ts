@@ -30,9 +30,6 @@ export const handler: LambdaEdgeViewerRequestHandler = async (event) => {
     }
 
     const requestClone = clone(request);
-    // Can't pass test without cloning: https://github.com/facebook/jest/issues/7950
-    // [todo] use `structuredClone` when createAuthEdgeFunction is on Node 18
-
     requestClone.headers.authorization = [{ value: await getIdToken(sessionId) }];
     return requestClone;
   } catch (error) {

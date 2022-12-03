@@ -1,5 +1,3 @@
-import { itReturnsCorrectly } from '~/constructs/Api/utils';
-
 import { getPublicEndpoints } from '../getPublicEndpoints';
 
 const args = [
@@ -24,5 +22,7 @@ const args = [
 ] as unknown as Parameters<typeof getPublicEndpoints>;
 
 describe('getPublicEndpoints', () => {
-  itReturnsCorrectly(getPublicEndpoints, args);
+  it('returns a correct value', () => {
+    expect(getPublicEndpoints(...args)).toMatchSnapshot();
+  });
 });

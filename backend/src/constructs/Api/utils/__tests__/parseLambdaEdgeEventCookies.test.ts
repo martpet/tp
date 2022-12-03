@@ -1,19 +1,16 @@
 import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
-import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import {
-  itReturnsCorrectly,
+  itCalls,
+  itReturns,
   parseEventCookies,
   parseLambdaEdgeEventCookies,
 } from '~/constructs/Api/utils';
 
 vi.mock('../parseEventCookies');
 
-const args = [lambdaEdgeViewerEvent] as Parameters<LambdaEdgeViewerRequestHandler>;
+const args = [lambdaEdgeViewerEvent] as Parameters<typeof parseLambdaEdgeEventCookies>;
 
 describe('parseLambdaEdgeEventCookies', () => {
-  it('calls "parseEventCookies" with correct args', () => {
-    parseLambdaEdgeEventCookies(...args);
-    expect(vi.mocked(parseEventCookies).mock.calls).toMatchSnapshot();
-  });
-  itReturnsCorrectly(parseLambdaEdgeEventCookies, args);
+  itCalls(parseEventCookies, parseLambdaEdgeEventCookies, args);
+  itReturns(parseLambdaEdgeEventCookies, args);
 });

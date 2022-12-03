@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`createSession > calls "cookie.serialize" with correct args 1`] = `
+exports[`createSession > calls "serialize" with correct args 1`] = `
 [
   [
     "sessionId",
@@ -17,7 +17,7 @@ exports[`createSession > calls "cookie.serialize" with correct args 1`] = `
 
 exports[`createSession > resolves with a correct value 1`] = `"dummyCookie"`;
 
-exports[`createSession > sends "PutCommand" to DynamoDB with correct args 1`] = `
+exports[`createSession > sends "PutCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
 {
   "Item": {
     "created": 1640995200000,
@@ -31,7 +31,7 @@ exports[`createSession > sends "PutCommand" to DynamoDB with correct args 1`] = 
 }
 `;
 
-exports[`createSession > when "globalLambdaProps.envName" is "personal" > calls "cookie.serialize" with correct args 1`] = `
+exports[`createSession > when "globalLambdaProps.envName" is "personal" > calls "serialize" with correct args 1`] = `
 [
   [
     "sessionId",

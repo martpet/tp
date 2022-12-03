@@ -2,7 +2,12 @@ import { AssumeRoleCommand, Credentials, STSClient } from '@aws-sdk/client-sts';
 import { mockClient } from 'aws-sdk-client-mock';
 import camelcaseKeys from 'camelcase-keys';
 
-import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
+import {
+  itCalls,
+  itRejects,
+  itResolves,
+  itSendsAwsCommand,
+} from '~/constructs/Api/utils';
 import { getRoleCredentials } from '~/utils';
 
 const stsMock = mockClient(STSClient);
@@ -28,23 +33,15 @@ beforeEach(() => {
 });
 
 describe('getRoleCredentials', () => {
-  itResolvesCorrectly(getRoleCredentials, args);
-
-  it('sends "AssumeRoleCommand" to STS with correct args', async () => {
-    await getRoleCredentials(...args);
-    expect(stsMock.commandCalls(AssumeRoleCommand)[0].args[0].input).toMatchSnapshot();
-  });
-
-  it('calls "camelcaseKeys" with correct args', async () => {
-    await getRoleCredentials(...args);
-    expect(vi.mocked(camelcaseKeys).mock.calls).toMatchSnapshot();
-  });
+  itCalls(camelcaseKeys, getRoleCredentials, args);
+  itSendsAwsCommand(AssumeRoleCommand, stsMock, getRoleCredentials, args);
+  itResolves(getRoleCredentials, args);
 
   describe('when credentials are missing from "AssumeRoleCommand" output', () => {
     beforeEach(() => {
       stsMock.on(AssumeRoleCommand).resolves({});
     });
-    itRejectsCorrectly(getRoleCredentials, args);
+    itRejects(getRoleCredentials, args);
   });
 
   describe.each(['AccessKeyId', 'SecretAccessKey'])(

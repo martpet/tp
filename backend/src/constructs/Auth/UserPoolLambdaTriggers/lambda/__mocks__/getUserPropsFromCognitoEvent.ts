@@ -1,4 +1,7 @@
-export const getUserPropsFromCognitoEvent = vi.fn().mockReturnValue({
-  id: 'dummyId',
-  dummyUserPropFromCognitoEventKey: 'dummyUserPropFromCognitoEventValue',
-});
+export const getUserPropsFromCognitoEvent = vi
+  .fn()
+  .mockName('getUserPropsFromCognitoEvent')
+  .mockReturnValue({
+    id: 'dummyId',
+    dummyUserPropFromCognitoEventKey: 'dummyUserPropFromCognitoEventValue',
+  });

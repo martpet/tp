@@ -1,8 +1,12 @@
 import { GetParametersCommand, SSMClient } from '@aws-sdk/client-ssm';
-import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
+import {
+  itCalls,
+  itRejects,
+  itResolves,
+  itSendsAwsCommand,
+} from '~/constructs/Api/utils';
 import { getRoleCredentials } from '~/utils';
 
 import { handler } from '../crossAccountSSM.handler';
@@ -19,8 +23,8 @@ const args = [
         Names: ['dummyParameterName1', 'dummyParameterName2'],
       },
     },
-  } as unknown as CloudFormationCustomResourceEvent,
-] as Parameters<typeof handler>;
+  },
+] as unknown as Parameters<typeof handler>;
 
 beforeEach(() => {
   ssmMock.reset();
@@ -40,29 +44,21 @@ beforeEach(() => {
 });
 
 describe('crossAccountSSM.handler', () => {
-  it('calls "getRoleCredentials" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(getRoleCredentials).mock.calls).toMatchSnapshot();
-  });
-
-  it('sends "GetParametersCommand" to SSM with correct args', async () => {
-    await handler(...args);
-    expect(ssmMock.commandCalls(GetParametersCommand)[0].args[0].input).toMatchSnapshot();
-  });
-
-  itResolvesCorrectly(handler, args);
+  itCalls(getRoleCredentials, handler, args);
+  itSendsAwsCommand(GetParametersCommand, ssmMock, handler, args);
+  itResolves(handler, args);
 
   describe('when "getParametersInput.Names" is missing', () => {
     const argsClone = structuredClone(args);
     delete argsClone[0].ResourceProperties.getParametersInput.Names;
-    itRejectsCorrectly(handler, argsClone);
+    itRejects(handler, argsClone);
   });
 
   describe('when "Parameters" is missing from "GetParametersCommand" output', () => {
     beforeEach(() => {
       ssmMock.on(GetParametersCommand).resolves({});
     });
-    itRejectsCorrectly(handler, args);
+    itRejects(handler, args);
   });
 
   describe('when "Parameters" are missing required values', () => {
@@ -71,6 +67,6 @@ describe('crossAccountSSM.handler', () => {
         Parameters: [{ Name: 'dummyName' }],
       });
     });
-    itRejectsCorrectly(handler, args);
+    itRejects(handler, args);
   });
 });

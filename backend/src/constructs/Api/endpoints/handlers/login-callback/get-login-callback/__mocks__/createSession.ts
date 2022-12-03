@@ -1,1 +1,4 @@
-export const createSession = vi.fn().mockResolvedValue('dummySessionCookie');
+export const createSession = vi
+  .fn()
+  .mockName('createSession')
+  .mockResolvedValue('dummySessionCookie');

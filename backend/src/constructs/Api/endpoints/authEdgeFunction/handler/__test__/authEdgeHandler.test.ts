@@ -1,7 +1,8 @@
 import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
 import {
-  itResolvesCorrectly,
+  itCalls,
+  itResolves,
   itResolvesWithEdgeError,
   parseLambdaEdgeEventCookies,
 } from '~/constructs/Api/utils';
@@ -23,39 +24,22 @@ vi.mocked(parseLambdaEdgeEventCookies).mockReturnValue({
 });
 
 describe('authEdgeHandler', () => {
-  itResolvesCorrectly(handler, args);
-
-  it('calls "parseLambdaEdgeEventCookies" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(parseLambdaEdgeEventCookies).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "checkIsPublicEndpoint" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(checkIsPublicEndpoint).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "getIdToken" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(getIdToken).mock.calls).toMatchSnapshot();
-  });
+  itResolves(handler, args);
+  itCalls(parseLambdaEdgeEventCookies, handler, args);
+  itCalls(checkIsPublicEndpoint, handler, args);
+  itCalls(getIdToken, handler, args);
 
   describe('when the endpoint is public', () => {
     beforeEach(() => {
       vi.mocked(checkIsPublicEndpoint).mockReturnValueOnce(true);
     });
-    it('resolved with a correct value', () => {
-      return expect(handler(...args)).resolves.toMatchSnapshot();
-    });
+    itResolves(handler, args);
   });
 
   describe('when the request method is "OPTIONS"', () => {
     const argsClone = structuredClone(args);
     argsClone[0].Records[0].cf.request.method = 'OPTIONS';
-
-    it('resolved with a correct value', () => {
-      return expect(handler(...argsClone)).resolves.toMatchSnapshot();
-    });
+    itResolves(handler, argsClone);
   });
 
   describe('when "sessionId" is missing', () => {

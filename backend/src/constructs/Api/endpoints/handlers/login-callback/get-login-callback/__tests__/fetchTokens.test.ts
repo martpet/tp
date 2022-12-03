@@ -1,7 +1,12 @@
 import camelcaseKeys from 'camelcase-keys';
 import fetch, { Response } from 'node-fetch';
 
-import { getIdTokenPayload, itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
+import {
+  getIdTokenPayload,
+  itCalls,
+  itRejects,
+  itResolves,
+} from '~/constructs/Api/utils';
 
 import { fetchTokens } from '../fetchTokens';
 
@@ -24,29 +29,17 @@ vi.mocked(fetch).mockResolvedValue({
 } as Response);
 
 describe('fetchTokens', () => {
-  it('calls "fetch" with correct args', async () => {
-    await fetchTokens(...args);
-    expect(vi.mocked(fetch).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "camelcaseKeys" with correct args', async () => {
-    await fetchTokens(...args);
-    expect(vi.mocked(camelcaseKeys).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "getIdTokenPayload" with correct args', async () => {
-    await fetchTokens(...args);
-    expect(vi.mocked(getIdTokenPayload).mock.calls).toMatchSnapshot();
-  });
-
-  itResolvesCorrectly(fetchTokens, args);
+  itCalls(fetch, fetchTokens, args);
+  itCalls(camelcaseKeys, fetchTokens, args);
+  itCalls(getIdTokenPayload, fetchTokens, args);
+  itResolves(fetchTokens, args);
 
   describe('when "fetch" response contains an "error" prop', () => {
+    const error = { error: 'dummyErrorMessage' };
+    const response = { json: () => Promise.resolve(error) } as Response;
     beforeEach(() => {
-      vi.mocked(fetch).mockResolvedValueOnce({
-        json: () => Promise.resolve({ error: 'dummyErrorMessage' }),
-      } as Response);
+      vi.mocked(fetch).mockResolvedValueOnce(response);
     });
-    itRejectsCorrectly(fetchTokens, args);
+    itRejects(fetchTokens, args);
   });
 });

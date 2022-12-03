@@ -6,4 +6,7 @@ export const dummyOauthCookieProps: OauthCookieProps = {
   codeVerifier: 'dummyCodeVerifier',
 };
 
-export const parseOauthCookie = vi.fn().mockReturnValue(dummyOauthCookieProps);
+export const parseOauthCookie = vi
+  .fn()
+  .mockName('parseOauthCookie')
+  .mockReturnValue(dummyOauthCookieProps);

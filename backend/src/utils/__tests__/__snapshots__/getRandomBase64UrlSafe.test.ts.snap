@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`getRandomBase64UrlSafe > calls "crypto.randomBytes" with correct args 1`] = `
+exports[`getRandomBase64UrlSafe > calls "randomBytes" with correct args 1`] = `
 [
   [
     128,
@@ -8,7 +8,7 @@ exports[`getRandomBase64UrlSafe > calls "crypto.randomBytes" with correct args 1
 ]
 `;
 
-exports[`getRandomBase64UrlSafe > calls "toString" from the return value of "crypto.randomBytes" with correct args 1`] = `
+exports[`getRandomBase64UrlSafe > calls "toString" with correct args 1`] = `
 [
   [
     "base64url",

@@ -1,7 +1,12 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import cookie from 'cookie';
 
-import { itHasEnvVars, itHasQueryStrings, itResolvesCorrectly } from '~/constructs/Api/utils';
+import {
+  itCalls,
+  itHasEnvVars,
+  itHasQueryStrings,
+  itResolves,
+} from '~/constructs/Api/utils';
 
 import { handler } from '../get-login';
 
@@ -24,10 +29,6 @@ const args = [
 describe('"get-login" handler', () => {
   itHasQueryStrings(['provider'], handler, args);
   itHasEnvVars(['authDomain', 'loginCallbackUrl', 'clientId'], handler, args);
-  itResolvesCorrectly(handler, args);
-
-  it('calls "cookie.serialize" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
-  });
+  itCalls(cookie.serialize, handler, args);
+  itResolves(handler, args);
 });

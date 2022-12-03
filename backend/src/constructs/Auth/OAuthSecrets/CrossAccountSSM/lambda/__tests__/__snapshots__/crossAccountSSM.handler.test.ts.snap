@@ -20,7 +20,7 @@ exports[`crossAccountSSM.handler > resolves with a correct value 1`] = `
 }
 `;
 
-exports[`crossAccountSSM.handler > sends "GetParametersCommand" to SSM with correct args 1`] = `
+exports[`crossAccountSSM.handler > sends "GetParametersCommand" from "SSMClient" with correct args 1`] = `
 {
   "Names": [
     "dummyParameterName1",

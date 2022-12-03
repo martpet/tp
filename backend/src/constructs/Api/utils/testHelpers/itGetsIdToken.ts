@@ -1,19 +1,16 @@
-import { getIdTokenPayload } from '~/constructs/Api/utils';
+import { getIdTokenPayload, itCalls } from '~/constructs/Api/utils';
 import { CallbackAndArgsTuple } from '~/types';
 
 import { itResolvesWithError } from './itResolvesWithError';
 
 export function itGetsIdToken(...rest: CallbackAndArgsTuple) {
-  const [handler, handlerArgs = []] = rest;
+  const [callback, callbackArgs = []] = rest;
 
-  it('calls "getIdTokenPayload" with correct args', async () => {
-    await handler(...handlerArgs);
-    expect(vi.mocked(getIdTokenPayload).mock.calls).toMatchSnapshot();
-  });
+  itCalls(getIdTokenPayload, callback, callbackArgs);
 
   describe('when "authorization" header is missing', () => {
-    const argsClone = structuredClone(handlerArgs);
+    const argsClone = structuredClone(callbackArgs);
     argsClone[0].headers.authorization = undefined;
-    itResolvesWithError(handler, argsClone);
+    itResolvesWithError(callback, argsClone);
   });
 }

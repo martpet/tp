@@ -4,10 +4,9 @@ import {
   DeleteAlarmsCommandOutput,
   PutMetricAlarmCommand,
 } from '@aws-sdk/client-cloudwatch';
-import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itResolvesCorrectly } from '~/constructs/Api/utils';
+import { itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
 
 import { handler } from '../crossRegionMetricAlarm.handler';
 
@@ -21,8 +20,8 @@ const args = [
         AlarmName: 'dummyAlarmName',
       },
     },
-  } as unknown as CloudFormationCustomResourceEvent,
-] as Parameters<typeof handler>;
+  },
+] as unknown as Parameters<typeof handler>;
 
 beforeEach(() => {
   cloudWatchMock.reset();
@@ -33,28 +32,13 @@ beforeEach(() => {
 });
 
 describe('crossRegionMetricAlarm.handler', () => {
-  itResolvesCorrectly(handler, args);
-
-  it('sends "PutMetricAlarmCommand" to CloudWatch with correct args', async () => {
-    await handler(...args);
-    expect(
-      cloudWatchMock.commandCalls(PutMetricAlarmCommand)[0].args[0].input
-    ).toMatchSnapshot();
-  });
+  itSendsAwsCommand(PutMetricAlarmCommand, cloudWatchMock, handler, args);
+  itResolves(handler, args);
 
   describe('when "RequestType" is "Delete"', () => {
     const argsClone = structuredClone(args);
     argsClone[0].RequestType = 'Delete';
-
-    it('sends "DeleteAlarmsCommand" to CloudWatch with correct args', async () => {
-      await handler(...argsClone);
-      expect(
-        cloudWatchMock.commandCalls(DeleteAlarmsCommand)[0].args[0].input
-      ).toMatchSnapshot();
-    });
-
-    it('resolves with correct output', () => {
-      return expect(handler(...argsClone)).resolves.toMatchSnapshot();
-    });
+    itSendsAwsCommand(DeleteAlarmsCommand, cloudWatchMock, handler, argsClone);
+    itResolves(handler, argsClone);
   });
 });

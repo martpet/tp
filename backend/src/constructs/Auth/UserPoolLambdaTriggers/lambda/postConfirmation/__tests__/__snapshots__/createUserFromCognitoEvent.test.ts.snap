@@ -8,7 +8,7 @@ exports[`createUserFromCognitoEvent > resolves with a correct value 1`] = `
 }
 `;
 
-exports[`createUserFromCognitoEvent > sends "PutCommand" to DynamoDB with correct args 1`] = `
+exports[`createUserFromCognitoEvent > sends "PutCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
 {
   "Item": {
     "dummyUserPropFromCognitoEventKey": "dummyUserPropFromCognitoEventValue",

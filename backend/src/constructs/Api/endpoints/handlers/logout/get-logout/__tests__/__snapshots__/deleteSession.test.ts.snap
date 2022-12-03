@@ -2,7 +2,7 @@
 
 exports[`deleteSession > resolves with a correct value 1`] = `"dummyRefreshToken"`;
 
-exports[`deleteSession > sends "DeleteCommand" to DynamoDB with correct args 1`] = `
+exports[`deleteSession > sends "DeleteCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
 {
   "Key": {
     "id": "dummySessionId",

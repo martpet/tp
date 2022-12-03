@@ -1,7 +1,7 @@
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import { itResolvesCorrectly, itSendsDdbCommand } from '~/constructs/Api/utils';
+import { itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
 
 import { createUserFromCognitoEvent } from '../createUserFromCognitoEvent';
 import event from './__fixtures__/postConfirmationEvent';
@@ -21,6 +21,6 @@ beforeEach(() => {
 });
 
 describe('createUserFromCognitoEvent', () => {
-  itSendsDdbCommand(PutCommand, ddbMock, createUserFromCognitoEvent, args);
-  itResolvesCorrectly(createUserFromCognitoEvent, args);
+  itSendsAwsCommand(PutCommand, ddbMock, createUserFromCognitoEvent, args);
+  itResolves(createUserFromCognitoEvent, args);
 });

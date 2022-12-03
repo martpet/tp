@@ -1,27 +1,23 @@
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { mockClient } from 'aws-sdk-client-mock';
 
 import {
   itGetsIdToken,
-  itResolvesCorrectly,
+  itResolves,
   itResolvesWithError,
-  itSendsDdbCommand,
+  itSendsAwsCommand,
 } from '~/constructs/Api/utils';
-import { GetMeResponse } from '~/types';
 
 import { handler } from '../get-me';
 
-vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
+vi.mock('~/constructs/Api/utils/errorResponse');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
 const args = [
-  {
-    headers: { authorization: 'dummyAuthorizationHeader' },
-  },
-] as unknown as Parameters<APIGatewayProxyHandlerV2<GetMeResponse>>;
+  { headers: { authorization: 'dummyAuthorizationHeader' } },
+] as unknown as Parameters<typeof handler>;
 
 beforeEach(() => {
   ddbMock.reset();
@@ -41,8 +37,8 @@ beforeEach(() => {
 
 describe('get-me', () => {
   itGetsIdToken(handler, args);
-  itSendsDdbCommand(GetCommand, ddbMock, handler, args);
-  itResolvesCorrectly(handler, args);
+  itSendsAwsCommand(GetCommand, ddbMock, handler, args);
+  itResolves(handler, args);
 
   describe('when "Item" is missing from "GetCommand" output', () => {
     beforeEach(() => {

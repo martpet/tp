@@ -47,7 +47,7 @@ exports[`updateUserFromCognitoEvent > calls "getUserPropsFromCognitoEvent" with 
 ]
 `;
 
-exports[`updateUserFromCognitoEvent > sends "GetCommand" to DynamoDB with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > sends "GetCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
 {
   "Key": {
     "id": "dummyId",
@@ -76,7 +76,7 @@ exports[`updateUserFromCognitoEvent > when user props in event are changed > res
 }
 `;
 
-exports[`updateUserFromCognitoEvent > when user props in event are changed > sends "UpdateCommand" to DynamoDB with correct args 1`] = `
+exports[`updateUserFromCognitoEvent > when user props in event are changed > sends "UpdateCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
 {
   "ExpressionAttributeNames": "dummyExpressionAttributeNames",
   "ExpressionAttributeValues": "dummyExpressionAttributeValues",

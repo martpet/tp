@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 
-import { itRejectsCorrectly, itResolvesCorrectly } from '~/constructs/Api/utils';
+import { itCalls, itRejects, itResolves } from '~/constructs/Api/utils';
 
 import { fetchNewIdToken } from '../fetchNewIdToken';
 import { updateSession } from '../updateSession';
@@ -25,24 +25,16 @@ global.globalAuthEdgeFunctionProps = {
 } as typeof globalAuthEdgeFunctionProps;
 
 describe('fetchNewIdToken', () => {
-  itResolvesCorrectly(fetchNewIdToken, args);
-
-  it('calls "fetch" with correct args', async () => {
-    await fetchNewIdToken(...args);
-    expect(vi.mocked(fetch).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "updateSession" with correct args', async () => {
-    await fetchNewIdToken(...args);
-    expect(vi.mocked(updateSession).mock.calls).toMatchSnapshot();
-  });
+  itResolves(fetchNewIdToken, args);
+  itCalls(fetch, fetchNewIdToken, args);
+  itCalls(updateSession, fetchNewIdToken, args);
 
   describe('when "fetch" response contains an "error" prop', () => {
     beforeEach(() => {
-      vi.mocked(fetch).mockResolvedValueOnce({
-        json: () => Promise.resolve({ error: 'dummyErrorMessage' }),
-      } as Response);
+      const error = { error: 'dummyErrorMessage' };
+      const response = { json: () => Promise.resolve(error) } as Response;
+      vi.mocked(fetch).mockResolvedValueOnce(response);
     });
-    itRejectsCorrectly(fetchNewIdToken, args);
+    itRejects(fetchNewIdToken, args);
   });
 });

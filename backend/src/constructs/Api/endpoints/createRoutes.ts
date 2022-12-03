@@ -1,6 +1,7 @@
 import { HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2-alpha';
 import { HttpUserPoolAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers-alpha';
 import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
+import { Duration } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
@@ -35,7 +36,10 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
     '/logout': (f) => tables.sessionsTable.grantWriteData(f),
     '/me': (f) => tables.usersTable.grantReadData(f),
     '/settings': (f) => tables.usersTable.grantWriteData(f),
-    '/generate-upload-urls': (f) => photos.bucket.grantPut(f),
+    '/generate-upload-urls': (f) => {
+      photos.bucket.grantPut(f);
+      tables.photosTable.grantReadData(f);
+    },
   };
 
   const userPoolAuthorizer = new HttpUserPoolAuthorizer(
@@ -94,6 +98,7 @@ function createRoute({
   const handler = createNodejsFunction(scope, `api-handler-${handlerId}`, {
     entry: `${__dirname}/handlers/${formattedPathName}/${fileName}/${fileName}.ts`,
     environment: handlerEnvironment,
+    timeout: Duration.seconds(30),
     functionName: `api-handler--${formattedPathName.toLowerCase()}-${formattedMethodName.toUpperCase()}`,
   });
 

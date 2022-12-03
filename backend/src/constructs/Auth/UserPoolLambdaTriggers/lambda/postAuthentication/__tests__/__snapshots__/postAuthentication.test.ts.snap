@@ -1,5 +1,37 @@
 // Vitest Snapshot v1
 
+exports[`postAuthentication > calls "updateUserFromCognitoEvent" with correct args 1`] = `
+[
+  [
+    {
+      "callerContext": {
+        "awsSdkVersion": "dummyPostAuthAwsSdkVersion",
+        "clientId": "dummyPostAuthClientId",
+      },
+      "region": "dummyPostAuthRegion",
+      "request": {
+        "newDeviceUsed": false,
+        "userAttributes": {
+          "cognito:user_status": "EXTERNAL_PROVIDER",
+          "email": "dummyPostAuthEmail",
+          "email_verified": "false",
+          "family_name": "dummyPostAuthFamilyName",
+          "given_name": "dummyPostAuthGivenName",
+          "identities": "[{\\"userId\\":\\"182347123047012\\",\\"providerName\\":\\"Google\\",\\"providerType\\":\\"Google\\",\\"issuer\\":null,\\"primary\\":true,\\"dateCreated\\":1658487089823}]",
+          "picture": "dummyPostAuthPictureUrl",
+          "sub": "dummyPostAuthSub",
+        },
+      },
+      "response": {},
+      "triggerSource": "PostAuthentication_Authentication",
+      "userName": "dummyPostAuthUserName",
+      "userPoolId": "dummyPostAuthUserPoolId",
+      "version": "dummyPostAuthVersion",
+    },
+  ],
+]
+`;
+
 exports[`postAuthentication > resolves with a correct value 1`] = `
 {
   "callerContext": {

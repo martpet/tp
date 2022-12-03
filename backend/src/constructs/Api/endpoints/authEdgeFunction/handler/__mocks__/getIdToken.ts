@@ -1,1 +1,4 @@
-export const getIdToken = vi.fn().mockResolvedValue('dummyIdToken');
+export const getIdToken = vi
+  .fn()
+  .mockName('getIdToken')
+  .mockResolvedValue('dummyIdToken');

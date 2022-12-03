@@ -2,7 +2,7 @@
 
 exports[`getTokens > resolves with a correct value 1`] = `"dummyIdToken"`;
 
-exports[`getTokens > sends "GetCommand" to DynamoDB with correct args 1`] = `
+exports[`getTokens > sends "GetCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
 {
   "Key": {
     "id": "dummySessionId",

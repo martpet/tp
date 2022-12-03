@@ -2,9 +2,9 @@ import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import deepmerge from 'deepmerge';
-import { appName } from 'lambda-layer';
 
 import { DefaultGlobalLambdaProps, GlobalLambdaProps } from '~/constructs/types';
+import { appName } from '~/consts';
 import { getEnvName, objectValuesToJson } from '~/utils';
 
 import { getMainLayer } from './lambdaLayers';
@@ -30,12 +30,14 @@ export const createNodejsFunction = (
     runtime: Runtime.NODEJS_18_X,
     layers: [mainLayer],
     functionName: functionName ? `${appName}-${functionName}` : undefined,
+    environment: {
+      NODE_OPTIONS: '--enable-source-maps',
+    },
     bundling: {
       minify: true,
-      sourceMap: false,
+      sourceMap: true,
       externalModules: ['lambda-layer'],
       define: objectValuesToJson({
-        // [todo]: add the global variables as process.env in the main lambda layer
         ...defaultGlobalProps,
         ...globalProps,
       }),

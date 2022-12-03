@@ -2,9 +2,9 @@ import { TypeScriptCode } from '@mrgrain/cdk-esbuild';
 import { experimental } from 'aws-cdk-lib/aws-cloudfront';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
-import { appName } from 'lambda-layer';
 
 import { DefaultGlobalLambdaProps, GlobalLambdaProps } from '~/constructs/types';
+import { appName } from '~/consts';
 import { getEnvName, objectValuesToJson } from '~/utils';
 
 type CreateEdgeFunctionProps = Partial<experimental.EdgeFunctionProps> & {

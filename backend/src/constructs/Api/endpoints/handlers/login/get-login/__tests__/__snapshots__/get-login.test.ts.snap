@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`"get-login" handler > calls "cookie.serialize" with correct args 1`] = `
+exports[`"get-login" handler > calls "serialize" with correct args 1`] = `
 [
   [
     "oauth",

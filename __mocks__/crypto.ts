@@ -1,13 +1,27 @@
 export default {
-  randomBytes: vi.fn().mockReturnValue({
-    toString: vi.fn().mockReturnValue('dummyCryptoRandomBytesToString'),
-  }),
-
-  createHash: vi.fn().mockReturnValue({
-    update: vi.fn().mockReturnValue({
-      digest: vi.fn().mockReturnValue('dummyCryptoCreateHashUpdateDigest'),
+  randomBytes: vi
+    .fn()
+    .mockName('randomBytes')
+    .mockReturnValue({
+      toString: vi
+        .fn()
+        .mockName('toString')
+        .mockReturnValue('dummyCryptoRandomBytesToString'),
     }),
-  }),
 
+  createHash: vi
+    .fn()
+    .mockName('createHash')
+    .mockReturnValue({
+      update: vi
+        .fn()
+        .mockName('update')
+        .mockReturnValue({
+          digest: vi
+            .fn()
+            .mockName('digest')
+            .mockReturnValue('dummyCryptoCreateHashUpdateDigest'),
+        }),
+    }),
   randomUUID: vi.fn().mockReturnValue('dummyUUID'),
 };

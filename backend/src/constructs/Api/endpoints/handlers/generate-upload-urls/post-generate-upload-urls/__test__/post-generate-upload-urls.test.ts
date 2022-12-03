@@ -1,13 +1,13 @@
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import {
+  itCalls,
   itGetsIdToken,
   itHasEnvVars,
   itHasJsonBody,
-  itResolvesCorrectly,
+  itResolves,
+  itResolvesWithError,
 } from '~/constructs/Api/utils';
-import { PostGenerateUploadUrlsResponse } from '~/types';
 
 import { findExistingItems } from '../findExistingItems';
 import { handler } from '../post-generate-upload-urls';
@@ -25,21 +25,21 @@ const args = [
     headers: { authorization: 'dummyAuthorizationHeader' },
     body: JSON.stringify(['dummyHash1', 'dummyHash2']),
   },
-] as unknown as Parameters<APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse>>;
+] as unknown as Parameters<typeof handler>;
 
 describe('post-generate-upload-urls', () => {
   itHasJsonBody(handler, args);
   itHasEnvVars(['photoBucket'], handler, args);
   itGetsIdToken(handler, args);
-  itResolvesCorrectly(handler, args);
+  itResolves(handler, args);
+  itCalls(createPresignedPost, handler, args);
+  itCalls(findExistingItems, handler, args);
 
-  it('calls `createPresignedPost` with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(createPresignedPost).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls `findExistingItems` with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(findExistingItems).mock.calls).toMatchSnapshot();
+  describe('when `findExistingItems` throws', () => {
+    beforeEach(() => {
+      const error = new Error('dummyFindExistingItemsError');
+      vi.mocked(findExistingItems).mockRejectedValueOnce(error);
+    });
+    itResolvesWithError(handler, args);
   });
 });

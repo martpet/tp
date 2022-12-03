@@ -1,8 +1,9 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import {
+  itCalls,
   itHasEnvVars,
-  itResolvesCorrectly,
+  itResolves,
   itResolvesWithError,
   parseEventCookies,
 } from '~/constructs/Api/utils';
@@ -13,8 +14,8 @@ import { revokeOauthTokens } from '../revokeOauthTokens';
 
 vi.mock('../deleteSession');
 vi.mock('../revokeOauthTokens');
-vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/parseEventCookies');
+vi.mock('~/constructs/Api/utils/errorResponse');
 
 process.env.authDomain = 'dummyAuthDomain';
 process.env.clientId = 'dummyClientId';
@@ -36,42 +37,28 @@ describe('"get-logout" handler', () => {
     handler,
     args
   );
-  itResolvesCorrectly(handler, args);
-
-  it('calls "parseEventCookies" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(parseEventCookies).mock.calls).toMatchSnapshot();
-  });
+  itCalls(parseEventCookies, handler, args);
+  itResolves(handler, args);
 
   describe('when "parseEventCookies" returns a "sessionId"', () => {
     beforeEach(() => {
-      vi.mocked(parseEventCookies).mockReturnValueOnce({
-        sessionId: 'dummySessionId',
-      });
+      vi.mocked(parseEventCookies).mockReturnValueOnce({ sessionId: 'dummySessionId' });
     });
-
-    it('calls "deleteSession" with correct args', async () => {
-      await handler(...args);
-      expect(vi.mocked(deleteSession).mock.calls).toMatchSnapshot();
-    });
-
-    it('calls "revokeOauthTokens" with correct args', async () => {
-      await handler(...args);
-      expect(vi.mocked(revokeOauthTokens).mock.calls).toMatchSnapshot();
-    });
+    itCalls(deleteSession, handler, args);
+    itCalls(revokeOauthTokens, handler, args);
 
     describe('when "deleteSession" rejects', () => {
       beforeEach(() => {
-        vi.mocked(deleteSession).mockRejectedValueOnce('dummyDeleteSessionRejectedValue');
+        const error = new Error('dummyDeleteSessionRejectedValue');
+        vi.mocked(deleteSession).mockRejectedValueOnce(error);
       });
       itResolvesWithError(handler, args);
     });
 
     describe('when "revokeOauthTokens" rejects', () => {
       beforeEach(() => {
-        vi.mocked(revokeOauthTokens).mockRejectedValueOnce(
-          'dummyRevokeOauthTokensRejectedValue'
-        );
+        const error = new Error('dummyRevokeOauthTokensRejectedValue');
+        vi.mocked(revokeOauthTokens).mockRejectedValueOnce(error);
       });
       itResolvesWithError(handler, args);
     });
@@ -79,26 +66,21 @@ describe('"get-logout" handler', () => {
 
   describe('when "globalLambdaProps.envName" is "personal"', () => {
     const initialEnvName = globalLambdaProps.envName;
-
     beforeAll(() => {
       globalLambdaProps.envName = 'personal';
     });
-
     afterAll(() => {
       globalLambdaProps.envName = initialEnvName;
     });
-
     describe('when "referer" header is missing', () => {
       const argsClone = structuredClone(args);
       delete argsClone[0].headers.referer;
-
       itResolvesWithError(handler, argsClone);
     });
-
     describe('when "referer" is from localhost', () => {
       const argsClone = structuredClone(args);
       argsClone[0].headers.referer = 'http://localhost:3000/dummyPath';
-      itResolvesCorrectly(handler, argsClone);
+      itResolves(handler, argsClone);
     });
   });
 });

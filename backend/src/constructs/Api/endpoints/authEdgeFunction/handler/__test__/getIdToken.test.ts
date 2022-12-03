@@ -5,9 +5,10 @@ import millis from 'milliseconds';
 import { IdTokenPayload } from '~/constructs/Api/types';
 import {
   getIdTokenPayload,
-  itRejectsCorrectly,
-  itResolvesCorrectly,
-  itSendsDdbCommand,
+  itCalls,
+  itRejects,
+  itResolves,
+  itSendsAwsCommand,
 } from '~/constructs/Api/utils';
 
 import { fetchNewIdToken } from '../fetchNewIdToken';
@@ -43,41 +44,34 @@ beforeEach(() => {
 });
 
 describe('getTokens', () => {
-  itSendsDdbCommand(GetCommand, ddbMock, getIdToken, args);
-  itResolvesCorrectly(getIdToken, args);
+  itSendsAwsCommand(GetCommand, ddbMock, getIdToken, args);
+  itResolves(getIdToken, args);
 
   describe('when "Item" prop is missing from "GetCommand" output', () => {
     beforeEach(() => {
       ddbMock.on(GetCommand).resolves({});
     });
-    itRejectsCorrectly(getIdToken, args);
+    itRejects(getIdToken, args);
   });
 
   describe('when "idToken" has expired', () => {
     beforeAll(() => {
       vi.setSystemTime(new Date(idTokenExpiresInMills + millis.days(1)));
     });
-
     afterAll(() => {
       vi.setSystemTime(originalDate);
     });
-
-    it('calls "fetchNewIdToken" with correct args', async () => {
-      await getIdToken(...args);
-      expect(vi.mocked(fetchNewIdToken).mock.calls).toMatchSnapshot();
-    });
-
-    itResolvesCorrectly(getIdToken, args);
+    itCalls(fetchNewIdToken, getIdToken, args);
+    itResolves(getIdToken, args);
   });
 
   describe('when "refreshToken" has expired', () => {
     beforeAll(() => {
       vi.setSystemTime(new Date(refreshTokenExpires + millis.days(1)));
     });
-
     afterAll(() => {
       vi.setSystemTime(originalDate);
     });
-    itRejectsCorrectly(getIdToken, args);
+    itRejects(getIdToken, args);
   });
 });

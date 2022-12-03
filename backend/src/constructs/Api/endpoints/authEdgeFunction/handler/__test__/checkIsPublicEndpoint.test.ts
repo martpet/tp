@@ -1,5 +1,5 @@
 import { lambdaEdgeViewerEvent } from '~/constructs/Api/consts';
-import { itReturnsCorrectly } from '~/constructs/Api/utils';
+import { itReturns } from '~/constructs/Api/utils';
 
 import { checkIsPublicEndpoint } from '../checkIsPublicEndpoint';
 
@@ -15,19 +15,19 @@ beforeEach(() => {
 });
 
 describe('checkIsPublicEndpoint', () => {
-  itReturnsCorrectly(checkIsPublicEndpoint, args);
+  itReturns(checkIsPublicEndpoint, args);
 
   describe('when the endpont method is not public', () => {
     beforeEach(() => {
       request.uri = '/me';
     });
-    itReturnsCorrectly(checkIsPublicEndpoint, args);
+    itReturns(checkIsPublicEndpoint, args);
   });
 
   describe('when the endpoint path is not in "publicEndpoints"', () => {
     beforeEach(() => {
       request.uri = '';
     });
-    itReturnsCorrectly(checkIsPublicEndpoint, args);
+    itReturns(checkIsPublicEndpoint, args);
   });
 });

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`getAllowedOrigins > calls "getEnvName" with corrects args 1`] = `
+exports[`getAllowedOrigins > calls "getEnvName" with correct args 1`] = `
 [
   [
     "dummyScope",

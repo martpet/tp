@@ -31,7 +31,7 @@ import { apiOptions, appEnvs, publicEndpoints } from '~/consts';
 import { ApiOptions, ApiPath } from '~/types';
 import { getAllowedOrigins, getEnvName } from '~/utils';
 
-import { createAuthEdgeFunction } from '.';
+import { createAuthEdgeFunction } from './createAuthEdgeFunction';
 
 type Props = {
   scope: Construct;

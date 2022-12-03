@@ -1,3 +1,3 @@
-export const filterChangedProps = vi.fn().mockReturnValue({
+export const filterChangedProps = vi.fn().mockName('filterChangedProps').mockReturnValue({
   dummyChangedProp: 'dummyChangedPropValue',
 });

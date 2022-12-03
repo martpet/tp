@@ -1,1 +1,4 @@
-export const getRoleCredentials = vi.fn().mockResolvedValue('dummyRoleCredentials');
+export const getRoleCredentials = vi
+  .fn()
+  .mockName('getRoleCredentials')
+  .mockResolvedValue('dummyRoleCredentials');

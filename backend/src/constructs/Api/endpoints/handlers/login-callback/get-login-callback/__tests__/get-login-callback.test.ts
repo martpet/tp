@@ -1,10 +1,9 @@
-import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-
 import { OauthCookieProps } from '~/constructs/Api/types';
 import {
+  itCalls,
   itHasEnvVars,
   itHasQueryStrings,
-  itResolvesCorrectly,
+  itResolves,
   itResolvesWithError,
 } from '~/constructs/Api/utils';
 import { capitalize } from '~/utils';
@@ -39,39 +38,22 @@ const args = [
       error_description: 'dummyQueryStringErrorDescription',
     },
   },
-] as unknown as Parameters<APIGatewayProxyHandlerV2>;
+] as unknown as Parameters<typeof handler>;
 
 describe('"get-login-callback" handler', () => {
   itHasQueryStrings(['code', 'state'], handler, args);
   itHasEnvVars(['clientId', 'authDomain', 'loginCallbackUrl'], handler, args);
-  itResolvesCorrectly(handler, args);
-
-  it('calls "parseOauthCookie" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(parseOauthCookie).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "fetchTokens" with correct args', async () => {
-    await handler(...args);
-    expect(vi.mocked(fetchTokens).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "createSession" with corrects args', async () => {
-    await handler(...args);
-    expect(vi.mocked(createSession).mock.calls).toMatchSnapshot();
-  });
-
-  it('calls "createLoginCallbackScript" with corrects args', async () => {
-    await handler(...args);
-    expect(vi.mocked(createLoginCallbackScript).mock.calls).toMatchSnapshot();
-  });
+  itCalls(parseOauthCookie, handler, args);
+  itCalls(fetchTokens, handler, args);
+  itCalls(createSession, handler, args);
+  itCalls(createLoginCallbackScript, handler, args);
+  itResolves(handler, args);
 
   describe.each(['error'])('when "%s" query string parameter is present', (key) => {
     const argsClone = structuredClone(args);
     (argsClone[0] as Required<typeof argsClone[0]>).queryStringParameters[
       key
     ] = `dummyQueryString${capitalize(key)}`;
-
     itResolvesWithError(handler, argsClone);
   });
 

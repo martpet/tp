@@ -1,3 +1,6 @@
-export const parseLambdaEdgeEventCookies = vi.fn().mockReturnValue({
-  dummyLambdaEdgeEventCookie: 'dummyLambdaEdgeEventCookieValue',
-});
+export const parseLambdaEdgeEventCookies = vi
+  .fn()
+  .mockName('parseLambdaEdgeEventCookies')
+  .mockReturnValue({
+    dummyLambdaEdgeEventCookie: 'dummyLambdaEdgeEventCookieValue',
+  });

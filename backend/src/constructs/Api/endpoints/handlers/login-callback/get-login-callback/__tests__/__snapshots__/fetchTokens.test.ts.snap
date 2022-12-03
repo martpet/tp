@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`fetchTokens > calls "camelcaseKeys" with correct args 1`] = `
+exports[`fetchTokens > calls "camelcase-keys" with correct args 1`] = `
 [
   [
     {

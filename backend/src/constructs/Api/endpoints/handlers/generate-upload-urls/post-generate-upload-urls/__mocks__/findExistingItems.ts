@@ -1,1 +1,4 @@
-export const findExistingItems = vi.fn().mockResolvedValue(['dummyHash2', 'dummyHash3']);
+export const findExistingItems = vi
+  .fn()
+  .mockName('findExistingItems')
+  .mockResolvedValue(['dummyHash2', 'dummyHash3']);

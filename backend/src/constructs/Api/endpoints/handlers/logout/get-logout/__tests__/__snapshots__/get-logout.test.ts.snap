@@ -112,7 +112,7 @@ exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" >
   [
     "If_8Sr_Y7L",
     {
-      "error": "dummyDeleteSessionRejectedValue",
+      "error": [Error: dummyDeleteSessionRejectedValue],
     },
   ],
 ]
@@ -125,7 +125,7 @@ exports[`"get-logout" handler > when "parseEventCookies" returns a "sessionId" >
   [
     "-8-K2WmZuo",
     {
-      "error": "dummyRevokeOauthTokensRejectedValue",
+      "error": [Error: dummyRevokeOauthTokensRejectedValue],
     },
   ],
 ]

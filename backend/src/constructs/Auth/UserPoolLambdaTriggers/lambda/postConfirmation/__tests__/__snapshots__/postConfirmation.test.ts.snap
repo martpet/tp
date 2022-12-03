@@ -1,5 +1,36 @@
 // Vitest Snapshot v1
 
+exports[`postConfirmation > calls "createUserFromCognitoEvent" with correct args 1`] = `
+[
+  [
+    {
+      "callerContext": {
+        "awsSdkVersion": "dummyPostConfirmAwsSdkVersion",
+        "clientId": "dummyPostConfirmClientId",
+      },
+      "region": "dummyPostConfirmRegion",
+      "request": {
+        "userAttributes": {
+          "cognito:user_status": "EXTERNAL_PROVIDER",
+          "email": "dummyPostConfirmEmail",
+          "email_verified": "dummyPostConfirmEmailVerified",
+          "family_name": "dummyPostConfirmFamilyName",
+          "given_name": "dummuPostConfirmGivenName",
+          "identities": "[{\\"userId\\":\\"102975344697093363099\\",\\"providerName\\":\\"Google\\",\\"providerType\\":\\"Google\\",\\"issuer\\":null,\\"primary\\":true,\\"dateCreated\\":1658604803064}]",
+          "picture": "dummyPostConfirmPictureUrl",
+          "sub": "dummyPostConfirmSub",
+        },
+      },
+      "response": {},
+      "triggerSource": "PostConfirmation_ConfirmSignUp",
+      "userName": "dummyPostConfirmUserName",
+      "userPoolId": "dummyPostConfirmUserPoolId",
+      "version": "dummyPostConfirmVersion",
+    },
+  ],
+]
+`;
+
 exports[`postConfirmation > resolves with a correct value 1`] = `
 {
   "callerContext": {

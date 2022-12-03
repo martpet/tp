@@ -26,9 +26,7 @@ const allowedSettingsKeys: Array<keyof UserSettings> = [
 
 const settingsAttrName: keyof UsersTableItem = 'settings';
 
-export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (
-  event
-) => {
+export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (event) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   let patch;
 

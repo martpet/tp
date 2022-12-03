@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`createSha256CspHash > calls "createHash" with a correct value 1`] = `
+exports[`createSha256CspHash > calls "createHash" with correct args 1`] = `
 [
   [
     "sha256",
@@ -8,7 +8,7 @@ exports[`createSha256CspHash > calls "createHash" with a correct value 1`] = `
 ]
 `;
 
-exports[`createSha256CspHash > calls "digest" on the return value of "update" with a correct value 1`] = `
+exports[`createSha256CspHash > calls "digest" with correct args 1`] = `
 [
   [
     "base64",
@@ -16,7 +16,7 @@ exports[`createSha256CspHash > calls "digest" on the return value of "update" wi
 ]
 `;
 
-exports[`createSha256CspHash > calls "update" on the return value of "createHash" with a correct value 1`] = `
+exports[`createSha256CspHash > calls "update" with correct args 1`] = `
 [
   [
     "dummyContent",

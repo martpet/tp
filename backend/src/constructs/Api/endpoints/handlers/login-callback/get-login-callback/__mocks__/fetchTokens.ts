@@ -12,4 +12,7 @@ export const dummyOauthTokens: OauthTokens = {
   } as IdTokenPayload,
 };
 
-export const fetchTokens = vi.fn().mockResolvedValue(dummyOauthTokens);
+export const fetchTokens = vi
+  .fn()
+  .mockName('fetchTokens')
+  .mockResolvedValue(dummyOauthTokens);

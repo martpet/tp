@@ -1,14 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`post-generate-upload-urls > calls "getIdTokenPayload" with correct args 1`] = `
-[
-  [
-    "dummyAuthorizationHeader",
-  ],
-]
-`;
-
-exports[`post-generate-upload-urls > calls \`createPresignedPost\` with correct args 1`] = `
+exports[`post-generate-upload-urls > calls "createPresignedPost" with correct args 1`] = `
 [
   [
     DummyS3Client {},
@@ -28,13 +20,21 @@ exports[`post-generate-upload-urls > calls \`createPresignedPost\` with correct 
 ]
 `;
 
-exports[`post-generate-upload-urls > calls \`findExistingItems\` with correct args 1`] = `
+exports[`post-generate-upload-urls > calls "findExistingItems" with correct args 1`] = `
 [
   [
     [
       "dummyHash1",
       "dummyHash2",
     ],
+  ],
+]
+`;
+
+exports[`post-generate-upload-urls > calls "getIdTokenPayload" with correct args 1`] = `
+[
+  [
+    "dummyAuthorizationHeader",
   ],
 ]
 `;
@@ -97,3 +97,16 @@ exports[`post-generate-upload-urls > when "photoBucket" env var is missing > cal
 `;
 
 exports[`post-generate-upload-urls > when "photoBucket" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`post-generate-upload-urls > when \`findExistingItems\` throws > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "9fb96f4182",
+    {
+      "error": [Error: dummyFindExistingItemsError],
+    },
+  ],
+]
+`;
+
+exports[`post-generate-upload-urls > when \`findExistingItems\` throws > resolves with a correct value 1`] = `"dummyErrorResponse"`;

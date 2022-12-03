@@ -3,7 +3,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import cookie from 'cookie';
 
 import { OauthTokens } from '~/constructs/Api/types';
-import { itResolvesCorrectly, itSendsDdbCommand } from '~/constructs/Api/utils';
+import { itCalls, itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
 
 import { createSession } from '../createSession';
 
@@ -28,28 +28,18 @@ beforeEach(() => {
 });
 
 describe('createSession', () => {
-  itSendsDdbCommand(PutCommand, ddbMock, createSession, args);
-  itResolvesCorrectly(createSession, args);
-
-  it('calls "cookie.serialize" with correct args', async () => {
-    await createSession(...args);
-    expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
-  });
+  itSendsAwsCommand(PutCommand, ddbMock, createSession, args);
+  itCalls(cookie.serialize, createSession, args);
+  itResolves(createSession, args);
 
   describe('when "globalLambdaProps.envName" is "personal"', () => {
     const initialEnvName = globalLambdaProps.envName;
-
     beforeAll(() => {
       globalLambdaProps.envName = 'personal';
     });
-
     afterAll(() => {
       globalLambdaProps.envName = initialEnvName;
     });
-
-    it('calls "cookie.serialize" with correct args', async () => {
-      await createSession(...args);
-      expect(vi.mocked(cookie.serialize).mock.calls).toMatchSnapshot();
-    });
+    itCalls(cookie.serialize, createSession, args);
   });
 });
