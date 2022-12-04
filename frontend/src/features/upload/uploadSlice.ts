@@ -14,7 +14,7 @@ type UploadState = {
   files: FileMeta[];
   isAddingFiles: boolean;
   uploadUrls: Record<string, PresignedPost>;
-  existingHashesInDb: string[];
+  fingerprintsInDb: string[];
 };
 
 const initialState: UploadState = {
@@ -22,7 +22,7 @@ const initialState: UploadState = {
   files: [],
   isAddingFiles: false,
   uploadUrls: {},
-  existingHashesInDb: [],
+  fingerprintsInDb: [],
 };
 
 export const uploadSlice = createSlice({
@@ -46,7 +46,7 @@ export const uploadSlice = createSlice({
     });
     builder.addMatcher(generateUploadUrls.matchFulfilled, (state, { payload }) => {
       state.uploadUrls = payload.uploadUrls;
-      state.existingHashesInDb = payload.existingHashesInDb;
+      state.fingerprintsInDb = payload.existingFingerprintsInDb;
     });
     builder.addMatcher(generateUploadUrls.matchRejected, (state) => {
       state.status = 'error';
@@ -61,31 +61,41 @@ export const { fileRemoved, uploadStarted } = uploadSlice.actions;
 export const selectUploadStatus = (state: RootState) => state.upload.status;
 export const selectFiles = (state: RootState) => state.upload.files;
 export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
-export const selectExistingHashesInDb = (state: RootState) =>
-  state.upload.existingHashesInDb;
+export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
 
-export const selectErrorsMap = createSelector(
+export const selectFilesErrorsMap = createSelector(
   selectFiles,
-  selectExistingHashesInDb,
-  (files, existingHashesInDb) => {
+  selectFingerprintsInDb,
+  (files, fingerprintsInDb) => {
     return Object.fromEntries(
-      files.map(({ id, hash, size, exif }) => {
+      files.map(({ id, fingerprint, size, exif }) => {
         const { gpsLatitude, gpsLongitude, dateTimeOriginal } = exif;
         const errors: FileError[] = [];
         if (size > maxPhotoUploadSize) errors.push('maxSizeExceeded');
         if (!gpsLatitude || !gpsLongitude) errors.push('missingLocation');
         if (!dateTimeOriginal) errors.push('missingDate');
-        if (existingHashesInDb.includes(hash)) errors.push('alreadyUploaded');
+        if (fingerprintsInDb.includes(fingerprint)) errors.push('alreadyUploaded');
         return [id, errors];
       })
     );
   }
 );
 
+export const selectUniqueFiles = createSelector(selectFiles, (files) => {
+  const checkedFingerprints: string[] = [];
+  return files.filter(({ fingerprint }) => {
+    const isUnique = !checkedFingerprints.includes(fingerprint);
+    checkedFingerprints.push(fingerprint);
+    return isUnique;
+  });
+});
+
 export const selectUploadableFiles = createSelector(
-  selectFiles,
-  selectErrorsMap,
-  (files, errorsMap) => files.filter((file) => !errorsMap[file.id].length)
+  selectUniqueFiles,
+  selectFilesErrorsMap,
+  (files, filesErrorsMap) => {
+    return files.filter((file) => !filesErrorsMap[file.id].length);
+  }
 );
 
 // Listeners
@@ -103,8 +113,10 @@ startAppListening({
   actionCreator: uploadStarted,
   effect(action, { dispatch, getState }) {
     const files = selectUploadableFiles(getState());
-    const hashes = files.map(({ hash }) => hash);
-    const uniqueHashes = [...new Set(hashes)];
-    dispatch(generateUploadUrls.initiate(uniqueHashes));
+    const body = files.map(({ fingerprint, digest }) => ({
+      fingerprint,
+      digest,
+    }));
+    dispatch(generateUploadUrls.initiate(body));
   },
 });

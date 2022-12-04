@@ -13,8 +13,8 @@ exports[`post-generate-upload-urls > calls "createPresignedPost" with correct ar
           31457280,
         ],
       ],
-      "Expires": 60,
-      "Key": "dummySub/2022-01-01T00:00:00.000Z/dummyHash1.jpg",
+      "Expires": 30,
+      "Key": "dummySub/2022-01-01T00:00:00.000Z/dummyFingerprint2.jpg",
     },
   ],
 ]
@@ -24,8 +24,8 @@ exports[`post-generate-upload-urls > calls "findExistingItems" with correct args
 [
   [
     [
-      "dummyHash1",
-      "dummyHash2",
+      "dummyFingerprint1",
+      "dummyFingerprint2",
     ],
   ],
 ]
@@ -41,12 +41,11 @@ exports[`post-generate-upload-urls > calls "getIdTokenPayload" with correct args
 
 exports[`post-generate-upload-urls > resolves with a correct value 1`] = `
 {
-  "existingItemsInDb": [
-    "dummyHash2",
-    "dummyHash3",
+  "existingFingerprintsInDb": [
+    "dummyFingerprint1",
   ],
   "uploadUrls": {
-    "dummyHash1": "dummyPresignedPost",
+    "dummyFingerprint2": "dummyPresignedPost",
   },
 }
 `;

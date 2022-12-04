@@ -23,7 +23,16 @@ process.env.photoBucket = 'dummyPhotoBucket';
 const args = [
   {
     headers: { authorization: 'dummyAuthorizationHeader' },
-    body: JSON.stringify(['dummyHash1', 'dummyHash2']),
+    body: JSON.stringify([
+      {
+        fingerprint: 'dummyFingerprint1',
+        hash: 'dummyHash1',
+      },
+      {
+        fingerprint: 'dummyFingerprint2',
+        hash: 'dummyHash2',
+      },
+    ]),
   },
 ] as unknown as Parameters<typeof handler>;
 

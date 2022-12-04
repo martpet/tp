@@ -8,7 +8,7 @@ vi.mock('@aws-sdk/util-dynamodb');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
-const args = [['hash1']] as Parameters<typeof findExistingItems>;
+const args = [['fingerprint1']] as Parameters<typeof findExistingItems>;
 
 beforeEach(() => {
   ddbMock.reset();
@@ -16,8 +16,8 @@ beforeEach(() => {
   ddbMock.on(BatchGetCommand).resolves({
     Responses: {
       [photosTableOptions.tableName]: [
-        { hash: 'existingHash1' },
-        { hash: 'existingHash2' },
+        { fingerprint: 'existingFingerprint1' },
+        { fingerprint: 'existingFingerprint1' },
       ],
     },
   });
@@ -50,7 +50,7 @@ describe('findExistingItems', () => {
         .on(BatchGetCommand)
         .resolvesOnce({
           Responses: {
-            [photosTableOptions.tableName]: [{ hash: 'existingHash3' }],
+            [photosTableOptions.tableName]: [{ fingerprint: 'existingFingerprint3' }],
           },
           UnprocessedKeys: {
             [photosTableOptions.tableName]: { Keys: [{ dummyUnprocessedKey: '' }] },
@@ -58,7 +58,7 @@ describe('findExistingItems', () => {
         })
         .resolvesOnce({
           Responses: {
-            [photosTableOptions.tableName]: [{ hash: 'existingHash4' }],
+            [photosTableOptions.tableName]: [{ fingerprint: 'existingFingerprint4' }],
           },
         });
     });

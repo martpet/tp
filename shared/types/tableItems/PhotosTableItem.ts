@@ -1,7 +1,7 @@
 import { PhotoExif } from '../PhotoExif';
 
 export type PhotosTableItem = PhotoExif & {
-  hash: string;
+  fingerprint: string;
   userId: string;
-  created: number;
+  createdAt: number;
 };

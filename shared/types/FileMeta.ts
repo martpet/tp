@@ -4,7 +4,8 @@ export type FileMeta = {
   id: string;
   name: string;
   size: number;
+  fingerprint: string;
+  digest: string;
   exif: Partial<PhotoExif>;
-  hash: string;
   objectURL: string;
 };

@@ -21,9 +21,9 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
 ) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   const { photoBucket } = process.env as HandlerEnv<'/generate-upload-urls', 'POST'>;
-  const dateString = new Date().toISOString();
-  let hashes;
-  let existingHashesInDb: string[];
+  const dateNowString = new Date().toISOString();
+  let requestItems;
+  let existingFingerprintsInDb: string[];
 
   if (!authorization) {
     return errorResponse('Vf5Ph6qN1S');
@@ -38,34 +38,41 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
   }
 
   try {
-    hashes = JSON.parse(event.body) as PostGenerateUploadUrlsRequest;
+    requestItems = JSON.parse(event.body) as PostGenerateUploadUrlsRequest;
   } catch (error) {
     return errorResponse('9210145fdf', { statusCode: StatusCodes.BAD_REQUEST, error });
   }
 
   try {
-    existingHashesInDb = await findExistingItems(hashes);
+    const fingerprints = requestItems.map(({ fingerprint }) => fingerprint);
+    existingFingerprintsInDb = await findExistingItems(fingerprints);
   } catch (error) {
     return errorResponse('9fb96f4182', { error });
   }
 
-  const newHashes = hashes.filter((hash) => !existingHashesInDb.includes(hash));
+  const uniqueItems = requestItems.filter(
+    ({ fingerprint }) => !existingFingerprintsInDb.includes(fingerprint)
+  );
   const { sub } = await getIdTokenPayload(authorization);
 
   const uploadUrlsEntries = await Promise.all(
-    newHashes.map(async (hash) => {
+    uniqueItems.map(async ({ fingerprint, digest }) => {
       const presignedPost = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
-        Key: `${sub}/${dateString}/${hash}.jpg`,
-        Expires: 60,
+        Key: `${sub}/${dateNowString}/${fingerprint}.jpg`,
+        Expires: 30,
+        Fields: {
+          'x-amz-checksum-algorithm': 'SHA256',
+          'x-amz-checksum-sha256': digest,
+        },
         Conditions: [['content-length-range', 0, maxPhotoUploadSize]],
       });
-      return [hash, presignedPost];
+      return [fingerprint, presignedPost];
     })
   );
 
   return {
     uploadUrls: Object.fromEntries(uploadUrlsEntries),
-    existingHashesInDb,
+    existingFingerprintsInDb,
   };
 };

@@ -9,7 +9,7 @@ import {
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocument.from(ddbClient);
 
-export const findExistingItems = async (hashes: string[]) => {
+export const findExistingItems = async (fingerprints: string[]) => {
   const { tableName, partitionKey } = photosTableOptions;
   const result: string[] = [];
 
@@ -21,7 +21,7 @@ export const findExistingItems = async (hashes: string[]) => {
     const { Responses, UnprocessedKeys } = await ddbDocClient.send(batchGetCommand);
 
     if (Responses) {
-      Responses[tableName].forEach(({ hash }) => result.push(hash));
+      Responses[tableName].forEach(({ fingerprint }) => result.push(fingerprint));
     }
 
     if (UnprocessedKeys) {
@@ -33,7 +33,7 @@ export const findExistingItems = async (hashes: string[]) => {
     }
   }
 
-  const keys = hashes.map((hash) => ({ [partitionKey.name]: hash }));
+  const keys = fingerprints.map((fingerprint) => ({ [partitionKey.name]: fingerprint }));
   const maxItems = 100;
   const promises = [];
 

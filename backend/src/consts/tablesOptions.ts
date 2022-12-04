@@ -36,7 +36,7 @@ export const sessionsTableOptions = makeTableOptions<SessionsTableItem>({
 export const photosTableOptions = makeTableOptions<PhotosTableItem>({
   tableName: 'photos',
   partitionKey: {
-    name: 'hash',
+    name: 'fingerprint',
     type: AttributeType.STRING,
   },
 });

@@ -12,7 +12,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { maxPhotoUploadSize } from '~/common/consts';
 import { useAppSelector } from '~/common/hooks';
-import { selectErrorsMap } from '~/features/upload';
+import { selectFilesErrorsMap } from '~/features/upload';
 import { FileMeta, FileMissingMetaDataError } from '~/features/upload/types';
 
 import classNames from './ThumbnailError.module.css';
@@ -22,7 +22,7 @@ type Props = {
 };
 
 export function ThumbnailError({ file }: Props) {
-  const errorsMap = useAppSelector(selectErrorsMap);
+  const errorsMap = useAppSelector(selectFilesErrorsMap);
   const errors = errorsMap[file.id];
   const { formatMessage, formatList, formatNumber } = useIntl();
 

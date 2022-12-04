@@ -2,8 +2,8 @@
 
 exports[`findExistingItems > resolves with a correct value 1`] = `
 [
-  "existingHash1",
-  "existingHash2",
+  "existingFingerprint1",
+  "existingFingerprint1",
 ]
 `;
 
@@ -13,7 +13,7 @@ exports[`findExistingItems > sends "BatchGetCommand" from "DynamoDBDocumentClien
     "TP-photos": {
       "Keys": [
         {
-          "hash": "hash1",
+          "fingerprint": "fingerprint1",
         },
       ],
     },
@@ -23,8 +23,8 @@ exports[`findExistingItems > sends "BatchGetCommand" from "DynamoDBDocumentClien
 
 exports[`findExistingItems > when "BatchGetCommand" response has "UnprocessedKeys" > resolves with a correct value 1`] = `
 [
-  "existingHash3",
-  "existingHash4",
+  "existingFingerprint3",
+  "existingFingerprint4",
 ]
 `;
 
