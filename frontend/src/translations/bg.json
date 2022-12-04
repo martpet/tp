@@ -1,4 +1,8 @@
 {
+  "s+G7t6": {
+    "defaultMessage": "Тази снимка е качвана и преди",
+    "description": "upload thumbnail error already uploaded"
+  },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
     "description": "settings tab"

@@ -115,6 +115,10 @@
     "defaultMessage": "Profile",
     "description": "toolbar profile button aria label"
   },
+  "s+G7t6": {
+    "defaultMessage": "This photo has been previously uploaded",
+    "description": "upload thumbnail error already uploaded"
+  },
   "sXOp4w": {
     "defaultMessage": "Top",
     "description": "toolbar position picker label - top"

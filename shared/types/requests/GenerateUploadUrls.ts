@@ -4,5 +4,5 @@ export type PostGenerateUploadUrlsRequest = string[];
 
 export type PostGenerateUploadUrlsResponse = {
   uploadUrls: Record<string, PresignedPost>;
-  existingItemsInDb: string[];
+  existingHashesInDb: string[];
 };

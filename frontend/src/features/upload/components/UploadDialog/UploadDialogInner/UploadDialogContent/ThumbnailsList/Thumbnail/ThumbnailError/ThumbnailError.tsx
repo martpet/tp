@@ -12,7 +12,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { maxPhotoUploadSize } from '~/common/consts';
 import { useAppSelector } from '~/common/hooks';
-import { selectValidationErrorsMap } from '~/features/upload';
+import { selectErrorsMap } from '~/features/upload';
 import { FileMeta, FileMissingMetaDataError } from '~/features/upload/types';
 
 import classNames from './ThumbnailError.module.css';
@@ -22,13 +22,13 @@ type Props = {
 };
 
 export function ThumbnailError({ file }: Props) {
-  const validationErrorsMap = useAppSelector(selectValidationErrorsMap);
-  const validationErrors = validationErrorsMap[file.id];
-  const errors = validationErrors;
+  const errorsMap = useAppSelector(selectErrorsMap);
+  const errors = errorsMap[file.id];
   const { formatMessage, formatList, formatNumber } = useIntl();
 
   let missingMetaDataText;
   let fileTooBigText;
+  let alreadyUploadedText;
 
   if (!errors.length) {
     return null;
@@ -123,6 +123,13 @@ export function ThumbnailError({ file }: Props) {
     );
   }
 
+  if (errors.includes('alreadyUploaded')) {
+    alreadyUploadedText = formatMessage({
+      defaultMessage: 'This photo has been previously uploaded',
+      description: 'upload thumbnail error already uploaded',
+    });
+  }
+
   return (
     <View
       backgroundColor="negative"
@@ -133,7 +140,7 @@ export function ThumbnailError({ file }: Props) {
     >
       <Flex gap="size-75">
         <IconAlert size="S" />
-        {fileTooBigText || missingMetaDataText}
+        {alreadyUploadedText || fileTooBigText || missingMetaDataText}
       </Flex>
     </View>
   );
