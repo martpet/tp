@@ -12,6 +12,8 @@ export async function itSendsAwsCommand(
   }" from "${awsStub.clientName()}" with correct args`, async () => {
     const [callback, callbackArgs = []] = rest;
     await callback(...callbackArgs);
+
+    // [todo] Make snapshot of all calls; remove unnecessary props
     expect(awsStub.commandCalls(command)[0].args[0].input).toMatchSnapshot();
   });
 }

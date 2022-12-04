@@ -1,0 +1,43 @@
+// Vitest Snapshot v1
+
+exports[`findExistingItems > resolves with a correct value 1`] = `
+[
+  "existingHash1",
+  "existingHash2",
+]
+`;
+
+exports[`findExistingItems > sends "BatchGetCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
+{
+  "RequestItems": {
+    "TP-photos": {
+      "Keys": [
+        {
+          "hash": "hash1",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`findExistingItems > when "BatchGetCommand" response has "UnprocessedKeys" > resolves with a correct value 1`] = `
+[
+  "existingHash3",
+  "existingHash4",
+]
+`;
+
+exports[`findExistingItems > when "BatchGetCommand" response has "UnprocessedKeys" > sends "BatchGetCommand" a second time with correct args 1`] = `
+{
+  "RequestItems": {
+    "TP-photos": {
+      "Keys": [
+        "dummyUnmarshalledItems",
+      ],
+    },
+  },
+}
+`;
+
+exports[`findExistingItems > when "BatchGetCommand" response is missing "Responses" > resolves with a correct value 1`] = `[]`;

@@ -24,8 +24,8 @@ export const findExistingItems = async (hashes: string[]) => {
       Responses[tableName].forEach(({ hash }) => result.push(hash));
     }
 
-    if (UnprocessedKeys?.[tableName]) {
-      const nextKeys = UnprocessedKeys[tableName].Keys?.map((key) => unmarshall(key));
+    if (UnprocessedKeys) {
+      const nextKeys = UnprocessedKeys[tableName]?.Keys?.map((key) => unmarshall(key));
 
       if (nextKeys) {
         await batchGet(nextKeys);

@@ -1,11 +1,7 @@
 import { DeleteCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
-import {
-  itRejects,
-  itResolves,
-  itSendsAwsCommand,
-} from '~/constructs/Api/utils';
+import { itRejects, itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
 
 import { deleteSession } from '../deleteSession';
 
