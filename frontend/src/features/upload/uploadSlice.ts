@@ -85,6 +85,8 @@ export const selectPresignedPosts = (state: RootState) => state.upload.presigned
 export const selectSuccessfulTransfers = (state: RootState) =>
   state.upload.successfulTransfers;
 export const selectFailedTransfers = (state: RootState) => state.upload.failedTransfers;
+export const selectTransfersProgress = (state: RootState) =>
+  state.upload.transfersProgress;
 
 export const selectFilesErrors = createSelector(
   selectFiles,

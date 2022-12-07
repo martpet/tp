@@ -47,7 +47,7 @@ export const transferFiles = createAsyncThunk(
           xhr.upload.onprogress = ({ loaded, total }) => {
             progress[fingerprint] = (loaded / total) * 100;
             const now = Number(new Date());
-            if (lastProgressDispatchAt < now - 500) {
+            if (lastProgressDispatchAt < now - 250) {
               lastProgressDispatchAt = now;
               dispatch(progressUpdated({ ...progress }));
             }
@@ -65,6 +65,8 @@ export const transferFiles = createAsyncThunk(
         });
       })
     );
+
+    dispatch(progressUpdated(progress));
 
     return {
       successfulTransfers,

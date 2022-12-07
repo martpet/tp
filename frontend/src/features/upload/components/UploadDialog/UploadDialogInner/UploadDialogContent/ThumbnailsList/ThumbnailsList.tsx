@@ -1,5 +1,5 @@
 import { Grid, minmax, repeat } from '@adobe/react-spectrum';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectFiles } from '~/features/upload';
@@ -9,7 +9,13 @@ import { Thumbnail } from './Thumbnail/Thumbnail';
 
 export function ThumbnailsList() {
   const files = useSelector(selectFiles);
-  const initialFiles = useRef(files);
+  const prevFiles = useRef(files);
+
+  console.log('prevFiles.current.length', prevFiles.current.length);
+
+  useEffect(() => {
+    prevFiles.current = files;
+  }, [files]);
 
   if (!files.length) {
     return <EmptyState />;
@@ -26,7 +32,7 @@ export function ThumbnailsList() {
         <Thumbnail
           key={file.id}
           file={file}
-          didAddFilesSinceDialogOpen={files !== initialFiles.current}
+          scollIntoView={file === files.at(prevFiles.current.length)}
         />
       ))}
     </Grid>

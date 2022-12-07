@@ -9,7 +9,7 @@ import { selectIsLoadingMe } from '~/features/me/meSlice';
 
 import { LoginButton } from './LoginButton';
 
-// Preload assets after LoginInner is lazy loaded.
+// Preload assets after LoginInner is lazy loaded;
 // `adobeCleanBold` font used only in this component.
 document.head.insertAdjacentHTML(
   'beforeend',

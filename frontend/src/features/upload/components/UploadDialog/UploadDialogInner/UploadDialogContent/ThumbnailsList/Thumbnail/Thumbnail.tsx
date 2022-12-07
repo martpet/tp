@@ -2,24 +2,20 @@ import { Grid } from '@adobe/react-spectrum';
 import { Label } from '@react-spectrum/label';
 import { DragEventHandler, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 
 import { removeDateStringOffset } from '~/common/utils';
-import { selectFiles } from '~/features/upload';
 import { FileMeta } from '~/features/upload/types';
 
 import { ThumbnailAlert } from './ThumbnailAlert/ThumbnailAlert';
 import { ThumbnailRemoveButton } from './ThumbnailRemoveButton';
-import { ThumbnailOverlay } from './TnumbnailOverlay';
+import { TnumbnailOverlay } from './TnumbnailOverlay';
 
 type Props = {
   file: FileMeta;
-  didAddFilesSinceDialogOpen: boolean;
+  scollIntoView: boolean;
 };
 
-export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
-  const files = useSelector(selectFiles);
-  const isLastFile = file === files.at(-1);
+export function Thumbnail({ file, scollIntoView }: Props) {
   const [isImageLoaded, setImageLoaded] = useState(false);
   const container = useRef<HTMLDivElement>(null);
   const { formatDate } = useIntl();
@@ -38,7 +34,7 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
   const handleImgLoaded = () => {
     setImageLoaded(true);
 
-    if (isLastFile && didAddFilesSinceDialogOpen) {
+    if (scollIntoView) {
       requestAnimationFrame(() => {
         container.current?.scrollIntoView({
           block: 'end',
@@ -63,7 +59,7 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
             display: 'block',
           }}
         />
-        <ThumbnailOverlay gridColumn="1" gridRow="1" />
+        <TnumbnailOverlay gridColumn="1" gridRow="1" file={file} />
         <ThumbnailRemoveButton file={file} />
       </Grid>
       <ThumbnailAlert file={file} />
