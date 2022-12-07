@@ -12,8 +12,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { maxPhotoUploadSize } from '~/common/consts';
 import { useAppSelector } from '~/common/hooks';
-import { selectFilesErrorsMap } from '~/features/upload';
-import { FileMeta, FileMissingMetaDataError } from '~/features/upload/types';
+import { selectFilesErrors } from '~/features/upload';
+import { FileMeta, MissingExifDataError } from '~/features/upload/types';
 
 import classNames from './ThumbnailError.module.css';
 
@@ -22,19 +22,19 @@ type Props = {
 };
 
 export function ThumbnailError({ file }: Props) {
-  const errorsMap = useAppSelector(selectFilesErrorsMap);
-  const errors = errorsMap[file.id];
+  const errors = useAppSelector(selectFilesErrors)[file.id];
   const { formatMessage, formatList, formatNumber } = useIntl();
 
   let missingMetaDataText;
   let fileTooBigText;
   let alreadyUploadedText;
+  let transferFailedText;
 
   if (!errors.length) {
     return null;
   }
 
-  const missingMetaDataErrorMap: Record<FileMissingMetaDataError, string> = {
+  const missingMetaDataErrorMap: Record<MissingExifDataError, string> = {
     missingDate: formatMessage({
       defaultMessage: 'date',
       description: 'file meta: date',
@@ -46,8 +46,8 @@ export function ThumbnailError({ file }: Props) {
   };
 
   const missingMetaDataMessages = Object.keys(missingMetaDataErrorMap)
-    .filter((key) => errors.includes(key as FileMissingMetaDataError))
-    .map((error) => missingMetaDataErrorMap[error as FileMissingMetaDataError]);
+    .filter((key) => errors.includes(key as MissingExifDataError))
+    .map((error) => missingMetaDataErrorMap[error as MissingExifDataError]);
 
   const cannotUploadIntroText = (
     <>
@@ -130,6 +130,13 @@ export function ThumbnailError({ file }: Props) {
     });
   }
 
+  if (errors.includes('transferFailed')) {
+    transferFailedText = formatMessage({
+      defaultMessage: 'Transfer failed',
+      description: 'upload thumbnail error transfer failed',
+    });
+  }
+
   return (
     <View
       backgroundColor="negative"
@@ -140,7 +147,10 @@ export function ThumbnailError({ file }: Props) {
     >
       <Flex gap="size-75">
         <IconAlert size="S" />
-        {alreadyUploadedText || fileTooBigText || missingMetaDataText}
+        {transferFailedText ||
+          alreadyUploadedText ||
+          fileTooBigText ||
+          missingMetaDataText}
       </Flex>
     </View>
   );

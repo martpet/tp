@@ -5,7 +5,7 @@ import { appLoginDialogDismissed, loginWithProvider } from '~/features/me';
 
 export const loginFlow = createAsyncThunk(
   'loginFlowStatus',
-  (thunkArg, { dispatch }) =>
+  (arg, { dispatch }) =>
     new Promise<void>((resolve, reject) => {
       dispatch(
         addAppListener({

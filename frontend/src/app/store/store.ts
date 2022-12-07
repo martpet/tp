@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { autoBatchEnhancer, combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   FLUSH,
   PAUSE,
@@ -28,6 +28,9 @@ export const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
+  enhancers: (existingEnhancers) => {
+    return existingEnhancers.concat(autoBatchEnhancer());
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

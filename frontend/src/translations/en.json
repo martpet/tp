@@ -99,6 +99,10 @@
     "defaultMessage": "Left",
     "description": "toolbar position picker label - left"
   },
+  "fBncmS": {
+    "defaultMessage": "Transfer failed",
+    "description": "upload thumbnail error transfer failed"
+  },
   "jOxmkh": {
     "defaultMessage": "Continue with Apple",
     "description": "apple login button"

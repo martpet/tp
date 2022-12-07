@@ -1,4 +1,8 @@
 {
+  "fBncmS": {
+    "defaultMessage": "Качването е неуспешно",
+    "description": "upload thumbnail error transfer failed"
+  },
   "s+G7t6": {
     "defaultMessage": "Тази снимка е качвана и преди",
     "description": "upload thumbnail error already uploaded"

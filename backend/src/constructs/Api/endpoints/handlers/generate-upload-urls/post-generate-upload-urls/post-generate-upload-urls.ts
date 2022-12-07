@@ -60,7 +60,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
       const presignedPost = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
         Key: `${sub}/${dateNowString}/${fingerprint}.jpg`,
-        Expires: 30,
+        Expires: uniqueItems.length * 10,
         Fields: {
           'x-amz-checksum-algorithm': 'SHA256',
           'x-amz-checksum-sha256': digest,
@@ -72,7 +72,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
   );
 
   return {
-    uploadUrls: Object.fromEntries(uploadUrlsEntries),
+    presignedPosts: Object.fromEntries(uploadUrlsEntries),
     existingFingerprintsInDb,
   };
 };
