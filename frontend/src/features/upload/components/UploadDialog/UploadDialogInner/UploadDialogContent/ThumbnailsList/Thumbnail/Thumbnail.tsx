@@ -1,4 +1,4 @@
-import { View } from '@adobe/react-spectrum';
+import { Grid } from '@adobe/react-spectrum';
 import { Label } from '@react-spectrum/label';
 import { DragEventHandler, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -8,8 +8,9 @@ import { removeDateStringOffset } from '~/common/utils';
 import { selectFiles } from '~/features/upload';
 import { FileMeta } from '~/features/upload/types';
 
-import { ThumbnailError } from './ThumbnailError/ThumbnailError';
+import { ThumbnailAlert } from './ThumbnailAlert/ThumbnailAlert';
 import { ThumbnailRemoveButton } from './ThumbnailRemoveButton';
+import { ThumbnailOverlay } from './TnumbnailOverlay';
 
 type Props = {
   file: FileMeta;
@@ -49,7 +50,7 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
 
   return (
     <div ref={container} style={{ visibility: isImageLoaded ? 'visible' : 'hidden' }}>
-      <View position="relative">
+      <Grid position="relative">
         <img
           alt={file.name}
           src={file.objectURL}
@@ -62,9 +63,10 @@ export function Thumbnail({ file, didAddFilesSinceDialogOpen }: Props) {
             display: 'block',
           }}
         />
+        <ThumbnailOverlay gridColumn="1" gridRow="1" />
         <ThumbnailRemoveButton file={file} />
-      </View>
-      <ThumbnailError file={file} />
+      </Grid>
+      <ThumbnailAlert file={file} />
       {formattedDate && <Label marginTop="size-50">{formattedDate}</Label>}
     </div>
   );

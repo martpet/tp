@@ -95,7 +95,7 @@ export const selectFilesErrors = createSelector(
       files.map(({ id, fingerprint, size, exif }) => {
         const { gpsLatitude, gpsLongitude, dateTimeOriginal } = exif;
         const errors: UploadError[] = [];
-        if (size > maxPhotoUploadSize) errors.push('maxSizeExceeded');
+        if (size > maxPhotoUploadSize) errors.push('fileTooBig');
         if (!gpsLatitude || !gpsLongitude) errors.push('missingLocation');
         if (!dateTimeOriginal) errors.push('missingDate');
         if (fingerprintsInDb.includes(fingerprint)) errors.push('alreadyUploaded');

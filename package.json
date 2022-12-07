@@ -5,7 +5,7 @@
     "node": "18"
   },
   "scripts": {
-    "start": "npm run intl:compile && vite serve frontend",
+    "start": "vite serve frontend",
     "all": "npm run build && npm test && npm run check && npm run lint && npm run synth",
     "test": "npm run test:frontend -- -w=false && npm run test:backend -- -w=false && npm run test:shared -- -w=false",
     "test:frontend": "vitest --config frontend/vitest.config.ts --segfault-retry=3",

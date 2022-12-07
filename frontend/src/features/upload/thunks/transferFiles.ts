@@ -17,7 +17,7 @@ export const transferFiles = createAsyncThunk(
     const abortedTransfers: string[] = [];
     const failedTransfers: string[] = [];
     const progress: Record<string, number> = {};
-    let lastProgressDispatchAt = Number(new Date());
+    let lastProgressDispatchAt = 0;
 
     await Promise.all(
       files.map(async ({ fingerprint, objectURL }) => {
@@ -60,7 +60,6 @@ export const transferFiles = createAsyncThunk(
 
           xhr.upload.onerror = onerror;
           xhr.onerror = onerror;
-
           xhr.open('POST', url);
           xhr.send(form);
         });

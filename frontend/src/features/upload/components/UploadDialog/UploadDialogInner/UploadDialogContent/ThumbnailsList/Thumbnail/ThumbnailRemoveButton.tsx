@@ -19,7 +19,7 @@ export function ThumbnailRemoveButton({ file }: Props) {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobileDevice();
   const isOnLeft = isAppleDevice() && !isMobile;
-  const offset = isMobile ? 4 : 2;
+  const offset = 'var(--spectrum-global-dimension-size-40)';
 
   const handleClick = (fileId: string) => () => {
     dispatch(fileRemoved(fileId));
@@ -40,6 +40,7 @@ export function ThumbnailRemoveButton({ file }: Props) {
         right: isOnLeft ? 'auto' : offset,
         left: isOnLeft ? offset : 'auto',
         transform: isMobile ? 'none' : 'scale(0.8)',
+        opacity: '0.9',
       }}
       aria-label={formatMessage({
         defaultMessage: 'Remove',

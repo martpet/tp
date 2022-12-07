@@ -1,6 +1,6 @@
 export type UploadError =
   | MissingExifDataError
-  | 'maxSizeExceeded'
+  | 'fileTooBig'
   | 'alreadyUploaded'
   | 'transferFailed';
 
