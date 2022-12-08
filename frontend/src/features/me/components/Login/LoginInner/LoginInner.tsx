@@ -1,8 +1,8 @@
 import { Flex } from '@adobe/react-spectrum';
 import { isWebKit } from '@react-aria/utils';
 
-import adobeCleanBold from '~/assets/fonts/AdobeClean-Bold.woff2';
-import googleLogo from '~/assets/google-logo.svg';
+// import adobeCleanBold from '~/assets/fonts/AdobeClean-Bold.woff2';
+// import googleLogo from '~/assets/google-logo.svg';
 import { Spinner } from '~/common/components';
 import { useAppSelector } from '~/common/hooks';
 import { selectIsLoadingMe } from '~/features/me/meSlice';
@@ -11,21 +11,21 @@ import { LoginButton } from './LoginButton';
 
 // Preload assets after LoginInner is lazy loaded;
 // `adobeCleanBold` font used only in this component.
-document.head.insertAdjacentHTML(
-  'beforeend',
-  `<link 
-    rel="preload" 
-    href="${googleLogo}"
-    as="image"
-    type="image/svg+xml" />
+// document.head.insertAdjacentHTML(
+//   'beforeend',
+//   `<link
+//     rel="preload"
+//     href="${googleLogo}"
+//     as="image"
+//     type="image/svg+xml" />
 
-  <link
-    rel="preload" 
-    href="${adobeCleanBold}" 
-    as="font" 
-    type="font/woff2"
-    crossorigin />`
-);
+//   <link
+//     rel="preload"
+//     href="${adobeCleanBold}"
+//     as="font"
+//     type="font/woff2"
+//     crossorigin />`
+// );
 
 type Props = {
   onLoginButtonClick?: () => void;

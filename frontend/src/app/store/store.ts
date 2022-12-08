@@ -14,7 +14,7 @@ import { api, publicDirApi } from '~/app/services';
 import { appSlice, meSlice, settingsSlice } from '~/features';
 import { uploadSlice } from '~/features/upload';
 
-import { listenerMiddleware, loggerMiddleware } from './middleware';
+import { listenerMiddleware } from './middleware';
 import { mePersistConfig, settingsPersistConfig } from './persistConfigs';
 
 export const rootReducer = combineReducers({
@@ -38,7 +38,7 @@ export const store = configureStore({
       },
     })
       .prepend(listenerMiddleware)
-      .concat(loggerMiddleware, api.middleware, publicDirApi.middleware),
+      .concat(api.middleware, publicDirApi.middleware),
 });
 
 export const persistor = persistStore(store);

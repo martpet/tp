@@ -11,8 +11,6 @@ export function ThumbnailsList() {
   const files = useSelector(selectFiles);
   const prevFiles = useRef(files);
 
-  console.log('prevFiles.current.length', prevFiles.current.length);
-
   useEffect(() => {
     prevFiles.current = files;
   }, [files]);

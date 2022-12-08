@@ -7,7 +7,7 @@ export const useThemeColorMetaTag = () => {
 
   useLayoutEffect(() => {
     if (metaEl) {
-      metaEl.content = colorScheme === 'dark' ? 'rgb(30, 30, 30' : 'rgb(245, 245, 245)';
+      metaEl.content = colorScheme === 'dark' ? 'rgb(29, 29, 29' : 'rgb(248, 248, 248);';
     }
   }, [colorScheme]);
 };
