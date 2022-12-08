@@ -11,8 +11,7 @@ import {
 } from 'redux-persist';
 
 import { api, publicDirApi } from '~/app/services';
-import { appSlice, meSlice, settingsSlice } from '~/features';
-import { uploadSlice } from '~/features/upload';
+import { appSlice, meSlice, settingsSlice, uploadSlice } from '~/features';
 
 import { listenerMiddleware } from './middleware';
 import { mePersistConfig, settingsPersistConfig } from './persistConfigs';

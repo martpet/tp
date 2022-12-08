@@ -1,12 +1,4 @@
 {
-  "fBncmS": {
-    "defaultMessage": "Качването е неуспешно",
-    "description": "upload thumbnail error transfer failed"
-  },
-  "s+G7t6": {
-    "defaultMessage": "Тази снимка е качвана и преди",
-    "description": "upload thumbnail error already uploaded"
-  },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
     "description": "settings tab"
@@ -34,6 +26,10 @@
   "5STaZv": {
     "defaultMessage": "Цветове",
     "description": "settings tab"
+  },
+  "5l+6Ai": {
+    "defaultMessage": "Файлът е {this_size}, но максималният разрешен размер е {max_size}",
+    "description": "upload thumbnail file size error"
   },
   "7hkxXs": {
     "defaultMessage": "Профил",
@@ -75,6 +71,10 @@
     "defaultMessage": "Език",
     "description": "settings tab"
   },
+  "Kb5Rty": {
+    "defaultMessage": "Файлът вече е бил избран",
+    "description": "upload thumbnail error already selected"
+  },
   "LKo07P": {
     "defaultMessage": "Вход",
     "description": "login dialog heading"
@@ -87,6 +87,10 @@
     "defaultMessage": "Качване",
     "description": "upload dialog upload button"
   },
+  "QEjmY2": {
+    "defaultMessage": "Качва се…",
+    "description": "upload dialog upload button - uploading"
+  },
   "VeLxrQ": {
     "defaultMessage": "GPS локация",
     "description": "file meta: location"
@@ -95,6 +99,10 @@
     "defaultMessage": "Начало",
     "description": "logo button aria-label"
   },
+  "aL2S6s": {
+    "defaultMessage": "Скрий",
+    "description": "upload dialog hide button"
+  },
   "aq56G8": {
     "defaultMessage": "Излез от профила",
     "description": "logout button"
@@ -102,6 +110,10 @@
   "cgaF0x": {
     "defaultMessage": "в ляво",
     "description": "toolbar position picker label - left"
+  },
+  "fBncmS": {
+    "defaultMessage": "Качването е неуспешно",
+    "description": "upload thumbnail error transfer failed"
   },
   "jOxmkh": {
     "defaultMessage": "Вход с Apple",
@@ -118,6 +130,10 @@
   "oB9CE2": {
     "defaultMessage": "Профил",
     "description": "toolbar profile button aria label"
+  },
+  "s+G7t6": {
+    "defaultMessage": "Тази снимка е качвана и преди",
+    "description": "upload thumbnail error already uploaded"
   },
   "sXOp4w": {
     "defaultMessage": "отгоре",
@@ -150,9 +166,5 @@
   "zJ5RUL": {
     "defaultMessage": "Настройки",
     "description": "settings dialog heading"
-  },
-  "5l+6Ai": {
-    "defaultMessage": "Файлът е {this_size}, но максималният разрешен размер е {max_size}",
-    "description": "upload thumbnail file size error"
   }
 }

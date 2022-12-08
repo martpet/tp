@@ -1,7 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { addAppListener } from '~/app/store/middleware';
 import { RootState } from '~/common/types';
 import {
+  fileRemoved,
   progressUpdated,
   selectPresignedPosts,
   selectUploadableFiles,
@@ -14,17 +16,27 @@ export const transferFiles = createAsyncThunk(
     const files = selectUploadableFiles(state);
     const presignedPosts = selectPresignedPosts(state);
     const successfulTransfers: string[] = [];
-    const abortedTransfers: string[] = [];
     const failedTransfers: string[] = [];
+    const requests: Record<string, XMLHttpRequest> = {};
     const progress: Record<string, number> = {};
     let lastProgressDispatchAt = 0;
 
+    const unsubscribeFileRemoveListener = dispatch(
+      addAppListener({
+        actionCreator: fileRemoved,
+        effect({ payload }) {
+          requests[payload].abort();
+        },
+      })
+    );
+
     await Promise.all(
-      files.map(async ({ fingerprint, objectURL }) => {
-        const { url, fields } = presignedPosts[fingerprint];
+      files.map(async ({ id, objectURL }) => {
+        const { url, fields } = presignedPosts[id];
         const form = new FormData();
         const blob = await fetch(objectURL).then((r) => r.blob());
         const xhr = new XMLHttpRequest();
+        requests[id] = xhr;
 
         Object.entries(fields).forEach((entry) => form.append(...entry));
         form.append('file', blob);
@@ -32,30 +44,29 @@ export const transferFiles = createAsyncThunk(
         return new Promise<void>((resolve) => {
           xhr.onload = () => {
             if (xhr.status === 204) {
-              successfulTransfers.push(fingerprint);
+              successfulTransfers.push(id);
             } else {
-              failedTransfers.push(fingerprint);
+              failedTransfers.push(id);
             }
             resolve();
           };
 
+          const onerror = () => {
+            failedTransfers.push(id);
+            resolve();
+          };
+
           xhr.upload.onabort = () => {
-            abortedTransfers.push(fingerprint);
             resolve();
           };
 
           xhr.upload.onprogress = ({ loaded, total }) => {
-            progress[fingerprint] = (loaded / total) * 100;
+            progress[id] = Math.floor((loaded / total) * 100);
             const now = Number(new Date());
             if (lastProgressDispatchAt < now - 250) {
               lastProgressDispatchAt = now;
               dispatch(progressUpdated({ ...progress }));
             }
-          };
-
-          const onerror = () => {
-            failedTransfers.push(fingerprint);
-            resolve();
           };
 
           xhr.upload.onerror = onerror;
@@ -67,10 +78,11 @@ export const transferFiles = createAsyncThunk(
     );
 
     dispatch(progressUpdated(progress));
+    // @ts-ignore
+    unsubscribeFileRemoveListener();
 
     return {
       successfulTransfers,
-      abortedTransfers,
       failedTransfers,
     };
   }

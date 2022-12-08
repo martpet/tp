@@ -56,7 +56,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
   const { sub } = await getIdTokenPayload(authorization);
 
   const uploadUrlsEntries = await Promise.all(
-    uniqueItems.map(async ({ fingerprint, digest }) => {
+    uniqueItems.map(async ({ id, fingerprint, digest }) => {
       const presignedPost = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
         Key: `${sub}/${dateNowString}/${fingerprint}.jpg`,
@@ -67,7 +67,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
         },
         Conditions: [['content-length-range', 0, maxPhotoUploadSize]],
       });
-      return [fingerprint, presignedPost];
+      return [id, presignedPost];
     })
   );
 

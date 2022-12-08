@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '~/common/hooks';
-import { fileRemoved, selectUploadStatus } from '~/features/upload';
+import { fileRemoved, selectSuccessfulTransfers } from '~/features/upload';
 import { FileMeta } from '~/features/upload/types';
 
 type Props = {
@@ -15,17 +15,18 @@ type Props = {
 
 export function ThumbnailRemoveButton({ file }: Props) {
   const { formatMessage } = useIntl();
-  const uploadStatus = useSelector(selectUploadStatus);
+  const successfulTransfers = useSelector(selectSuccessfulTransfers);
+  const isTransferred = successfulTransfers.includes(file.id);
   const dispatch = useAppDispatch();
   const isMobile = useIsMobileDevice();
-  const isOnLeft = isAppleDevice() && !isMobile;
+  const isOnLeftSide = isAppleDevice() && !isMobile;
   const offset = 'var(--spectrum-global-dimension-size-40)';
 
   const handleClick = (fileId: string) => () => {
     dispatch(fileRemoved(fileId));
   };
 
-  if (uploadStatus === 'pending') {
+  if (isTransferred) {
     return null;
   }
 
@@ -37,8 +38,8 @@ export function ThumbnailRemoveButton({ file }: Props) {
       UNSAFE_style={{
         position: 'absolute',
         top: offset,
-        right: isOnLeft ? 'auto' : offset,
-        left: isOnLeft ? offset : 'auto',
+        right: isOnLeftSide ? 'auto' : offset,
+        left: isOnLeftSide ? offset : 'auto',
         transform: isMobile ? 'none' : 'scale(0.8)',
         opacity: '0.9',
       }}

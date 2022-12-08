@@ -7,8 +7,8 @@ import { removeDateStringOffset } from '~/common/utils';
 import { FileMeta } from '~/features/upload/types';
 
 import { ThumbnailAlert } from './ThumbnailAlert/ThumbnailAlert';
+import { TnumbnailOverlay } from './ThumbnailOverlay/TnumbnailOverlay';
 import { ThumbnailRemoveButton } from './ThumbnailRemoveButton';
-import { TnumbnailOverlay } from './TnumbnailOverlay';
 
 type Props = {
   file: FileMeta;

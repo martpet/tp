@@ -44,7 +44,7 @@
     "@mrgrain/cdk-esbuild": "^3.11.4",
     "@react-spectrum/avatar": "^3.0.0-alpha.11",
     "@react-spectrum/label": "^3.9.0",
-    "@reduxjs/toolkit": "^1.9.0",
+    "@reduxjs/toolkit": "^1.9.1",
     "@spectrum-icons/illustrations": "^3.5.1",
     "@vitest/coverage-istanbul": "^0.25.3",
     "app-root-path": "^3.1.0",

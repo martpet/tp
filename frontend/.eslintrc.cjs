@@ -16,7 +16,7 @@ module.exports = {
     'formatjs/enforce-description': ['error', 'literal'],
     'formatjs/enforce-default-message': ['error', 'literal'],
     'formatjs/enforce-placeholders': 'error',
-    'formatjs/no-literal-string-in-jsx': 'error',
+    'formatjs/no-literal-string-in-jsx': 'warn',
     'formatjs/no-multiple-whitespaces': 'error',
     'formatjs/no-multiple-plurals': 'error',
     'formatjs/no-offset': 'error',

@@ -1,9 +1,7 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { maxPhotoUploadSize } from '~/common/consts';
-import { useAppSelector } from '~/common/hooks';
 import { FileMeta } from '~/common/types';
-import { selectFilesErrors } from '~/features/upload';
 
 import { CannotUploadText } from './CannotUploadText';
 
@@ -12,12 +10,7 @@ type Props = {
 };
 
 export function FileTooBig({ file }: Props) {
-  const errors = useAppSelector(selectFilesErrors)[file.id];
   const { formatNumber } = useIntl();
-
-  if (!errors.includes('fileTooBig')) {
-    return null;
-  }
 
   return (
     <>

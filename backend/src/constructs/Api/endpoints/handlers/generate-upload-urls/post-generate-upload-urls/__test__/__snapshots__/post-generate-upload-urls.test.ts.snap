@@ -49,7 +49,7 @@ exports[`post-generate-upload-urls > resolves with a correct value 1`] = `
     "dummyFingerprint1",
   ],
   "presignedPosts": {
-    "dummyFingerprint2": "dummyPresignedPost",
+    "dummyId2": "dummyPresignedPost",
   },
 }
 `;

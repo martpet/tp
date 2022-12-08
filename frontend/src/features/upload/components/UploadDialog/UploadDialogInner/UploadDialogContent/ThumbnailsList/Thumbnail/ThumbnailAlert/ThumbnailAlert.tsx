@@ -6,6 +6,7 @@ import { useAppSelector } from '~/common/hooks';
 import { selectFilesErrors } from '~/features/upload';
 import { FileMeta, UploadError } from '~/features/upload/types';
 
+import { AlreadySelected } from './AlreadySelected';
 import { AlreadyUploaded } from './AlreadyUploaded';
 import { FileTooBig } from './FileTooBig';
 import { MissingExifData } from './MissingExifData';
@@ -23,11 +24,12 @@ export function ThumbnailAlert({ file }: Props) {
   }
 
   const errorNodes: Record<UploadError, ReactNode> = {
-    transferFailed: <TransferFailed file={file} />,
-    alreadyUploaded: <AlreadyUploaded file={file} />,
+    alreadySelected: <AlreadySelected />,
+    alreadyUploaded: <AlreadyUploaded />,
     fileTooBig: <FileTooBig file={file} />,
     missingDate: <MissingExifData file={file} />,
     missingLocation: <MissingExifData file={file} />,
+    transferFailed: <TransferFailed />,
   };
 
   const errorTypes = Object.keys(errorNodes) as UploadError[];

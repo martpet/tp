@@ -12,15 +12,21 @@ export function UploadDialogButtons() {
   const files = useAppSelector(selectFiles);
   const uploadableFiles = useAppSelector(selectUploadableFiles);
 
+  const closeText = (
+    <FormattedMessage defaultMessage="Close" description="upload dialog close button" />
+  );
+
+  const hideText = (
+    <FormattedMessage defaultMessage="Hide" description="upload dialog hide button" />
+  );
+
   return (
     <>
-      {uploadableFiles.length > 0 && <StartUploadButton />}
-      {files.length > 0 && <AddFilesButton variant="secondary" />}
+      {Boolean(uploadableFiles.length) && <StartUploadButton />}
+      {Boolean(files.length) && <AddFilesButton variant="secondary" />}
+
       <Button variant="secondary" onPress={dismiss}>
-        <FormattedMessage
-          defaultMessage="Close"
-          description="upload dialog close button"
-        />
+        {files.length ? hideText : closeText}
       </Button>
     </>
   );

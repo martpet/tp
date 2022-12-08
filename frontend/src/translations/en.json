@@ -71,6 +71,10 @@
     "defaultMessage": "Language",
     "description": "settings tab"
   },
+  "Kb5Rty": {
+    "defaultMessage": "This photo has already been selected",
+    "description": "upload thumbnail error already selected"
+  },
   "LKo07P": {
     "defaultMessage": "Log In",
     "description": "login dialog heading"
@@ -83,6 +87,10 @@
     "defaultMessage": "Start upload",
     "description": "upload dialog upload button"
   },
+  "QEjmY2": {
+    "defaultMessage": "Uploading…",
+    "description": "upload dialog upload button - uploading"
+  },
   "VeLxrQ": {
     "defaultMessage": "GPS location",
     "description": "file meta: location"
@@ -90,6 +98,10 @@
   "ZpWjQd": {
     "defaultMessage": "Home",
     "description": "logo button aria-label"
+  },
+  "aL2S6s": {
+    "defaultMessage": "Hide",
+    "description": "upload dialog hide button"
   },
   "aq56G8": {
     "defaultMessage": "Sign Out",

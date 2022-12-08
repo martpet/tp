@@ -4,7 +4,12 @@ import { createSelector, createSlice, isAnyOf, PayloadAction } from '@reduxjs/to
 import { startAppListening } from '~/app/store/middleware';
 import { maxPhotoUploadSize } from '~/common/consts';
 import { RootState } from '~/common/types';
-import { addFiles, generateUploadUrls, transferFiles } from '~/features/upload';
+import {
+  addFiles,
+  fileRemoved,
+  generateUploadUrls,
+  transferFiles,
+} from '~/features/upload';
 import { FileMeta, UploadError } from '~/features/upload/types';
 
 // Slice
@@ -15,8 +20,8 @@ type UploadState = {
   isAddingFiles: boolean;
   presignedPosts: Record<string, PresignedPost>;
   fingerprintsInDb: string[];
+  isTransfersStarted: boolean;
   successfulTransfers: string[];
-  abortedTransfers: string[];
   failedTransfers: string[];
   transfersProgress: Record<string, number>;
 };
@@ -26,9 +31,9 @@ const initialState: UploadState = {
   files: [],
   isAddingFiles: false,
   presignedPosts: {},
+  isTransfersStarted: false,
   fingerprintsInDb: [],
   successfulTransfers: [],
-  abortedTransfers: [],
   failedTransfers: [],
   transfersProgress: {},
 };
@@ -37,9 +42,6 @@ export const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
-    fileRemoved(state, action: PayloadAction<string>) {
-      state.files = state.files.filter(({ id }) => id !== action.payload);
-    },
     uploadStarted(state) {
       state.status = 'pending';
     },
@@ -55,9 +57,15 @@ export const uploadSlice = createSlice({
       state.files = state.files.concat(payload);
       state.isAddingFiles = false;
     });
+    builder.addCase(fileRemoved, (state, { payload }) => {
+      state.files = state.files.filter(({ id }) => id !== payload);
+      if (!state.files.length) state.status = 'idle';
+    });
+    builder.addCase(transferFiles.pending, (state) => {
+      state.isTransfersStarted = true;
+    });
     builder.addCase(transferFiles.fulfilled, (state, { payload }) => {
       state.successfulTransfers = payload.successfulTransfers;
-      state.abortedTransfers = payload.abortedTransfers;
       state.failedTransfers = payload.failedTransfers;
     });
     builder.addMatcher(generateUploadUrls.matchFulfilled, (state, { payload }) => {
@@ -73,7 +81,7 @@ export const uploadSlice = createSlice({
   },
 });
 
-export const { fileRemoved, uploadStarted, progressUpdated } = uploadSlice.actions;
+export const { uploadStarted, progressUpdated } = uploadSlice.actions;
 
 // Selectors
 
@@ -81,6 +89,8 @@ export const selectUploadStatus = (state: RootState) => state.upload.status;
 export const selectFiles = (state: RootState) => state.upload.files;
 export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
+export const selectIsTransferStarted = (state: RootState) =>
+  state.upload.isTransfersStarted;
 export const selectPresignedPosts = (state: RootState) => state.upload.presignedPosts;
 export const selectSuccessfulTransfers = (state: RootState) =>
   state.upload.successfulTransfers;
@@ -93,32 +103,26 @@ export const selectFilesErrors = createSelector(
   selectFingerprintsInDb,
   selectFailedTransfers,
   (files, fingerprintsInDb, failedTransfers) => {
+    const digests: string[] = [];
     return Object.fromEntries(
-      files.map(({ id, fingerprint, size, exif }) => {
+      files.map(({ id, digest, fingerprint, size, exif }) => {
         const { gpsLatitude, gpsLongitude, dateTimeOriginal } = exif;
         const errors: UploadError[] = [];
         if (size > maxPhotoUploadSize) errors.push('fileTooBig');
         if (!gpsLatitude || !gpsLongitude) errors.push('missingLocation');
         if (!dateTimeOriginal) errors.push('missingDate');
         if (fingerprintsInDb.includes(fingerprint)) errors.push('alreadyUploaded');
-        if (failedTransfers.includes(fingerprint)) errors.push('transferFailed');
+        if (failedTransfers.includes(id)) errors.push('transferFailed');
+        if (digests.includes(digest)) errors.push('alreadySelected');
+        digests.push(digest);
         return [id, errors];
       })
     );
   }
 );
 
-export const selectUniqueFiles = createSelector(selectFiles, (files) => {
-  const checkedFingerprints: string[] = [];
-  return files.filter(({ fingerprint }) => {
-    const isUnique = !checkedFingerprints.includes(fingerprint);
-    checkedFingerprints.push(fingerprint);
-    return isUnique;
-  });
-});
-
 export const selectUploadableFiles = createSelector(
-  selectUniqueFiles,
+  selectFiles,
   selectFilesErrors,
   (files, errors) => files.filter((file) => !errors[file.id].length)
 );
@@ -127,7 +131,7 @@ export const selectTransferredFiles = createSelector(
   selectUploadableFiles,
   selectSuccessfulTransfers,
   (files, successfulTransfers) =>
-    files.filter(({ fingerprint }) => successfulTransfers.includes(fingerprint))
+    files.filter(({ id }) => successfulTransfers.includes(id))
 );
 
 // Listeners
@@ -145,7 +149,8 @@ startAppListening({
   actionCreator: uploadStarted,
   effect(action, { dispatch, getState }) {
     const files = selectUploadableFiles(getState());
-    const queryArg = files.map(({ fingerprint, digest }) => ({
+    const queryArg = files.map(({ id, fingerprint, digest }) => ({
+      id,
       fingerprint,
       digest,
     }));

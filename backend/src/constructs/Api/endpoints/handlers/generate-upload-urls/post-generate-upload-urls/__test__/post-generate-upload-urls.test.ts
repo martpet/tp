@@ -25,10 +25,12 @@ const args = [
     headers: { authorization: 'dummyAuthorizationHeader' },
     body: JSON.stringify([
       {
+        id: 'dummyId1',
         fingerprint: 'dummyFingerprint1',
         hash: 'dummyHash1',
       },
       {
+        id: 'dummyId2',
         fingerprint: 'dummyFingerprint2',
         hash: 'dummyHash2',
       },
