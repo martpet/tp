@@ -3,8 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppSelector } from '~/common/hooks';
 import { FileMeta } from '~/common/types';
-import { selectFilesErrors } from '~/features/upload';
-import { MissingExifDataError } from '~/features/upload/types';
+import { MissingExifDataError, selectFilesErrors } from '~/features/upload';
 
 import { CannotUploadText } from './CannotUploadText';
 import { IPhoneHighEfficiencyContextualHelp } from './IPhoneHighEfficiencyContextualHelp';

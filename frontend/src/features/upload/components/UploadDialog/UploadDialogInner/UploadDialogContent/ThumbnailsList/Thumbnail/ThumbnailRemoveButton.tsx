@@ -6,8 +6,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '~/common/hooks';
-import { fileRemoved, selectSuccessfulTransfers } from '~/features/upload';
-import { FileMeta } from '~/features/upload/types';
+import { FileMeta, fileRemoved, selectSuccessfulTransfers } from '~/features/upload';
 
 type Props = {
   file: FileMeta;

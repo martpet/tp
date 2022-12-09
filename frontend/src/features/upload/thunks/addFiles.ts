@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { FileMeta } from '~/features/upload/types';
-import { getExif, hashFile } from '~/features/upload/utils';
+import { FileMeta, getExif, hashFile } from '~/features/upload';
 
 export const addFiles = createAsyncThunk<FileMeta[], FileList>(
   'addFilesStatus',

@@ -7,13 +7,12 @@ import { SetOptional } from 'type-fest';
 
 import { Spinner } from '~/common/components';
 import { useAppDispatch } from '~/common/hooks';
-import { acceptedUploadFileTypes } from '~/features/upload/consts';
-import { addFiles } from '~/features/upload/thunks';
 import {
+  addFiles,
   selectFiles,
   selectIsAddingFiles,
   selectUploadStatus,
-} from '~/features/upload/uploadSlice';
+} from '~/features/upload';
 
 type Props = SetOptional<SpectrumButtonProps, 'variant'>;
 
@@ -27,7 +26,7 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
     const el = document.createElement('input');
     el.type = 'file';
     el.multiple = true;
-    el.accept = acceptedUploadFileTypes.join(',');
+    el.accept = 'image/jpeg';
     el.addEventListener('change', () => {
       if (el.files) dispatch(addFiles(el.files));
     });

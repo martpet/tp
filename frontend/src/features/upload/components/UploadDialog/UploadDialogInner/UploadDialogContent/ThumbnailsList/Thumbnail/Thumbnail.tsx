@@ -4,7 +4,7 @@ import { DragEventHandler, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { removeDateStringOffset } from '~/common/utils';
-import { FileMeta } from '~/features/upload/types';
+import { FileMeta } from '~/features/upload';
 
 import { ThumbnailAlert } from './ThumbnailAlert/ThumbnailAlert';
 import { TnumbnailOverlay } from './ThumbnailOverlay/TnumbnailOverlay';

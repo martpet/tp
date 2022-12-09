@@ -3,8 +3,7 @@ import IconAlert from '@spectrum-icons/workflow/Alert';
 import { ReactNode } from 'react';
 
 import { useAppSelector } from '~/common/hooks';
-import { selectFilesErrors } from '~/features/upload';
-import { FileMeta, UploadError } from '~/features/upload/types';
+import { FileMeta, selectFilesErrors, UploadError } from '~/features/upload';
 
 import { AlreadySelected } from './AlreadySelected';
 import { AlreadyUploaded } from './AlreadyUploaded';

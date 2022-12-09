@@ -1,6 +1,6 @@
 import type { NumberTag, StringArrayTag } from 'exifreader';
 
-import { FileMeta } from '~/features/upload/types';
+import { FileMeta } from '~/features/upload';
 
 export async function getExif(file: File): Promise<FileMeta['exif']> {
   const { default: ExifReader } = await import('exifreader');
