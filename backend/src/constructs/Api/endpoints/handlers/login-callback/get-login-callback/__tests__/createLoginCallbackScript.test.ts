@@ -1,5 +1,4 @@
-import { itCalls, itReturns } from 'lambda-layer';
-
+import { itCalls, itReturns } from '~/constructs/Api/utils';
 import { createSha256CspHash } from '~/utils/createSha256CspHash';
 
 import { createLoginCallbackScript } from '../createLoginCallbackScript';

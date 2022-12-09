@@ -1,14 +1,16 @@
 import { BatchGetCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
-import { itResolves, itSendsAwsCommand, photosTableOptions } from 'lambda-layer';
 
-import { findExistingFingerPrints } from '../findExistingFingerPrints';
+import { itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
+import { photosTableOptions } from '~/consts';
+
+import { findExistingFingerprints } from '../findExistingFingerprints';
 
 vi.mock('@aws-sdk/util-dynamodb');
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
-const args = [['fingerprint1']] as Parameters<typeof findExistingFingerPrints>;
+const args = [['fingerprint1']] as Parameters<typeof findExistingFingerprints>;
 
 beforeEach(() => {
   ddbMock.reset();
@@ -23,16 +25,16 @@ beforeEach(() => {
   });
 });
 
-describe('findExistingFingerPrints', () => {
-  itSendsAwsCommand(BatchGetCommand, ddbMock, findExistingFingerPrints, args);
-  itResolves(findExistingFingerPrints, args);
+describe('findExistingFingerprints', () => {
+  itSendsAwsCommand(BatchGetCommand, ddbMock, findExistingFingerprints, args);
+  itResolves(findExistingFingerprints, args);
 
   describe('when called with 101 items', async () => {
     const argsClone = structuredClone(args);
     argsClone[0] = Array(101);
 
     it('sends "BatchGetCommand" 2 times', async () => {
-      await findExistingFingerPrints(...argsClone);
+      await findExistingFingerprints(...argsClone);
       expect(ddbMock.commandCalls(BatchGetCommand).length).toBe(2);
     });
   });
@@ -41,7 +43,7 @@ describe('findExistingFingerPrints', () => {
     beforeEach(() => {
       ddbMock.on(BatchGetCommand).resolves({});
     });
-    itResolves(findExistingFingerPrints, args);
+    itResolves(findExistingFingerprints, args);
   });
 
   describe('when "BatchGetCommand" response has "UnprocessedKeys"', () => {
@@ -64,10 +66,10 @@ describe('findExistingFingerPrints', () => {
     });
 
     it('sends "BatchGetCommand" a second time with correct args', async () => {
-      await findExistingFingerPrints(...args);
+      await findExistingFingerprints(...args);
       expect(ddbMock.commandCalls(BatchGetCommand)[1].args[0].input).toMatchSnapshot();
     });
 
-    itResolves(findExistingFingerPrints, args);
+    itResolves(findExistingFingerprints, args);
   });
 });

@@ -1,5 +1,6 @@
 import crypto from 'crypto';
-import { itCalls } from 'lambda-layer';
+
+import { itCalls } from '~/constructs/Api/utils';
 
 import { createSha256CspHash } from '../createSha256CspHash';
 

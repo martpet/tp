@@ -3,6 +3,7 @@ import {
   ApiRouteHeaders,
   createPresignedPost,
   errorResponse,
+  findExistingFingerprints,
   getIdTokenPayload,
   HandlerEnv,
   maxPhotoUploadSize,
@@ -11,8 +12,6 @@ import {
   S3Client,
   StatusCodes,
 } from 'lambda-layer';
-
-import { findExistingFingerPrints } from './findExistingFingerPrints';
 
 const s3Client = new S3Client({});
 
@@ -44,7 +43,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
 
   try {
     const fingerprints = requestItems.map(({ fingerprint }) => fingerprint);
-    existingFingerprintsInDb = await findExistingFingerPrints(fingerprints);
+    existingFingerprintsInDb = await findExistingFingerprints(fingerprints);
   } catch (error) {
     return errorResponse('9fb96f4182', { error });
   }

@@ -24,7 +24,7 @@ exports[`post-generate-upload-urls > calls "createPresignedPost" with correct ar
 ]
 `;
 
-exports[`post-generate-upload-urls > calls "findExistingFingerPrints" with correct args 1`] = `
+exports[`post-generate-upload-urls > calls "findExistingFingerprints" with correct args 1`] = `
 [
   [
     [
@@ -101,7 +101,7 @@ exports[`post-generate-upload-urls > when "photoBucket" env var is missing > cal
 
 exports[`post-generate-upload-urls > when "photoBucket" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`post-generate-upload-urls > when \`findExistingFingerPrints\` throws > calls "errorResponse" with correct args 1`] = `
+exports[`post-generate-upload-urls > when \`findExistingFingerprints\` throws > calls "errorResponse" with correct args 1`] = `
 [
   [
     "9fb96f4182",
@@ -112,4 +112,4 @@ exports[`post-generate-upload-urls > when \`findExistingFingerPrints\` throws > 
 ]
 `;
 
-exports[`post-generate-upload-urls > when \`findExistingFingerPrints\` throws > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+exports[`post-generate-upload-urls > when \`findExistingFingerprints\` throws > resolves with a correct value 1`] = `"dummyErrorResponse"`;

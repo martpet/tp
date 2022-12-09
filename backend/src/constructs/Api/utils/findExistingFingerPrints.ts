@@ -9,7 +9,7 @@ import {
 const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocument.from(ddbClient);
 
-export const findExistingFingerPrints = async (fingerprints: string[]) => {
+export const findExistingFingerprints = async (fingerprints: string[]) => {
   const { tableName, partitionKey } = photosTableOptions;
   const result: string[] = [];
 

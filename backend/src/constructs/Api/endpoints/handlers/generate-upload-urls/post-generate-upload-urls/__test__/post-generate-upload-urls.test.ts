@@ -1,6 +1,7 @@
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
 
 import {
+  findExistingFingerprints,
   itCalls,
   itGetsIdToken,
   itHasEnvVars,
@@ -9,14 +10,13 @@ import {
   itResolvesWithError,
 } from '~/constructs/Api/utils';
 
-import { findExistingFingerPrints } from '../findExistingFingerPrints';
 import { handler } from '../post-generate-upload-urls';
 
 vi.mock('@aws-sdk/s3-presigned-post');
 vi.mock('@aws-sdk/client-s3');
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
-vi.mock('../findExistingFingerPrints');
+vi.mock('~/constructs/Api/utils/findExistingFingerprints');
 
 process.env.photoBucket = 'dummyPhotoBucket';
 
@@ -44,12 +44,12 @@ describe('post-generate-upload-urls', () => {
   itGetsIdToken(handler, args);
   itResolves(handler, args);
   itCalls(createPresignedPost, handler, args);
-  itCalls(findExistingFingerPrints, handler, args);
+  itCalls(findExistingFingerprints, handler, args);
 
-  describe('when `findExistingFingerPrints` throws', () => {
+  describe('when `findExistingFingerprints` throws', () => {
     beforeEach(() => {
       const error = new Error('dummyFindExistingItemsError');
-      vi.mocked(findExistingFingerPrints).mockRejectedValueOnce(error);
+      vi.mocked(findExistingFingerprints).mockRejectedValueOnce(error);
     });
     itResolvesWithError(handler, args);
   });
