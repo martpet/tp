@@ -21,7 +21,6 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
 ) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   const { photoBucket } = process.env as HandlerEnv<'/generate-upload-urls', 'POST'>;
-  const dateNowString = new Date().toISOString();
   let requestItems;
   let existingFingerprintsInDb: string[];
 
@@ -59,7 +58,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
     uniqueItems.map(async ({ id, fingerprint, digest }) => {
       const presignedPost = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
-        Key: `${sub}/${dateNowString}/${fingerprint}.jpg`,
+        Key: `${sub}/${fingerprint}.jpg`,
         Expires: uniqueItems.length * 10,
         Fields: {
           'x-amz-checksum-algorithm': 'SHA256',

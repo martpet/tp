@@ -18,7 +18,7 @@ exports[`post-generate-upload-urls > calls "createPresignedPost" with correct ar
         "x-amz-checksum-algorithm": "SHA256",
         "x-amz-checksum-sha256": undefined,
       },
-      "Key": "dummySub/2022-01-01T00:00:00.000Z/dummyFingerprint2.jpg",
+      "Key": "dummySub/dummyFingerprint2.jpg",
     },
   ],
 ]
