@@ -4,6 +4,7 @@ import { createSelector, createSlice, isAnyOf, PayloadAction } from '@reduxjs/to
 import { startAppListening } from '~/app/store/middleware';
 import { maxPhotoUploadSize } from '~/common/consts';
 import { RootState } from '~/common/types';
+import { selectIsLoggedIn } from '~/features/me';
 import {
   addFiles,
   createUploadUrls,
@@ -20,7 +21,7 @@ type UploadState = {
   isAddingFiles: boolean;
   presignedPosts: Record<string, PresignedPost>;
   fingerprintsInDb: string[];
-  isTransfersStarted: boolean;
+  isTransferStarted: boolean;
   successfulTransfers: string[];
   failedTransfers: string[];
   transfersProgress: Record<string, number>;
@@ -31,7 +32,7 @@ const initialState: UploadState = {
   files: [],
   isAddingFiles: false,
   presignedPosts: {},
-  isTransfersStarted: false,
+  isTransferStarted: false,
   fingerprintsInDb: [],
   successfulTransfers: [],
   failedTransfers: [],
@@ -62,7 +63,7 @@ export const uploadSlice = createSlice({
       if (!state.files.length) state.status = 'idle';
     });
     builder.addCase(transferFiles.pending, (state) => {
-      state.isTransfersStarted = true;
+      state.isTransferStarted = true;
     });
     builder.addCase(transferFiles.fulfilled, (state, { payload }) => {
       state.successfulTransfers = payload.successfulTransfers;
@@ -74,8 +75,8 @@ export const uploadSlice = createSlice({
     });
     builder.addMatcher(
       isAnyOf(createUploadUrls.matchRejected, transferFiles.rejected),
-      (state) => {
-        state.status = 'error';
+      (state, { meta: { aborted } }) => {
+        state.status = aborted ? 'idle' : 'error';
       }
     );
   },
@@ -85,12 +86,19 @@ export const { uploadStarted, progressUpdated } = uploadSlice.actions;
 
 // Selectors
 
-export const selectUploadStatus = (state: RootState) => state.upload.status;
+export const selectUploadStatus = createSelector(
+  selectIsLoggedIn,
+  (state: RootState) => state.upload.status,
+  (isLoggedIn, status): UploadState['status'] => {
+    return isLoggedIn ? status : 'idle';
+  }
+);
+
 export const selectFiles = (state: RootState) => state.upload.files;
 export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
 export const selectIsTransferStarted = (state: RootState) =>
-  state.upload.isTransfersStarted;
+  state.upload.isTransferStarted;
 export const selectPresignedPosts = (state: RootState) => state.upload.presignedPosts;
 export const selectSuccessfulTransfers = (state: RootState) =>
   state.upload.successfulTransfers;

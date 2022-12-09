@@ -10,7 +10,7 @@ type Props = Omit<FlexProps, 'children'> & {
 };
 
 export function Progress({ file }: Props) {
-  const isTransfersStarted = useSelector(selectIsTransferStarted);
+  const isTransferStarted = useSelector(selectIsTransferStarted);
   const progress = useSelector(selectTransfersProgress)[file.id] || 0;
   const formattedPerc = `${Number(progress.toFixed(0))}%`;
   const progresLabelId = 'upload-progress-label';
@@ -28,10 +28,10 @@ export function Progress({ file }: Props) {
         minWidth="static-size-200"
         UNSAFE_style={{
           borderRadius: '50%',
-          background: isTransfersStarted ? 'rgba(0,0,0,.6)' : 'none',
+          background: isTransferStarted ? 'rgba(0,0,0,.6)' : 'none',
         }}
       />
-      {isTransfersStarted && (
+      {isTransferStarted && (
         <View gridRow="1" gridColumn="1" zIndex={1}>
           <Label
             elementType="span"
