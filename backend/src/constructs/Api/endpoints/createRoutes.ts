@@ -9,9 +9,13 @@ import { Auth, Photos, Tables } from '~/constructs';
 import { ApiEnvVars } from '~/constructs/Api/types';
 import { createNodejsFunction } from '~/constructs/utils';
 import { apiOptions } from '~/consts';
-import { ApiMethodOptions, ApiPath } from '~/types';
+import { ApiMethodOptions } from '~/types';
 
-type CreateRouteCallbacks = Partial<Record<ApiPath, (fn: NodejsFunction) => void>>;
+import {
+  CallbackMethod,
+  CallbackPath,
+  createRoutesCallbacks,
+} from './createRoutesCallbacks';
 
 export type Props = {
   scope: Construct;
@@ -22,7 +26,7 @@ export type Props = {
 };
 
 export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
-  const envVarsMap: ApiEnvVars = {
+  const apiEnvVars: ApiEnvVars = {
     authDomain: auth.authDomain,
     clientId: auth.userPoolClient.userPoolClientId,
     loginCallbackUrl: auth.loginCallbackUrl,
@@ -31,24 +35,13 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
     photoBucket: photos.bucket.bucketName,
   };
 
-  const callbacks: CreateRouteCallbacks = {
-    '/login-callback': (f) => tables.sessionsTable.grantWriteData(f),
-    '/logout': (f) => tables.sessionsTable.grantWriteData(f),
-    '/me': (f) => tables.usersTable.grantReadData(f),
-    '/settings': (f) => tables.usersTable.grantWriteData(f),
-    '/generate-upload-urls': (f) => {
-      photos.bucket.grantPut(f);
-      tables.photosTable.grantReadData(f);
-    },
-  };
-
   const userPoolAuthorizer = new HttpUserPoolAuthorizer(
     'user-pool-authorizer',
     auth.userPool,
-    {
-      userPoolClients: [auth.userPoolClient],
-    }
+    { userPoolClients: [auth.userPoolClient] }
   );
+
+  const callbacks = createRoutesCallbacks({ tables, photos });
 
   Object.entries(apiOptions).forEach(([path, { methods }]) => {
     Object.entries(methods).forEach(([method, methodOptions]) => {
@@ -59,8 +52,8 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
         method,
         methodOptions,
         userPoolAuthorizer,
-        envVarsMap,
-        callbacks,
+        apiEnvVars,
+        callback: callbacks[path as CallbackPath]?.[method as CallbackMethod],
       });
     });
   });
@@ -73,26 +66,25 @@ function createRoute({
   method,
   methodOptions,
   userPoolAuthorizer,
-  envVarsMap,
-  callbacks,
+  apiEnvVars,
+  callback,
 }: Pick<Props, 'scope' | 'api'> & {
   path: string;
   method: string;
   methodOptions: ApiMethodOptions;
   userPoolAuthorizer: HttpUserPoolAuthorizer;
-  envVarsMap: ApiEnvVars;
-  callbacks: CreateRouteCallbacks;
+  apiEnvVars: ApiEnvVars;
+  callback?: (fn: NodejsFunction) => void;
 }) {
   const formattedPathName = path.replace('/', '').toLowerCase();
   const formattedMethodName = method.toLowerCase();
   const fileName = `${formattedMethodName}-${formattedPathName}`;
   const handlerId = `${formattedMethodName}-${formattedPathName}`;
   const handlerEnvironment: Record<string, string> = {};
-  const createRouteCallback = callbacks[path as ApiPath];
   const { isPublic, envVars = [] } = methodOptions;
 
   envVars.forEach((key) => {
-    handlerEnvironment[key] = envVarsMap[key as keyof ApiEnvVars];
+    handlerEnvironment[key] = apiEnvVars[key as keyof ApiEnvVars];
   });
 
   const handler = createNodejsFunction(scope, `api-handler-${handlerId}`, {
@@ -109,7 +101,7 @@ function createRoute({
     authorizer: isPublic ? undefined : userPoolAuthorizer,
   });
 
-  if (createRouteCallback) {
-    createRouteCallback(handler);
+  if (callback) {
+    callback(handler);
   }
 }

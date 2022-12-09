@@ -11,7 +11,7 @@ import { Auth, Photos, Tables, Zone } from '~/constructs';
 import { apiSubdomain, appEnvs } from '~/consts';
 import { getEnvName } from '~/utils';
 
-import { createDistroBehaviors } from './endpoints/authEdgeFunction/createDistroBehaviors';
+import { createDistroBehaviors } from './endpoints/createDistroBehaviors';
 import { createRoutes } from './endpoints/createRoutes';
 
 type Props = {
