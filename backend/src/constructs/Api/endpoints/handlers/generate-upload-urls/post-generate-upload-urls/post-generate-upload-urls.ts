@@ -12,7 +12,7 @@ import {
   StatusCodes,
 } from 'lambda-layer';
 
-import { findExistingItems } from './findExistingItems';
+import { findExistingFingerPrints } from './findExistingFingerPrints';
 
 const s3Client = new S3Client({});
 
@@ -44,7 +44,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
 
   try {
     const fingerprints = requestItems.map(({ fingerprint }) => fingerprint);
-    existingFingerprintsInDb = await findExistingItems(fingerprints);
+    existingFingerprintsInDb = await findExistingFingerPrints(fingerprints);
   } catch (error) {
     return errorResponse('9fb96f4182', { error });
   }

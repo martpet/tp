@@ -1,0 +1,43 @@
+// Vitest Snapshot v1
+
+exports[`findExistingFingerPrints > resolves with a correct value 1`] = `
+[
+  "existingFingerprint1",
+  "existingFingerprint1",
+]
+`;
+
+exports[`findExistingFingerPrints > sends "BatchGetCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
+{
+  "RequestItems": {
+    "TP-photos": {
+      "Keys": [
+        {
+          "fingerprint": "fingerprint1",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`findExistingFingerPrints > when "BatchGetCommand" response has "UnprocessedKeys" > resolves with a correct value 1`] = `
+[
+  "existingFingerprint3",
+  "existingFingerprint4",
+]
+`;
+
+exports[`findExistingFingerPrints > when "BatchGetCommand" response has "UnprocessedKeys" > sends "BatchGetCommand" a second time with correct args 1`] = `
+{
+  "RequestItems": {
+    "TP-photos": {
+      "Keys": [
+        "dummyUnmarshalledItems",
+      ],
+    },
+  },
+}
+`;
+
+exports[`findExistingFingerPrints > when "BatchGetCommand" response is missing "Responses" > resolves with a correct value 1`] = `[]`;

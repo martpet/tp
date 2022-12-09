@@ -34,7 +34,7 @@ export default mergeConfig(
           '!backend/**/__mocks__/**',
           '!backend/shared/**',
           '!backend/**/checkLocalEnvVars.ts',
-          '!backend/**/findExistingItems.ts',
+          '!backend/**/findExistingFingerPrints.ts',
         ],
       },
     },

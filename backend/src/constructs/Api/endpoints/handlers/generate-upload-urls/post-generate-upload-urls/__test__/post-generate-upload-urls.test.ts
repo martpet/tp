@@ -9,14 +9,14 @@ import {
   itResolvesWithError,
 } from '~/constructs/Api/utils';
 
-import { findExistingItems } from '../findExistingItems';
+import { findExistingFingerPrints } from '../findExistingFingerPrints';
 import { handler } from '../post-generate-upload-urls';
 
 vi.mock('@aws-sdk/s3-presigned-post');
 vi.mock('@aws-sdk/client-s3');
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
-vi.mock('../findExistingItems');
+vi.mock('../findExistingFingerPrints');
 
 process.env.photoBucket = 'dummyPhotoBucket';
 
@@ -44,12 +44,12 @@ describe('post-generate-upload-urls', () => {
   itGetsIdToken(handler, args);
   itResolves(handler, args);
   itCalls(createPresignedPost, handler, args);
-  itCalls(findExistingItems, handler, args);
+  itCalls(findExistingFingerPrints, handler, args);
 
-  describe('when `findExistingItems` throws', () => {
+  describe('when `findExistingFingerPrints` throws', () => {
     beforeEach(() => {
       const error = new Error('dummyFindExistingItemsError');
-      vi.mocked(findExistingItems).mockRejectedValueOnce(error);
+      vi.mocked(findExistingFingerPrints).mockRejectedValueOnce(error);
     });
     itResolvesWithError(handler, args);
   });
