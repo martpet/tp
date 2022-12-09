@@ -1,7 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 
-import { getIdTokenPayload } from '~/constructs/Api/utils';
+import { getIdTokenPayload } from '~/constructs/Api/utils/getIdTokenPayload';
 import { refreshTokenExpiredErrorMessage, region, sessionsTableOptions } from '~/consts';
 import { SessionsTableItem } from '~/types';
 

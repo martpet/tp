@@ -2,10 +2,8 @@ import clone from 'clone';
 import { StatusCodes } from 'http-status-codes';
 
 import { LambdaEdgeViewerRequestHandler } from '~/constructs/Api/types';
-import {
-  lambdaEdgeErrorResponse,
-  parseLambdaEdgeEventCookies,
-} from '~/constructs/Api/utils';
+import { lambdaEdgeErrorResponse } from '~/constructs/Api/utils/lambdaEdgeErrorResponse';
+import { parseLambdaEdgeEventCookies } from '~/constructs/Api/utils/parseLambdaEdgeEventCookies';
 
 import { checkIsPublicEndpoint } from './checkIsPublicEndpoint';
 import { getIdToken } from './getIdToken';

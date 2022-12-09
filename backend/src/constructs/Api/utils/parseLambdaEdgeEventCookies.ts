@@ -1,7 +1,7 @@
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
 
 import { LambdaEdgeViewerEvent } from '~/constructs/Api/types';
-import { parseEventCookies } from '~/constructs/Api/utils';
+import { parseEventCookies } from '~/constructs/Api/utils/parseEventCookies';
 
 export const parseLambdaEdgeEventCookies = (edgeEvent: LambdaEdgeViewerEvent) => {
   const { request } = edgeEvent.Records[0].cf;

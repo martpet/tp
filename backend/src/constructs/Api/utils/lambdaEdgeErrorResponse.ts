@@ -1,7 +1,7 @@
 import { getReasonPhrase } from 'http-status-codes';
 
 import { LambdaEdgeResponse } from '~/constructs/Api/types';
-import { errorResponse } from '~/constructs/Api/utils';
+import { errorResponse } from '~/constructs/Api/utils/errorResponse';
 
 export const lambdaEdgeErrorResponse = (
   ...errorResponseArgs: Parameters<typeof errorResponse>
