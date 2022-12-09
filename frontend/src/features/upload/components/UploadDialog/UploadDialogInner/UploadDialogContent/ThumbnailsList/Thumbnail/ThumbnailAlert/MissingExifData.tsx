@@ -17,7 +17,10 @@ export function MissingExifData({ file }: Props) {
   const errors = useAppSelector(selectFilesErrors)[file.id];
   const { formatMessage, formatList } = useIntl();
 
-  const missingMetaDataErrorMap: Record<MissingExifDataError, string> = {
+  const maybeIPhoneHighEfficiencyFormat =
+    isIPhone() && errors.includes('missingDate') && errors.includes('missingLocation');
+
+  const errorTextsMap: Record<MissingExifDataError, string> = {
     missingDate: formatMessage({
       defaultMessage: 'date',
       description: 'file meta: date',
@@ -28,15 +31,15 @@ export function MissingExifData({ file }: Props) {
     }),
   };
 
-  const missingMetaDataMessages = Object.keys(missingMetaDataErrorMap)
-    .filter((key) => errors.includes(key as MissingExifDataError))
-    .map((error) => missingMetaDataErrorMap[error as MissingExifDataError]);
+  const messages: string[] = [];
 
-  const isMaybeIPhoneHighEfficiencyProblem =
-    isIPhone() && errors.includes('missingDate') && errors.includes('missingLocation');
+  errors.forEach((error) => {
+    const text = errorTextsMap[error as MissingExifDataError];
+    if (text) messages.push(text);
+  });
 
-  if (!missingMetaDataMessages.length) {
-    return null;
+  if (!messages.length) {
+    // return null;
   }
 
   return (
@@ -47,11 +50,11 @@ export function MissingExifData({ file }: Props) {
         defaultMessage="Missing {items}"
         description="file missing meta data error"
         values={{
-          items_count: missingMetaDataMessages.length,
-          items: formatList(missingMetaDataMessages),
+          items_count: messages.length,
+          items: formatList(messages),
         }}
       />
-      {isMaybeIPhoneHighEfficiencyProblem && IPhoneHighEfficiencyContextualHelp}
+      {maybeIPhoneHighEfficiencyFormat && <IPhoneHighEfficiencyContextualHelp />}
     </>
   );
 }

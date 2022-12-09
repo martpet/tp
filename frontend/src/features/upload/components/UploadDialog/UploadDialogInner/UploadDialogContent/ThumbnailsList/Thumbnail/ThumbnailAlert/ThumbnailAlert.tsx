@@ -33,7 +33,7 @@ export function ThumbnailAlert({ file }: Props) {
   };
 
   const errorTypes = Object.keys(errorNodes) as UploadError[];
-  const currentError = errorTypes.find((type) => errors.includes(type));
+  const error = errorTypes.find((type) => errors.includes(type));
 
   return (
     <View
@@ -45,7 +45,7 @@ export function ThumbnailAlert({ file }: Props) {
     >
       <Flex gap="size-75">
         <IconAlert size="S" />
-        {currentError && errorNodes[currentError]}
+        {error && errorNodes[error]}
       </Flex>
     </View>
   );
