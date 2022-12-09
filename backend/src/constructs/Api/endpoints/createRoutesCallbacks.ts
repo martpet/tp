@@ -32,7 +32,7 @@ export const createRoutesCallbacks = ({ tables, photos }: Props): Callbacks => (
   '/settings': {
     PATCH: (f) => tables.usersTable.grantWriteData(f),
   },
-  '/generate-upload-urls': {
+  '/upload-urls': {
     POST: (f) => {
       photos.bucket.grantPut(f);
       tables.photosTable.grantReadData(f);

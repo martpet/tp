@@ -1,18 +1,12 @@
 import { api } from '~/app/services';
 import { apiPaths } from '~/common/consts';
-import {
-  PostGenerateUploadUrlsRequest,
-  PostGenerateUploadUrlsResponse,
-} from '~/common/types';
+import { PostUploadUrlsRequest, PostUploadUrlsResponse } from '~/common/types';
 
 const uploadApi = api.injectEndpoints({
   endpoints: (build) => ({
-    generateUploadUrls: build.mutation<
-      PostGenerateUploadUrlsResponse,
-      PostGenerateUploadUrlsRequest
-    >({
+    createUploadUrls: build.mutation<PostUploadUrlsResponse, PostUploadUrlsRequest>({
       query: (body) => ({
-        url: apiPaths['generate-upload-urls'],
+        url: apiPaths['upload-urls'],
         method: 'POST',
         body,
       }),
@@ -20,4 +14,4 @@ const uploadApi = api.injectEndpoints({
   }),
 });
 
-export const { generateUploadUrls } = uploadApi.endpoints;
+export const { createUploadUrls } = uploadApi.endpoints;

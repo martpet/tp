@@ -10,7 +10,7 @@ import {
   itResolvesWithError,
 } from '~/constructs/Api/utils';
 
-import { handler } from '../post-generate-upload-urls';
+import { handler } from '../post-upload-urls';
 
 vi.mock('@aws-sdk/s3-presigned-post');
 vi.mock('@aws-sdk/client-s3');
@@ -38,7 +38,7 @@ const args = [
   },
 ] as unknown as Parameters<typeof handler>;
 
-describe('post-generate-upload-urls', () => {
+describe('post-upload-urls', () => {
   itHasJsonBody(handler, args);
   itHasEnvVars(['photoBucket'], handler, args);
   itGetsIdToken(handler, args);

@@ -50,7 +50,7 @@ export const apiOptions = {
       PATCH: {},
     },
   },
-  '/generate-upload-urls': {
+  '/upload-urls': {
     methods: {
       POST: {
         envVars: ['photoBucket'],

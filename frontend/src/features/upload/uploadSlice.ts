@@ -6,8 +6,8 @@ import { maxPhotoUploadSize } from '~/common/consts';
 import { RootState } from '~/common/types';
 import {
   addFiles,
+  createUploadUrls,
   fileRemoved,
-  generateUploadUrls,
   transferFiles,
 } from '~/features/upload';
 import { FileMeta, UploadError } from '~/features/upload/types';
@@ -68,12 +68,12 @@ export const uploadSlice = createSlice({
       state.successfulTransfers = payload.successfulTransfers;
       state.failedTransfers = payload.failedTransfers;
     });
-    builder.addMatcher(generateUploadUrls.matchFulfilled, (state, { payload }) => {
+    builder.addMatcher(createUploadUrls.matchFulfilled, (state, { payload }) => {
       state.presignedPosts = payload.presignedPosts;
       state.fingerprintsInDb = payload.existingFingerprintsInDb;
     });
     builder.addMatcher(
-      isAnyOf(generateUploadUrls.matchRejected, transferFiles.rejected),
+      isAnyOf(createUploadUrls.matchRejected, transferFiles.rejected),
       (state) => {
         state.status = 'error';
       }
@@ -154,12 +154,12 @@ startAppListening({
       fingerprint,
       digest,
     }));
-    dispatch(generateUploadUrls.initiate(queryArg));
+    dispatch(createUploadUrls.initiate(queryArg));
   },
 });
 
 startAppListening({
-  matcher: generateUploadUrls.matchFulfilled,
+  matcher: createUploadUrls.matchFulfilled,
   effect(action, { dispatch }) {
     dispatch(transferFiles());
   },

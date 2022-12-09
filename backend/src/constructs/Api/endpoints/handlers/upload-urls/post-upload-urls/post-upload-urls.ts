@@ -7,19 +7,19 @@ import {
   getIdTokenPayload,
   HandlerEnv,
   maxPhotoUploadSize,
-  PostGenerateUploadUrlsRequest,
-  PostGenerateUploadUrlsResponse,
+  PostUploadUrlsRequest,
+  PostUploadUrlsResponse,
   S3Client,
   StatusCodes,
 } from 'lambda-layer';
 
 const s3Client = new S3Client({});
 
-export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> = async (
+export const handler: APIGatewayProxyHandlerV2<PostUploadUrlsResponse> = async (
   event
 ) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
-  const { photoBucket } = process.env as HandlerEnv<'/generate-upload-urls', 'POST'>;
+  const { photoBucket } = process.env as HandlerEnv<'/upload-urls', 'POST'>;
   let requestItems;
   let existingFingerprintsInDb: string[];
 
@@ -36,7 +36,7 @@ export const handler: APIGatewayProxyHandlerV2<PostGenerateUploadUrlsResponse> =
   }
 
   try {
-    requestItems = JSON.parse(event.body) as PostGenerateUploadUrlsRequest;
+    requestItems = JSON.parse(event.body) as PostUploadUrlsRequest;
   } catch (error) {
     return errorResponse('9210145fdf', { statusCode: StatusCodes.BAD_REQUEST, error });
   }
