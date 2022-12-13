@@ -28,10 +28,6 @@ export function UploadAlerts() {
     }
   }, [isFlowEnded]);
 
-  if (!isFlowEnded) {
-    return null;
-  }
-
   let successAlert;
   let failureAlert;
   let validationAlert;
@@ -77,6 +73,10 @@ export function UploadAlerts() {
         />
       </AlertItem>
     );
+  }
+
+  if (!successAlert && !failureAlert && !validationAlert) {
+    return null;
   }
 
   return (
