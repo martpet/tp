@@ -5,51 +5,65 @@ import { RootState } from '~/common/types';
 import { selectIsLoggedIn } from '~/features/me';
 import { UploadError, UploadState } from '~/features/upload';
 
-export const selectUploadStatus = createSelector(
+export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
+export const selectFiles = (state: RootState) => state.upload.files;
+export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
+export const selectPresignedPosts = (state: RootState) => state.upload.presignedPosts;
+export const selectTransferStarted = (state: RootState) => state.upload.isTransferStarted;
+export const selectProgress = (state: RootState) => state.upload.transfersProgress;
+
+export const selectUploadFlowStatus = createSelector(
   selectIsLoggedIn,
-  (state: RootState) => state.upload.status,
-  (isLoggedIn, status): UploadState['status'] => {
-    return isLoggedIn ? status : 'idle';
-  }
+  (state: RootState) => state.upload.flowStatus,
+  (isLoggedIn, status): UploadState['flowStatus'] => (isLoggedIn ? status : 'idle')
 );
 
-export const selectFiles = (state: RootState) => state.upload.files;
+export const selectUploadFlowEnded = createSelector(
+  selectUploadFlowStatus,
+  (status) => status === 'done' || status === 'error'
+);
 
-export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
+export const selectTransferredFiles = createSelector(
+  selectFiles,
+  (state: RootState) => state.upload.successfulTransfers,
+  (files, successfulTransfers) =>
+    files.filter(({ id }) => successfulTransfers.includes(id))
+);
 
-export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
+export const selectFailedTransferFiles = createSelector(
+  selectFiles,
+  (state: RootState) => state.upload.failedTransfers,
+  (files, failedTransfers) => files.filter(({ id }) => failedTransfers.includes(id))
+);
 
-export const selectIsTransferStarted = (state: RootState) =>
-  state.upload.isTransferStarted;
-
-export const selectPresignedPosts = (state: RootState) => state.upload.presignedPosts;
-
-export const selectSuccessfulTransfers = (state: RootState) =>
-  state.upload.successfulTransfers;
-
-export const selectFailedTransfers = (state: RootState) => state.upload.failedTransfers;
-
-export const selectTransfersProgress = (state: RootState) =>
-  state.upload.transfersProgress;
+export const selectCompletedUploads = createSelector(
+  selectFiles,
+  (state: RootState) => state.upload.completedUploads,
+  (files, completedUploads) => files.filter(({ id }) => completedUploads.includes(id))
+);
 
 export const selectFilesErrors = createSelector(
   selectFiles,
   selectFingerprintsInDb,
-  selectFailedTransfers,
-  (files, fingerprintsInDb, failedTransfers) => {
+  selectFailedTransferFiles,
+  selectUploadFlowStatus,
+  selectCompletedUploads,
+  (files, fingerprintsInDb, failedTransfersFiles, flowStatus, completedUploads) => {
     const digests: string[] = [];
     return Object.fromEntries(
-      files.map(({ id, digest, fingerprint, size, exif }) => {
-        const { gpsLatitude, gpsLongitude, dateTimeOriginal } = exif;
+      files.map((file) => {
         const errors: UploadError[] = [];
-
-        if (size > maxPhotoUploadSize) errors.push('fileTooBig');
-        if (!gpsLatitude || !gpsLongitude) errors.push('missingLocation');
-        if (!dateTimeOriginal) errors.push('missingDate');
-        if (fingerprintsInDb.includes(fingerprint)) errors.push('alreadyUploaded');
-        if (failedTransfers.includes(id)) errors.push('transferFailed');
-        if (digests.includes(digest)) errors.push('alreadySelected');
-
+        const { id, digest, fingerprint, size, exif } = file;
+        const { gpsLatitude, gpsLongitude, dateTimeOriginal } = exif;
+        if (!completedUploads.includes(file)) {
+          if (size > maxPhotoUploadSize) errors.push('fileTooBig');
+          if (!gpsLatitude || !gpsLongitude) errors.push('missingLocation');
+          if (!dateTimeOriginal) errors.push('missingDate');
+          if (digests.includes(digest)) errors.push('alreadySelected');
+          if (fingerprintsInDb.includes(fingerprint)) errors.push('alreadyUploaded');
+          if (failedTransfersFiles.includes(file)) errors.push('uploadFailed');
+          if (flowStatus === 'error') errors.push('uploadFailed');
+        }
         digests.push(digest);
         return [id, errors];
       })
@@ -60,12 +74,28 @@ export const selectFilesErrors = createSelector(
 export const selectUploadableFiles = createSelector(
   selectFiles,
   selectFilesErrors,
-  (files, errors) => files.filter((file) => !errors[file.id].length)
+  selectCompletedUploads,
+  (files, filesErrors, completedUploads) =>
+    files.filter((file) => {
+      const errors = filesErrors[file.id].filter((error) => error !== 'uploadFailed');
+      return errors.length === 0 && !completedUploads.includes(file);
+    })
 );
 
-export const selectTransferredFiles = createSelector(
+export const selectFailedUploads = createSelector(
+  selectUploadFlowStatus,
   selectUploadableFiles,
-  selectSuccessfulTransfers,
-  (files, successfulTransfers) =>
-    files.filter(({ id }) => successfulTransfers.includes(id))
+  selectFailedTransferFiles,
+  (flowStatus, uploadableFiles, failedTransferFiles) =>
+    flowStatus === 'error' ? uploadableFiles : failedTransferFiles
+);
+
+export const selectNotUploadableFiles = createSelector(
+  selectFiles,
+  selectUploadableFiles,
+  selectCompletedUploads,
+  (files, uploadableFiles, completedUploads) =>
+    files.filter(
+      (file) => !completedUploads.includes(file) && !uploadableFiles.includes(file)
+    )
 );

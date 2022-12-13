@@ -1,5 +1,5 @@
 import { Button, SpectrumButtonProps, Text } from '@adobe/react-spectrum';
-import AddToSelection from '@spectrum-icons/workflow/AddToSelection';
+import AddToSelectionIcon from '@spectrum-icons/workflow/AddToSelection';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import {
   addFiles,
   selectFiles,
   selectIsAddingFiles,
-  selectUploadStatus,
+  selectUploadFlowStatus,
 } from '~/features/upload';
 
 type Props = SetOptional<SpectrumButtonProps, 'variant'>;
@@ -19,7 +19,7 @@ type Props = SetOptional<SpectrumButtonProps, 'variant'>;
 export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   const files = useSelector(selectFiles);
   const isAddingFiles = useSelector(selectIsAddingFiles);
-  const uploadStatus = useSelector(selectUploadStatus);
+  const flowStatus = useSelector(selectUploadFlowStatus);
   const dispatch = useAppDispatch();
 
   const inputElement = useMemo(() => {
@@ -43,10 +43,10 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
     <Button
       variant={variant}
       onPress={handleClick}
-      isDisabled={uploadStatus === 'pending' || isAddingFiles}
+      isDisabled={flowStatus === 'pending' || isAddingFiles}
       {...buttonProps}
     >
-      {!!files.length && !isAddingFiles && <AddToSelection />}
+      {!!files.length && !isAddingFiles && <AddToSelectionIcon />}
       {isAddingFiles && <Spinner size="S" marginEnd="size-100" />}
 
       <Text>

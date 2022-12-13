@@ -3,15 +3,15 @@ import { Label } from '@react-spectrum/label';
 import { useSelector } from 'react-redux';
 
 import { FileMeta } from '~/common/types';
-import { selectIsTransferStarted, selectTransfersProgress } from '~/features/upload';
+import { selectProgress, selectTransferStarted } from '~/features/upload';
 
 type Props = Omit<FlexProps, 'children'> & {
   file: FileMeta;
 };
 
 export function Progress({ file }: Props) {
-  const isTransferStarted = useSelector(selectIsTransferStarted);
-  const progress = useSelector(selectTransfersProgress)[file.id] || 0;
+  const isTransferStarted = useSelector(selectTransferStarted);
+  const progress = useSelector(selectProgress)[file.id] || 0;
   const formattedPerc = `${Number(progress.toFixed(0))}%`;
   const progresLabelId = 'upload-progress-label';
 
@@ -19,7 +19,7 @@ export function Progress({ file }: Props) {
     <>
       <ProgressCircle
         value={progress}
-        isIndeterminate={progress === 0}
+        isIndeterminate={progress === 0 || progress === 100}
         size="L"
         variant="overBackground"
         aria-labelledby="progresLabelId"

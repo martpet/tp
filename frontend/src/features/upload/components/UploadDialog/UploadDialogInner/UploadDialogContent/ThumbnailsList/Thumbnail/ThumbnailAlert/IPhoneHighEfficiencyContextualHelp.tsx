@@ -1,7 +1,7 @@
 import { Content, ContextualHelp, Heading, Text } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
-import classNames from './ThumbnailError.module.css';
+import classNames from './IPhoneHighEfficiencyContextualHelp.module.css';
 
 export function IPhoneHighEfficiencyContextualHelp() {
   return (

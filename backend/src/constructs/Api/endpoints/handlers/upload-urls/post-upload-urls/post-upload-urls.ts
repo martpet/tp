@@ -20,8 +20,6 @@ export const handler: APIGatewayProxyHandlerV2<PostUploadUrlsResponse> = async (
 ) => {
   const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
   const { photoBucket } = process.env as HandlerEnv<'/upload-urls', 'POST'>;
-  let requestItems;
-  let existingFingerprintsInDb: string[];
 
   if (!authorization) {
     return errorResponse('Vf5Ph6qN1S');
@@ -35,22 +33,22 @@ export const handler: APIGatewayProxyHandlerV2<PostUploadUrlsResponse> = async (
     return errorResponse('G-luuHqI0s', { statusCode: StatusCodes.BAD_REQUEST });
   }
 
+  let requestData;
+
   try {
-    requestItems = JSON.parse(event.body) as PostUploadUrlsRequest;
+    requestData = JSON.parse(event.body) as PostUploadUrlsRequest;
   } catch (error) {
     return errorResponse('9210145fdf', { statusCode: StatusCodes.BAD_REQUEST, error });
   }
 
-  try {
-    const fingerprints = requestItems.map(({ fingerprint }) => fingerprint);
-    existingFingerprintsInDb = await findExistingFingerprints(fingerprints);
-  } catch (error) {
-    return errorResponse('9fb96f4182', { error });
-  }
+  const existingFingerprintsInDb = await findExistingFingerprints(
+    requestData.map(({ fingerprint }) => fingerprint)
+  );
 
-  const uniqueItems = requestItems.filter(
+  const uniqueItems = requestData.filter(
     ({ fingerprint }) => !existingFingerprintsInDb.includes(fingerprint)
   );
+
   const { sub } = await getIdTokenPayload(authorization);
 
   const uploadUrlsEntries = await Promise.all(

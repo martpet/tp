@@ -13,36 +13,32 @@ export const findExistingFingerprints = async (fingerprints: string[]) => {
   const { tableName, partitionKey } = photosTableOptions;
   const result: string[] = [];
 
-  async function batchGet(keys: Record<string, any>[]) {
+  async function batchGet(Keys: Record<string, any>[]) {
     const batchGetCommand = new BatchGetCommand({
-      RequestItems: { [tableName]: { Keys: keys } },
+      RequestItems: { [tableName]: { Keys } },
     });
-
     const { Responses, UnprocessedKeys } = await ddbDocClient.send(batchGetCommand);
 
     if (Responses) {
       Responses[tableName].forEach(({ fingerprint }) => result.push(fingerprint));
     }
-
     if (UnprocessedKeys) {
       const nextKeys = UnprocessedKeys[tableName]?.Keys?.map((key) => unmarshall(key));
-
       if (nextKeys) {
         await batchGet(nextKeys);
       }
     }
   }
 
-  const keys = fingerprints.map((fingerprint) => ({ [partitionKey.name]: fingerprint }));
-  const maxItems = 100;
-  const promises = [];
+  const batchSize = 100;
+  const requests = [];
 
-  for (let i = 0; i < keys.length; i += maxItems) {
-    const chunk = keys.slice(i, i + maxItems);
-    promises.push(batchGet(chunk));
+  for (let i = 0; i < fingerprints.length; i += batchSize) {
+    const chunk = fingerprints.slice(i, i + batchSize);
+    const keys = chunk.map((fingerprint) => ({ [partitionKey.name]: fingerprint }));
+    requests.push(batchGet(keys));
   }
 
-  await Promise.all(promises);
-
+  await Promise.all(requests);
   return result;
 };

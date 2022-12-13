@@ -3,6 +3,6 @@ export type UploadError =
   | 'fileTooBig'
   | 'alreadySelected'
   | 'alreadyUploaded'
-  | 'transferFailed';
+  | 'uploadFailed';
 
 export type MissingExifDataError = 'missingLocation' | 'missingDate';

@@ -46,7 +46,7 @@ export function Thumbnail({ file, scollIntoView }: Props) {
 
   return (
     <div ref={container} style={{ visibility: isImageLoaded ? 'visible' : 'hidden' }}>
-      <Grid position="relative">
+      <Grid areas={['header', 'main', 'footer']}>
         <img
           alt={file.name}
           src={file.objectURL}
@@ -54,15 +54,15 @@ export function Thumbnail({ file, scollIntoView }: Props) {
           onLoad={handleImgLoaded}
           style={{
             width: '100%',
-            gridColumn: '1',
-            gridRow: '1',
+            gridArea: 'header / main / footer',
             display: 'block',
+            borderRadius: 'var(--spectrum-alias-border-radius-regular)',
           }}
         />
-        <TnumbnailOverlay gridColumn="1" gridRow="1" file={file} />
-        <ThumbnailRemoveButton file={file} />
+        <TnumbnailOverlay gridArea="header / main / footer" file={file} />
+        <ThumbnailRemoveButton gridArea="header" file={file} />
+        <ThumbnailAlert gridArea="footer" file={file} />
       </Grid>
-      <ThumbnailAlert file={file} />
       {formattedDate && <Label marginTop="size-50">{formattedDate}</Label>}
     </div>
   );

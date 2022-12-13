@@ -7,7 +7,6 @@ import {
   itHasEnvVars,
   itHasJsonBody,
   itResolves,
-  itResolvesWithError,
 } from '~/constructs/Api/utils';
 
 import { handler } from '../post-upload-urls';
@@ -45,12 +44,4 @@ describe('post-upload-urls', () => {
   itResolves(handler, args);
   itCalls(createPresignedPost, handler, args);
   itCalls(findExistingFingerprints, handler, args);
-
-  describe('when `findExistingFingerprints` throws', () => {
-    beforeEach(() => {
-      const error = new Error('dummyFindExistingItemsError');
-      vi.mocked(findExistingFingerprints).mockRejectedValueOnce(error);
-    });
-    itResolvesWithError(handler, args);
-  });
 });

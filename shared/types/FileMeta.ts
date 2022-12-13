@@ -9,3 +9,5 @@ export type FileMeta = {
   exif: Partial<PhotoExif>;
   objectURL: string;
 };
+
+export type UplaodableFileMeta = Omit<FileMeta, 'exif'> & { exif: PhotoExif };

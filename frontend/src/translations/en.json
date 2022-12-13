@@ -11,6 +11,10 @@
     "defaultMessage": "Select files from your computer or drop them here",
     "description": "upload empty state illustration body"
   },
+  "2V2oVE": {
+    "defaultMessage": "Succesfully uploaded",
+    "description": "upload thumbnail alert success"
+  },
   "2XzbH9": {
     "defaultMessage": "Photos taken with <em>\"High Efficiency\"</em> (<em>Settings → Camera → Formats</em>) cannot be uploaded from an iPhone. You can upload this photo from a Mac.",
     "description": "thumbnail error iphone high efficiency help content"
@@ -35,6 +39,14 @@
     "defaultMessage": "Profile",
     "description": "profile dialog aria-label"
   },
+  "7yz27v": {
+    "defaultMessage": "{count,plural,one{{count} file failed to upload. Press <em>Start upload</em> again} other{{count} files failed to upload. Press <em>Start upload</em> again}}",
+    "description": "upload notification failure"
+  },
+  "9z5ADa": {
+    "defaultMessage": "{count,plural,one{{count} file uploaded} other{{count} files uploaded}}",
+    "description": "upload notification success"
+  },
   "A6sLC1": {
     "defaultMessage": "Dark",
     "description": "color scheme picker item - dark"
@@ -42,6 +54,10 @@
   "AkAQGg": {
     "defaultMessage": "Add more files",
     "description": "button choose files (with added files)"
+  },
+  "B+/jyf": {
+    "defaultMessage": "I'm done",
+    "description": "upload dialog done button"
   },
   "BAOl3n": {
     "defaultMessage": "Light",
@@ -91,6 +107,10 @@
     "defaultMessage": "Uploading…",
     "description": "upload dialog upload button - uploading"
   },
+  "SoG7Bh": {
+    "defaultMessage": "{count,plural,one{{count} file does not meet upload criteria} other{{count} files don't meet upload criteria}}",
+    "description": "upload notification invalid files"
+  },
   "VeLxrQ": {
     "defaultMessage": "GPS location",
     "description": "file meta: location"
@@ -110,6 +130,10 @@
   "cgaF0x": {
     "defaultMessage": "Left",
     "description": "toolbar position picker label - left"
+  },
+  "dXeAus": {
+    "defaultMessage": "All files are uploaded",
+    "description": "upload notification success all"
   },
   "fBncmS": {
     "defaultMessage": "Transfer failed",

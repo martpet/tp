@@ -2,7 +2,12 @@ import { Grid, GridProps } from '@adobe/react-spectrum';
 import { useSelector } from 'react-redux';
 
 import { FileMeta } from '~/common/types';
-import { selectUploadStatus } from '~/features/upload';
+import {
+  selectCompletedUploads,
+  selectFilesErrors,
+  selectUploadFlowEnded,
+  selectUploadFlowStatus,
+} from '~/features/upload';
 
 import { Progress } from './Progress';
 
@@ -11,9 +16,14 @@ type Props = Omit<GridProps, 'children'> & {
 };
 
 export function TnumbnailOverlay({ file, ...containerProps }: Props) {
-  const uploadStatus = useSelector(selectUploadStatus);
+  const flowStatus = useSelector(selectUploadFlowStatus);
+  const isFlowEnded = useSelector(selectUploadFlowEnded);
+  const completedUploads = useSelector(selectCompletedUploads);
+  const filesErrors = useSelector(selectFilesErrors);
+  const isUploaded = completedUploads.includes(file);
+  const hasErrors = filesErrors[file.id].length > 0;
 
-  if (uploadStatus === 'idle') {
+  if (flowStatus === 'idle' || hasErrors || isUploaded || isFlowEnded) {
     return null;
   }
 

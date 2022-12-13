@@ -100,16 +100,3 @@ exports[`post-upload-urls > when "photoBucket" env var is missing > calls "error
 `;
 
 exports[`post-upload-urls > when "photoBucket" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
-
-exports[`post-upload-urls > when \`findExistingFingerprints\` throws > calls "errorResponse" with correct args 1`] = `
-[
-  [
-    "9fb96f4182",
-    {
-      "error": [Error: dummyFindExistingItemsError],
-    },
-  ],
-]
-`;
-
-exports[`post-upload-urls > when \`findExistingFingerprints\` throws > resolves with a correct value 1`] = `"dummyErrorResponse"`;

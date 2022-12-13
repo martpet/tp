@@ -37,7 +37,7 @@ module.exports = {
     'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
     'no-param-reassign': ['error', { props: false }],
     '@typescript-eslint/no-restricted-imports': [
-      'warn',
+      'error',
       {
         name: 'react-redux',
         importNames: [

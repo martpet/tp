@@ -11,6 +11,10 @@
     "defaultMessage": "Избери файлове от компютъра или ги довалчи тук",
     "description": "upload empty state illustration body"
   },
+  "2V2oVE": {
+    "defaultMessage": "Успешно качено",
+    "description": "upload thumbnail alert success"
+  },
   "2XzbH9": {
     "defaultMessage": "Снимки, направени с <em>\"Високо ефективен\"</em> (<em>Настройки → Камера → Формати</em>), не могат да бъдат качени от iPhone. Може да ги качите от компютър.",
     "description": "thumbnail error iphone high efficiency help content"
@@ -35,6 +39,14 @@
     "defaultMessage": "Профил",
     "description": "profile dialog aria-label"
   },
+  "7yz27v": {
+    "defaultMessage": "{count,plural,one{{count} файл не успя да се качи. Натисни <em>Качване</em> отново} other{{count} файла не успяха да се качат. Натисни <em>Качване</em> отново}}",
+    "description": "upload notification failure"
+  },
+  "9z5ADa": {
+    "defaultMessage": "{count,plural,one{{count} качен файл} other{{count} качени файла}}",
+    "description": "upload notification success"
+  },
   "A6sLC1": {
     "defaultMessage": "тъмна",
     "description": "color scheme picker item - dark"
@@ -42,6 +54,10 @@
   "AkAQGg": {
     "defaultMessage": "Избери още файлове",
     "description": "button choose files (with added files)"
+  },
+  "B+/jyf": {
+    "defaultMessage": "Добре, готов съм",
+    "description": "upload dialog done button"
   },
   "BAOl3n": {
     "defaultMessage": "светла",
@@ -91,6 +107,10 @@
     "defaultMessage": "Качва се…",
     "description": "upload dialog upload button - uploading"
   },
+  "SoG7Bh": {
+    "defaultMessage": "{count,plural,one{{count} файл не е подходящ за качване} other{{count} файла не са подходящи за качване}}",
+    "description": "upload notification invalid files"
+  },
   "VeLxrQ": {
     "defaultMessage": "GPS локация",
     "description": "file meta: location"
@@ -110,6 +130,10 @@
   "cgaF0x": {
     "defaultMessage": "в ляво",
     "description": "toolbar position picker label - left"
+  },
+  "dXeAus": {
+    "defaultMessage": "Всички файлове са качени",
+    "description": "upload notification success all"
   },
   "fBncmS": {
     "defaultMessage": "Качването е неуспешно",

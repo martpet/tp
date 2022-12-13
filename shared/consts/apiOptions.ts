@@ -57,4 +57,9 @@ export const apiOptions = {
       },
     },
   },
+  '/photos': {
+    methods: {
+      POST: {},
+    },
+  },
 } as const satisfies ApiOptions;

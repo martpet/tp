@@ -1,33 +1,62 @@
 import { Button, useDialogContainer } from '@adobe/react-spectrum';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
-import { useAppSelector } from '~/common/hooks';
-import { selectFiles, selectUploadableFiles } from '~/features/upload';
+import { useAppDispatch } from '~/common/hooks';
+import {
+  selectFiles,
+  selectUploadableFiles,
+  selectUploadFlowEnded,
+  userIsDone,
+} from '~/features/upload';
 
 import { AddFilesButton } from '../AddFilesButton';
 import { StartUploadButton } from './StartUploadButton';
 
 export function UploadDialogButtons() {
   const { dismiss } = useDialogContainer();
-  const files = useAppSelector(selectFiles);
-  const uploadableFiles = useAppSelector(selectUploadableFiles);
+  const files = useSelector(selectFiles);
+  const uploadableFiles = useSelector(selectUploadableFiles);
+  const isFlowEnded = useSelector(selectUploadFlowEnded);
+  const { formatMessage } = useIntl();
+  const dispatch = useAppDispatch();
 
-  const closeText = (
-    <FormattedMessage defaultMessage="Close" description="upload dialog close button" />
-  );
+  const buttonCloseText = formatMessage({
+    defaultMessage: 'Close',
+    description: 'upload dialog close button',
+  });
 
-  const hideText = (
-    <FormattedMessage defaultMessage="Hide" description="upload dialog hide button" />
-  );
+  const buttonHideText = formatMessage({
+    defaultMessage: 'Hide',
+    description: 'upload dialog hide button',
+  });
 
   return (
     <>
-      {Boolean(uploadableFiles.length) && <StartUploadButton />}
-      {Boolean(files.length) && <AddFilesButton variant="secondary" />}
+      {uploadableFiles.length > 0 && <StartUploadButton />}
 
-      <Button variant="secondary" onPress={dismiss}>
-        {files.length ? hideText : closeText}
-      </Button>
+      {files.length > 0 && <AddFilesButton variant="secondary" />}
+
+      {!isFlowEnded && (
+        <Button variant="secondary" onPress={dismiss}>
+          {files.length ? buttonHideText : buttonCloseText}
+        </Button>
+      )}
+
+      {isFlowEnded && (
+        <Button
+          variant={uploadableFiles.length > 0 ? 'secondary' : 'cta'}
+          onPress={() => {
+            dismiss();
+            setTimeout(() => dispatch(userIsDone()), 500);
+          }}
+        >
+          <FormattedMessage
+            defaultMessage="I'm done"
+            description="upload dialog done button"
+          />
+        </Button>
+      )}
     </>
   );
 }

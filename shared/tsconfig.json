@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "isolatedModules": true,
+    "paths": {},
   },
   "extends": "../tsconfig.json",
   "include": [

@@ -1,8 +1,8 @@
 export type PhotoExif = {
   dateTimeOriginal: string;
-  gpsAltitude: number;
   gpsLatitude: number;
-  gpsLongitude?: number;
+  gpsLongitude: number;
+  gpsAltitude?: number;
   gpsDestBearing?: number;
   gpsHPositioningError?: number;
   gpsSpeed?: number;

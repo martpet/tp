@@ -38,4 +38,7 @@ export const createRoutesCallbacks = ({ tables, photos }: Props): Callbacks => (
       tables.photosTable.grantReadData(f);
     },
   },
+  '/photos': {
+    POST: (f) => tables.photosTable.grantReadWriteData(f),
+  },
 });
