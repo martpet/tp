@@ -30,7 +30,7 @@ export const selectTransferredFiles = createSelector(
     files.filter(({ id }) => successfulTransfers.includes(id))
 );
 
-export const selectFailedTransferFiles = createSelector(
+export const selectFailedToTransferFiles = createSelector(
   selectFiles,
   (state: RootState) => state.upload.failedTransfers,
   (files, failedTransfers) => files.filter(({ id }) => failedTransfers.includes(id))
@@ -45,10 +45,10 @@ export const selectCompletedUploads = createSelector(
 export const selectFilesErrors = createSelector(
   selectFiles,
   selectFingerprintsInDb,
-  selectFailedTransferFiles,
-  selectUploadFlowStatus,
+  selectFailedToTransferFiles,
   selectCompletedUploads,
-  (files, fingerprintsInDb, failedTransfersFiles, flowStatus, completedUploads) => {
+  selectUploadFlowStatus,
+  (files, fingerprintsInDb, failedTransfersFiles, completedUploads, flowStatus) => {
     const digests: string[] = [];
     return Object.fromEntries(
       files.map((file) => {
@@ -82,20 +82,34 @@ export const selectUploadableFiles = createSelector(
     })
 );
 
-export const selectFailedUploads = createSelector(
-  selectUploadFlowStatus,
-  selectUploadableFiles,
-  selectFailedTransferFiles,
-  (flowStatus, uploadableFiles, failedTransferFiles) =>
-    flowStatus === 'error' ? uploadableFiles : failedTransferFiles
-);
-
-export const selectNotUploadableFiles = createSelector(
+export const selectUnuploadableFiles = createSelector(
   selectFiles,
   selectUploadableFiles,
   selectCompletedUploads,
   (files, uploadableFiles, completedUploads) =>
     files.filter(
-      (file) => !completedUploads.includes(file) && !uploadableFiles.includes(file)
+      (file) => !uploadableFiles.includes(file) && !completedUploads.includes(file)
     )
+);
+
+export const selectFilesPendingTransfer = createSelector(
+  selectUploadableFiles,
+  selectTransferredFiles,
+  (uploadableFiles, transferredFiles) =>
+    uploadableFiles.filter((file) => !transferredFiles.includes(file))
+);
+
+export const selectFilesPendingCreation = createSelector(
+  selectTransferredFiles,
+  selectCompletedUploads,
+  (transferredFiles, completedUploads) =>
+    transferredFiles.filter((file) => !completedUploads.includes(file))
+);
+
+export const selectFailedUploads = createSelector(
+  selectUploadFlowStatus,
+  selectUploadableFiles,
+  selectFailedToTransferFiles,
+  (flowStatus, uploadableFiles, failedTransferFiles) =>
+    flowStatus === 'error' ? uploadableFiles : failedTransferFiles
 );

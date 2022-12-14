@@ -1,4 +1,8 @@
 {
+  "ogov33": {
+    "defaultMessage": "Всички {count} файла са качени",
+    "description": "upload notification success all"
+  },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
     "description": "settings tab"
@@ -39,11 +43,15 @@
     "defaultMessage": "Профил",
     "description": "profile dialog aria-label"
   },
-  "7yz27v": {
-    "defaultMessage": "{count,plural,one{{count} файл не успя да се качи. Натисни <em>Качване</em> отново} other{{count} файла не успяха да се качат. Натисни <em>Качване</em> отново}}",
+  "HrfHC5": {
+    "defaultMessage": "{count,plural,one{{count} файл не успя да се качи.} other{{count} файла не успяха да се качат.}}",
     "description": "upload notification failure"
   },
-  "9z5ADa": {
+  "/FTDR0": {
+    "defaultMessage": "Наитсни <em>Качи сега</em> отново",
+    "description": "upload notification failure - try again"
+  },
+  "8NNu/T": {
     "defaultMessage": "{count,plural,one{{count} качен файл} other{{count} качени файла}}",
     "description": "upload notification success"
   },
@@ -100,7 +108,7 @@
     "description": "upload thumbnail error intro"
   },
   "PLJPTc": {
-    "defaultMessage": "Качване",
+    "defaultMessage": "Качи сега",
     "description": "upload dialog upload button"
   },
   "QEjmY2": {
@@ -114,6 +122,10 @@
   "VeLxrQ": {
     "defaultMessage": "GPS локация",
     "description": "file meta: location"
+  },
+  "Y1v68Y": {
+    "defaultMessage": "Качването е неуспешно",
+    "description": "upload thumbnail error transfer failed"
   },
   "ZpWjQd": {
     "defaultMessage": "Начало",
@@ -131,14 +143,7 @@
     "defaultMessage": "в ляво",
     "description": "toolbar position picker label - left"
   },
-  "dXeAus": {
-    "defaultMessage": "Всички файлове са качени",
-    "description": "upload notification success all"
-  },
-  "fBncmS": {
-    "defaultMessage": "Качването е неуспешно",
-    "description": "upload thumbnail error transfer failed"
-  },
+  
   "jOxmkh": {
     "defaultMessage": "Вход с Apple",
     "description": "apple login button"

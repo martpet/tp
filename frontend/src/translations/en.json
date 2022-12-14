@@ -1,4 +1,8 @@
 {
+  "/FTDR0": {
+    "defaultMessage": "Press <em>Start upload</em> again",
+    "description": "upload notification failure - try again"
+  },
   "/QE/Ru": {
     "defaultMessage": "Layout",
     "description": "settings tab"
@@ -39,12 +43,8 @@
     "defaultMessage": "Profile",
     "description": "profile dialog aria-label"
   },
-  "7yz27v": {
-    "defaultMessage": "{count,plural,one{{count} file failed to upload. Press <em>Start upload</em> again} other{{count} files failed to upload. Press <em>Start upload</em> again}}",
-    "description": "upload notification failure"
-  },
-  "9z5ADa": {
-    "defaultMessage": "{count,plural,one{{count} file uploaded} other{{count} files uploaded}}",
+  "8NNu/T": {
+    "defaultMessage": "{count,plural,one{{count} file is uploaded} other{{count} files are uploaded}}",
     "description": "upload notification success"
   },
   "A6sLC1": {
@@ -83,6 +83,10 @@
     "defaultMessage": "iPhone users",
     "description": "thumbnail error iphone high efficiency help heading"
   },
+  "HrfHC5": {
+    "defaultMessage": "{count,plural,one{{count} file failed to upload.} other{{count} files failed to upload.}}",
+    "description": "upload notification failure"
+  },
   "ITu5Da": {
     "defaultMessage": "Language",
     "description": "settings tab"
@@ -115,6 +119,10 @@
     "defaultMessage": "GPS location",
     "description": "file meta: location"
   },
+  "Y1v68Y": {
+    "defaultMessage": "Failed to upload",
+    "description": "upload thumbnail error transfer failed"
+  },
   "ZpWjQd": {
     "defaultMessage": "Home",
     "description": "logo button aria-label"
@@ -131,14 +139,6 @@
     "defaultMessage": "Left",
     "description": "toolbar position picker label - left"
   },
-  "dXeAus": {
-    "defaultMessage": "All files are uploaded",
-    "description": "upload notification success all"
-  },
-  "fBncmS": {
-    "defaultMessage": "Transfer failed",
-    "description": "upload thumbnail error transfer failed"
-  },
   "jOxmkh": {
     "defaultMessage": "Continue with Apple",
     "description": "apple login button"
@@ -154,6 +154,10 @@
   "oB9CE2": {
     "defaultMessage": "Profile",
     "description": "toolbar profile button aria label"
+  },
+  "ogov33": {
+    "defaultMessage": "All {count} files are uploaded",
+    "description": "upload notification success all"
   },
   "s+G7t6": {
     "defaultMessage": "This photo has been previously uploaded",

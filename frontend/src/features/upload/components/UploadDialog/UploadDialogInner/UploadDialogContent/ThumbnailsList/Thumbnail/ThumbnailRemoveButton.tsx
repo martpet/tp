@@ -6,13 +6,7 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '~/common/hooks';
-import {
-  FileMeta,
-  fileRemoved,
-  selectCompletedUploads,
-  selectFilesErrors,
-  selectProgress,
-} from '~/features/upload';
+import { FileMeta, fileRemoved, selectTransferredFiles } from '~/features/upload';
 
 type Props = Omit<FlexProps, 'children'> & {
   file: FileMeta;
@@ -20,21 +14,13 @@ type Props = Omit<FlexProps, 'children'> & {
 
 export function ThumbnailRemoveButton({ file, ...flexProps }: Props) {
   const { formatMessage } = useIntl();
-  const filesErrors = useSelector(selectFilesErrors);
-  const transfersProgress = useSelector(selectProgress);
-  const completedUploads = useSelector(selectCompletedUploads);
-  const dispatch = useAppDispatch();
+  const transferredFiles = useSelector(selectTransferredFiles);
   const isMobile = useIsMobileDevice();
   const isOnLeftSide = isAppleDevice() && !isMobile;
-  const failedToUpload = filesErrors[file.id].includes('uploadFailed');
-  const progress = transfersProgress[file.id];
-  const isUploadComplete = completedUploads.includes(file);
+  const dispatch = useAppDispatch();
+  const isTransferred = transferredFiles.includes(file);
 
-  const handleClick = (fileId: string) => () => {
-    dispatch(fileRemoved(fileId));
-  };
-
-  if (isUploadComplete || (progress === 100 && !failedToUpload)) {
+  if (isTransferred) {
     return null;
   }
 
@@ -45,7 +31,7 @@ export function ThumbnailRemoveButton({ file, ...flexProps }: Props) {
       UNSAFE_style={{ padding: 'var(--spectrum-global-dimension-size-40)' }}
     >
       <Button
-        onPress={handleClick(file.id)}
+        onPress={() => dispatch(fileRemoved(file.id))}
         variant="overBackground"
         style="fill"
         UNSAFE_style={{

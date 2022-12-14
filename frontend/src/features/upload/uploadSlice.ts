@@ -2,6 +2,7 @@ import { PresignedPost } from '@aws-sdk/s3-presigned-post';
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 
 import { startAppListening } from '~/app/store/middleware';
+import { RootState } from '~/common/types';
 import { createPhotos } from '~/features/photos';
 import {
   addFiles,
@@ -9,8 +10,8 @@ import {
   FileMeta,
   fileRemoved,
   selectFiles,
-  selectTransferredFiles,
-  selectUploadableFiles,
+  selectFilesPendingCreation,
+  selectFilesPendingTransfer,
   transferFiles,
   UplaodableFileMeta,
 } from '~/features/upload';
@@ -45,59 +46,63 @@ export const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
-    uploadStarted(state) {
-      state.flowStatus = 'pending';
+    uploadFlowStarted(state) {
+      const newProgressEntries = state.successfulTransfers.map((id) => [id, 100]);
+      state.transfersProgress = Object.fromEntries(newProgressEntries);
       state.isTransferStarted = false;
-      state.transfersProgress = {};
-      state.successfulTransfers = [];
       state.failedTransfers = [];
+      state.flowStatus = 'pending';
     },
     progressUpdated(state, { payload }: PayloadAction<Record<string, number>>) {
-      state.transfersProgress = payload;
+      Object.assign(state.transfersProgress, payload);
+    },
+    transferCompleted(state, { payload }: PayloadAction<string>) {
+      state.successfulTransfers.push(payload);
+      state.transfersProgress[payload] = 100;
+    },
+    transferFailed(state, { payload }: PayloadAction<string>) {
+      state.failedTransfers.push(payload);
     },
     userIsDone() {
       return initialState;
     },
   },
-  extraReducers(builder) {
-    builder.addCase(addFiles.pending, (state) => {
+  extraReducers({ addCase, addMatcher }) {
+    addCase(addFiles.pending, (state) => {
       state.isAddingFiles = true;
     });
-
-    builder.addCase(addFiles.fulfilled, (state, { payload }) => {
-      state.files = state.files.concat(payload);
+    addCase(addFiles.fulfilled, (state, { payload }) => {
       state.isAddingFiles = false;
+      state.files = state.files.concat(payload);
     });
-
-    builder.addCase(fileRemoved, (state, { payload }) => {
-      state.files = state.files.filter(({ id }) => id !== payload);
-      if (!state.files.length) {
-        state.flowStatus = 'idle';
-      }
+    addCase(fileRemoved, (state, { payload }) => {
+      const remainingFiles = state.files.filter(({ id }) => id !== payload);
+      state.files = remainingFiles;
+      if (!state.files) state.flowStatus = 'idle';
     });
-
-    builder.addCase(transferFiles.pending, (state) => {
+    addCase(transferFiles.pending, (state) => {
       state.isTransferStarted = true;
     });
-
-    builder.addCase(transferFiles.fulfilled, (state, { payload }) => {
-      state.successfulTransfers = state.successfulTransfers.concat(
-        payload.successfulTransfers
-      );
-      state.failedTransfers = payload.failedTransfers;
+    addCase(transferFiles.fulfilled, (state) => {
+      const files = selectFilesPendingCreation({ upload: state } as RootState);
+      if (!files.length) state.flowStatus = 'done';
     });
-
-    builder.addMatcher(createUploadUrls.matchFulfilled, (state, { payload }) => {
+    addMatcher(createUploadUrls.matchFulfilled, (state, { payload }) => {
       state.presignedPosts = payload.presignedPosts;
-      if (!Object.keys(payload.presignedPosts).length) {
+      if (!Object.keys(state.presignedPosts).length) {
         state.flowStatus = 'done';
       }
       state.fingerprintsInDb = state.fingerprintsInDb.concat(
         payload.existingFingerprintsInDb
       );
     });
-
-    builder.addMatcher(
+    addMatcher(createPhotos.matchFulfilled, (state, { meta }) => {
+      const fingerprints = meta.arg.originalArgs.map(({ fingerprint }) => fingerprint);
+      state.fingerprintsInDb = state.fingerprintsInDb.concat(fingerprints);
+      state.completedUploads = state.successfulTransfers;
+      state.flowStatus = 'done';
+    });
+    addMatcher(
       isAnyOf(
         createUploadUrls.matchRejected,
         transferFiles.rejected,
@@ -107,25 +112,23 @@ export const uploadSlice = createSlice({
         state.flowStatus = aborted ? 'idle' : 'error';
       }
     );
-
-    builder.addMatcher(createPhotos.matchFulfilled, (state, { meta }) => {
-      state.flowStatus = 'done';
-      state.completedUploads = state.completedUploads.concat(state.successfulTransfers);
-      meta.arg.originalArgs.forEach(({ fingerprint }) =>
-        state.fingerprintsInDb.push(fingerprint)
-      );
-    });
   },
 });
 
-export const { uploadStarted, progressUpdated, userIsDone } = uploadSlice.actions;
+export const {
+  uploadFlowStarted,
+  progressUpdated,
+  transferCompleted,
+  transferFailed,
+  userIsDone,
+} = uploadSlice.actions;
 
 // Listeners
 
 startAppListening({
-  actionCreator: uploadStarted,
+  actionCreator: uploadFlowStarted,
   effect(action, { dispatch, getState }) {
-    const files = selectUploadableFiles(getState());
+    const files = selectFilesPendingTransfer(getState());
     const queryArg = files.map(({ id, fingerprint, digest }) => ({
       id,
       fingerprint,
@@ -138,7 +141,7 @@ startAppListening({
 startAppListening({
   matcher: createUploadUrls.matchFulfilled,
   effect(action, { dispatch, getState }) {
-    const files = selectUploadableFiles(getState());
+    const files = selectFilesPendingTransfer(getState());
     if (files.length) dispatch(transferFiles());
   },
 });
@@ -146,9 +149,11 @@ startAppListening({
 startAppListening({
   actionCreator: transferFiles.fulfilled,
   effect(action, { dispatch, getState }) {
-    const files = selectTransferredFiles(getState()) as UplaodableFileMeta[];
-    const queryArg = files.map(({ fingerprint, exif }) => ({ fingerprint, ...exif }));
-    dispatch(createPhotos.initiate(queryArg));
+    const files = selectFilesPendingCreation(getState()) as UplaodableFileMeta[];
+    if (files.length) {
+      const queryArg = files.map(({ fingerprint, exif }) => ({ fingerprint, ...exif }));
+      dispatch(createPhotos.initiate(queryArg));
+    }
   },
 });
 

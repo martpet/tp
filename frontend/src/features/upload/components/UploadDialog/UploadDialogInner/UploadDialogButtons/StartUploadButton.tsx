@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '~/common/hooks';
-import { selectUploadFlowStatus, uploadStarted } from '~/features/upload';
+import { selectUploadFlowStatus, uploadFlowStarted } from '~/features/upload';
 
 export function StartUploadButton() {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ export function StartUploadButton() {
   const buttonId = 'start-upload-button';
 
   const handleClick = () => {
-    dispatch(uploadStarted());
+    dispatch(uploadFlowStarted());
   };
 
   const idleState = (

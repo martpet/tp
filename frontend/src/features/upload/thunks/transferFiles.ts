@@ -5,18 +5,18 @@ import { RootState } from '~/common/types';
 import {
   fileRemoved,
   progressUpdated,
+  selectFilesPendingTransfer,
   selectPresignedPosts,
-  selectUploadableFiles,
+  transferCompleted,
+  transferFailed,
 } from '~/features/upload';
 
 export const transferFiles = createAsyncThunk(
   'transferFilesStatus',
   async (arg, { getState, dispatch }) => {
     const state = getState() as RootState;
-    const files = selectUploadableFiles(state);
+    const files = selectFilesPendingTransfer(state);
     const presignedPosts = selectPresignedPosts(state);
-    const successfulTransfers: string[] = [];
-    const failedTransfers: string[] = [];
     const requests: Record<string, XMLHttpRequest> = {};
     const progress: Record<string, number> = {};
     let lastProgressDispatchAt = 0;
@@ -30,29 +30,29 @@ export const transferFiles = createAsyncThunk(
       })
     );
 
-    await Promise.all(
+    await Promise.allSettled(
       files.map(async ({ id, objectURL }) => {
         const { url, fields } = presignedPosts[id];
         const form = new FormData();
         const blob = await fetch(objectURL).then((r) => r.blob());
         const xhr = new XMLHttpRequest();
-        requests[id] = xhr;
 
+        requests[id] = xhr;
         Object.entries(fields).forEach((entry) => form.append(...entry));
         form.append('file', blob);
 
         return new Promise<void>((resolve) => {
           xhr.onload = () => {
             if (xhr.status === 204) {
-              successfulTransfers.push(id);
+              dispatch(transferCompleted(id));
             } else {
-              failedTransfers.push(id);
+              dispatch(transferFailed(id));
             }
             resolve();
           };
 
-          const onerror = () => {
-            failedTransfers.push(id);
+          xhr.onerror = () => {
+            dispatch(transferFailed(id));
             resolve();
           };
 
@@ -61,29 +61,21 @@ export const transferFiles = createAsyncThunk(
           };
 
           xhr.upload.onprogress = ({ loaded, total }) => {
-            progress[id] = Math.floor((loaded / total) * 100);
             const now = Number(new Date());
+            progress[id] = Math.floor((loaded / total) * 100);
             if (lastProgressDispatchAt < now - 250) {
               lastProgressDispatchAt = now;
               dispatch(progressUpdated({ ...progress }));
             }
           };
 
-          xhr.upload.onerror = onerror;
-          xhr.onerror = onerror;
           xhr.open('POST', url);
           xhr.send(form);
         });
       })
     );
 
-    dispatch(progressUpdated(progress));
     // @ts-ignore
     unsubscribeFileRemoveListener();
-
-    return {
-      successfulTransfers,
-      failedTransfers,
-    };
   }
 );

@@ -3,45 +3,45 @@ import { Label } from '@react-spectrum/label';
 import { useSelector } from 'react-redux';
 
 import { FileMeta } from '~/common/types';
-import { selectProgress, selectTransferStarted } from '~/features/upload';
+import { selectProgress } from '~/features/upload';
 
 type Props = Omit<FlexProps, 'children'> & {
   file: FileMeta;
 };
 
-export function Progress({ file }: Props) {
-  const isTransferStarted = useSelector(selectTransferStarted);
+export function ProgressIndicator({ file }: Props) {
   const progress = useSelector(selectProgress)[file.id] || 0;
-  const formattedPerc = `${Number(progress.toFixed(0))}%`;
-  const progresLabelId = 'upload-progress-label';
+  const formattedProgress = `${Number(progress.toFixed(0))}%`;
+  const progressDomId = 'upload-progress-label';
+  const isPercVisible = progress !== 0;
 
   return (
     <>
       <ProgressCircle
         value={progress}
-        isIndeterminate={progress === 0 || progress === 100}
+        isIndeterminate={!isPercVisible || progress === 100}
         size="L"
         variant="overBackground"
-        aria-labelledby="progresLabelId"
+        aria-labelledby="progressDomId"
         gridRow="1"
         gridColumn="1"
         minWidth="static-size-200"
         UNSAFE_style={{
           borderRadius: '50%',
-          background: isTransferStarted ? 'rgba(0,0,0,.6)' : 'none',
+          background: isPercVisible ? 'rgba(0,0,0,.6)' : 'none',
         }}
       />
-      {isTransferStarted && (
-        <View gridRow="1" gridColumn="1" zIndex={1}>
+      <View gridRow="1" gridColumn="1" zIndex={1}>
+        {isPercVisible && (
           <Label
             elementType="span"
-            id={progresLabelId}
+            id={progressDomId}
             UNSAFE_style={{ color: 'var(--spectrum-global-color-static-white)' }}
           >
-            {formattedPerc}
+            {formattedProgress}
           </Label>
-        </View>
-      )}
+        )}
+      </View>
     </>
   );
 }

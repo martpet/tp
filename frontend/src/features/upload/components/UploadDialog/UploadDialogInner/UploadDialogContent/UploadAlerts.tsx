@@ -10,39 +10,36 @@ import {
   selectCompletedUploads,
   selectFailedUploads,
   selectFiles,
-  selectNotUploadableFiles,
+  selectUnuploadableFiles,
   selectUploadFlowEnded,
+  selectUploadFlowStatus,
 } from '~/features/upload';
 
 export function UploadAlerts() {
+  const flowStatus = useSelector(selectUploadFlowStatus);
   const isFlowEnded = useSelector(selectUploadFlowEnded);
   const files = useSelector(selectFiles);
   const completedUploads = useSelector(selectCompletedUploads);
   const failedUploads = useSelector(selectFailedUploads);
-  const notUploadableFiles = useSelector(selectNotUploadableFiles);
+  const unuploadableFiles = useSelector(selectUnuploadableFiles);
   const container = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isFlowEnded) {
-      container.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [isFlowEnded]);
-
-  let successAlert;
-  let failureAlert;
-  let validationAlert;
+  let successAlert: ReactNode;
+  let failureAlert: ReactNode;
+  let validationAlert: ReactNode;
 
   if (completedUploads.length) {
     successAlert = (
       <AlertItem icon={<CheckmarkCircle color="positive" />}>
         {completedUploads.length > 1 && completedUploads.length === files.length ? (
           <FormattedMessage
-            defaultMessage="All files are uploaded"
+            defaultMessage="All {count} files are uploaded"
             description="upload notification success all"
+            values={{ count: completedUploads.length }}
           />
         ) : (
           <FormattedMessage
-            defaultMessage="{count} {count, plural, one {file} other {files}} uploaded"
+            defaultMessage="{count} {count, plural, one {file is} other {files are}} uploaded"
             description="upload notification success"
             values={{ count: completedUploads.length }}
           />
@@ -55,27 +52,42 @@ export function UploadAlerts() {
     failureAlert = (
       <AlertItem icon={<CloudError color="negative" />}>
         <FormattedMessage
-          defaultMessage="{count} {count, plural, one {file} other {files}} failed to upload. Press <em>Start upload</em> again"
+          defaultMessage="{count} {count, plural, one {file} other {files}} failed to upload."
           description="upload notification failure"
-          values={{ count: failedUploads.length, em: (msg) => <em>{msg}</em> }}
+          values={{ count: failedUploads.length }}
         />
+        {flowStatus === 'idle' && (
+          <FormattedMessage
+            defaultMessage="Press <em>Start upload</em> again"
+            description="upload notification failure - try again"
+            values={{ em: (msg) => <em>{msg}</em> }}
+          />
+        )}
       </AlertItem>
     );
   }
 
-  if (notUploadableFiles.length) {
+  if (unuploadableFiles.length) {
     validationAlert = (
       <AlertItem icon={<Alert color="negative" />}>
         <FormattedMessage
           defaultMessage="{count} {count, plural, one {file does not} other {files don't}} meet upload criteria"
           description="upload notification invalid files"
-          values={{ count: notUploadableFiles.length }}
+          values={{ count: unuploadableFiles.length }}
         />
       </AlertItem>
     );
   }
 
-  if (!successAlert && !failureAlert && !validationAlert) {
+  const hasAlert = successAlert || failureAlert || validationAlert;
+
+  useEffect(() => {
+    if (isFlowEnded && hasAlert) {
+      container.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [isFlowEnded]);
+
+  if (!hasAlert) {
     return null;
   }
 

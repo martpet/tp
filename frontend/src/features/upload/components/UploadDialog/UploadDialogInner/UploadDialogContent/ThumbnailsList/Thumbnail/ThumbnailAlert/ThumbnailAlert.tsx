@@ -46,7 +46,7 @@ export function ThumbnailAlert({ file, ...badgeProps }: Props) {
     ),
     uploadFailed: (
       <FormattedMessage
-        defaultMessage="Transfer failed"
+        defaultMessage="Failed to upload"
         description="upload thumbnail error transfer failed"
       />
     ),
