@@ -26,7 +26,6 @@ export { unmarshall } from '@aws-sdk/util-dynamodb';
 export * from '~/constructs/Api/types';
 export { cookieName } from '~/constructs/Api/utils/cookieName';
 export { errorResponse } from '~/constructs/Api/utils/errorResponse';
-export { findExistingFingerprints } from '~/constructs/Api/utils/findExistingFingerprints';
 export { getIdTokenPayload } from '~/constructs/Api/utils/getIdTokenPayload';
 export { parseEventCookies } from '~/constructs/Api/utils/parseEventCookies';
 export * from '~/consts';

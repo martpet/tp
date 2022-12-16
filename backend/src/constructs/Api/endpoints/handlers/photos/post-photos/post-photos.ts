@@ -2,12 +2,13 @@ import {
   APIGatewayProxyHandlerV2,
   ApiRouteHeaders,
   errorResponse,
-  findExistingFingerprints,
   getIdTokenPayload,
   PostPhotosRequest,
   PostPhotosResponse,
   StatusCodes,
 } from 'lambda-layer';
+
+import { findExistingFingerprints } from '~/constructs/Api/utils';
 
 import { createPhotoItems } from './createPhotoItems';
 

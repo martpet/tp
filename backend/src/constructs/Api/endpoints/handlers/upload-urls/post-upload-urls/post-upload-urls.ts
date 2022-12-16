@@ -3,7 +3,6 @@ import {
   ApiRouteHeaders,
   createPresignedPost,
   errorResponse,
-  findExistingFingerprints,
   getIdTokenPayload,
   HandlerEnv,
   maxPhotoUploadSize,
@@ -12,6 +11,8 @@ import {
   S3Client,
   StatusCodes,
 } from 'lambda-layer';
+
+import { findExistingFingerprints } from '~/constructs/Api/utils';
 
 const s3Client = new S3Client({});
 
