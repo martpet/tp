@@ -4,7 +4,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import { itResolves, itSendsAwsCommand } from '~/constructs/Api/utils';
 import { photosTableOptions } from '~/consts';
 
-import { findExistingFingerprints } from '../XfindExistingFingerprints';
+import { findExistingFingerprints } from '../findExistingFingerprints';
 
 vi.mock('@aws-sdk/util-dynamodb');
 
