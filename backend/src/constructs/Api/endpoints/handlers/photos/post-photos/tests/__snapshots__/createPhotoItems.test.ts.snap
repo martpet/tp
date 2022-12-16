@@ -1,0 +1,35 @@
+// Vitest Snapshot v1
+
+exports[`createPhotoItems > resolves with a correct value 1`] = `undefined`;
+
+exports[`createPhotoItems > sends "BatchWriteCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
+{
+  "RequestItems": {
+    "TP-photos": [
+      {
+        "PutRequest": {
+          "Item": {
+            "createdAt": 1640995200000,
+            "fingerprint": "dummyFingerprint",
+            "userId": "dummySub",
+          },
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`createPhotoItems > when "BatchWriteCommand" response has "UnprocessedItems" > sends "BatchGetCommand" a second time with correct args 1`] = `
+{
+  "RequestItems": {
+    "TP-photos": [
+      {
+        "PutRequest": {
+          "Item": "dummyUnmarshalledItems",
+        },
+      },
+    ],
+  },
+}
+`;
