@@ -19,6 +19,7 @@ export const transferFiles = createAsyncThunk(
     const presignedPosts = selectPresignedPosts(state);
     const requests: Record<string, XMLHttpRequest> = {};
     const progress: Record<string, number> = {};
+    const isFirefox = navigator.userAgent.includes('Firefox');
     let lastProgressDispatchAt = 0;
 
     const unsubscribeFileRemoveListener = dispatch(
@@ -29,6 +30,18 @@ export const transferFiles = createAsyncThunk(
         },
       })
     );
+
+    const offlineEventListener = () => {
+      // Abort xhr upload requests in Firefox:
+      // - Safari aborts all active/pending requests when network goes down.
+      // - Chrome aborts pending requests, waits for network to go up and resumes active requests,
+      // - Firefox does not abort, neither continues on network up.
+      if (isFirefox) {
+        Object.values(requests).forEach((xhr) => xhr.abort());
+      }
+    };
+
+    window.addEventListener('offline', offlineEventListener);
 
     await Promise.allSettled(
       files.map(async ({ id, objectURL }) => {
@@ -57,11 +70,12 @@ export const transferFiles = createAsyncThunk(
           };
 
           xhr.upload.onabort = () => {
+            dispatch(transferFailed(id));
             resolve();
           };
 
           xhr.upload.onprogress = ({ loaded, total }) => {
-            const now = Number(new Date());
+            const now = Date.now();
             progress[id] = Math.floor((loaded / total) * 100);
             if (lastProgressDispatchAt < now - 250) {
               lastProgressDispatchAt = now;
@@ -77,5 +91,7 @@ export const transferFiles = createAsyncThunk(
 
     // @ts-ignore
     unsubscribeFileRemoveListener();
+
+    window.removeEventListener('offline', offlineEventListener);
   }
 );

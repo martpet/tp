@@ -12,11 +12,9 @@ import {
   selectFiles,
   selectUnuploadableFiles,
   selectUploadFlowEnded,
-  selectUploadFlowStatus,
 } from '~/features/upload';
 
 export function UploadAlerts() {
-  const flowStatus = useSelector(selectUploadFlowStatus);
   const isFlowEnded = useSelector(selectUploadFlowEnded);
   const files = useSelector(selectFiles);
   const completedUploads = useSelector(selectCompletedUploads);
@@ -55,8 +53,8 @@ export function UploadAlerts() {
           defaultMessage="{count} {count, plural, one {file} other {files}} failed to upload."
           description="upload notification failure"
           values={{ count: failedUploads.length }}
-        />
-        {flowStatus === 'idle' && (
+        />{' '}
+        {isFlowEnded && (
           <FormattedMessage
             defaultMessage="Press <em>Start upload</em> again"
             description="upload notification failure - try again"

@@ -13,7 +13,7 @@ exports[`post-upload-urls > calls "createPresignedPost" with correct args 1`] = 
           31457280,
         ],
       ],
-      "Expires": 10,
+      "Expires": 600,
       "Fields": {
         "x-amz-checksum-algorithm": "SHA256",
         "x-amz-checksum-sha256": undefined,
