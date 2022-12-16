@@ -12,7 +12,7 @@ import { handler } from '../post-photos';
 
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
-vi.mock('~/constructs/Api/utils/findExistingFingerprints');
+vi.mock('~/constructs/Api/utils/XfindExistingFingerprints');
 vi.mock('../createPhotoItems');
 
 vi.mocked(findExistingFingerprints).mockResolvedValue([]);

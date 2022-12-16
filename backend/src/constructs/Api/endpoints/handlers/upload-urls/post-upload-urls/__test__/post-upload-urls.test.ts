@@ -15,7 +15,7 @@ vi.mock('@aws-sdk/s3-presigned-post');
 vi.mock('@aws-sdk/client-s3');
 vi.mock('~/constructs/Api/utils/errorResponse');
 vi.mock('~/constructs/Api/utils/getIdTokenPayload');
-vi.mock('~/constructs/Api/utils/findExistingFingerprints');
+vi.mock('~/constructs/Api/utils/XfindExistingFingerprints');
 
 process.env.photoBucket = 'dummyPhotoBucket';
 
