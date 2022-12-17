@@ -20,7 +20,7 @@ export function Avatar({ user, size = 'avatar-size-100', spectrumProps }: Props)
     <SpectrumAvatar src={user.picture} alt={altText} size={size} {...spectrumProps} />
   ) : (
     <View width={size} height={size} UNSAFE_className={classes.boringAvatarWrap}>
-      <BoringAvatar name={user.givenName + user.familyName} variant="beam" />
+      <BoringAvatar size={size} name={user.givenName + user.familyName} variant="beam" />
     </View>
   );
 }

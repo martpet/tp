@@ -17,12 +17,11 @@ import {
 } from '~/features/upload';
 
 export type UploadState = {
-  flowStatus: 'idle' | 'pending' | 'done' | 'error';
+  flowStatus: 'idle' | 'pending' | 'transferring' | 'creatingPhotos' | 'done' | 'error';
   files: FileMeta[];
   isAddingFiles: boolean;
   presignedPosts: Record<string, PresignedPost>;
   fingerprintsInDb: string[];
-  isTransferStarted: boolean;
   transfersProgress: Record<string, number>;
   successfulTransfers: string[];
   failedTransfers: string[];
@@ -35,7 +34,6 @@ const initialState: UploadState = {
   isAddingFiles: false,
   presignedPosts: {},
   fingerprintsInDb: [],
-  isTransferStarted: false,
   transfersProgress: {},
   successfulTransfers: [],
   failedTransfers: [],
@@ -47,11 +45,11 @@ export const uploadSlice = createSlice({
   initialState,
   reducers: {
     uploadFlowStarted(state) {
-      const newProgressEntries = state.successfulTransfers.map((id) => [id, 100]);
-      state.transfersProgress = Object.fromEntries(newProgressEntries);
-      state.isTransferStarted = false;
-      state.failedTransfers = [];
       state.flowStatus = 'pending';
+      state.failedTransfers = [];
+      state.transfersProgress = Object.fromEntries(
+        state.successfulTransfers.map((id) => [id, 100])
+      );
     },
     progressUpdated(state, { payload }: PayloadAction<Record<string, number>>) {
       Object.assign(state.transfersProgress, payload);
@@ -81,7 +79,7 @@ export const uploadSlice = createSlice({
       if (!state.files) state.flowStatus = 'idle';
     });
     addCase(transferFiles.pending, (state) => {
-      state.isTransferStarted = true;
+      state.flowStatus = 'transferring';
     });
     addCase(transferFiles.fulfilled, (state) => {
       const files = selectFilesPendingCreation({ upload: state } as RootState);
@@ -95,6 +93,9 @@ export const uploadSlice = createSlice({
       state.fingerprintsInDb = state.fingerprintsInDb.concat(
         payload.existingFingerprintsInDb
       );
+    });
+    addMatcher(createPhotos.matchPending, (state) => {
+      state.flowStatus = 'creatingPhotos';
     });
     addMatcher(createPhotos.matchFulfilled, (state, { meta }) => {
       const fingerprints = meta.arg.originalArgs.map(({ fingerprint }) => fingerprint);

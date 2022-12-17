@@ -5,7 +5,7 @@ import { FileMeta } from '~/common/types';
 import {
   selectCompletedUploads,
   selectFilesErrors,
-  selectUploadFlowStatus,
+  selectUploadFlowInProgress,
 } from '~/features/upload';
 
 import { ProgressIndicator } from './ProgressIndicator';
@@ -15,15 +15,14 @@ type Props = Omit<GridProps, 'children'> & {
 };
 
 export function TnumbnailOverlay({ file, ...containerProps }: Props) {
-  const flowStatus = useSelector(selectUploadFlowStatus);
+  const isInProgress = useSelector(selectUploadFlowInProgress);
   const completedUploads = useSelector(selectCompletedUploads);
   const filesErrors = useSelector(selectFilesErrors);
-  const isUploaded = completedUploads.includes(file);
+  const isComplete = completedUploads.includes(file);
   const hasErrors = filesErrors[file.id].length > 0;
+  const showProgress = isInProgress && !isComplete && !hasErrors;
 
-  const showProgressIndicator = flowStatus === 'pending' && !isUploaded && !hasErrors;
-
-  if (!showProgressIndicator) {
+  if (!showProgress) {
     return null;
   }
 

@@ -4,12 +4,11 @@ import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '~/common/hooks';
-import { selectUploadFlowStatus, uploadFlowStarted } from '~/features/upload';
+import { selectUploadFlowInProgress, uploadFlowStarted } from '~/features/upload';
 
 export function StartUploadButton() {
   const dispatch = useAppDispatch();
-  const flowStatus = useSelector(selectUploadFlowStatus);
-  const isUploading = flowStatus === 'pending';
+  const isInProgress = useSelector(selectUploadFlowInProgress);
   const buttonId = 'start-upload-button';
 
   const handleClick = () => {
@@ -46,8 +45,8 @@ export function StartUploadButton() {
   );
 
   return (
-    <Button variant="cta" onPress={handleClick} isDisabled={isUploading} id={buttonId}>
-      {isUploading ? progressState : idleState}
+    <Button variant="cta" onPress={handleClick} isDisabled={isInProgress} id={buttonId}>
+      {isInProgress ? progressState : idleState}
     </Button>
   );
 }

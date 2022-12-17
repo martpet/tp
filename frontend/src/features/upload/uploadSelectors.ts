@@ -9,7 +9,6 @@ export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFi
 export const selectFiles = (state: RootState) => state.upload.files;
 export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
 export const selectPresignedPosts = (state: RootState) => state.upload.presignedPosts;
-export const selectTransferStarted = (state: RootState) => state.upload.isTransferStarted;
 export const selectProgress = (state: RootState) => state.upload.transfersProgress;
 
 export const selectUploadFlowStatus = createSelector(
@@ -21,6 +20,12 @@ export const selectUploadFlowStatus = createSelector(
 export const selectUploadFlowEnded = createSelector(
   selectUploadFlowStatus,
   (status) => status === 'done' || status === 'error'
+);
+
+export const selectUploadFlowInProgress = createSelector(
+  selectUploadFlowStatus,
+  (status) =>
+    status === 'pending' || status === 'transferring' || status === 'creatingPhotos'
 );
 
 export const selectTransferredFiles = createSelector(

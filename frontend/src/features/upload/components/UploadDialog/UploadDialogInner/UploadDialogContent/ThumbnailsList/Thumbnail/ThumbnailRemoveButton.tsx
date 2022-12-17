@@ -6,7 +6,13 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '~/common/hooks';
-import { FileMeta, fileRemoved, selectCompletedUploads } from '~/features/upload';
+import {
+  FileMeta,
+  fileRemoved,
+  selectCompletedUploads,
+  selectTransferredFiles,
+  selectUploadFlowStatus,
+} from '~/features/upload';
 
 type Props = Omit<FlexProps, 'children'> & {
   file: FileMeta;
@@ -14,13 +20,16 @@ type Props = Omit<FlexProps, 'children'> & {
 
 export function ThumbnailRemoveButton({ file, ...flexProps }: Props) {
   const { formatMessage } = useIntl();
+  const uploadFlow = useSelector(selectUploadFlowStatus);
   const completedUploads = useSelector(selectCompletedUploads);
+  const transferredFiles = useSelector(selectTransferredFiles);
   const isMobile = useIsMobileDevice();
   const isOnLeftSide = isAppleDevice() && !isMobile;
   const dispatch = useAppDispatch();
   const isComplete = completedUploads.includes(file);
+  const isTransferred = transferredFiles.includes(file);
 
-  if (isComplete) {
+  if (isComplete || (isTransferred && uploadFlow === 'creatingPhotos')) {
     return null;
   }
 

@@ -11,7 +11,7 @@ import {
   addFiles,
   selectFiles,
   selectIsAddingFiles,
-  selectUploadFlowStatus,
+  selectUploadFlowInProgress,
 } from '~/features/upload';
 
 type Props = SetOptional<SpectrumButtonProps, 'variant'>;
@@ -19,7 +19,7 @@ type Props = SetOptional<SpectrumButtonProps, 'variant'>;
 export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   const files = useSelector(selectFiles);
   const isAddingFiles = useSelector(selectIsAddingFiles);
-  const flowStatus = useSelector(selectUploadFlowStatus);
+  const isFlowInProgress = useSelector(selectUploadFlowInProgress);
   const dispatch = useAppDispatch();
 
   const inputElement = useMemo(() => {
@@ -36,14 +36,14 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   const handleClick = () => {
     inputElement.value = '';
     inputElement.click();
-    import('exifreader'); // start preloading exif reader
+    import('exifreader'); // preload exif reader
   };
 
   return (
     <Button
       variant={variant}
       onPress={handleClick}
-      isDisabled={flowStatus === 'pending' || isAddingFiles}
+      isDisabled={isAddingFiles || isFlowInProgress}
       {...buttonProps}
     >
       {!!files.length && !isAddingFiles && <AddToSelectionIcon />}
