@@ -14,8 +14,8 @@ import { ApiMethodOptions } from '~/types';
 import {
   CallbackMethod,
   CallbackPath,
-  createRoutesCallbacks,
-} from './createRoutesCallbacks';
+  createRouteCallbacks,
+} from './createRouteCallbacks';
 
 export type Props = {
   scope: Construct;
@@ -41,7 +41,7 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
     { userPoolClients: [auth.userPoolClient] }
   );
 
-  const callbacks = createRoutesCallbacks({ tables, photos });
+  const callbacks = createRouteCallbacks({ tables, photos });
 
   Object.entries(apiOptions).forEach(([path, { methods }]) => {
     Object.entries(methods).forEach(([method, methodOptions]) => {

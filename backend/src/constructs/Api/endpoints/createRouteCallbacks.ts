@@ -19,7 +19,7 @@ export type Props = {
   photos: Photos;
 };
 
-export const createRoutesCallbacks = ({ tables, photos }: Props): Callbacks => ({
+export const createRouteCallbacks = ({ tables, photos }: Props): Callbacks => ({
   '/login-callback': {
     GET: (f) => tables.sessionsTable.grantWriteData(f),
   },

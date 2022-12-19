@@ -55,7 +55,7 @@ export const createDistroBehaviors = ({
     cachePolicyName: 'api-distro-default-cache-policy',
     defaultTtl: Duration.minutes(0),
     minTtl: Duration.minutes(0),
-    maxTtl: Duration.seconds(1), // 1s - https://github.com/aws/aws-cdk/issues/13408
+    maxTtl: Duration.seconds(1), // https://github.com/aws/aws-cdk/issues/13408#issuecomment-1082438705
     cookieBehavior: CacheCookieBehavior.none(),
     queryStringBehavior: CacheQueryStringBehavior.none(),
   };
