@@ -53,7 +53,11 @@ export function UploadAlerts() {
           defaultMessage="{count} {count, plural, one {file} other {files}} failed to upload."
           description="upload notification failure"
           values={{ count: failedUploads.length }}
-        />{' '}
+        />
+        {
+          /* eslint-disable-next-line formatjs/no-literal-string-in-jsx */
+          ' '
+        }
         {isFlowEnded && (
           <FormattedMessage
             defaultMessage="Press <em>Start upload</em> again"

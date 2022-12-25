@@ -1,6 +1,5 @@
 import {
   APIGatewayProxyHandlerV2,
-  ApiRouteHeaders,
   createDynamoUpdateExpression,
   DynamoDBClient,
   DynamoDBDocumentClient,
@@ -8,6 +7,7 @@ import {
   getIdTokenPayload,
   PatchSettingsRequest,
   PatchSettingsResponse,
+  RouteHeaders,
   StatusCodes,
   UpdateCommand,
   UserSettings,
@@ -27,7 +27,7 @@ const allowedSettingsKeys: Array<keyof UserSettings> = [
 const settingsAttrName: keyof UsersTableItem = 'settings';
 
 export const handler: APIGatewayProxyHandlerV2<PatchSettingsResponse> = async (event) => {
-  const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
+  const { authorization } = event.headers as RouteHeaders<'/settings'>;
   let patch;
 
   if (!authorization) {

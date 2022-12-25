@@ -2,20 +2,20 @@ import { HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2-alpha';
 import { HttpUserPoolAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers-alpha';
 import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
 import { Duration } from 'aws-cdk-lib';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
 import { Auth, Photos, Tables } from '~/constructs';
-import { ApiEnvVars } from '~/constructs/Api/types';
+import { AllEnvVars } from '~/constructs/Api/types';
 import { createNodejsFunction } from '~/constructs/utils';
 import { apiOptions } from '~/consts';
 import { ApiMethodOptions } from '~/types';
 
 import {
-  CallbackMethod,
-  CallbackPath,
-  createRouteCallbacks,
-} from './createRouteCallbacks';
+  getPermissionsCallbacks,
+  MethodWithPermissions,
+  PathWithPermissions,
+} from './permissoins';
 
 export type Props = {
   scope: Construct;
@@ -26,7 +26,7 @@ export type Props = {
 };
 
 export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
-  const apiEnvVars: ApiEnvVars = {
+  const apiEnvVars: AllEnvVars = {
     authDomain: auth.authDomain,
     clientId: auth.userPoolClient.userPoolClientId,
     loginCallbackUrl: auth.loginCallbackUrl,
@@ -41,8 +41,6 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
     { userPoolClients: [auth.userPoolClient] }
   );
 
-  const callbacks = createRouteCallbacks({ tables, photos });
-
   Object.entries(apiOptions).forEach(([path, { methods }]) => {
     Object.entries(methods).forEach(([method, methodOptions]) => {
       createRoute({
@@ -53,7 +51,9 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
         methodOptions,
         userPoolAuthorizer,
         apiEnvVars,
-        callback: callbacks[path as CallbackPath]?.[method as CallbackMethod],
+        permissionsCallback: getPermissionsCallbacks({ tables, photos })[
+          path as PathWithPermissions
+        ]?.[method as MethodWithPermissions],
       });
     });
   });
@@ -67,41 +67,43 @@ function createRoute({
   methodOptions,
   userPoolAuthorizer,
   apiEnvVars,
-  callback,
+  permissionsCallback,
 }: Pick<Props, 'scope' | 'api'> & {
   path: string;
   method: string;
   methodOptions: ApiMethodOptions;
   userPoolAuthorizer: HttpUserPoolAuthorizer;
-  apiEnvVars: ApiEnvVars;
-  callback?: (fn: NodejsFunction) => void;
+  apiEnvVars: AllEnvVars;
+  permissionsCallback?: (fn: NodejsFunction) => void;
 }) {
-  const formattedPathName = path.replace('/', '').toLowerCase();
-  const formattedMethodName = method.toLowerCase();
-  const fileName = `${formattedMethodName}-${formattedPathName}`;
-  const handlerId = `${formattedMethodName}-${formattedPathName}`;
+  const formattedPath = path.replace('/', '').toLowerCase();
+  const formattedMethod = method.toLowerCase();
+  const fileName = `${formattedMethod}-${formattedPath}`;
   const handlerEnvironment: Record<string, string> = {};
-  const { isPublic, envVars = [] } = methodOptions;
+  const { isPublic, pathParam, envVars = [] } = methodOptions;
 
   envVars.forEach((key) => {
-    handlerEnvironment[key] = apiEnvVars[key as keyof ApiEnvVars];
+    handlerEnvironment[key] = apiEnvVars[key as keyof AllEnvVars];
   });
 
-  const handler = createNodejsFunction(scope, `api-handler-${handlerId}`, {
-    entry: `${__dirname}/handlers/${formattedPathName}/${fileName}/${fileName}.ts`,
+  const functionProps = methodOptions.nodejsFunctionProps as NodejsFunctionProps;
+
+  const handler = createNodejsFunction(scope, `api-handler-${fileName}`, {
+    entry: `${__dirname}/handlers/${formattedPath}/${fileName}/${fileName}.ts`,
     environment: handlerEnvironment,
     timeout: Duration.seconds(30),
-    functionName: `api-handler--${formattedPathName.toLowerCase()}-${formattedMethodName.toUpperCase()}`,
+    functionName: `api-handler--${formattedPath.toLowerCase()}-${formattedMethod.toUpperCase()}`,
+    ...functionProps,
   });
 
   api.addRoutes({
-    path,
+    path: `${path}${pathParam ? `/{${pathParam}}` : ''}`,
     methods: [method as HttpMethod],
-    integration: new HttpLambdaIntegration(`http-integration-${handlerId}`, handler),
+    integration: new HttpLambdaIntegration(`http-integration-${fileName}`, handler),
     authorizer: isPublic ? undefined : userPoolAuthorizer,
   });
 
-  if (callback) {
-    callback(handler);
+  if (permissionsCallback) {
+    permissionsCallback(handler);
   }
 }

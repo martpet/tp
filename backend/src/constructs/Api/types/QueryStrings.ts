@@ -8,6 +8,6 @@ type RouteWithQueryStrings = ConditionalKeys<
   Pick<ApiRouteOptions, 'queryStrings'>
 >;
 
-export type ApiRouteQueryStrings<T extends RouteWithQueryStrings> = Partial<
+export type QueryStrings<T extends RouteWithQueryStrings> = Partial<
   Record<typeof apiOptions[T]['queryStrings'][number], string>
 >;

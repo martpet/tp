@@ -1,29 +1,31 @@
-import { ApiOptions } from '../types/ApiOptions';
+import type { ApiOptions } from '../types/ApiOptions';
 
 export const apiOptions = {
   '/login': {
+    cookies: ['oauth'],
+    queryStrings: ['provider'],
     methods: {
       GET: {
         isPublic: true,
         envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
       },
     },
-    cookies: ['oauth'],
-    queryStrings: ['provider'],
   },
 
   '/login-callback': {
+    cookies: ['oauth'],
+    queryStrings: ['code', 'state', 'error', 'error_description'],
     methods: {
       GET: {
         isPublic: true,
         envVars: ['authDomain', 'clientId', 'loginCallbackUrl'],
       },
     },
-    cookies: ['oauth'],
-    queryStrings: ['code', 'state', 'error', 'error_description'],
   },
 
   '/logout': {
+    cookies: ['sessionId'],
+    headers: ['referer'],
     methods: {
       GET: {
         isPublic: true,
@@ -35,8 +37,6 @@ export const apiOptions = {
         ],
       },
     },
-    cookies: ['sessionId'],
-    headers: ['referer'],
   },
 
   '/me': {
@@ -59,7 +59,30 @@ export const apiOptions = {
   },
   '/photos': {
     methods: {
+      GET: {
+        isPublic: true,
+        pathParam: 'fingerprint',
+      },
       POST: {},
+    },
+  },
+  '/images': {
+    queryStrings: ['fingerprint', 'quality', 'size'],
+    cacheProps: {
+      maxTtl: 100 * 365 * 24 * 60 * 60,
+    },
+    methods: {
+      GET: {
+        isPublic: true,
+        envVars: ['photoBucket'],
+        nodejsFunctionProps: {
+          memorySize: 512,
+          bundling: {
+            forceDockerBundling: true,
+            nodeModules: ['sharp'],
+          },
+        },
+      },
     },
   },
 } as const satisfies ApiOptions;

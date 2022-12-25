@@ -1,0 +1,139 @@
+// Vitest Snapshot v1
+
+exports[`get-images > calls "processImage" with correct args 1`] = `
+[
+  [
+    {
+      "photoBucket": "dummyPhotoBucketName",
+      "quality": 99,
+      "s3ObjectName": "dummyUserId/dummyFingerprint",
+      "size": 888,
+      "stream": "dummyBody",
+    },
+  ],
+]
+`;
+
+exports[`get-images > resolves with a correct value 1`] = `
+{
+  "body": "dummyBase64EncodedImage",
+  "headers": {
+    "Cache-Control": "max-age=3153600000",
+    "Content-Type": "image/jpeg",
+  },
+  "isBase64Encoded": true,
+  "statusCode": 200,
+}
+`;
+
+exports[`get-images > sends "GetCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
+{
+  "Key": {
+    "fingerprint": "dummyFingerprint",
+  },
+  "TableName": "TP-photos",
+}
+`;
+
+exports[`get-images > sends "GetObjectCommand" from "S3Client" with correct args 1`] = `
+{
+  "Bucket": "dummyPhotoBucketName",
+  "Key": "dummyUserId/dummyFingerprint",
+}
+`;
+
+exports[`get-images > when "Body" is missing from "GetObjectCommand" output > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "dc1c2c42bf",
+  ],
+]
+`;
+
+exports[`get-images > when "Body" is missing from "GetObjectCommand" output > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "Item" is missing from "GetCommand" output > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "5b2797f93a",
+    {
+      "statusCode": 404,
+    },
+  ],
+]
+`;
+
+exports[`get-images > when "Item" is missing from "GetCommand" output > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "S3Client" rejects "GetObjectCommand" > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "602d977044",
+    {
+      "error": [Error: Dummy GetObjectCommand error],
+    },
+  ],
+]
+`;
+
+exports[`get-images > when "S3Client" rejects "GetObjectCommand" > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "fingerprint" query string parameter is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "564208f603",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`get-images > when "fingerprint" query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "photoBucket" env var is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "68e8d0232f",
+  ],
+]
+`;
+
+exports[`get-images > when "photoBucket" env var is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "processImage" output length is bigger than lambda payload limit > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "5fe36afa17",
+  ],
+]
+`;
+
+exports[`get-images > when "processImage" output length is bigger than lambda payload limit > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "processImage" rejects > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "aa6d018607",
+    {
+      "error": "Dummy processImage error",
+    },
+  ],
+]
+`;
+
+exports[`get-images > when "processImage" rejects > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-images > when "size" and "item" query strings do not cast to number > calls "processImage" with correct args 1`] = `
+[
+  [
+    {
+      "photoBucket": "dummyPhotoBucketName",
+      "quality": undefined,
+      "s3ObjectName": "dummyUserId/dummyFingerprint",
+      "size": undefined,
+      "stream": "dummyBody",
+    },
+  ],
+]
+`;

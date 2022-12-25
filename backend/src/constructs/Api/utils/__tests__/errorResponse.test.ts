@@ -24,7 +24,6 @@ describe('errorResponse', () => {
   describe('when "error" is provided', () => {
     const argsWithError = structuredClone(args) as Required<typeof args>;
     argsWithError.push({ error: new Error('dummyErrorMessage') });
-    itCalls(console.error, errorResponse, argsWithError);
 
     describe('when "exposeError" is true', () => {
       const argsWithExposedError = structuredClone(argsWithError);

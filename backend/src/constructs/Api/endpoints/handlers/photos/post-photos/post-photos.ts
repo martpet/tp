@@ -1,10 +1,10 @@
 import {
   APIGatewayProxyHandlerV2,
-  ApiRouteHeaders,
   errorResponse,
   getIdTokenPayload,
   PostPhotosRequest,
   PostPhotosResponse,
+  RouteHeaders,
   StatusCodes,
 } from 'lambda-layer';
 
@@ -13,7 +13,7 @@ import { findExistingFingerprints } from '~/constructs/Api/utils';
 import { createPhotoItems } from './createPhotoItems';
 
 export const handler: APIGatewayProxyHandlerV2<PostPhotosResponse> = async (event) => {
-  const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
+  const { authorization } = event.headers as RouteHeaders<'/settings'>;
 
   if (!authorization) {
     return errorResponse('f31e4f94d3');

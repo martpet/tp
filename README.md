@@ -7,7 +7,7 @@ A playground for
 
 ## Getting started
 
-### 1. Bootstrap your AWS account for CDK
+### 1. Bootstrap AWS account
 
 `npx cdk bootstrap aws://<id>/<region> --profile <profile>`
 
@@ -21,6 +21,10 @@ In the root project folder copy `.env.local.example` to `.env.local` and set own
 
 Use the Node version specified in `.nvmrc`
 
+`npm install`
+
 ### 4. Deploy
 
-`npm run deploy -- --profile <aws profile name>`
+Run Docker and then:
+
+`npm run deploy -- --profile <aws profile>`

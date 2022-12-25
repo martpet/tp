@@ -25,3 +25,4 @@ export const appleKeyIdProd = '6U6N9CLL8X';
 export const applePrivateKeyParamName = '/oauth/apple/key-secret';
 export const refreshTokenValidityInDays = 365;
 export const idTokenValidityInDays = 1; // max is 1 day
+export const lambdaPayloadLimit = 6 * 1024 * 1024;

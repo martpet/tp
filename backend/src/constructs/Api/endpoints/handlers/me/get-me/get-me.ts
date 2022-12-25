@@ -1,12 +1,12 @@
 import {
   APIGatewayProxyHandlerV2,
-  ApiRouteHeaders,
   DynamoDBClient,
   DynamoDBDocumentClient,
   errorResponse,
   GetCommand,
   getIdTokenPayload,
   GetMeResponse,
+  RouteHeaders,
   usersTableOptions,
 } from 'lambda-layer';
 
@@ -14,7 +14,7 @@ const ddbClient = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 export const handler: APIGatewayProxyHandlerV2<GetMeResponse> = async ({ headers }) => {
-  const { authorization } = headers as ApiRouteHeaders<'/me'>;
+  const { authorization } = headers as RouteHeaders<'/me'>;
 
   if (!authorization) {
     return errorResponse('RyFuj-_6Qo');

@@ -1,13 +1,13 @@
 import {
   APIGatewayProxyHandlerV2,
-  ApiRouteHeaders,
   authPaths,
   cookie,
   cookieName,
   errorResponse,
-  HandlerEnv,
+  EnvVars,
   localhostUrl,
   parseEventCookies,
+  RouteHeaders,
   StatusCodes,
 } from 'lambda-layer';
 
@@ -17,8 +17,8 @@ import { revokeOauthTokens } from './revokeOauthTokens';
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const { envName } = globalLambdaProps;
   const { authDomain, clientId, logoutCallbackUrl, logoutCallbackLocalhostUrl } =
-    process.env as HandlerEnv<'/logout', 'GET'>;
-  const { referer } = event.headers as ApiRouteHeaders<'/logout'>;
+    process.env as EnvVars<'/logout', 'GET'>;
+  const { referer } = event.headers as RouteHeaders<'/logout'>;
   const { sessionId } = parseEventCookies<'/logout'>(event);
   const isFromLocalhost = envName === 'personal' && referer?.startsWith(localhostUrl);
   const cognitoLogoutUrl = new URL(`https://${authDomain}${authPaths.logout}`);

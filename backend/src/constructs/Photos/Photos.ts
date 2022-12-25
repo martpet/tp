@@ -13,7 +13,6 @@ export class Photos extends NestedStack {
     const envName = getEnvName(this);
 
     this.bucket = new Bucket(scope, 'photos-upload-bucket', {
-      bucketName: `tp-photo-uploads-${envName}`,
       cors: [
         {
           allowedMethods: [HttpMethods.POST],

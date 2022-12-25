@@ -8,7 +8,7 @@ import { RootStack } from './RootStack';
 
 // This test is skipped until issues are fixed:
 // https://github.com/aws/aws-cdk/issues/20873
-// https://github.com/vitest-dev/vitest/issues/1544
+// https://github.com/vitest-dev/vitest§§§/issues/1544
 describe('RootStack', () => {
   it.skip('produces a correct CloudFormation template', () => {
     const envName: EnvName = 'production';

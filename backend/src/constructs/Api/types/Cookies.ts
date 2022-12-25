@@ -8,8 +8,8 @@ export type PathWithCookies = ConditionalKeys<
   Pick<ApiRouteOptions, 'cookies'>
 >;
 
-export type ApiRouteCookies<T extends PathWithCookies> = Partial<
+export type Cookies<T extends PathWithCookies> = Partial<
   Record<typeof apiOptions[T]['cookies'][number], string>
 >;
 
-export type AllApiRoutesCookies = ApiRouteCookies<PathWithCookies>;
+export type AllCookies = Cookies<PathWithCookies>;

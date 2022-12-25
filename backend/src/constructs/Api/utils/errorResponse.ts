@@ -51,11 +51,7 @@ export const errorResponse = (
     error: errObj,
   };
 
-  if (error) {
-    console.error(traceId, error);
-  } else {
-    console.error(traceId);
-  }
+  console.error(traceId);
 
   return {
     statusCode,

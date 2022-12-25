@@ -16,7 +16,7 @@ export const getMainLayer = (scope: Construct) => {
 
   if (!mainLayer) {
     mainLayer = new LayerVersion(scope, 'main-lambda-layer', {
-      layerVersionName: 'main-layer',
+      layerVersionName: 'lambda-layer',
       compatibleRuntimes: [Runtime.NODEJS_18_X],
       code: new TypeScriptCode(`${__dirname}/code/main-layer.ts`, {
         buildOptions: {

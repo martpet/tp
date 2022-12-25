@@ -2,7 +2,7 @@ import { authorizationHeader } from '~/constructs/Api/consts';
 import { apiOptions } from '~/consts';
 import { ApiRouteOptions } from '~/types';
 
-export type ApiRouteHeaders<T extends keyof typeof apiOptions> = Partial<
+export type RouteHeaders<T extends keyof typeof apiOptions> = Partial<
   Record<
     | Lowercase<typeof authorizationHeader>
     | (typeof apiOptions[T] extends Required<Pick<ApiRouteOptions, 'headers'>>

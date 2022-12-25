@@ -10,7 +10,7 @@ exports[`post-upload-urls > calls "createPresignedPost" with correct args 1`] = 
         [
           "content-length-range",
           0,
-          31457280,
+          15728640,
         ],
       ],
       "Expires": 600,
@@ -18,7 +18,7 @@ exports[`post-upload-urls > calls "createPresignedPost" with correct args 1`] = 
         "x-amz-checksum-algorithm": "SHA256",
         "x-amz-checksum-sha256": undefined,
       },
-      "Key": "dummySub/dummyFingerprint2.jpg",
+      "Key": "dummySub/dummyFingerprint2",
     },
   ],
 ]

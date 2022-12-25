@@ -14,7 +14,7 @@ export default mergeConfig(
         {
           find: 'lambda-layer',
           replacement: resolve(
-            'backend/src/constructs/utils/lambdaLayers/code/main-layer'
+            'backend/src/constructs/utils/lambdaLayers/mainLayer/code/main-layer'
           ),
         },
         {

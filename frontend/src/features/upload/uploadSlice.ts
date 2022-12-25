@@ -76,14 +76,19 @@ export const uploadSlice = createSlice({
     addCase(fileRemoved, (state, { payload }) => {
       const remainingFiles = state.files.filter(({ id }) => id !== payload);
       state.files = remainingFiles;
-      if (!state.files) state.flowStatus = 'idle';
+      if (!state.files.length) state.flowStatus = 'idle';
     });
     addCase(transferFiles.pending, (state) => {
       state.flowStatus = 'transferring';
     });
     addCase(transferFiles.fulfilled, (state) => {
-      const files = selectFilesPendingCreation({ upload: state } as RootState);
-      if (!files.length) state.flowStatus = 'done';
+      const filesPendingCreation = selectFilesPendingCreation({
+        upload: state,
+      } as RootState);
+
+      if (state.files.length && !filesPendingCreation.length) {
+        state.flowStatus = 'done';
+      }
     });
     addMatcher(createUploadUrls.matchFulfilled, (state, { payload }) => {
       state.presignedPosts = payload.presignedPosts;

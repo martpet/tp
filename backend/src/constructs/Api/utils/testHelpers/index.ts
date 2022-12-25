@@ -2,6 +2,7 @@ export * from './itCalls';
 export * from './itGetsIdToken';
 export * from './itHasEnvVars';
 export * from './itHasJsonBody';
+export * from './itHasPathParam';
 export * from './itHasQueryStrings';
 export * from './itRejects';
 export * from './itResolves';

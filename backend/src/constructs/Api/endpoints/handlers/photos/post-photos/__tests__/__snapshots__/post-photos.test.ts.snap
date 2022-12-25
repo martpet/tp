@@ -1,0 +1,87 @@
+// Vitest Snapshot v1
+
+exports[`post-photos > calls "createPhotoItems" with correct args 1`] = `
+[
+  [
+    {
+      "requestData": [
+        {
+          "fingerprint": "dummyFingerprint1",
+        },
+      ],
+      "sub": "dummySub",
+    },
+  ],
+]
+`;
+
+exports[`post-photos > calls "findExistingFingerprints" with correct args 1`] = `
+[
+  [
+    [
+      "dummyFingerprint1",
+    ],
+  ],
+]
+`;
+
+exports[`post-photos > calls "getIdTokenPayload" with correct args 1`] = `
+[
+  [
+    "dummyAuthorizationHeader",
+  ],
+]
+`;
+
+exports[`post-photos > resolves with a correct value 1`] = `undefined`;
+
+exports[`post-photos > when "authorization" header is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "f31e4f94d3",
+  ],
+]
+`;
+
+exports[`post-photos > when "authorization" header is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`post-photos > when "event.body" is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "24d59e00da",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`post-photos > when "event.body" is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`post-photos > when "event.body" is not JSON > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "d45458a241",
+    {
+      "error": [SyntaxError: Unexpected token o in JSON at position 1],
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`post-photos > when "event.body" is not JSON > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`post-photos > when "findExistingFingerprints" has results > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "9082bdd5f9",
+    {
+      "description": "Cannot replace existing item",
+      "statusCode": 403,
+    },
+  ],
+]
+`;
+
+exports[`post-photos > when "findExistingFingerprints" has results > resolves with a correct value 1`] = `"dummyErrorResponse"`;

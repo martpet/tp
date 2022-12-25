@@ -1,0 +1,81 @@
+// Vitest Snapshot v1
+
+exports[`processImage > calls "jpeg" with correct args 1`] = `
+[
+  [
+    {
+      "quality": 80,
+    },
+  ],
+]
+`;
+
+exports[`processImage > calls "resize" with correct args 1`] = `
+[
+  [
+    500,
+  ],
+]
+`;
+
+exports[`processImage > calls "sharp" with correct args 1`] = `
+[
+  [
+    "dummyByteArray",
+  ],
+]
+`;
+
+exports[`processImage > calls "toBuffer" with correct args 1`] = `
+[
+  [],
+]
+`;
+
+exports[`processImage > calls "toString" with correct args 1`] = `
+[
+  [
+    "base64",
+  ],
+]
+`;
+
+exports[`processImage > resolves with a correct value 1`] = `"dummyBufferToString"`;
+
+exports[`processImage > sends "DetectModerationLabelsCommand" from "RekognitionClient" with correct args 1`] = `
+{
+  "Image": {
+    "S3Object": {
+      "Bucket": "dummyPhotoBucketName",
+      "Name": "dummyS3ObjectName",
+    },
+  },
+  "MinConfidence": 90,
+}
+`;
+
+exports[`processImage > when "DetectModerationLabelsCommand" returns "Explicit Nudity" > calls "blur" with correct args 1`] = `
+[
+  [
+    75,
+  ],
+]
+`;
+
+exports[`processImage > when optional props are missing > calls "jpeg" with correct args 1`] = `
+[
+  [
+    {
+      "quality": 100,
+    },
+  ],
+]
+`;
+
+exports[`processImage > when optional props are missing > calls "resize" with correct args 1`] = `
+[
+  [
+    1500,
+  ],
+]
+`;

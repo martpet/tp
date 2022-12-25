@@ -5,7 +5,17 @@ export {
   PutMetricAlarmCommandInput,
 } from '@aws-sdk/client-cloudwatch';
 export { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-export { S3Client } from '@aws-sdk/client-s3';
+export {
+  DetectModerationLabelsCommand,
+  ModerationLabel,
+  RekognitionClient,
+} from '@aws-sdk/client-rekognition';
+export {
+  GetObjectCommand,
+  GetObjectCommandOutput,
+  NoSuchKey,
+  S3Client,
+} from '@aws-sdk/client-s3';
 export {
   CreateTopicCommand,
   CreateTopicCommandInput,

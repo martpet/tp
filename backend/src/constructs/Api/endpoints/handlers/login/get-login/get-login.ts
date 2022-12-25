@@ -1,25 +1,25 @@
 import {
   APIGatewayProxyHandlerV2,
   apiPaths,
-  ApiRouteQueryStrings,
   authPaths,
   cookie,
   cookieName,
   errorResponse,
-  HandlerEnv,
+  EnvVars,
   OauthCookieProps,
+  QueryStrings,
   StatusCodes,
 } from 'lambda-layer';
 
 import { generateOauthRandoms } from './generateOauthRandoms';
 
 export const handler: APIGatewayProxyHandlerV2 = async ({ queryStringParameters }) => {
-  const { clientId, authDomain, loginCallbackUrl } = process.env as HandlerEnv<
+  const { clientId, authDomain, loginCallbackUrl } = process.env as EnvVars<
     '/login',
     'GET'
   >;
 
-  const { provider } = Object(queryStringParameters) as ApiRouteQueryStrings<'/login'>;
+  const { provider } = Object(queryStringParameters) as QueryStrings<'/login'>;
 
   if (!clientId || !authDomain || !loginCallbackUrl) {
     return errorResponse('1rQkj3kpp4');

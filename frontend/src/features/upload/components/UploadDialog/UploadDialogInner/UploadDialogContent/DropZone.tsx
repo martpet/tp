@@ -22,10 +22,7 @@ export function DropZone({ children }: Props) {
 
   const handleDrop: DragEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
-    if (isUploading) {
-      return;
-    }
-    console.log('files dropped', event.dataTransfer.files);
+    if (isUploading) return;
     setOnTarget(false);
   };
 

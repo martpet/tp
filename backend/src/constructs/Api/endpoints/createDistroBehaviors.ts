@@ -15,8 +15,6 @@ import {
   OriginRequestHeaderBehavior,
   OriginRequestPolicy,
   OriginRequestPolicyProps,
-  OriginRequestQueryStringBehavior,
-  ResponseHeadersCorsBehavior,
   ResponseHeadersPolicy,
   ViewerProtocolPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
@@ -26,12 +24,12 @@ import { Writable } from 'type-fest';
 
 import { Auth, Tables } from '~/constructs';
 import { authorizationHeader } from '~/constructs/Api/consts';
-import { getSecurityHeadersBehavior } from '~/constructs/Api/endpoints/getSecurityHeadersBehavior';
 import { apiOptions, appEnvs, publicEndpoints } from '~/consts';
 import { ApiOptions, ApiPath } from '~/types';
 import { getAllowedOrigins, getEnvName } from '~/utils';
 
 import { createAuthEdgeFunction } from './authEdgeFunction/createAuthEdgeFunction';
+import { getSecurityHeadersBehavior } from './getSecurityHeadersBehavior';
 
 type Props = {
   scope: Construct;
@@ -53,9 +51,9 @@ export const createDistroBehaviors = ({
 
   const defaultCachePolicyProps: CachePolicyProps = {
     cachePolicyName: 'api-distro-default-cache-policy',
-    defaultTtl: Duration.minutes(0),
-    minTtl: Duration.minutes(0),
-    maxTtl: Duration.seconds(1), // https://github.com/aws/aws-cdk/issues/13408#issuecomment-1082438705
+    defaultTtl: Duration.seconds(0),
+    minTtl: Duration.seconds(0),
+    maxTtl: Duration.seconds(1),
     cookieBehavior: CacheCookieBehavior.none(),
     queryStringBehavior: CacheQueryStringBehavior.none(),
   };
@@ -93,45 +91,54 @@ function addBehavior({
   defaultCachePolicy: CachePolicy;
   defaultCachePolicyProps: CachePolicyProps;
 }) {
-  const id = path.replace('/', '');
-  const envName = getEnvName(scope);
-  const { appDomain } = appEnvs[envName];
-  const hasPrivateEndpoints = !Object.keys(publicEndpoints).includes(path);
-  const customCachePolicyProps: Writable<CachePolicyProps> = {};
-  const originRequestPolicyProps: Writable<OriginRequestPolicyProps> = {};
   const {
     methods,
     headers = [],
     cookies = [],
     queryStrings = [],
+    cacheProps,
   } = (apiOptions as ApiOptions)[path];
 
-  const corsBehavior: ResponseHeadersCorsBehavior = {
-    accessControlAllowCredentials: true,
-    accessControlAllowHeaders: ['content-type'],
-    accessControlAllowMethods: Object.keys(methods),
-    accessControlAllowOrigins: getAllowedOrigins(scope),
-    accessControlMaxAge: Duration.days(1),
-    originOverride: true,
-  };
+  const id = path.replace('/', '');
+  const envName = getEnvName(scope);
+  const { appDomain } = appEnvs[envName];
+  const customCachePolicyProps: Writable<CachePolicyProps> = {};
+  const originRequestPolicyProps: Writable<OriginRequestPolicyProps> = {};
 
-  const responseHeadersPolicy = new ResponseHeadersPolicy(
-    scope,
-    `api-distro-response-headers-policy--${id}`,
-    {
-      responseHeadersPolicyName: `api-distro--headers-policy--${id}`,
-      corsBehavior,
-      securityHeadersBehavior: getSecurityHeadersBehavior({ envName, appDomain, path }),
-    }
-  );
+  const hasPrivateEndpoints =
+    !publicEndpoints[path] ||
+    publicEndpoints[path]?.length !== Object.keys(apiOptions[path].methods).length;
 
   const behaviorOptions: Writable<AddBehaviorOptions> = {
     edgeLambdas: [],
     viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     allowedMethods: AllowedMethods.ALLOW_ALL,
-    responseHeadersPolicy,
     cachePolicy: defaultCachePolicy,
+    responseHeadersPolicy: new ResponseHeadersPolicy(
+      scope,
+      `api-distro-response-headers-policy--${id}`,
+      {
+        responseHeadersPolicyName: `api-distro--headers-policy--${id}`,
+        securityHeadersBehavior: getSecurityHeadersBehavior({ envName, appDomain, path }),
+        corsBehavior: {
+          accessControlAllowCredentials: true,
+          accessControlAllowHeaders: ['content-type'],
+          accessControlAllowMethods: Object.keys(methods),
+          accessControlAllowOrigins: getAllowedOrigins(scope),
+          accessControlMaxAge: Duration.days(1),
+          originOverride: true,
+        },
+      }
+    ),
   };
+
+  if (cacheProps) {
+    const { minTtl, maxTtl, defaultTtl, ...rest } = cacheProps;
+    Object.assign(customCachePolicyProps, rest);
+    if (minTtl) customCachePolicyProps.minTtl = Duration.seconds(minTtl);
+    if (maxTtl) customCachePolicyProps.maxTtl = Duration.seconds(maxTtl);
+    if (defaultTtl) customCachePolicyProps.defaultTtl = Duration.seconds(defaultTtl);
+  }
 
   if (hasPrivateEndpoints) {
     customCachePolicyProps.headerBehavior =
@@ -156,8 +163,9 @@ function addBehavior({
   }
 
   if (queryStrings.length) {
-    originRequestPolicyProps.queryStringBehavior =
-      OriginRequestQueryStringBehavior.allowList(...queryStrings);
+    customCachePolicyProps.queryStringBehavior = CacheQueryStringBehavior.allowList(
+      ...queryStrings
+    );
   }
 
   if (Object.keys(customCachePolicyProps).length) {

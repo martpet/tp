@@ -1,0 +1,42 @@
+// Vitest Snapshot v1
+
+exports[`get-photos > resolves with a correct value 1`] = `
+{
+  "dummyPhotoProp": "dummyPhotoValue",
+}
+`;
+
+exports[`get-photos > sends "GetCommand" from "DynamoDBDocumentClient" with correct args 1`] = `
+{
+  "Key": {
+    "fingerprint": "dummyFingerprint",
+  },
+  "TableName": "TP-photos",
+}
+`;
+
+exports[`get-photos > when "Item" is missing from "GetCommand" output > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "565cca53ca",
+    {
+      "statusCode": 404,
+    },
+  ],
+]
+`;
+
+exports[`get-photos > when "Item" is missing from "GetCommand" output > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+
+exports[`get-photos > when "fingerprint" path parameter is missing > calls "errorResponse" with correct args 1`] = `
+[
+  [
+    "564208f603",
+    {
+      "statusCode": 400,
+    },
+  ],
+]
+`;
+
+exports[`get-photos > when "fingerprint" path parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;

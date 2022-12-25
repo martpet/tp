@@ -28,7 +28,10 @@ export function LoginButton({ provider, onClick }: Props) {
     >
       {provider === 'SignInWithApple' && (
         <>
-          <View marginEnd="static-size-125" UNSAFE_style={{ fontSize: '1.3em' }}>
+          <View
+            marginEnd="static-size-125"
+            UNSAFE_style={{ fontSize: '1.4em', lineHeight: 1 }}
+          >
             {appleIcon}
           </View>
           <FormattedMessage

@@ -1,4 +1,4 @@
-import { ApiPaths } from '../types';
+import { ApiPaths } from '../types/ApiPath';
 import { apiOptions } from './apiOptions';
 
 export const apiPaths = Object.fromEntries(

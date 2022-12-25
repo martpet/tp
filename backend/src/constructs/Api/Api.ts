@@ -32,7 +32,6 @@ export class Api extends NestedStack {
     const origin = new HttpOrigin(Fn.select(1, Fn.split('://', api.apiEndpoint)));
 
     const logBucket = new Bucket(this, 'api-distro-log-bucket', {
-      bucketName: `tp-api-distro-logs-${envName}`,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });

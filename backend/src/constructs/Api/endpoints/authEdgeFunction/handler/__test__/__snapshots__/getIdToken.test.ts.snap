@@ -11,7 +11,7 @@ exports[`getTokens > sends "GetCommand" from "DynamoDBDocumentClient" with corre
 }
 `;
 
-exports[`getTokens > when "Item" prop is missing from "GetCommand" output > rejects with a correct value 1`] = `[Error: could not find session with id "dummySessionId"]`;
+exports[`getTokens > when "Item" is missing from "GetCommand" output > rejects with a correct value 1`] = `[Error: could not find session with id "dummySessionId"]`;
 
 exports[`getTokens > when "idToken" has expired > calls "fetchNewIdToken" with correct args 1`] = `
 [

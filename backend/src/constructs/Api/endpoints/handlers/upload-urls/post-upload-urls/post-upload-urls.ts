@@ -1,13 +1,13 @@
 import {
   APIGatewayProxyHandlerV2,
-  ApiRouteHeaders,
   createPresignedPost,
+  EnvVars,
   errorResponse,
   getIdTokenPayload,
-  HandlerEnv,
   maxPhotoUploadSize,
   PostUploadUrlsRequest,
   PostUploadUrlsResponse,
+  RouteHeaders,
   S3Client,
   StatusCodes,
 } from 'lambda-layer';
@@ -19,8 +19,8 @@ const s3Client = new S3Client({});
 export const handler: APIGatewayProxyHandlerV2<PostUploadUrlsResponse> = async (
   event
 ) => {
-  const { authorization } = event.headers as ApiRouteHeaders<'/settings'>;
-  const { photoBucket } = process.env as HandlerEnv<'/upload-urls', 'POST'>;
+  const { authorization } = event.headers as RouteHeaders<'/settings'>;
+  const { photoBucket } = process.env as EnvVars<'/upload-urls', 'POST'>;
 
   if (!authorization) {
     return errorResponse('Vf5Ph6qN1S');
@@ -56,7 +56,7 @@ export const handler: APIGatewayProxyHandlerV2<PostUploadUrlsResponse> = async (
     uniqueItems.map(async ({ id, fingerprint, digest }) => {
       const presignedPost = await createPresignedPost(s3Client, {
         Bucket: photoBucket,
-        Key: `${sub}/${fingerprint}.jpg`,
+        Key: `${sub}/${fingerprint}`,
         Expires: 600,
         Fields: {
           'x-amz-checksum-algorithm': 'SHA256',

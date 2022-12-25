@@ -29,13 +29,11 @@ export class Web extends NestedStack {
     const { certificate, hostedZone } = zone;
 
     const destinationBucket = new Bucket(this, 'frontend-bucket', {
-      bucketName: `tp-frontend-assets-${envName}`,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });
 
     const logBucket = new Bucket(this, 'web-distro-log-bucket', {
-      bucketName: `tp-web-distro-logs-${envName}`,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });

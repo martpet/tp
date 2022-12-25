@@ -12,7 +12,7 @@
     "noEmit": true,
     "paths": {
       "lambda-layer": [
-        "./constructs/utils/lambdaLayers/code/main-layer"
+        "./constructs/utils/lambdaLayers/mainLayer/code/main-layer"
       ],
       "constructs": [
         "../../node_modules/constructs"

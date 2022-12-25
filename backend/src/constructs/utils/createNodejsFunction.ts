@@ -2,6 +2,7 @@ import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import deepmerge from 'deepmerge';
+import { Writable } from 'type-fest';
 
 import { DefaultGlobalLambdaProps, GlobalLambdaProps } from '~/constructs/types';
 import { appName } from '~/consts';
@@ -25,9 +26,11 @@ export const createNodejsFunction = (
   };
 
   const mainLayer = getMainLayer(scope);
+  const envName = getEnvName(scope);
 
   const defaultProps: NodejsFunctionProps = {
     runtime: Runtime.NODEJS_18_X,
+    memorySize: 128,
     layers: [mainLayer],
     functionName: functionName ? `${appName}-${functionName}` : undefined,
     environment: {
@@ -43,6 +46,11 @@ export const createNodejsFunction = (
       }),
     },
   };
+
+  if (envName !== 'personal' && props.bundling) {
+    const { bundling } = props;
+    (bundling as Writable<typeof bundling>).forceDockerBundling = false;
+  }
 
   const finalProps = deepmerge(defaultProps, props, { clone: false });
 

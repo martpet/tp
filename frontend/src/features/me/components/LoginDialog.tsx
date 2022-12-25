@@ -30,7 +30,7 @@ export function LoginDialog({ dismissOnLoginClick }: Props) {
       </Heading>
       <Divider />
       <Content>
-        <View marginTop="size-100">
+        <View marginTop="size-50">
           <Login onLoginButtonClick={onLoginButtonClick} />
         </View>
       </Content>
