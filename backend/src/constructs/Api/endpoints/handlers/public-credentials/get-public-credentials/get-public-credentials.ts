@@ -1,4 +1,3 @@
-import camelcaseKeys from 'camelcase-keys';
 import {
   APIGatewayProxyHandlerV2,
   CognitoIdentityClient,
@@ -36,5 +35,9 @@ export const handler: APIGatewayProxyHandlerV2<
     return errorResponse('d76fddbcb4');
   }
 
-  return camelcaseKeys(Credentials);
+  return {
+    access_key: Credentials.AccessKeyId,
+    secret_key: Credentials.SecretKey,
+    session_token: Credentials.SessionToken,
+  };
 };

@@ -1,8 +1,10 @@
+import { MapsOptions, MapType, mapTypes } from '../types';
 import { appName } from './sharedConsts';
 
-const styles = {
+const styles: Record<`${MapType}${string}`, string> = {
   esriLightGray: 'VectorEsriLightGrayCanvas',
   esriDarkGray: 'VectorEsriDarkGrayCanvas',
+  hereExplore: 'VectorHereExplore',
 };
 
 export const mapsOptions = Object.fromEntries(
@@ -11,6 +13,8 @@ export const mapsOptions = Object.fromEntries(
     {
       mapName: `${appName}-${style}`,
       style,
-    },
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      type: mapTypes.find((type) => key.includes(type))!,
+    } satisfies MapsOptions,
   ])
 );

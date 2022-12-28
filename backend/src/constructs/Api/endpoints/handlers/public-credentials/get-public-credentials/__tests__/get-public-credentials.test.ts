@@ -31,7 +31,6 @@ beforeEach(() => {
   cognitoClientMock.on(GetCredentialsForIdentityCommand).resolves({
     Credentials: {
       AccessKeyId: 'dummyAccessKeyId',
-      Expiration: new Date(),
       SecretKey: 'dummySecretKey',
       SessionToken: 'dummySessionToken',
     },

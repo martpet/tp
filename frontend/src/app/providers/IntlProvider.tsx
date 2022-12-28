@@ -1,11 +1,12 @@
 import { OnErrorFn } from '@formatjs/intl';
 import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { IntlProvider as Provider } from 'react-intl';
+import { useSelector } from 'react-redux';
 
 import { publicDirApi } from '~/app/services/publicDirApi';
 import { Loading } from '~/common/components';
 import { defaultLanguage } from '~/common/consts';
-import { useAppDispatch, useAppSelector } from '~/common/hooks';
+import { useAppDispatch } from '~/common/hooks';
 import { browserLocaleChanged } from '~/features/app';
 import { selectLanguage } from '~/features/settings';
 
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export function IntlProvider({ children }: Props) {
-  const language = useAppSelector(selectLanguage);
+  const language = useSelector(selectLanguage);
   const dispatch = useAppDispatch();
   const skip = language === 'en';
   const [lastFetchedLanguage, setLastFetchedLanguage] = useState('');
