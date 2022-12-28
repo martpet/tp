@@ -1,4 +1,4 @@
-import { isIPhone } from '@react-aria/utils';
+import { isIOS } from '@react-aria/utils';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useAppSelector } from '~/common/hooks';
@@ -17,7 +17,7 @@ export function MissingExifData({ file }: Props) {
   const { formatMessage, formatList } = useIntl();
 
   const maybeIPhoneHighEfficiencyFormat =
-    isIPhone() && errors.includes('missingDate') && errors.includes('missingLocation');
+    isIOS() && errors.includes('missingDate') && errors.includes('missingLocation');
 
   const errorTextsMap: Record<MissingExifDataError, string> = {
     missingDate: formatMessage({

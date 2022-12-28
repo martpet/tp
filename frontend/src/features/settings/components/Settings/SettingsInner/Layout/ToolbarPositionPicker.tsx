@@ -10,7 +10,7 @@ import { ToolbarPosition } from '~/common/types';
 import { settingsChanged } from '~/features/settings';
 
 export function ToolbarPositionPicker() {
-  const { toolbarPosition, isToolbarPositionDisabled } = useToolbarPosition();
+  const { toolbarPosition } = useToolbarPosition();
   const dispatch = useAppDispatch();
   const { formatMessage } = useIntl();
   const labelId = useId();
@@ -52,17 +52,6 @@ export function ToolbarPositionPicker() {
           defaultMessage="Toolbar position"
           description="toolbar position picker label"
         />
-        {isToolbarPositionDisabled && (
-          <>
-            &nbsp;
-            <em>
-              <FormattedMessage
-                defaultMessage="(Disabled on mobile)"
-                description="toolbar position disabled picker additional label"
-              />
-            </em>
-          </>
-        )}
       </Label>
       <ActionGroup
         aria-labelledby={labelId}
@@ -71,7 +60,6 @@ export function ToolbarPositionPicker() {
         items={items}
         selectedKeys={[toolbarPosition]}
         onAction={handleChange}
-        isDisabled={isToolbarPositionDisabled}
       >
         {(item: Item) => (
           <Item>

@@ -168,10 +168,6 @@
     "defaultMessage": "отгоре",
     "description": "toolbar position picker label - top"
   },
-  "tPjCT2": {
-    "defaultMessage": "(Изключена на мобилни устройства)",
-    "description": "toolbar position disabled picker additional label"
-  },
   "tuwnSe": {
     "defaultMessage": "Цветова схема",
     "description": "color scheme picker label"

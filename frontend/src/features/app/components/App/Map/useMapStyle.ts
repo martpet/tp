@@ -8,7 +8,7 @@ import { SetRequired } from 'type-fest';
 
 import { useGetPublicCredentialsQuery } from '~/app';
 import { mapsOptions, region } from '~/common/consts';
-import { AWSCredentials, Language, MapsOptions, MapType } from '~/common/types';
+import { AWSCredentials, Language, MapProvider, MapsOptions } from '~/common/types';
 import { selectLanguage } from '~/features/settings';
 
 const { esriLightGray, esriDarkGray } = mapsOptions;
@@ -34,7 +34,6 @@ export function useMapStyle() {
     if (!initialStyle) return;
     const localized = localizeStyle(initialStyle, language, map);
     setMapStyle(localized);
-    console.log(localized);
   }, [initialStyle, language]);
 
   return mapStyle;
@@ -59,8 +58,8 @@ function localizeLayers(
   lang: Language,
   map: MapsOptions
 ): AnyLayer[] {
-  const langValues: Record<
-    MapType,
+  const values: Record<
+    MapProvider,
     {
       primary: string;
       fallback(initial: string): string;
@@ -76,7 +75,7 @@ function localizeLayers(
     },
   };
 
-  if (!Object.keys(langValues).includes(map.type)) {
+  if (!Object.keys(values).includes(map.provider)) {
     return layers;
   }
 
@@ -95,8 +94,8 @@ function localizeLayers(
         ...layer.layout,
         'text-field': [
           'coalesce',
-          ['get', langValues[map.type].primary],
-          ['get', langValues[map.type].fallback(layer.layout['text-field'])],
+          ['get', values[map.provider].primary],
+          ['get', values[map.provider].fallback(layer.layout['text-field'])],
         ],
       },
     };

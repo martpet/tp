@@ -1,9 +1,9 @@
-export const mapTypes = ['esri', 'here'] as const;
+export const mapProviders = ['esri', 'here'] as const;
 
-export type MapType = typeof mapTypes[number];
+export type MapProvider = typeof mapProviders[number];
 
 export type MapsOptions = {
   mapName: string;
   style: string;
-  type: MapType;
+  provider: MapProvider;
 };

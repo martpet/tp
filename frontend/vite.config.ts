@@ -58,6 +58,7 @@ export default defineConfig({
   },
   server: {
     port: localhostPort,
+    host: '0.0.0.0',
   },
   envDir: '../',
 });

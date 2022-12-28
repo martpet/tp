@@ -167,10 +167,6 @@
     "defaultMessage": "Top",
     "description": "toolbar position picker label - top"
   },
-  "tPjCT2": {
-    "defaultMessage": "(Disabled on mobile)",
-    "description": "toolbar position disabled picker additional label"
-  },
   "tuwnSe": {
     "defaultMessage": "Color scheme",
     "description": "color scheme picker label"

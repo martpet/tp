@@ -31,7 +31,7 @@ export function Layout({ header, main }: Props) {
       <View elementType="header" gridArea={toolbarArea}>
         {header}
       </View>
-      <View elementType="main" gridArea={mainArea}>
+      <View elementType="main" gridArea={mainArea} position="relative">
         {main}
       </View>
     </Grid>

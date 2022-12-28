@@ -23,14 +23,14 @@ export function AddFilesButton({ variant = 'cta', ...buttonProps }: Props) {
   const dispatch = useAppDispatch();
 
   const inputElement = useMemo(() => {
-    const el = document.createElement('input');
-    el.type = 'file';
-    el.multiple = true;
-    el.accept = 'image/jpeg';
-    el.addEventListener('change', () => {
-      if (el.files) dispatch(addFiles(el.files));
+    const element = document.createElement('input');
+    element.type = 'file';
+    element.multiple = true;
+    element.accept = 'image/jpeg';
+    element.addEventListener('change', () => {
+      if (element.files) dispatch(addFiles(element.files));
     });
-    return el;
+    return element;
   }, []);
 
   const handleClick = () => {

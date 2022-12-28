@@ -3,7 +3,7 @@ import { useIsMobileDevice } from '@react-spectrum/utils';
 import { Key, ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 
-import { useAppDispatch, useAppSelector } from '~/common/hooks';
+import { useAppDispatch, useAppSelector, useToolbarPosition } from '~/common/hooks';
 import { activeTabChanged, selectActiveTab, SettingsTabKey } from '~/features/settings';
 
 import { Colors } from './Colors/Colors';
@@ -15,12 +15,14 @@ export default function SettingsInner() {
   const isMobile = useIsMobileDevice();
   const dispatch = useAppDispatch();
   const { formatMessage } = useIntl();
+  const { isToolbarPositionDisabled } = useToolbarPosition();
   const tabListSpace = 'size-400';
 
   type Tab = {
     key: SettingsTabKey;
     name: string;
     children: ReactNode;
+    disabled?: boolean;
   };
 
   const tabs: Tab[] = [
@@ -38,6 +40,7 @@ export default function SettingsInner() {
       key: 'layout',
       name: formatMessage({ defaultMessage: 'Layout', description: 'settings tab' }),
       children: <Layout />,
+      disabled: isToolbarPositionDisabled,
     },
   ];
 
@@ -47,7 +50,7 @@ export default function SettingsInner() {
 
   return (
     <Tabs
-      items={tabs}
+      items={tabs.filter(({ disabled }) => !disabled)}
       selectedKey={activeTab}
       onSelectionChange={handleTabChange}
       orientation={isMobile ? 'horizontal' : 'vertical'}
