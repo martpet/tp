@@ -1,6 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { apiUrl } from '~/common/consts';
+import { apiPaths, apiUrl } from '~/common/consts';
+import { GetPublicCredentialsResponse } from '~/common/types';
 
 import { customBaseQuery } from './customBaseQuery';
 
@@ -9,5 +10,11 @@ export const api = createApi({
     baseUrl: apiUrl,
     credentials: 'include',
   }),
-  endpoints: () => ({}),
+  endpoints: (builder) => ({
+    getPublicCredentials: builder.query<GetPublicCredentialsResponse, void>({
+      query: () => apiPaths['public-credentials'],
+    }),
+  }),
 });
+
+export const { useGetPublicCredentialsQuery } = api;

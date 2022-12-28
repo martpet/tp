@@ -1,33 +1,39 @@
 import { Grid, View } from '@adobe/react-spectrum';
+import { ReactNode } from 'react';
 
 import { useToolbarPosition } from '~/common/hooks';
 
-import { Toolbar } from './Toolbar/Toolbar';
-
 const toolbarArea = 'toolbar';
-const contentArea = 'content';
+const mainArea = 'main';
 
-export function Layout() {
+type Props = {
+  header: ReactNode;
+  main: ReactNode;
+};
+
+export function Layout({ header, main }: Props) {
   const { isToolbarOnTop } = useToolbarPosition();
 
   const gridStyleProps = isToolbarOnTop
     ? {
         columns: ['1fr'],
         rows: ['58px', '1fr'],
-        areas: [toolbarArea, contentArea],
+        areas: [toolbarArea, mainArea],
       }
     : {
         columns: ['52px', '1fr'],
         rows: ['1fr'],
-        areas: [[toolbarArea, contentArea].join(' ')],
+        areas: [[toolbarArea, mainArea].join(' ')],
       };
 
   return (
     <Grid height="100vh" {...gridStyleProps}>
-      <View gridArea={toolbarArea} elementType="header">
-        <Toolbar />
+      <View elementType="header" gridArea={toolbarArea}>
+        {header}
       </View>
-      <View gridArea={contentArea} elementType="main" />
+      <View elementType="main" gridArea={mainArea} position="relative">
+        {main}
+      </View>
     </Grid>
   );
 }

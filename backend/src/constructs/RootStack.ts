@@ -1,6 +1,6 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 
-import { Api, Auth, Photos, Tables, Web, Zone } from '~/constructs';
+import { Api, Auth, Maps, Photos, Tables, Web, Zone } from '~/constructs';
 
 export class RootStack extends Stack {
   constructor(scope: App, id: string, props: StackProps) {
@@ -12,5 +12,6 @@ export class RootStack extends Stack {
     const photos = new Photos(this);
     const auth = new Auth(this, { zone, tables, web });
     new Api(this, { auth, zone, tables, photos });
+    new Maps(this, { auth });
   }
 }

@@ -4,6 +4,11 @@ export {
   PutMetricAlarmCommand,
   PutMetricAlarmCommandInput,
 } from '@aws-sdk/client-cloudwatch';
+export {
+  CognitoIdentityClient,
+  GetCredentialsForIdentityCommand,
+  GetIdCommand,
+} from '@aws-sdk/client-cognito-identity';
 export { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 export {
   DetectModerationLabelsCommand,

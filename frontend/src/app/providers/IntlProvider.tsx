@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { IntlProvider as Provider } from 'react-intl';
 
 import { publicDirApi } from '~/app/services/publicDirApi';
-import { LoadingOverlay } from '~/common/components';
+import { Loading } from '~/common/components';
 import { defaultLanguage } from '~/common/consts';
 import { useAppDispatch, useAppSelector } from '~/common/hooks';
 import { browserLocaleChanged } from '~/features/app';
@@ -50,7 +50,7 @@ export function IntlProvider({ children }: Props) {
       messages={messages}
       onError={handleError}
     >
-      {!lastFetchedLanguage && isFetching ? <LoadingOverlay /> : children}
+      {!lastFetchedLanguage && isFetching ? <Loading dim /> : children}
     </Provider>
   );
 }

@@ -1,13 +1,13 @@
 import { View } from '@adobe/react-spectrum';
 import { createPortal } from 'react-dom';
+import { useSelector } from 'react-redux';
 
 import { ThemeProvider } from '~/app';
-import { LoadingOverlay } from '~/common/components';
-import { useAppSelector } from '~/common/hooks';
+import { Loading } from '~/common/components';
 import { selectHasPendingQueriesWithLoader } from '~/features/app';
 
-export function AppLoadingOverlay() {
-  const isLoading = useAppSelector(selectHasPendingQueriesWithLoader);
+export function AppLoading() {
+  const isLoading = useSelector(selectHasPendingQueriesWithLoader);
   const mountNode = document.getElementById('overlay') as HTMLElement;
 
   if (!isLoading) {
@@ -23,7 +23,7 @@ export function AppLoadingOverlay() {
       height="100vh"
       zIndex={9999}
     >
-      <LoadingOverlay />
+      <Loading dim />
     </View>
   );
 

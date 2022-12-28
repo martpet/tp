@@ -1,3 +1,4 @@
+import { IdentityPool } from '@aws-cdk/aws-cognito-identitypool-alpha';
 import { Duration, NestedStack, RemovalPolicy } from 'aws-cdk-lib';
 import {
   UserPool,
@@ -31,6 +32,8 @@ type Props = {
 };
 
 export class Auth extends NestedStack {
+  public readonly publicIdentityPool: IdentityPool;
+
   public readonly userPool: UserPool;
 
   public readonly userPoolClient: UserPoolClient;
@@ -53,6 +56,11 @@ export class Auth extends NestedStack {
     this.loginCallbackUrl = `https://${apiDomain}${apiPaths['login-callback']}`;
     this.logoutCallbackUrl = `https://${appDomain}`;
     this.logoutCallbackLocalhostUrl = localhostUrl;
+
+    this.publicIdentityPool = new IdentityPool(this, 'public-identity-pool', {
+      identityPoolName: `${appName}-public`,
+      allowUnauthenticatedIdentities: true,
+    });
 
     const { lambdaTriggers } = new UserPoolLambdaTriggers(
       this,

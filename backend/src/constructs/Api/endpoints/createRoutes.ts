@@ -29,6 +29,7 @@ export const createRoutes = ({ scope, api, auth, tables, photos }: Props) => {
   const apiEnvVars: AllEnvVars = {
     authDomain: auth.authDomain,
     clientId: auth.userPoolClient.userPoolClientId,
+    identityPoolId: auth.publicIdentityPool.identityPoolId,
     loginCallbackUrl: auth.loginCallbackUrl,
     logoutCallbackUrl: auth.logoutCallbackUrl,
     logoutCallbackLocalhostUrl: auth.logoutCallbackLocalhostUrl,

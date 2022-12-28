@@ -1,13 +1,13 @@
 import { lazy, Suspense } from 'react';
 
-import { LoadingOverlay } from '~/common/components';
+import { Loading } from '~/common/components';
 
-const modulePromise = import('./SettingsInner/SettingsInner');
-const SettingsInner = lazy(() => modulePromise);
+const settingsImport = import('./SettingsInner/SettingsInner');
+const SettingsInner = lazy(() => settingsImport);
 
 export function Settings() {
   return (
-    <Suspense fallback={<LoadingOverlay transparent />}>
+    <Suspense fallback={<Loading />}>
       <SettingsInner />
     </Suspense>
   );

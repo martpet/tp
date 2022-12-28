@@ -1,4 +1,4 @@
 export * from './Avatar/Avatar';
-export * from './LoadingOverlay';
+export * from './Loading';
 export * from './Logo';
 export * from './Spinner';

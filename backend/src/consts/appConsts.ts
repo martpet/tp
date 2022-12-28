@@ -1,9 +1,7 @@
 import { localhostPort } from '~/../../shared/consts';
 
-export const appName = 'TP';
 export const authSubdomain = 'auth';
 export const localhostUrl = `http://localhost:${localhostPort}`;
-export const region = 'eu-central-1';
 export const healthCheckAlarmEmails = ['martin_petrov@me.com'];
 export const prodAccountId = '766373560006';
 export const stagingAccountId = '204115048155';

@@ -60,7 +60,7 @@ In the *HostedZones* account:
 
 * Register a domain in Route53.
 * Use the name servers from the **root** zone NS record.
-* Copy the domain name to a variable named `rootDomain` in *shared/consts/commonConsts.ts*
+* Copy the domain name to a variable named `rootDomain` in *shared/consts/sharedConsts.ts*
 
 ## Identity providers
 

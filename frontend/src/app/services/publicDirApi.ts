@@ -8,8 +8,8 @@ export const publicDirApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/',
   }),
-  endpoints: ({ query }) => ({
-    getTranslations: query<ResolvedIntlConfig['messages'], Language>({
+  endpoints: (build) => ({
+    getTranslations: build.query<ResolvedIntlConfig['messages'], Language>({
       query: (language) => `/translations/${language}.json`,
     }),
   }),

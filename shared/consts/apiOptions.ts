@@ -85,4 +85,12 @@ export const apiOptions = {
       },
     },
   },
+  '/public-credentials': {
+    methods: {
+      GET: {
+        isPublic: true,
+        envVars: ['identityPoolId'],
+      },
+    },
+  },
 } as const satisfies ApiOptions;

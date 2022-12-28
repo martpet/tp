@@ -3,11 +3,11 @@ import { Flex, View } from '@adobe/react-spectrum';
 import { Spinner } from '~/common/components';
 
 type Props = {
-  transparent?: boolean;
+  dim?: boolean;
   text?: string;
 };
 
-export function LoadingOverlay({ transparent, text }: Props) {
+export function Loading({ dim, text }: Props) {
   return (
     <View
       position="absolute"
@@ -17,7 +17,7 @@ export function LoadingOverlay({ transparent, text }: Props) {
       height="100%"
       zIndex={9999}
       UNSAFE_style={{
-        ...(!transparent && {
+        ...(dim && {
           background: 'var(--spectrum-alias-background-color-modal-overlay)',
         }),
       }}

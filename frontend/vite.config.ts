@@ -36,6 +36,10 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+        find: './runtimeConfig',
+        replacement: './runtimeConfig.browser',
+      },
+      {
         find: '~',
         replacement: resolve('frontend/src'),
       },
@@ -50,6 +54,7 @@ export default defineConfig({
     outDir: './dist',
     cssCodeSplit: false,
     target: 'esnext',
+    chunkSizeWarningLimit: 2000,
   },
   server: {
     port: localhostPort,
