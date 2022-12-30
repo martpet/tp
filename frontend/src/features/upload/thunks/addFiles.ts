@@ -4,7 +4,7 @@ import { removeDateStringOffset } from '~/common/utils';
 import { FileMeta, getExif, hashFile } from '~/features/upload';
 
 export const addFiles = createAsyncThunk<FileMeta[], FileList>(
-  'addFilesStatus',
+  'upload/addFilesStatus',
   (fileList) =>
     Promise.all(
       Array.from(fileList).map(async (file) => {

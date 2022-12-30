@@ -5,3 +5,4 @@ export * from './apiUrl';
 export * from './appDomain';
 export * from './defaultLanguage';
 export * from './layoutConsts';
+export * from './transitionStyles';

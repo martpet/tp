@@ -10,6 +10,8 @@ export const selectFiles = (state: RootState) => state.upload.files;
 export const selectFingerprintsInDb = (state: RootState) => state.upload.fingerprintsInDb;
 export const selectPresignedPosts = (state: RootState) => state.upload.presignedPosts;
 export const selectProgress = (state: RootState) => state.upload.transfersProgress;
+export const selectPendingFilesRemovals = (state: RootState) =>
+  state.upload.pendingFileRemovals;
 
 export const selectUploadFlowStatus = createSelector(
   selectIsLoggedIn,

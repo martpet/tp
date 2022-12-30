@@ -8,7 +8,7 @@ import {
   addFiles,
   createUploadUrls,
   FileMeta,
-  fileRemoved,
+  removeFile,
   selectFiles,
   selectFilesPendingCreation,
   selectFilesPendingTransfer,
@@ -26,6 +26,7 @@ export type UploadState = {
   successfulTransfers: string[];
   failedTransfers: string[];
   completedUploads: string[];
+  pendingFileRemovals: string[];
 };
 
 const initialState: UploadState = {
@@ -38,6 +39,7 @@ const initialState: UploadState = {
   successfulTransfers: [],
   failedTransfers: [],
   completedUploads: [],
+  pendingFileRemovals: [],
 };
 
 export const uploadSlice = createSlice({
@@ -73,9 +75,14 @@ export const uploadSlice = createSlice({
       state.isAddingFiles = false;
       state.files = state.files.concat(payload);
     });
-    addCase(fileRemoved, (state, { payload }) => {
-      const remainingFiles = state.files.filter(({ id }) => id !== payload);
-      state.files = remainingFiles;
+    addCase(removeFile.pending, (state, { meta }) => {
+      state.pendingFileRemovals.push(meta.arg);
+    });
+    addCase(removeFile.fulfilled, (state, { payload }) => {
+      state.files = state.files.filter(({ id }) => id !== payload);
+      state.pendingFileRemovals = state.pendingFileRemovals.filter(
+        (id) => id !== payload
+      );
       if (!state.files.length) state.flowStatus = 'idle';
     });
     addCase(transferFiles.pending, (state) => {
@@ -164,7 +171,7 @@ startAppListening({
 });
 
 startAppListening({
-  actionCreator: fileRemoved,
+  actionCreator: removeFile.fulfilled,
   effect({ payload }, { getOriginalState }) {
     const prevFiles = selectFiles(getOriginalState());
     const removedFile = prevFiles.find(({ id }) => id === payload);

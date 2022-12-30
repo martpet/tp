@@ -1,3 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const fileRemoved = createAction<string>('upload/fileRemoved');
+export const fileRemovalTransitionEnded = createAction<string>(
+  'upload/fileRemovalTransitionEnded'
+);

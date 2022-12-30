@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '~/common/hooks';
 import {
   FileMeta,
-  fileRemoved,
+  removeFile,
   selectCompletedUploads,
   selectTransferredFiles,
   selectUploadFlowStatus,
@@ -40,7 +40,7 @@ export function ThumbnailRemoveButton({ file, ...flexProps }: Props) {
       UNSAFE_style={{ padding: 'var(--spectrum-global-dimension-size-40)' }}
     >
       <Button
-        onPress={() => dispatch(fileRemoved(file.id))}
+        onPress={() => dispatch(removeFile(file.id))}
         variant="overBackground"
         style="fill"
         UNSAFE_style={{

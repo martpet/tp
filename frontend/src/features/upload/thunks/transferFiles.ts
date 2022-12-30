@@ -3,8 +3,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { addAppListener } from '~/app/store/middleware';
 import { RootState } from '~/common/types';
 import {
-  fileRemoved,
   progressUpdated,
+  removeFile,
   selectFilesPendingTransfer,
   selectPresignedPosts,
   transferCompleted,
@@ -12,7 +12,7 @@ import {
 } from '~/features/upload';
 
 export const transferFiles = createAsyncThunk(
-  'transferFilesStatus',
+  'upload/filesTransferStatus',
   async (arg, { getState, dispatch }) => {
     const state = getState() as RootState;
     const files = selectFilesPendingTransfer(state);
@@ -24,7 +24,7 @@ export const transferFiles = createAsyncThunk(
 
     const unsubscribeFileRemoveListener = dispatch(
       addAppListener({
-        actionCreator: fileRemoved,
+        actionCreator: removeFile.fulfilled,
         effect({ payload }) {
           requests[payload].abort();
         },
@@ -35,7 +35,7 @@ export const transferFiles = createAsyncThunk(
       // Abort xhr upload requests in Firefox:
       // - Safari aborts all active/pending requests when network goes down.
       // - Chrome aborts pending requests, waits for network to go up and resumes active requests,
-      // - Firefox does not abort, neither continues on network up.
+      // - Firefox does not abort any requests, neither resumes them.
       if (isFirefox) {
         Object.values(requests).forEach((xhr) => xhr.abort());
       }
