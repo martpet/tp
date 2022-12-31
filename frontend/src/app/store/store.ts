@@ -11,10 +11,14 @@ import {
 } from 'redux-persist';
 
 import { api, publicDirApi } from '~/app/services';
-import { appSlice, meSlice, settingsSlice, uploadSlice } from '~/features';
+import { appSlice, mapSlice, meSlice, settingsSlice, uploadSlice } from '~/features';
 
 import { listenerMiddleware } from './middleware';
-import { mePersistConfig, settingsPersistConfig } from './persistConfigs';
+import {
+  mapPersistConfig,
+  mePersistConfig,
+  settingsPersistConfig,
+} from './persistConfigs';
 
 export const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
@@ -23,6 +27,7 @@ export const rootReducer = combineReducers({
   [meSlice.name]: persistReducer(mePersistConfig, meSlice.reducer),
   [settingsSlice.name]: persistReducer(settingsPersistConfig, settingsSlice.reducer),
   [uploadSlice.name]: uploadSlice.reducer,
+  [mapSlice.name]: persistReducer(mapPersistConfig, mapSlice.reducer),
 });
 
 export const store = configureStore({

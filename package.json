@@ -64,6 +64,7 @@
     "dotenv-flow": "^3.2.0",
     "exifreader": "^4.9.0",
     "http-status-codes": "^2.2.0",
+    "mapbox-gl": "npm:empty-npm-package@^1.0.0",
     "maplibre-gl": "^2.4.0",
     "milliseconds": "^1.0.3",
     "module": "^1.2.5",

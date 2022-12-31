@@ -6,10 +6,10 @@ import { selectToolbarPosition } from '~/features';
 // In the future, disable positioning for toolbar, and use a positioned "rail" container for instruments
 
 export const useToolbarPosition = () => {
-  const toolbarPosition = useAppSelector(selectToolbarPosition);
+  const desiredPositon = useAppSelector(selectToolbarPosition);
   const isMobile = useIsMobileDevice();
   const isToolbarPositionDisabled = isMobile;
-  const usedPosition = isToolbarPositionDisabled ? 'top' : toolbarPosition;
+  const usedPosition = isToolbarPositionDisabled ? 'top' : desiredPositon;
 
   return {
     toolbarPosition: usedPosition,
