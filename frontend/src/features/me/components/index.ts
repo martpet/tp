@@ -1,4 +1,4 @@
-export * from './Login/Login';
+export * from './Login/LoginLazy';
 export * from './LoginDialog';
-export * from './Profile/Profile';
+export * from './Profile/ProfileLazy';
 export * from './ProfileDialog';

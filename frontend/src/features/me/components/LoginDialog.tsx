@@ -8,7 +8,7 @@ import {
 } from '@adobe/react-spectrum';
 import { FormattedMessage } from 'react-intl';
 
-import { Login } from '~/features/me';
+import { LoginLazy } from '~/features/me';
 
 type Props = {
   dismissOnLoginClick?: boolean;
@@ -31,7 +31,7 @@ export function LoginDialog({ dismissOnLoginClick }: Props) {
       <Divider />
       <Content>
         <View marginTop="size-50">
-          <Login onLoginButtonClick={onLoginButtonClick} />
+          <LoginLazy onLoginButtonClick={onLoginButtonClick} />
         </View>
       </Content>
     </Dialog>

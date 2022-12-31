@@ -2,7 +2,7 @@ import { ActionButton } from '@adobe/react-spectrum';
 import UploadIcon from '@spectrum-icons/workflow/UploadToCloudOutline';
 import { useIntl } from 'react-intl';
 
-import { UploadDialog, UploadDialogTrigger } from '~/features/upload';
+import { UploadDialogLazy, UploadDialogTrigger } from '~/features/upload';
 
 export function UploadButton() {
   const { formatMessage } = useIntl();
@@ -18,7 +18,7 @@ export function UploadButton() {
       >
         <UploadIcon />
       </ActionButton>
-      <UploadDialog />
+      <UploadDialogLazy />
     </UploadDialogTrigger>
   );
 }

@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { useToolbarPosition } from '~/common/hooks';
-import { Settings } from '~/features/settings';
+import { SettingsLazy } from '~/features/settings';
 
 export function SettingsDialog() {
   const { type: dialogType, dismiss: closeDialog } = useDialogContainer();
@@ -34,7 +34,7 @@ export function SettingsDialog() {
       </Heading>
       <Divider />
       <Content>
-        <Settings />
+        <SettingsLazy />
       </Content>
     </Dialog>
   );

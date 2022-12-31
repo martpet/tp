@@ -1,2 +1,2 @@
-export * from './Settings/Settings';
+export * from './Settings/SettingsLazy';
 export * from './SettingsDialog';

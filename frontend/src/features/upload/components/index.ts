@@ -1,2 +1,2 @@
-export * from './UploadDialog/UploadDialog';
+export * from './UploadDialog/UploadDialogLazy';
 export * from './UploadDialogTrigger';

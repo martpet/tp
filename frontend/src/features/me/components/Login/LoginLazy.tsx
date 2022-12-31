@@ -2,17 +2,17 @@ import { lazy, Suspense } from 'react';
 
 import { Loading } from '~/common/components';
 
-const loginImport = import('./LoginInner/LoginInner');
-const LoginInner = lazy(() => loginImport);
+const loginImport = import('./Login/Login');
+const Login = lazy(() => loginImport);
 
 type Props = {
   onLoginButtonClick?: () => void;
 };
 
-export function Login({ onLoginButtonClick }: Props) {
+export function LoginLazy({ onLoginButtonClick }: Props) {
   return (
     <Suspense fallback={<Loading />}>
-      <LoginInner onLoginButtonClick={onLoginButtonClick} />
+      <Login onLoginButtonClick={onLoginButtonClick} />
     </Suspense>
   );
 }

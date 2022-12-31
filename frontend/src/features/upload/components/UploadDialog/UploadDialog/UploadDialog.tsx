@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { UploadDialogButtons } from './UploadDialogButtons/UploadDialogButtons';
 import UploadDialogContent from './UploadDialogContent/UploadDialogContent';
 
-export default function UploadDialogInner() {
+export default function UploadDialog() {
   return (
     <>
       <Heading>

@@ -9,8 +9,9 @@ import { selectIsLoadingMe } from '~/features/me/meSlice';
 
 import { LoginButton } from './LoginButton';
 
-// Preload assets after LoginInner is lazy loaded;
-// `adobeCleanBold` font used only in this component.
+// Preload assets after LoginInner is lazy loaded.
+// `adobeCleanBold` is used only in this component.
+//
 // document.head.insertAdjacentHTML(
 //   'beforeend',
 //   `<link
@@ -31,7 +32,7 @@ type Props = {
   onLoginButtonClick?: () => void;
 };
 
-export default function LoginInner({ onLoginButtonClick }: Props) {
+export default function Login({ onLoginButtonClick }: Props) {
   const isLoadingMe = useAppSelector(selectIsLoadingMe);
 
   const handleButtonClick = () => {

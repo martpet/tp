@@ -10,7 +10,7 @@ import { Colors } from './Colors/Colors';
 import { Languages } from './Languages/Languages';
 import { Layout } from './Layout/Layout';
 
-export default function SettingsInner() {
+export default function Settings() {
   const activeTab = useAppSelector(selectActiveTab);
   const isMobile = useIsMobileDevice();
   const dispatch = useAppDispatch();

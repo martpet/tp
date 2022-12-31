@@ -1,5 +1,5 @@
 import { useGetPublicCredentialsQuery } from '~/app';
-import { Map } from '~/features/map';
+import { MapLazy } from '~/features/map';
 
 import { AppLoading } from './AppLoading';
 import { AppLoginDialog } from './AppLoginDialog';
@@ -16,7 +16,7 @@ export function App() {
     <>
       <AppLoginDialog />
       <AppLoading />
-      <Layout header={<Toolbar />} main={<Map />} />
+      <Layout header={<Toolbar />} main={<MapLazy />} />
     </>
   );
 }

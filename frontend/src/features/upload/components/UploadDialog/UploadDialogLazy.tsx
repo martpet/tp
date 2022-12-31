@@ -3,14 +3,14 @@ import { lazy, Suspense } from 'react';
 
 import { Loading } from '~/common/components';
 
-const uploadDialogImport = import('./UploadDialogInner/UploadDialogInner');
-const UploadDialogInner = lazy(() => uploadDialogImport);
+const uploadDialogImport = import('./UploadDialog/UploadDialog');
+const UploadDialog = lazy(() => uploadDialogImport);
 
-export function UploadDialog() {
+export function UploadDialogLazy() {
   return (
     <Dialog>
       <Suspense fallback={<Loading />}>
-        <UploadDialogInner />
+        <UploadDialog />
       </Suspense>
     </Dialog>
   );

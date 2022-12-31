@@ -1,7 +1,7 @@
 import { Content, Dialog } from '@adobe/react-spectrum';
 import { useIntl } from 'react-intl';
 
-import { Profile } from './Profile/Profile';
+import { ProfileLazy } from '~/features/me';
 
 export function ProfileDialog() {
   const { formatMessage } = useIntl();
@@ -14,7 +14,7 @@ export function ProfileDialog() {
       })}
     >
       <Content>
-        <Profile />
+        <ProfileLazy />
       </Content>
     </Dialog>
   );
