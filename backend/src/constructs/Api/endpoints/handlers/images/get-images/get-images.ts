@@ -9,6 +9,7 @@ import {
   GetImagesResponse,
   GetObjectCommand,
   lambdaPayloadLimit,
+  PathParam,
   PhotosTableItem,
   photosTableOptions,
   QueryStrings,
@@ -24,11 +25,11 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 export const handler: APIGatewayProxyHandlerV2<GetImagesResponse> = async ({
   queryStringParameters,
+  pathParameters,
 }) => {
   const { photoBucket } = process.env as EnvVars<'/images', 'GET'>;
-  const { fingerprint, quality, size } = Object(
-    queryStringParameters
-  ) as QueryStrings<'/images'>;
+  const { fingerprint } = pathParameters as PathParam<'/photos', 'GET'>;
+  const { quality, size } = Object(queryStringParameters) as QueryStrings<'/images'>;
 
   if (!photoBucket) {
     return errorResponse('68e8d0232f');

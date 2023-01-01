@@ -75,6 +75,7 @@ export const apiOptions = {
       GET: {
         isPublic: true,
         envVars: ['photoBucket'],
+        pathParam: 'fingerprint',
         nodejsFunctionProps: {
           memorySize: 512,
           bundling: {

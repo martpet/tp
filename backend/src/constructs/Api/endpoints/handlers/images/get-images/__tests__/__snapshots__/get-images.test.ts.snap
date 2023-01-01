@@ -78,7 +78,7 @@ exports[`get-images > when "S3Client" rejects "GetObjectCommand" > calls "errorR
 
 exports[`get-images > when "S3Client" rejects "GetObjectCommand" > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
-exports[`get-images > when "fingerprint" query string parameter is missing > calls "errorResponse" with correct args 1`] = `
+exports[`get-images > when "fingerprint" path parameter is missing > calls "errorResponse" with correct args 1`] = `
 [
   [
     "564208f603",
@@ -89,7 +89,7 @@ exports[`get-images > when "fingerprint" query string parameter is missing > cal
 ]
 `;
 
-exports[`get-images > when "fingerprint" query string parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
+exports[`get-images > when "fingerprint" path parameter is missing > resolves with a correct value 1`] = `"dummyErrorResponse"`;
 
 exports[`get-images > when "photoBucket" env var is missing > calls "errorResponse" with correct args 1`] = `
 [

@@ -6,7 +6,7 @@ import { lambdaPayloadLimit } from 'lambda-layer';
 import {
   itCalls,
   itHasEnvVars,
-  itHasQueryStrings,
+  itHasPathParam,
   itResolves,
   itResolvesWithError,
   itSendsAwsCommand,
@@ -25,8 +25,10 @@ process.env.photoBucket = 'dummyPhotoBucketName';
 
 const args = [
   {
-    queryStringParameters: {
+    pathParameters: {
       fingerprint: 'dummyFingerprint',
+    },
+    queryStringParameters: {
       quality: '99',
       size: '888',
     },
@@ -48,7 +50,7 @@ beforeEach(() => {
 
 describe('get-images', () => {
   itHasEnvVars(['photoBucket'], handler, args);
-  itHasQueryStrings(['fingerprint'], handler, args);
+  itHasPathParam('fingerprint', handler, args);
   itSendsAwsCommand(GetCommand, ddbMock, handler, args);
   itSendsAwsCommand(GetObjectCommand, s3Mock, handler, args);
   itCalls(processImage, handler, args);

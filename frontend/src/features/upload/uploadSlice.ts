@@ -152,10 +152,10 @@ startAppListening({
         fingerprint,
         digest,
       }));
-      dispatch(createUploadUrls.initiate(queryArg, { subscribe: false }));
+      dispatch(createUploadUrls.initiate(queryArg, { track: false }));
     } else if (filesPendingCreation.length) {
       const queryArg = uploadableFileToCreatePhotosArg(filesPendingCreation);
-      dispatch(createPhotos.initiate(queryArg, { subscribe: false }));
+      dispatch(createPhotos.initiate(queryArg, { track: false }));
     }
   },
 });
@@ -174,7 +174,7 @@ startAppListening({
     const files = selectFilesPendingCreation(getState()) as UplaodableFileMeta[];
     if (files.length) {
       const queryArg = uploadableFileToCreatePhotosArg(files);
-      dispatch(createPhotos.initiate(queryArg, { subscribe: false }));
+      dispatch(createPhotos.initiate(queryArg, { track: false }));
     }
   },
 });

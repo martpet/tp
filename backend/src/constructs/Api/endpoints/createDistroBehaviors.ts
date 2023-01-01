@@ -104,6 +104,9 @@ function addBehavior({
   const { appDomain } = appEnvs[envName];
   const customCachePolicyProps: Writable<CachePolicyProps> = {};
   const originRequestPolicyProps: Writable<OriginRequestPolicyProps> = {};
+  const hasMethodWithPathParam = Object.values(methods).some(
+    ({ pathParam }) => pathParam
+  );
 
   const hasPrivateEndpoints =
     !publicEndpoints[path] ||
@@ -191,5 +194,9 @@ function addBehavior({
     );
   }
 
-  distribution.addBehavior(path, origin, behaviorOptions);
+  distribution.addBehavior(
+    `${path}${hasMethodWithPathParam ? '*' : ''}`,
+    origin,
+    behaviorOptions
+  );
 }
