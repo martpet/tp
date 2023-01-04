@@ -13,11 +13,10 @@ import {
   selectFilesPendingCreation,
   selectFilesPendingTransfer,
   transferFiles,
-  UplaodableFileMeta,
 } from '~/features/upload';
 
 export type UploadState = {
-  flowStatus: 'idle' | 'pending' | 'transferring' | 'creatingPhotos' | 'done' | 'error';
+  flowStatus: 'idle' | 'pending' | 'transferring' | 'creatingItems' | 'done' | 'error';
   files: FileMeta[];
   isAddingFiles: boolean;
   presignedPosts: Record<string, PresignedPost>;
@@ -53,7 +52,7 @@ export const uploadSlice = createSlice({
         state.successfulTransfers.map((id) => [id, 100])
       );
     },
-    progressUpdated(state, { payload }: PayloadAction<Record<string, number>>) {
+    transfersProgressUpdated(state, { payload }: PayloadAction<Record<string, number>>) {
       Object.assign(state.transfersProgress, payload);
     },
     transferCompleted(state, { payload }: PayloadAction<string>) {
@@ -107,7 +106,7 @@ export const uploadSlice = createSlice({
       );
     });
     addMatcher(createPhotos.matchPending, (state) => {
-      state.flowStatus = 'creatingPhotos';
+      state.flowStatus = 'creatingItems';
     });
     addMatcher(createPhotos.matchFulfilled, (state, { meta }) => {
       const fingerprints = meta.arg.originalArgs.map(({ fingerprint }) => fingerprint);
@@ -130,7 +129,7 @@ export const uploadSlice = createSlice({
 
 export const {
   uploadStarted,
-  progressUpdated,
+  transfersProgressUpdated,
   transferCompleted,
   transferFailed,
   userIsDone,
@@ -142,20 +141,11 @@ startAppListening({
   actionCreator: uploadStarted,
   effect(_, { dispatch, getState }) {
     const filesPendingTransfer = selectFilesPendingTransfer(getState());
-    const filesPendingCreation = selectFilesPendingCreation(
-      getState()
-    ) as UplaodableFileMeta[];
-
+    const filesPendingCreation = selectFilesPendingCreation(getState());
     if (filesPendingTransfer.length) {
-      const queryArg = filesPendingTransfer.map(({ id, fingerprint, digest }) => ({
-        id,
-        fingerprint,
-        digest,
-      }));
-      dispatch(createUploadUrls.initiate(queryArg, { track: false }));
+      dispatch(createUploadUrls.initiate(filesPendingTransfer, { track: false }));
     } else if (filesPendingCreation.length) {
-      const queryArg = uploadableFileToCreatePhotosArg(filesPendingCreation);
-      dispatch(createPhotos.initiate(queryArg, { track: false }));
+      dispatch(createPhotos.initiate(filesPendingCreation, { track: false }));
     }
   },
 });
@@ -163,18 +153,30 @@ startAppListening({
 startAppListening({
   matcher: createUploadUrls.matchFulfilled,
   effect(_, { dispatch, getState }) {
-    const files = selectFilesPendingTransfer(getState());
-    if (files.length) dispatch(transferFiles());
+    const filesPendingTransfer = selectFilesPendingTransfer(getState());
+    if (filesPendingTransfer.length) {
+      dispatch(transferFiles());
+    }
   },
 });
 
 startAppListening({
   actionCreator: transferFiles.fulfilled,
   effect(_, { dispatch, getState }) {
-    const files = selectFilesPendingCreation(getState()) as UplaodableFileMeta[];
-    if (files.length) {
-      const queryArg = uploadableFileToCreatePhotosArg(files);
-      dispatch(createPhotos.initiate(queryArg, { track: false }));
+    const filesPendingCreation = selectFilesPendingCreation(getState());
+    if (filesPendingCreation.length) {
+      dispatch(createPhotos.initiate(filesPendingCreation, { track: false }));
+    }
+  },
+});
+
+startAppListening({
+  actionCreator: removeFile.fulfilled,
+  effect(action, { getOriginalState }) {
+    const originalFiles = selectFiles(getOriginalState());
+    const removedFile = originalFiles.find(({ id }) => id === action.payload);
+    if (removedFile) {
+      URL.revokeObjectURL(removedFile.objectURL);
     }
   },
 });
@@ -188,10 +190,3 @@ startAppListening({
     });
   },
 });
-
-function uploadableFileToCreatePhotosArg(files: UplaodableFileMeta[]) {
-  return files.map(({ fingerprint, exif }) => ({
-    fingerprint,
-    ...exif,
-  }));
-}

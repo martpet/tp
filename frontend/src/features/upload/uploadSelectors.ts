@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { maxPhotoUploadSize } from '~/common/consts';
 import { RootState } from '~/common/types';
 import { selectIsLoggedIn } from '~/features/me';
-import { UploadError, UploadState } from '~/features/upload';
+import { UplaodableFileMeta, UploadError, UploadState } from '~/features/upload';
 
 export const selectIsAddingFiles = (state: RootState) => state.upload.isAddingFiles;
 export const selectFiles = (state: RootState) => state.upload.files;
@@ -27,7 +27,7 @@ export const selectUploadFlowEnded = createSelector(
 export const selectUploadFlowInProgress = createSelector(
   selectUploadFlowStatus,
   (status) =>
-    status === 'pending' || status === 'transferring' || status === 'creatingPhotos'
+    status === 'pending' || status === 'transferring' || status === 'creatingItems'
 );
 
 export const selectTransferredFiles = createSelector(
@@ -110,7 +110,9 @@ export const selectFilesPendingCreation = createSelector(
   selectTransferredFiles,
   selectCompletedUploads,
   (transferredFiles, completedUploads) =>
-    transferredFiles.filter((file) => !completedUploads.includes(file))
+    transferredFiles.filter(
+      (file) => !completedUploads.includes(file)
+    ) as UplaodableFileMeta[]
 );
 
 export const selectFailedUploads = createSelector(

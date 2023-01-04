@@ -29,7 +29,7 @@ export function ThumbnailRemoveButton({ file, ...flexProps }: Props) {
   const isComplete = completedUploads.includes(file);
   const isTransferred = transferredFiles.includes(file);
 
-  if (isComplete || (isTransferred && uploadFlow === 'creatingPhotos')) {
+  if (isComplete || (isTransferred && uploadFlow === 'creatingItems')) {
     return null;
   }
 

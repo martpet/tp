@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { addAppListener } from '~/app/store/middleware';
 import { RootState } from '~/common/types';
 import {
-  progressUpdated,
+  transfersProgressUpdated,
   removeFile,
   selectFilesPendingTransfer,
   selectPresignedPosts,
@@ -79,7 +79,7 @@ export const transferFiles = createAsyncThunk(
             progress[id] = Math.floor((loaded / total) * 100);
             if (lastProgressDispatchAt < now - 250) {
               lastProgressDispatchAt = now;
-              dispatch(progressUpdated({ ...progress }));
+              dispatch(transfersProgressUpdated({ ...progress }));
             }
           };
 
