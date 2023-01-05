@@ -10,20 +10,23 @@ import {
   SettingsState,
 } from '~/features';
 
+import { mapViewTransform } from './persistTransforms';
+
 export const settingsPersistConfig: PersistConfig<SettingsState> = {
   key: appSlice.name,
   storage,
-  whitelist: <Array<keyof SettingsState>>['userSettings'],
+  whitelist: <(keyof SettingsState)[]>['userSettings'],
 };
 
 export const mePersistConfig: PersistConfig<MeState> = {
   key: meSlice.name,
   storage,
-  whitelist: <Array<keyof MeState>>['isLoggedIn'],
+  whitelist: <(keyof MeState)[]>['isLoggedIn'],
 };
 
 export const mapPersistConfig: PersistConfig<MapState> = {
   key: mapSlice.name,
   storage,
-  whitelist: <Array<keyof MapState>>['view'],
+  whitelist: <(keyof MapState)[]>['view'],
+  transforms: [mapViewTransform],
 };

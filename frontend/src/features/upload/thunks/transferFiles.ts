@@ -3,12 +3,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { addAppListener } from '~/app/store/middleware';
 import { RootState } from '~/common/types';
 import {
-  transfersProgressUpdated,
   removeFile,
   selectFilesPendingTransfer,
   selectPresignedPosts,
   transferCompleted,
   transferFailed,
+  transfersProgressUpdated,
 } from '~/features/upload';
 
 export const transferFiles = createAsyncThunk(

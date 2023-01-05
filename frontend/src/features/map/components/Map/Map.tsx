@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useGetPublicCredentialsQuery } from '~/app';
 import { Loading } from '~/common/components';
 import { useAppDispatch, useToolbarPosition } from '~/common/hooks';
-import { mapMoved, selectMapView } from '~/features/map';
+import { mapLoaded, mapMoved, selectMapView } from '~/features/map';
 
 import { transformRequest } from './transformRequest';
 import { useMapStyle } from './useMapStyle';
@@ -38,6 +38,7 @@ export default function Map() {
       transformRequest={transformRequest(credentials)}
       initialViewState={initialViewState}
       onMoveEnd={(event) => dispatch(mapMoved(event.viewState))}
+      onLoad={() => dispatch(mapLoaded())}
     />
   );
 }

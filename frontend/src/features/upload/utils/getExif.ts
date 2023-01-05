@@ -1,5 +1,6 @@
 import type { NumberTag, StringArrayTag } from 'exifreader';
 
+import { toFixedGeoNumber, toFixedNumber } from '~/common/utils';
 import { FileMeta } from '~/features/upload';
 
 export async function getExif(file: File): Promise<FileMeta['exif']> {
@@ -9,11 +10,11 @@ export async function getExif(file: File): Promise<FileMeta['exif']> {
 
   return {
     dateTimeOriginal: dateTimeISO(exif?.DateTimeOriginal, exif?.OffsetTimeOriginal),
-    gpsAltitude: number(gps?.Altitude, 0),
-    gpsLatitude: number(gps?.Latitude, 6),
-    gpsLongitude: number(gps?.Longitude, 6),
-    gpsDestBearing: number(exif?.GPSDestBearing?.description, 0),
-    gpsHPositioningError: number(exif?.GPSHPositioningError?.description, 0),
+    gpsAltitude: toFixedGeoNumber('altitude', gps?.Altitude),
+    gpsLatitude: toFixedGeoNumber('latitude', gps?.Latitude),
+    gpsLongitude: toFixedGeoNumber('longitude', gps?.Longitude),
+    gpsDestBearing: toFixedGeoNumber('bearing', exif?.GPSDestBearing?.description),
+    gpsHPositioningError: toFixedNumber(exif?.GPSHPositioningError?.description, 0),
     gpsSpeed: length(exif?.GPSSpeed, exif?.GPSSpeedRef, 0),
     make: exif?.Make?.description,
     model: exif?.Model?.description,
@@ -21,21 +22,12 @@ export async function getExif(file: File): Promise<FileMeta['exif']> {
   };
 }
 
-function number(input: string | number | undefined, digits?: number) {
-  let result = Number(input);
-  if (Number.isNaN(result)) return undefined;
-  if (typeof digits !== undefined) {
-    result = Number(result.toFixed(digits));
-  }
-  return result;
-}
-
 function length(
   lengthTag: NumberTag | undefined,
   unitTag?: StringArrayTag | undefined,
   digits?: number
 ) {
-  const result = number(lengthTag?.description, digits);
+  const result = toFixedNumber(lengthTag?.description, digits);
 
   if (unitTag && typeof result === 'number') {
     switch (unitTag.value[0]) {
