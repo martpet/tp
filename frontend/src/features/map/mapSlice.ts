@@ -7,10 +7,10 @@ import { startAppListening } from '~/app/store/middleware';
 import { RootState } from '~/common/types';
 
 import { MapState } from './types';
-import { getMapStateFromUrl, setMapStateInUrl } from './utils';
+import { getMapViewFromUrl, setMapViewInUrl } from './utils';
 
 const initialState: MapState = {
-  view: getMapStateFromUrl().view || {
+  view: getMapViewFromUrl() || {
     longitude: 14,
     latitude: 35,
     zoom: 1.3,
@@ -50,6 +50,6 @@ export const selectMapView = (state: RootState) => state.map.view;
 startAppListening({
   matcher: isAnyOf(mapMoved, mapLoaded),
   effect(_, { getState }) {
-    setMapStateInUrl(getState().map);
+    setMapViewInUrl(getState().map.view);
   },
 });

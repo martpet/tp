@@ -1,2 +1,1 @@
-export * from './getMapStateFromUrl';
-export * from './setMapStateInUrl';
+export * from './mapViewInUrl';
