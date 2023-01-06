@@ -1,5 +1,4 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
-import { LngLat } from 'maplibre-gl';
 import { ViewState } from 'react-map-gl';
 import { SetOptional } from 'type-fest';
 
@@ -27,14 +26,7 @@ export const mapSlice = createSlice({
 
     mapMoved(state, { payload }: PayloadAction<SetOptional<ViewState, 'padding'>>) {
       delete payload.padding;
-      const [longitude, latitude] = new LngLat(payload.longitude, payload.latitude)
-        .wrap()
-        .toArray();
-      state.view = {
-        ...payload,
-        longitude,
-        latitude,
-      };
+      state.view = payload;
     },
   },
 });
