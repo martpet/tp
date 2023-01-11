@@ -1,7 +1,11 @@
 {
-  "ogov33": {
-    "defaultMessage": "Всички {count} файла са качени",
-    "description": "upload notification success all"
+  "0Mqwsb": {
+    "defaultMessage": "Намери моята локация",
+    "description": "map geolocation control"
+  },
+  "/FTDR0": {
+    "defaultMessage": "Наитсни <em>Качи сега</em> отново",
+    "description": "upload notification failure - try again"
   },
   "/QE/Ru": {
     "defaultMessage": "Подредба",
@@ -43,17 +47,13 @@
     "defaultMessage": "Профил",
     "description": "profile dialog aria-label"
   },
-  "HrfHC5": {
-    "defaultMessage": "{count,plural,one{{count} файл не успя да се качи.} other{{count} файла не успяха да се качат.}}",
-    "description": "upload notification failure"
-  },
-  "/FTDR0": {
-    "defaultMessage": "Наитсни <em>Качи сега</em> отново",
-    "description": "upload notification failure - try again"
-  },
   "8NNu/T": {
     "defaultMessage": "{count,plural,one{{count} качен файл} other{{count} качени файла}}",
     "description": "upload notification success"
+  },
+  "8VZZzI": {
+    "defaultMessage": "Намали",
+    "description": "zoom control - out"
   },
   "A6sLC1": {
     "defaultMessage": "тъмна",
@@ -91,6 +91,10 @@
     "defaultMessage": "За iPhone потребители",
     "description": "thumbnail error iphone high efficiency help heading"
   },
+  "HrfHC5": {
+    "defaultMessage": "{count,plural,one{{count} файл не успя да се качи.} other{{count} файла не успяха да се качат.}}",
+    "description": "upload notification failure"
+  },
   "ITu5Da": {
     "defaultMessage": "Език",
     "description": "settings tab"
@@ -102,6 +106,10 @@
   "LKo07P": {
     "defaultMessage": "Вход",
     "description": "login dialog heading"
+  },
+  "OdWdjE": {
+    "defaultMessage": "Премахни наклона",
+    "description": "map pitch control"
   },
   "PH0Ug8": {
     "defaultMessage": "Не може да се качи:",
@@ -135,6 +143,10 @@
     "defaultMessage": "Скрий",
     "description": "upload dialog hide button"
   },
+  "aeqzkz": {
+    "defaultMessage": "Възстанови север",
+    "description": "map compass control"
+  },
   "aq56G8": {
     "defaultMessage": "Излез от профила",
     "description": "logout button"
@@ -143,7 +155,6 @@
     "defaultMessage": "в ляво",
     "description": "toolbar position picker label - left"
   },
-  
   "jOxmkh": {
     "defaultMessage": "Вход с Apple",
     "description": "apple login button"
@@ -159,6 +170,14 @@
   "oB9CE2": {
     "defaultMessage": "Профил",
     "description": "toolbar profile button aria label"
+  },
+  "ogov33": {
+    "defaultMessage": "Всички {count} файла са качени",
+    "description": "upload notification success all"
+  },
+  "rZ0PLH": {
+    "defaultMessage": "Увеличи",
+    "description": "zoom control - in"
   },
   "s+G7t6": {
     "defaultMessage": "Тази снимка е качвана и преди",

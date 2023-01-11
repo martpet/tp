@@ -2,8 +2,7 @@ import { lazy, Suspense } from 'react';
 
 import { Loading } from '~/common/components';
 
-const mapImport = import('./Map');
-const Map = lazy(() => mapImport);
+const Map = lazy(() => import('./Map'));
 
 export function MapLazy() {
   return (

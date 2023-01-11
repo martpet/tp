@@ -7,6 +7,10 @@
     "defaultMessage": "Layout",
     "description": "settings tab"
   },
+  "0Mqwsb": {
+    "defaultMessage": "Find my location",
+    "description": "map geolocation control"
+  },
   "17kFBm": {
     "defaultMessage": "date",
     "description": "file meta: date"
@@ -46,6 +50,10 @@
   "8NNu/T": {
     "defaultMessage": "{count,plural,one{{count} file is uploaded} other{{count} files are uploaded}}",
     "description": "upload notification success"
+  },
+  "8VZZzI": {
+    "defaultMessage": "Zoom out",
+    "description": "zoom control - out"
   },
   "A6sLC1": {
     "defaultMessage": "Dark",
@@ -99,6 +107,10 @@
     "defaultMessage": "Log In",
     "description": "login dialog heading"
   },
+  "OdWdjE": {
+    "defaultMessage": "Reset pitch",
+    "description": "map pitch control"
+  },
   "PH0Ug8": {
     "defaultMessage": "Cannot upload:",
     "description": "upload thumbnail error intro"
@@ -131,6 +143,10 @@
     "defaultMessage": "Hide",
     "description": "upload dialog hide button"
   },
+  "aeqzkz": {
+    "defaultMessage": "Reset north",
+    "description": "map compass control"
+  },
   "aq56G8": {
     "defaultMessage": "Sign Out",
     "description": "logout button"
@@ -158,6 +174,10 @@
   "ogov33": {
     "defaultMessage": "All {count} files are uploaded",
     "description": "upload notification success all"
+  },
+  "rZ0PLH": {
+    "defaultMessage": "Zoom in",
+    "description": "zoom control - in"
   },
   "s+G7t6": {
     "defaultMessage": "This photo has been previously uploaded",
